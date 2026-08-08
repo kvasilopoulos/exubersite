@@ -1,0 +1,168 @@
+---
+// Deterministic synthetic reading: a periodically-collapsing bubble path
+// (in the spirit of exuber's simulated DGPs) on top, and a simplified
+// recursive t-statistic reading underneath, crossing a critical-value
+// threshold exactly where the price path turns explosive. Illustrative,
+// not a real computed BSADF series -- labelled as such in the caption.
+
+function mulberry32(seed: number) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const N = 140;
+const rand = mulberry32(20150223); // Phillips, Shi & Yu (2015)
+
+const bubbleStart = Math.floor(N * 0.4);
+const bubbleEnd = Math.floor(N * 0.62);
+
+const price: number[] = [100];
+for (let i = 1; i < N; i++) {
+  const prev = price[i - 1];
+  if (i < bubbleStart || i >= bubbleEnd) {
+    price.push(prev + (rand() - 0.5) * 1.6);
+  } else {
+    // explosive AR(1) with coefficient > 1
+    price.push(prev * (1.048 + (rand() - 0.5) * 0.01));
+  }
+  if (i === bubbleEnd) price[i] = price[bubbleStart] * 1.05 + (rand() - 0.5) * 2; // collapse
+}
+
+const diffs = price.map((v, i) => (i === 0 ? 0 : v - price[i - 1]));
+const w = 14;
+const stat: number[] = diffs.map((_, i) => {
+  if (i < w) return 0;
+  const window = diffs.slice(i - w, i);
+  const mean = window.reduce((a, b) => a + b, 0) / w;
+  const sd = Math.sqrt(window.reduce((a, b) => a + (b - mean) ** 2, 0) / w) || 1;
+  return (mean / sd) * Math.sqrt(w);
+});
+const cv = 1.55;
+
+// --- layout ---
+const W = 720;
+const padX = 8;
+const priceTop = 10;
+const priceH = 128;
+const gap = 22;
+const statTop = priceTop + priceH + gap;
+const statH = 70;
+const H = statTop + statH + 24;
+
+const x = (i: number) => padX + (i * (W - 2 * padX)) / (N - 1);
+
+const priceMin = Math.min(...price);
+const priceMax = Math.max(...price);
+const yPrice = (v: number) =>
+  priceTop + priceH - ((v - priceMin) / (priceMax - priceMin)) * priceH;
+
+const statMin = Math.min(...stat, -cv * 0.6);
+const statMax = Math.max(...stat, cv * 1.3);
+const yStat = (v: number) =>
+  statTop + statH - ((v - statMin) / (statMax - statMin)) * statH;
+
+const pricePath = price.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(2)},${yPrice(v).toFixed(2)}`).join(" ");
+const statPath = stat.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(2)},${yStat(v).toFixed(2)}`).join(" ");
+
+// contiguous runs where the reading crosses the threshold
+type Run = { start: number; end: number };
+const runs: Run[] = [];
+let open: number | null = null;
+stat.forEach((v, i) => {
+  if (v > cv && open === null) open = i;
+  if (v <= cv && open !== null) {
+    runs.push({ start: open, end: i - 1 });
+    open = null;
+  }
+});
+if (open !== null) runs.push({ start: open, end: N - 1 });
+
+const explosiveSegments = runs.map((r) => {
+  const pts = stat
+    .slice(Math.max(r.start - 1, 0), r.end + 1)
+    .map((v, k) => {
+      const i = Math.max(r.start - 1, 0) + k;
+      return `${k === 0 ? "M" : "L"}${x(i).toFixed(2)},${yStat(v).toFixed(2)}`;
+    })
+    .join(" ");
+  return pts;
+});
+---
+
+<figure class="m-0">
+  <svg
+    viewBox={`0 0 ${W} ${H}`}
+    class="w-full h-auto overflow-visible"
+    role="img"
+    aria-label="Simulated price path turning explosive, with a recursive statistic crossing its critical value in the same window"
+  >
+    {runs.map((r) => (
+      <rect
+        x={x(Math.max(r.start - 1, 0))}
+        y={priceTop - 4}
+        width={x(r.end) - x(Math.max(r.start - 1, 0))}
+        height={priceH + statH + gap + 8}
+        fill="var(--color-explosive)"
+        opacity="0.07"
+        class="band"
+      />
+    ))}
+
+    <path d={pricePath} fill="none" stroke="var(--color-stable)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw draw-price" />
+
+    <line x1={padX} x2={W - padX} y1={yStat(cv)} y2={yStat(cv)} stroke="var(--color-threshold)" stroke-width="1" stroke-dasharray="3 4" class="fade" />
+    <text x={W - padX} y={yStat(cv) - 6} text-anchor="end" font-family="var(--font-mono)" font-size="9" fill="var(--color-threshold)" class="fade">95% CRITICAL VALUE</text>
+
+    <path d={statPath} fill="none" stroke="var(--color-stable)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw draw-stat" />
+    {explosiveSegments.map((seg) => (
+      <path d={seg} fill="none" stroke="var(--color-explosive)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" pathLength="1" class="draw draw-stat" />
+    ))}
+  </svg>
+
+  <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-wide text-muted">
+    <span>Simulated series — illustrative BSADF reading</span>
+    <span class="flex items-center gap-4">
+      <span class="flex items-center gap-1.5"><i class="inline-block h-1.5 w-1.5 rounded-full bg-stable"></i>stable</span>
+      <span class="flex items-center gap-1.5"><i class="inline-block h-1.5 w-1.5 rounded-full bg-explosive"></i>explosive</span>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.6s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  .draw-stat {
+    animation-delay: 0.35s;
+  }
+  .fade {
+    opacity: 0;
+    animation: fadein 0.6s ease-out 1.4s forwards;
+  }
+  .band {
+    opacity: 0;
+    animation: bandin 0.8s ease-out 1.6s forwards;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes fadein {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes bandin {
+    to {
+      opacity: 0.07;
+    }
+  }
+</style>

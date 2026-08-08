@@ -1,0 +1,98 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import SuiteCard from "../components/SuiteCard.astro";
+
+const suite = [
+  {
+    name: "exubercore",
+    lang: "C++ / Armadillo",
+    status: "core" as const,
+    description: "The recursive least-squares statistic itself. No R or Python dependency — plain matrices in, a statistic out. Everything RNG-driven (simulation, bootstrap, date-stamping) stays in the host language for now.",
+    href: "https://github.com/kvasilopoulos/exubercore",
+  },
+  {
+    name: "exuber",
+    lang: "R · on CRAN",
+    status: "stable" as const,
+    description: "The full surface: the statistic, Monte Carlo and wild-bootstrap critical values, date-stamping, plotting, and panel methods.",
+    install: 'install.packages("exuber")',
+    href: "https://github.com/kvasilopoulos/exuber",
+  },
+  {
+    name: "pyexuber",
+    lang: "Python · pybind11",
+    status: "early" as const,
+    description: "Bindings onto the same core, imported as exuber. The statistic is ported; bootstrap critical values and date-stamping are on the way, mirroring exuber's R side.",
+    install: "git clone …exuber/pyexuber && uv sync --dev",
+    href: "https://github.com/kvasilopoulos/pyexuber",
+  },
+];
+---
+
+<Base
+  title="Suite — exuber"
+  description="One C++ core, three ways in: exubercore, the R package exuber, and the Python bindings pyexuber."
+>
+  <Nav active="suite" />
+  <div class="mx-auto max-w-3xl px-6">
+    <section class="py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-explosive">The calculation suite</p>
+      <h1 class="mt-4 font-display text-4xl leading-[1.15] text-ink">One core. Three ways in.</h1>
+      <p class="mt-6 text-base leading-relaxed text-muted">
+        The expensive part of a GSADF run — a Sherman-Morrison-updated recursive least squares,
+        repeated across O(T²) windows — lives once, in C++. Each language binding wraps that core
+        and adds whatever that ecosystem's users actually need on top of it.
+      </p>
+    </section>
+
+    <section class="grid gap-4 border-t border-border py-16 sm:grid-cols-3">
+      {suite.map((s) => <SuiteCard {...s} />)}
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">In R</p>
+      <h2 class="mt-4 font-display text-2xl text-ink">exuber</h2>
+      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`library(exuber)
+
+rsim <- radf(sim_data)
+cv <- radf_mc_cv(n = NROW(sim_data))
+
+summary(rsim, cv)
+autoplot(rsim, cv)
+datestamp(rsim, cv)`}</code></pre>
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">In Python</p>
+      <h2 class="mt-4 font-display text-2xl text-ink">pyexuber</h2>
+      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`import numpy as np
+import exuber
+
+data = np.cumsum(np.random.randn(200))
+result = exuber.radf(data)
+
+result.adf, result.sadf, result.gsadf`}</code></pre>
+      <p class="mt-4 text-sm leading-relaxed text-muted">
+        Accepts a numpy array, a 1-D sequence, or anything exposing <code class="text-ink">.to_numpy()</code>
+        (pandas/polars) — neither is a hard dependency. Critical values aren't ported yet, so pair
+        the statistic with a value simulated in R or read off the asymptotic table for now.
+      </p>
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">In C++</p>
+      <h2 class="mt-4 font-display text-2xl text-ink">exubercore</h2>
+      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`#include <exubercore/radf.hpp>
+
+arma::vec y = arma::cumsum(arma::randn(200));
+auto result = exubercore::radf(y, /* min_win = */ 20);`}</code></pre>
+      <p class="mt-4 text-sm leading-relaxed text-muted">
+        Requires a system Armadillo (with BLAS/LAPACK). Build with CMake, link, done — the same
+        routine both bindings above call under the hood.
+      </p>
+    </section>
+  </div>
+  <Footer />
+</Base>

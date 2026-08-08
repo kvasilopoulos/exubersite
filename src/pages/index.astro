@@ -1,0 +1,72 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import BubbleInstrument from "../components/BubbleInstrument.astro";
+
+const teasers = [
+  {
+    href: "/methodology",
+    eyebrow: "01 — the method",
+    title: "Four tests, one recursion.",
+    body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, and how the resulting statistic becomes a calendar date.",
+  },
+  {
+    href: "/settings",
+    eyebrow: "02 — the settings",
+    title: "Two numbers, one choice.",
+    body: "What minw and lag actually control, and the real tradeoff: which critical-value method to test your statistic against.",
+  },
+  {
+    href: "/suite",
+    eyebrow: "03 — the suite",
+    title: "One core. Three ways in.",
+    body: "The statistic lives once, in C++. exuber (R) and pyexuber (Python) wrap it — see what each one adds, with real usage.",
+  },
+  {
+    href: "/critical-values",
+    eyebrow: "04 — the thresholds",
+    title: "Simulated, not looked up.",
+    body: "There's no closed-form distribution for GSADF. How Monte Carlo and wild-bootstrap thresholds are derived instead.",
+  },
+];
+---
+
+<Base
+  title="exuber — testing for explosive dynamics"
+  description="Recursive right-tailed unit root tests for detecting and date-stamping bubbles in time series. One statistical core, implemented in C++, R, and Python."
+>
+  <Nav active="home" />
+  <div class="mx-auto max-w-5xl px-6">
+    <section class="py-16 sm:py-24">
+      <p class="font-mono text-xs uppercase tracking-widest text-explosive">Explosive time series</p>
+      <h1 class="mt-4 max-w-3xl font-display text-4xl leading-[1.1] text-ink sm:text-5xl">
+        Detecting exuberance <em class="text-muted not-italic">before</em> the collapse.
+      </h1>
+      <p class="mt-6 max-w-xl text-base leading-relaxed text-muted">
+        Recursive right-tailed unit root tests — ADF, SADF, GSADF, and BSADF — for identifying
+        and date-stamping bubbles in time series. One statistical core, three languages.
+      </p>
+
+      <div class="mt-14 rounded-xl border border-border bg-panel/60 p-6 sm:p-8">
+        <BubbleInstrument />
+      </div>
+    </section>
+
+    <section class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+      {teasers.map((t) => (
+        <a href={t.href} class="group flex flex-col gap-3 bg-panel p-7 transition-colors hover:bg-panel-hi">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-muted">{t.eyebrow}</span>
+          <h2 class="font-display text-xl text-ink">{t.title}</h2>
+          <p class="text-sm leading-relaxed text-muted">{t.body}</p>
+          <span class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink opacity-0 transition-opacity group-hover:opacity-100">
+            Read more →
+          </span>
+        </a>
+      ))}
+    </section>
+
+    <div class="py-16 sm:py-24"></div>
+  </div>
+  <Footer />
+</Base>

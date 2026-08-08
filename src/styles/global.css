@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@import "@fontsource/ibm-plex-serif/400.css";
+@import "@fontsource/ibm-plex-serif/400-italic.css";
+@import "@fontsource/ibm-plex-serif/600.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@theme {
+  /* graph-paper instrument palette: warm paper ground, ruled hairlines,
+     ink-navy text. Two signal colors are tied to the actual regime
+     classification the test statistic produces (stable vs explosive),
+     amber for the critical-value threshold itself. */
+  --color-void: #faf8f2;
+  --color-panel: #fffefb;
+  --color-panel-hi: #f2efe4;
+  --color-border: #ddd6c4;
+  --color-ink: #17212e;
+  --color-muted: #5c6572;
+  --color-stable: #0e8f83;
+  --color-explosive: #c8461f;
+  --color-threshold: #a3760f;
+
+  --font-display: "IBM Plex Serif", serif;
+  --font-sans: "IBM Plex Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-explosive) 35%, transparent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-threshold);
+  outline-offset: 2px;
+}
+
+body {
+  background: var(--color-void);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-border) 55%, transparent) 0px,
+    color-mix(in srgb, var(--color-border) 55%, transparent) 1px,
+    transparent 1px,
+    transparent 32px
+  );
+}

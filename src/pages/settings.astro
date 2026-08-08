@@ -1,0 +1,90 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+
+const params = [
+  {
+    name: "minw",
+    default: "(0.01 + 1.8/√T)·T",
+    body: "The minimum window size, in observations. Too short and the ADF regression inside it has no power; too long and early, short-lived bubbles fall below the floor and can't be tested at all. The default is Phillips, Shi & Yu's rule of thumb, a function of the sample size T alone — pass an integer to override it.",
+  },
+  {
+    name: "lag",
+    default: "0",
+    body: "The number of lagged Δy terms in the ADF regression — the same augmentation as ordinary ADF, here applied inside every recursive window. Fixed at 0 by default. A fixed lag is simplest and what the asymptotic critical values assume; AIC/BIC selection re-picks it per window instead, at the cost of no longer matching the tabulated thresholds (simulate critical values to match if you use it).",
+  },
+]
+---
+
+<Base
+  title="Settings — exuber"
+  description="The parameters that actually change a radf() run: minimum window, lag length, and which critical-value method to test against."
+>
+  <Nav active="settings" />
+  <div class="mx-auto max-w-3xl px-6">
+    <section class="py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-explosive">Settings</p>
+      <h1 class="mt-4 font-display text-4xl leading-[1.15] text-ink">Two numbers, one choice.</h1>
+      <p class="mt-6 text-base leading-relaxed text-muted">
+        <code class="text-ink">radf()</code> itself only takes two parameters — window size and lag
+        length — everything else about a test's sensitivity comes from which critical values you
+        read the resulting statistic against.
+      </p>
+    </section>
+
+    <section class="flex flex-col gap-10 border-t border-border py-16">
+      {params.map((p) => (
+        <article class="grid gap-2 sm:grid-cols-[140px_1fr] sm:gap-6">
+          <div>
+            <code class="font-mono text-base text-ink">{p.name}</code>
+            <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-muted">default: {p.default}</p>
+          </div>
+          <p class="text-sm leading-relaxed text-muted">{p.body}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">The other choice</p>
+      <h2 class="mt-4 font-display text-3xl text-ink">Which critical values to read against.</h2>
+      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+        The statistic from <code class="text-ink">radf()</code> means nothing without a threshold.
+        Three ways to get one, in increasing order of how much they cost to compute — and of how
+        well they match your actual data:
+      </p>
+
+      <div class="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
+        <div class="flex flex-col gap-2 bg-panel p-6">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Asymptotic</span>
+          <p class="text-sm leading-relaxed text-muted">Tabulated once, in the original paper. Free, but only valid at the default <code class="text-ink">minw</code> and lag = 0.</p>
+        </div>
+        <div class="flex flex-col gap-2 bg-panel p-6">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Monte Carlo</span>
+          <p class="text-sm leading-relaxed text-muted">Simulated under the null (a random walk) for your exact T and <code class="text-ink">minw</code>. Assumes homoskedastic Gaussian innovations.</p>
+        </div>
+        <div class="flex flex-col gap-2 bg-panel p-6">
+          <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Wild bootstrap</span>
+          <p class="text-sm leading-relaxed text-muted">Resamples the residuals of your own data with random sign weights, so it inherits whatever heteroskedasticity is actually there.</p>
+        </div>
+      </div>
+      <p class="mt-6 text-sm leading-relaxed text-muted">
+        More on how those first two are actually derived on the
+        <a href="/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-ink">critical values</a> page.
+      </p>
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">Multiple series</p>
+      <h2 class="mt-4 font-display text-3xl text-ink">Panel statistics come free.</h2>
+      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+        There's no separate panel setting. Pass <code class="text-ink">radf()</code> a matrix or
+        data frame with more than one column and it computes the univariate statistics for every
+        series in one pass, plus <code class="text-ink">bsadf_panel</code> and
+        <code class="text-ink">gsadf_panel</code> — the cross-sectional average and its supremum —
+        as a by-product, at close to no extra cost.
+      </p>
+    </section>
+  </div>
+  <Footer />
+</Base>

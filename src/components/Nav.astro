@@ -1,0 +1,31 @@
+---
+interface Props {
+  active?: "home" | "methodology" | "settings" | "suite" | "critical-values";
+}
+const { active } = Astro.props;
+
+const links = [
+  { href: "/methodology", label: "Methodology", key: "methodology" },
+  { href: "/settings", label: "Settings", key: "settings" },
+  { href: "/suite", label: "Suite", key: "suite" },
+  { href: "/critical-values", label: "Critical values", key: "critical-values" },
+];
+---
+
+<header class="border-b border-border">
+  <div class="mx-auto flex max-w-5xl flex-col items-start gap-3 px-6 py-6 font-mono text-xs uppercase tracking-wide text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+    <a href="/" class="text-ink">exuber</a>
+    <nav class="flex flex-wrap items-center gap-x-6 gap-y-2">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          aria-current={active === l.key ? "page" : undefined}
+          class={`transition-colors hover:text-ink ${active === l.key ? "text-ink" : ""}`}
+        >
+          {l.label}
+        </a>
+      ))}
+      <a href="https://github.com/kvasilopoulos/exuber" class="transition-colors hover:text-ink">GitHub</a>
+    </nav>
+  </div>
+</header>

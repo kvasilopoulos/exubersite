@@ -1,0 +1,177 @@
+---
+import { Code } from "astro:components";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import RdNodes from "../../components/RdNodes.astro";
+import RdProse from "../../components/RdProse.astro";
+import reference from "../../data/reference.json";
+import { replicationSection, referenceSection } from "../../sidebars";
+
+export function getStaticPaths() {
+  return Object.keys(reference.topics).map((topic) => ({ params: { topic } }));
+}
+
+const { topic } = Astro.params;
+const doc = (reference.topics as Record<string, any>)[topic!];
+
+// Which pkgdown group(s) this topic belongs to -- drives both the "siblings"
+// sidebar and the breadcrumb back to the group's own description.
+const groups = reference.r.filter((g) => g.entries.some((e) => e.topic === topic));
+const primaryGroup = groups[0];
+
+const headings = [
+  doc.arguments && doc.arguments.length > 0 && { depth: 2, slug: "arguments", text: "Arguments" },
+  doc.value && { depth: 2, slug: "value", text: "Value" },
+  doc.details && { depth: 2, slug: "details", text: "Details" },
+  ...doc.sections.map((s: any) => ({ depth: 2, slug: slugify(s.title), text: s.title })),
+  doc.examples && { depth: 2, slug: "examples", text: "Examples" },
+  doc.seealso && { depth: 2, slug: "see-also", text: "See also" },
+].filter(Boolean);
+
+function slugify(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+const sidebar = primaryGroup
+  ? [
+      {
+        title: primaryGroup.title,
+        items: [
+          { href: "/reference", label: "← All functions" },
+          ...primaryGroup.entries.map((e) => ({ href: `/reference/${e.topic}`, label: e.name })),
+        ],
+      },
+      referenceSection(),
+    ]
+  : [referenceSection()];
+---
+
+<DocsLayout
+  eyebrow={primaryGroup ? primaryGroup.title : "R — exuber"}
+  title={doc.title}
+  description={doc.aliases.length > 1 ? `Also: ${doc.aliases.filter((a: string) => a !== topic).join(", ")}` : ""}
+  headings={headings}
+  sidebar={sidebar}
+>
+  <div class="mb-8 flex flex-wrap items-center gap-3">
+    <code class="rounded border border-border bg-panel-hi px-2 py-1 font-mono text-sm text-ink">{topic}</code>
+    {primaryGroup?.replication && (
+      <a
+        href={`/replication/${primaryGroup.replication}`}
+        class="font-mono text-[11px] uppercase tracking-wide text-explosive underline decoration-border underline-offset-4 hover:decoration-explosive"
+      >
+        Replication record →
+      </a>
+    )}
+  </div>
+
+  {doc.usage && (
+    <div class="code-block mb-10">
+      <Code code={doc.usage} lang="r" />
+    </div>
+  )}
+
+  <div class="prose">
+    <RdProse paragraphs={doc.description} />
+
+    {doc.arguments && doc.arguments.length > 0 && (
+      <>
+        <h2 id="arguments">Arguments</h2>
+        <table>
+          <tbody>
+            {doc.arguments.map((a: any) => (
+              <tr>
+                <td class="whitespace-nowrap font-mono text-ink">{a.name}</td>
+                <td>
+                  <RdNodes nodes={a.desc} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    )}
+
+    {doc.value && (
+      <>
+        <h2 id="value">Value</h2>
+        {doc.value.kind === "prose" ? (
+          <RdProse paragraphs={doc.value.paragraphs} />
+        ) : (
+          <table>
+            <tbody>
+              {doc.value.items.map((it: any) => (
+                <tr>
+                  <td class="whitespace-nowrap font-mono text-ink">{it.name}</td>
+                  <td>
+                    <RdNodes nodes={it.desc} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </>
+    )}
+
+    {doc.details && (
+      <>
+        <h2 id="details">Details</h2>
+        <RdProse paragraphs={doc.details} />
+      </>
+    )}
+
+    {doc.sections.map((s: any) => (
+      <div class="rd-section">
+        <h3 id={slugify(s.title)}>{s.title}</h3>
+        <RdProse paragraphs={s.body} />
+      </div>
+    ))}
+  </div>
+
+  {doc.examples && (
+    <section class="mt-10">
+      <h2 id="examples" class="scroll-mt-24 font-display text-xl text-ink">Examples</h2>
+      <p class="mt-2 text-sm leading-relaxed text-muted">
+        Verbatim from the package's own documentation -- run as part of <code>R CMD check</code>{" "}
+        on every release.
+      </p>
+      <div class="code-block mt-4">
+        <Code code={doc.examples} lang="r" />
+      </div>
+    </section>
+  )}
+
+  {(doc.seealso || doc.references) && (
+    <section class="prose mt-10 border-t border-border pt-8">
+      {doc.seealso && (
+        <>
+          <h3 id="see-also">See also</h3>
+          <RdProse paragraphs={doc.seealso} />
+        </>
+      )}
+      {doc.references && (
+        <>
+          <h3>References</h3>
+          <RdProse paragraphs={doc.references} />
+        </>
+      )}
+    </section>
+  )}
+</DocsLayout>
+
+<style>
+  /* Rd \section{}{} -- almost always a lifecycle/caveat note (see the
+     cat_caveat() pattern in exuber/CLAUDE.md) -- gets the same amber marker
+     as the replication corpus's caveat headings. */
+  .rd-section {
+    border-left: 2px solid var(--color-threshold);
+    padding-left: 0.9rem;
+    margin-top: 1.75rem;
+  }
+  .rd-section h3 {
+    color: var(--color-threshold);
+    margin-top: 0 !important;
+    border-top: none !important;
+    padding-top: 0 !important;
+  }
+</style>

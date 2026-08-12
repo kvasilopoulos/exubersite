@@ -1,0 +1,93 @@
+---
+// Recursive renderer for the node trees scripts/sync_content.py parses out of
+// exuber's Rd files (see parse_inline() there for the node shapes). Astro
+// components can recurse, but only if they import themselves explicitly.
+import RdNodes from "./RdNodes.astro";
+import Math from "./Math.astro";
+
+export interface RdNode {
+  t: "text" | "code" | "strong" | "em" | "link" | "eqn" | "list";
+  v?: string;
+  c?: RdNode[];
+  tex?: string;
+  display?: boolean;
+  topic?: string | null;
+  external?: boolean;
+  href?: string | null;
+  ordered?: boolean;
+  items?: { name: RdNode[] | string | null; desc?: RdNode[]; body?: RdNode[] }[];
+}
+
+interface Props {
+  nodes: RdNode[];
+}
+const { nodes } = Astro.props;
+---
+
+{
+  nodes.map((n) => {
+    switch (n.t) {
+      case "text":
+        return n.v;
+      case "code":
+        return (
+          <code>
+            <RdNodes nodes={n.c ?? []} />
+          </code>
+        );
+      case "strong":
+        return (
+          <strong>
+            <RdNodes nodes={n.c ?? []} />
+          </strong>
+        );
+      case "em":
+        return (
+          <em>
+            <RdNodes nodes={n.c ?? []} />
+          </em>
+        );
+      case "eqn":
+        return <Math tex={n.tex ?? ""} display={n.display} />;
+      case "link":
+        if (n.topic && !n.external) {
+          return (
+            <a href={`/reference/${n.topic}`}>
+              <RdNodes nodes={n.c ?? []} />
+            </a>
+          );
+        }
+        if (n.href) {
+          return (
+            <a href={n.href} target="_blank" rel="noreferrer">
+              <RdNodes nodes={n.c ?? []} />
+            </a>
+          );
+        }
+        // A symbol we couldn't resolve internally (usually a base-R name like
+        // message() or set.seed()) -- render as code, not a dead link.
+        return <RdNodes nodes={n.c ?? []} />;
+      case "list": {
+        const Tag = n.ordered ? "ol" : "ul";
+        return (
+          <Tag>
+            {(n.items ?? []).map((it) => (
+              <li>
+                {it.name && (
+                  <strong>
+                    <RdNodes nodes={typeof it.name === "string" ? [] : it.name} />
+                    {typeof it.name === "string" && it.name}
+                    {": "}
+                  </strong>
+                )}
+                <RdNodes nodes={it.desc ?? it.body ?? []} />
+              </li>
+            ))}
+          </Tag>
+        );
+      }
+      default:
+        return null;
+    }
+  })
+}

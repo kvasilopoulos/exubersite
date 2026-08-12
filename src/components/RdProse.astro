@@ -1,0 +1,16 @@
+---
+import RdNodes, { type RdNode } from "./RdNodes.astro";
+
+interface Props {
+  paragraphs: RdNode[][] | null | undefined;
+}
+const { paragraphs } = Astro.props;
+---
+
+{
+  (paragraphs ?? []).map((p) => (
+    <p>
+      <RdNodes nodes={p} />
+    </p>
+  ))
+}

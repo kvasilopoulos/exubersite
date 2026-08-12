@@ -9,14 +9,14 @@
 @import "@fontsource/ibm-plex-mono/500.css";
 
 @theme {
-  /* graph-paper instrument palette: warm paper ground, ruled hairlines,
-     ink-navy text. Two signal colors are tied to the actual regime
-     classification the test statistic produces (stable vs explosive),
-     amber for the critical-value threshold itself. */
-  --color-void: #faf8f2;
-  --color-panel: #fffefb;
-  --color-panel-hi: #f2efe4;
-  --color-border: #ddd6c4;
+  /* White ground, cool hairlines, ink-navy text. The three signal colors are
+     tied to the regime classification the test statistic produces (stable vs
+     explosive) and to the critical-value threshold itself — they carry
+     meaning, so they survive the palette change unaltered. */
+  --color-void: #ffffff;
+  --color-panel: #fafafa;
+  --color-panel-hi: #f4f4f5;
+  --color-border: #e4e4e7;
   --color-ink: #17212e;
   --color-muted: #5c6572;
   --color-stable: #0e8f83;
@@ -48,15 +48,200 @@
   outline-offset: 2px;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
 body {
   background: var(--color-void);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  background-image: repeating-linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--color-border) 55%, transparent) 0px,
-    color-mix(in srgb, var(--color-border) 55%, transparent) 1px,
-    transparent 1px,
-    transparent 32px
-  );
+}
+
+/* ---- long-form markdown ---------------------------------------------------
+   Hand-written rather than @tailwindcss/typography: with a fixed nine-token
+   palette, theming the plugin is more work than the CSS it would replace. */
+
+.prose {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: var(--color-muted);
+}
+
+.prose > * + * {
+  margin-top: 1.1em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  font-weight: 600;
+  line-height: 1.3;
+  scroll-margin-top: 5rem;
+}
+
+.prose h2 {
+  margin-top: 3rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 1.5rem;
+}
+
+.prose h3 {
+  margin-top: 2.25rem;
+  font-size: 1.125rem;
+}
+
+.prose h4 {
+  margin-top: 1.75rem;
+  font-size: 1rem;
+}
+
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + * {
+  margin-top: 0.75em;
+}
+
+/* Caveat sections carry a consistent set of headings across the replication
+   corpus. Flagging them by id pattern marks them as limitations without a
+   rehype plugin or any transform of the generated markup. */
+.prose h3[id*="deliberate-simplification"],
+.prose h3[id*="open-follow-ups"],
+.prose h3[id*="not-implemented"],
+.prose h3[id*="cost-feasibility"],
+.prose h3[id^="why-not"],
+.prose h3[id^="why-this-can"] {
+  border-left: 2px solid var(--color-threshold);
+  padding-left: 0.75rem;
+  color: var(--color-threshold);
+}
+
+.prose a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-explosive);
+}
+
+.prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.5rem;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: var(--color-border);
+}
+
+.prose li + li,
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0.4em;
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--color-threshold);
+  padding-left: 1rem;
+  font-style: italic;
+}
+
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5rem 0;
+}
+
+.prose :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--color-ink);
+  background: var(--color-panel-hi);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+}
+
+/* Wide tables scroll inside themselves rather than pushing the page sideways —
+   the bibliography runs 67 rows of long citations. */
+.prose table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background: var(--color-panel-hi);
+  color: var(--color-ink);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.prose tbody tr:nth-child(even) {
+  background: var(--color-panel);
+}
+
+/* ---- code blocks ----------------------------------------------------------
+   Shiki (built into Astro) emits an inline background-color on .astro-code;
+   override it so highlighted code sits on the panel surface everywhere. */
+
+pre.astro-code {
+  background: var(--color-panel) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.8125rem;
+  line-height: 1.65;
+}
+
+pre.astro-code code {
+  font-family: var(--font-mono);
+}
+
+.code-block {
+  position: relative;
+}
+
+.code-block > button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.code-block:hover > button,
+.code-block > button:focus-visible {
+  opacity: 1;
 }

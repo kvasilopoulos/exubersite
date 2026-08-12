@@ -1,0 +1,51 @@
+---
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { guideSection } from "../../sidebars";
+
+const cards = [
+  {
+    href: "/guide/methodology",
+    eyebrow: "1 of 3 — the method",
+    title: "Four tests, one recursion.",
+    body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, and how the resulting statistic becomes a calendar date.",
+  },
+  {
+    href: "/guide/settings",
+    eyebrow: "2 of 3 — the settings",
+    title: "Two numbers, one choice.",
+    body: "What minw and lag actually control, and the real tradeoff: which critical-value method to test your statistic against.",
+  },
+  {
+    href: "/guide/critical-values",
+    eyebrow: "3 of 3 — the thresholds",
+    title: "Simulated, not looked up.",
+    body: "There's no closed-form distribution for GSADF. How Monte Carlo and wild-bootstrap thresholds are derived instead.",
+  },
+];
+---
+
+<DocsLayout
+  eyebrow="The method, end to end"
+  title="Guide"
+  description="Everything behind a single radf() call, in the order it's usually needed: what the four tests actually do, which two parameters change a run, and where the threshold you compare against comes from."
+  sidebar={[guideSection()]}
+>
+  <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-1">
+    {cards.map((c) => (
+      <a href={c.href} class="group flex flex-col gap-2 bg-panel p-6 transition-colors hover:bg-panel-hi">
+        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">{c.eyebrow}</span>
+        <h2 class="font-display text-xl text-ink">{c.title}</h2>
+        <p class="text-sm leading-relaxed text-muted">{c.body}</p>
+        <span class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink opacity-0 transition-opacity group-hover:opacity-100">
+          Read →
+        </span>
+      </a>
+    ))}
+  </div>
+
+  <p class="mt-10 text-sm leading-relaxed text-muted">
+    Ready to run it? See the <a href="/suite" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">suite page</a> for
+    install instructions and worked examples in R, Python, and C++, or jump straight to the
+    <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
+  </p>
+</DocsLayout>

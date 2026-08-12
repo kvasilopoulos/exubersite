@@ -16,9 +16,45 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={Astro.url.pathname} />
   </head>
   <body class="min-h-screen antialiased">
+    <a
+      href="#main"
+      class="sr-only rounded border border-border bg-void px-3 py-2 font-mono text-xs focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50"
+    >
+      Skip to content
+    </a>
     <slot />
+
+    <script>
+      // One copy button per highlighted block, added after render so every
+      // page — markdown or hand-authored — gets it without opting in.
+      for (const pre of document.querySelectorAll<HTMLElement>("pre.astro-code")) {
+        let host = pre.parentElement!;
+        if (!host.classList.contains("code-block")) {
+          host = document.createElement("div");
+          host.className = "code-block";
+          pre.replaceWith(host);
+          host.appendChild(pre);
+        }
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Copy";
+        button.className =
+          "rounded border border-border bg-void px-2 py-1 font-mono text-[10px] uppercase tracking-wide text-muted hover:text-ink";
+        button.addEventListener("click", async () => {
+          await navigator.clipboard.writeText(pre.textContent ?? "");
+          button.textContent = "Copied";
+          setTimeout(() => (button.textContent = "Copy"), 1500);
+        });
+        host.appendChild(button);
+      }
+    </script>
   </body>
 </html>

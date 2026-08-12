@@ -1,0 +1,93 @@
+---
+import { getCollection, render } from "astro:content";
+import { links } from "../nav";
+
+// Build-time index: every page title plus every h2/h3 in the replication
+// corpus. ponytail: headings only, not full text — 58k words of body copy
+// wants Pagefind, add it if heading-level search proves too coarse.
+const pages = await getCollection("replication");
+
+const index: { t: string; s: string; u: string }[] = links.map((l) => ({
+  t: l.label,
+  s: "",
+  u: l.href,
+}));
+
+for (const page of pages.sort((a, b) => a.data.order - b.data.order)) {
+  const base = `/replication/${page.id}`;
+  index.push({ t: page.data.title, s: "Replication", u: base });
+  const { headings } = await render(page);
+  for (const h of headings) {
+    if (h.depth > 3) continue;
+    index.push({ t: h.text, s: page.data.title, u: `${base}#${h.slug}` });
+  }
+}
+---
+
+<button
+  type="button"
+  data-search-open
+  class="flex items-center gap-2 rounded border border-border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wide text-muted transition-colors hover:border-muted hover:text-ink"
+  aria-label="Search"
+>
+  Search
+  <kbd class="rounded border border-border px-1 text-[10px] not-italic">/</kbd>
+</button>
+
+<dialog
+  data-search-dialog
+  class="w-[min(38rem,calc(100vw-2rem))] rounded-lg border border-border bg-void p-0 text-ink backdrop:bg-ink/25"
+>
+  <input
+    type="search"
+    data-search-input
+    placeholder="Search methods, tests, sections…"
+    autocomplete="off"
+    class="w-full border-b border-border bg-transparent px-4 py-3 font-sans text-sm outline-none placeholder:text-muted"
+  />
+  <ul data-search-results class="max-h-[60vh] overflow-y-auto p-2 text-sm"></ul>
+</dialog>
+
+<script is:inline define:vars={{ index }}>
+  const dialog = document.querySelector("[data-search-dialog]");
+  const input = dialog.querySelector("[data-search-input]");
+  const list = dialog.querySelector("[data-search-results]");
+
+  const render = (q) => {
+    const needle = q.trim().toLowerCase();
+    const hits = needle
+      ? index.filter((e) => (e.t + " " + e.s).toLowerCase().includes(needle)).slice(0, 40)
+      : [];
+    list.innerHTML = hits.length
+      ? hits
+          .map(
+            (e) =>
+              `<li><a href="${e.u}" class="block rounded px-3 py-2 hover:bg-panel-hi focus-visible:bg-panel-hi">${e.t}` +
+              (e.s ? `<span class="ml-2 font-mono text-[11px] text-muted">${e.s}</span>` : "") +
+              `</a></li>`,
+          )
+          .join("")
+      : needle
+        ? `<li class="px-3 py-2 text-muted">No matches.</li>`
+        : "";
+  };
+
+  const open = () => {
+    dialog.showModal();
+    input.value = "";
+    render("");
+    input.focus();
+  };
+
+  document.querySelectorAll("[data-search-open]").forEach((b) => b.addEventListener("click", open));
+  input.addEventListener("input", () => render(input.value));
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && !dialog.open && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
+      e.preventDefault();
+      open();
+    }
+  });
+</script>

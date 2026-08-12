@@ -2,34 +2,36 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import Math from "../components/Math.astro";
 
 const tests = [
   {
     code: "ADF",
     name: "Augmented Dickey-Fuller",
     window: "Full sample, once.",
-    formula: "Δy_t = μ + δ y_{t-1} + Σφ_i Δy_{t-i} + ε_t,  H₀: δ = 0  vs  H₁: δ > 0",
+    tex: String.raw`\Delta y_t = \mu + \delta y_{t-1} + \sum_{i=1}^{k} \phi_i \Delta y_{t-i} + \varepsilon_t
+      \qquad H_0\!:\ \delta = 0 \quad\text{vs}\quad H_1\!:\ \delta > 0`,
     body: "The regression is the ordinary ADF test, but the alternative is right-tailed instead of left: a standard unit-root test asks whether δ < 0 (the series is stationary), bubble testing asks whether δ > 0 — whether the series is mildly explosive. Run once over the whole sample, ADF has no way to localize *when* that explosiveness happened, and its power collapses once a bubble has collapsed back to trend by the end of the sample.",
   },
   {
     code: "SADF",
     name: "Supremum ADF",
     window: "Origin fixed at 0. End r₂ grows from r₀ to 1.",
-    formula: "SADF = sup_{r₂ ∈ [r₀,1]} ADF_0^{r₂}",
+    tex: String.raw`\mathrm{SADF} = \sup_{r_2 \in [r_0,\,1]} \mathrm{ADF}_{0}^{\,r_2}`,
     body: "Phillips, Wu & Yu (2011). Re-runs the ADF regression on an expanding window that always starts at the beginning of the sample, and takes the largest statistic across all window endpoints. This localizes a single bubble reasonably well — but because the origin never moves, a second, later bubble gets diluted by all the stable pre-bubble data still sitting in every window, and SADF loses power.",
   },
   {
     code: "GSADF",
     name: "Generalized SADF",
     window: "Both r₁ and r₂ float: r₂ ∈ [r₀,1], r₁ ∈ [0, r₂−r₀].",
-    formula: "GSADF = sup_{(r₁,r₂)} ADF_{r₁}^{r₂}",
+    tex: String.raw`\mathrm{GSADF} = \sup_{\substack{r_2 \in [r_0,\,1] \\ r_1 \in [0,\,r_2 - r_0]}} \mathrm{ADF}_{r_1}^{\,r_2}`,
     body: "Phillips, Shi & Yu (2015). Letting the window's start float too, not just its end, is the whole fix: the supremum is now taken over every window that could plausibly contain a bubble, so an early bubble no longer contaminates the test for a later, separate one. This is the headline test in exuber, and the one almost everything else in the suite is built to compute or calibrate.",
   },
   {
     code: "BSADF",
     name: "Backward SADF",
     window: "r₂ fixed at each point in time. r₁ ∈ [0, r₂−r₀].",
-    formula: "BSADF_{r₂} = sup_{r₁ ∈ [0, r₂−r₀]} ADF_{r₁}^{r₂}",
+    tex: String.raw`\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0,\,r_2 - r_0]} \mathrm{ADF}_{r_1}^{\,r_2}`,
     body: "GSADF's supremum, but stopped one step early: instead of also taking the sup over r₂, BSADF reports one statistic per time point r₂. That gives a full time series — the thing exuber actually plots — and GSADF is simply the maximum of this series. It's also what makes date-stamping possible.",
   },
 ];
@@ -39,8 +41,8 @@ const tests = [
   title="Methodology — exuber"
   description="The recursive right-tailed unit root test family: ADF, SADF, GSADF, and BSADF, and how they date-stamp bubbles."
 >
-  <Nav active="methodology" />
-  <div class="mx-auto max-w-3xl px-6">
+  <Nav />
+  <main id="main" class="mx-auto max-w-3xl px-6">
     <section class="py-16 sm:py-20">
       <p class="font-mono text-xs uppercase tracking-widest text-explosive">Methodology</p>
       <h1 class="mt-4 font-display text-4xl leading-[1.15] text-ink">Four tests, one recursion.</h1>
@@ -63,9 +65,9 @@ const tests = [
           <div>
             <h2 class="font-display text-2xl text-ink">{t.name}</h2>
             <p class="mt-1 font-mono text-[11px] uppercase tracking-wide text-muted">{t.window}</p>
-            <code class="mt-4 block overflow-x-auto rounded border border-border bg-panel px-4 py-3 font-mono text-[13px] text-ink">
-              {t.formula}
-            </code>
+            <div class="mt-4 overflow-x-auto rounded border border-border bg-panel px-4 py-3 text-ink">
+              <Math tex={t.tex} display />
+            </div>
             <p class="mt-4 text-sm leading-relaxed text-muted">{t.body}</p>
           </div>
         </article>
@@ -113,10 +115,10 @@ const tests = [
         Plot BSADF(r₂) against its (r₂-specific) critical value across the whole sample and the
         crossings are the bubble dates: origination is the first r₂ where the statistic climbs
         above the threshold, termination is the first later r₂ where it falls back below. Phillips,
-        Shi &amp; Yu require the excursion to last at least <code class="text-ink">δ·log(T)/T</code> of
+        Shi &amp; Yu require the excursion to last at least <Math tex={String.raw`\delta \log(T)/T`} /> of
         the sample before it counts, so a one-period spike above the line isn't mistaken for a bubble.
       </p>
     </section>
-  </div>
+  </main>
   <Footer />
 </Base>

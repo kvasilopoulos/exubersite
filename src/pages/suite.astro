@@ -3,6 +3,43 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import SuiteCard from "../components/SuiteCard.astro";
+import CodeTabs from "../components/CodeTabs.astro";
+
+const examples = [
+  {
+    label: "R",
+    lang: "r",
+    code: `library(exuber)
+
+rsim <- radf(sim_data)
+cv <- radf_mc_cv(n = NROW(sim_data))
+
+summary(rsim, cv)
+autoplot(rsim, cv)
+datestamp(rsim, cv)`,
+  },
+  {
+    label: "Python",
+    lang: "python",
+    code: `import numpy as np
+import exuber
+
+data = np.cumsum(np.random.randn(200))
+result = exuber.radf(data)
+cv = exuber.radf_mc_cv(n=len(data))
+
+result.adf, result.sadf, result.gsadf
+exuber.datestamp(result, cv)`,
+  },
+  {
+    label: "C++",
+    lang: "cpp",
+    code: `#include <exubercore/radf.hpp>
+
+arma::vec y = arma::cumsum(arma::randn(200));
+auto result = exubercore::radf(y, /* min_win = */ 20);`,
+  },
+];
 
 const suite = [
   {
@@ -24,7 +61,7 @@ const suite = [
     name: "pyexuber",
     lang: "Python · pybind11",
     status: "early" as const,
-    description: "Bindings onto the same core, imported as exuber. The statistic is ported; bootstrap critical values and date-stamping are on the way, mirroring exuber's R side.",
+    description: "Bindings onto the same core, imported as exuber. The statistic, Monte Carlo and wild-bootstrap critical values, date-stamping and the simulation DGPs are ported; the sieve bootstrap and the summary/tidy layer are not yet.",
     install: "git clone …exuber/pyexuber && uv sync --dev",
     href: "https://github.com/kvasilopoulos/pyexuber",
   },
@@ -35,8 +72,8 @@ const suite = [
   title="Suite — exuber"
   description="One C++ core, three ways in: exubercore, the R package exuber, and the Python bindings pyexuber."
 >
-  <Nav active="suite" />
-  <div class="mx-auto max-w-3xl px-6">
+  <Nav />
+  <main id="main" class="mx-auto max-w-3xl px-6">
     <section class="py-16 sm:py-20">
       <p class="font-mono text-xs uppercase tracking-widest text-explosive">The calculation suite</p>
       <h1 class="mt-4 font-display text-4xl leading-[1.15] text-ink">One core. Three ways in.</h1>
@@ -52,47 +89,21 @@ const suite = [
     </section>
 
     <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">In R</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">exuber</h2>
-      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`library(exuber)
-
-rsim <- radf(sim_data)
-cv <- radf_mc_cv(n = NROW(sim_data))
-
-summary(rsim, cv)
-autoplot(rsim, cv)
-datestamp(rsim, cv)`}</code></pre>
-    </section>
-
-    <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">In Python</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">pyexuber</h2>
-      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`import numpy as np
-import exuber
-
-data = np.cumsum(np.random.randn(200))
-result = exuber.radf(data)
-
-result.adf, result.sadf, result.gsadf`}</code></pre>
-      <p class="mt-4 text-sm leading-relaxed text-muted">
-        Accepts a numpy array, a 1-D sequence, or anything exposing <code class="text-ink">.to_numpy()</code>
-        (pandas/polars) — neither is a hard dependency. Critical values aren't ported yet, so pair
-        the statistic with a value simulated in R or read off the asymptotic table for now.
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">The same run</p>
+      <h2 class="mt-4 font-display text-2xl text-ink">Three languages, one statistic.</h2>
+      <p class="mt-6 mb-6 text-sm leading-relaxed text-muted">
+        Simulate, test, calibrate, date-stamp. The R and Python paths differ only in
+        spelling; the C++ core stops at the statistic, because everything RNG-driven
+        stays in the host language.
+      </p>
+      <CodeTabs tabs={examples} />
+      <p class="mt-6 text-sm leading-relaxed text-muted">
+        Python accepts a numpy array, a 1-D sequence, or anything exposing
+        <code class="text-ink">.to_numpy()</code> (pandas/polars) — neither is a hard dependency.
+        C++ requires a system Armadillo with BLAS/LAPACK; build with CMake, link, done.
+        The full surface of each is in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
       </p>
     </section>
-
-    <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">In C++</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">exubercore</h2>
-      <pre class="mt-6 overflow-x-auto rounded-lg border border-border bg-panel p-5 font-mono text-[13px] leading-relaxed text-ink"><code>{`#include <exubercore/radf.hpp>
-
-arma::vec y = arma::cumsum(arma::randn(200));
-auto result = exubercore::radf(y, /* min_win = */ 20);`}</code></pre>
-      <p class="mt-4 text-sm leading-relaxed text-muted">
-        Requires a system Armadillo (with BLAS/LAPACK). Build with CMake, link, done — the same
-        routine both bindings above call under the hood.
-      </p>
-    </section>
-  </div>
+  </main>
   <Footer />
 </Base>

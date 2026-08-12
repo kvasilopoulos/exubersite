@@ -1,0 +1,57 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+  tabs: { label: string; lang: string; code: string }[];
+}
+const { tabs } = Astro.props;
+---
+
+<div data-tabs class="overflow-hidden rounded-lg border border-border">
+  <div role="tablist" class="flex border-b border-border bg-panel-hi">
+    {
+      tabs.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          data-tab={i}
+          aria-selected={i === 0}
+          class="border-r border-border px-4 py-2 font-mono text-[11px] uppercase tracking-wide text-muted transition-colors hover:text-ink aria-selected:bg-void aria-selected:text-ink"
+        >
+          {t.label}
+        </button>
+      ))
+    }
+  </div>
+  {
+    tabs.map((t, i) => (
+      <div data-panel={i} hidden={i !== 0} class="code-block">
+        <Code code={t.code} lang={t.lang as any} />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  /* Shiki's own border/radius would double up inside the tab frame. */
+  div[data-panel] :global(pre.astro-code) {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-tabs]").forEach((root) => {
+    root.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-tab]");
+      if (!btn) return;
+      root.querySelectorAll<HTMLElement>("[data-tab]").forEach((b) => {
+        b.setAttribute("aria-selected", String(b === btn));
+      });
+      root.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
+        p.hidden = p.dataset.panel !== btn.dataset.tab;
+      });
+    });
+  });
+</script>

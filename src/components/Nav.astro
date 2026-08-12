@@ -1,31 +1,39 @@
 ---
-interface Props {
-  active?: "home" | "methodology" | "settings" | "suite" | "critical-values";
-}
-const { active } = Astro.props;
+import { links, repo, isActive } from "../nav";
+import Search from "./Search.astro";
 
-const links = [
-  { href: "/methodology", label: "Methodology", key: "methodology" },
-  { href: "/settings", label: "Settings", key: "settings" },
-  { href: "/suite", label: "Suite", key: "suite" },
-  { href: "/critical-values", label: "Critical values", key: "critical-values" },
-];
+interface Props {
+  wide?: boolean;
+}
+const { wide = false } = Astro.props;
+const path = Astro.url.pathname;
 ---
 
-<header class="border-b border-border">
-  <div class="mx-auto flex max-w-5xl flex-col items-start gap-3 px-6 py-6 font-mono text-xs uppercase tracking-wide text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-0">
-    <a href="/" class="text-ink">exuber</a>
-    <nav class="flex flex-wrap items-center gap-x-6 gap-y-2">
-      {links.map((l) => (
-        <a
-          href={l.href}
-          aria-current={active === l.key ? "page" : undefined}
-          class={`transition-colors hover:text-ink ${active === l.key ? "text-ink" : ""}`}
-        >
-          {l.label}
-        </a>
-      ))}
-      <a href="https://github.com/kvasilopoulos/exuber" class="transition-colors hover:text-ink">GitHub</a>
+<header class="sticky top-0 z-40 border-b border-border bg-void/90 backdrop-blur">
+  <div
+    class:list={[
+      "mx-auto flex flex-col items-start gap-3 px-6 py-4 font-mono text-xs uppercase tracking-wide text-muted sm:flex-row sm:items-center sm:justify-between sm:gap-6",
+      wide ? "max-w-7xl" : "max-w-5xl",
+    ]}
+  >
+    <a href="/" class="shrink-0 text-ink">exuber</a>
+    <nav class="flex flex-wrap items-center gap-x-5 gap-y-2">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            aria-current={isActive(path, l.href) ? "page" : undefined}
+            class:list={[
+              "transition-colors hover:text-ink",
+              isActive(path, l.href) && "text-ink",
+            ]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a href={repo} class="transition-colors hover:text-ink">GitHub</a>
+      <Search />
     </nav>
   </div>
 </header>

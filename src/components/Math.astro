@@ -1,0 +1,14 @@
+---
+import katex from "katex";
+import "katex/dist/katex.min.css";
+
+interface Props {
+  tex: string;
+  display?: boolean;
+}
+const { tex, display = false } = Astro.props;
+
+const html = katex.renderToString(tex, { displayMode: display, throwOnError: true });
+---
+
+<span class:list={["katex-host", display && "block overflow-x-auto py-1"]} set:html={html} />

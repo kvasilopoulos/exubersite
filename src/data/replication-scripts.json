@@ -1,0 +1,142 @@
+[
+  {
+    "family": "alternative-paradigms",
+    "name": "radf_qpwy_validation",
+    "file": "radf_qpwy_validation.R"
+  },
+  {
+    "family": "alternative-paradigms",
+    "name": "radf_quantile_validation",
+    "file": "radf_quantile_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_hls_validation",
+    "file": "radf_hls_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_hlw_validation",
+    "file": "radf_hlw_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_knp_validation",
+    "file": "radf_knp_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_pdc_wls_heteroskedastic_mae",
+    "file": "radf_pdc_wls_heteroskedastic_mae.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_pdc_wls_homoskedastic_mae",
+    "file": "radf_pdc_wls_homoskedastic_mae.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_recovery_validation",
+    "file": "radf_recovery_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_cusum_finite_boundary_validation",
+    "file": "radf_cusum_finite_boundary_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_cusum_validation",
+    "file": "radf_cusum_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_cusumv_kernel_validation",
+    "file": "radf_cusumv_kernel_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_lbi_monitor_validation",
+    "file": "radf_lbi_monitor_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_lbi_validation",
+    "file": "radf_lbi_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_monitor_fluc_boundary_validation",
+    "file": "radf_monitor_fluc_boundary_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_monitor_gsadf_s0_validation",
+    "file": "radf_monitor_gsadf_s0_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_monitor_kurozumi_boundary_validation",
+    "file": "radf_monitor_kurozumi_boundary_validation.R"
+  },
+  {
+    "family": "monitoring",
+    "name": "radf_monitor_validation",
+    "file": "radf_monitor_validation.R"
+  },
+  {
+    "family": "multivariate",
+    "name": "radf_cobubble_validation",
+    "file": "radf_cobubble_validation.R"
+  },
+  {
+    "family": "multivariate",
+    "name": "radf_contagion_validation",
+    "file": "radf_contagion_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "hafner_dist_skew_moments_and_regression",
+    "file": "hafner_dist_skew_moments_and_regression.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "hafner_dist_skew_power_and_size",
+    "file": "hafner_dist_skew_power_and_size.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_kp_validation",
+    "file": "radf_kp_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_sign_dm_levelshift_validation",
+    "file": "radf_sign_dm_levelshift_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_ssu_validation",
+    "file": "radf_ssu_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_svadf_validation",
+    "file": "radf_svadf_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_tt_validation",
+    "file": "radf_tt_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "sign_based_finite_T_crosscheck",
+    "file": "sign_based_finite_T_crosscheck.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "sign_based_invariance_and_power",
+    "file": "sign_based_invariance_and_power.R"
+  }
+]

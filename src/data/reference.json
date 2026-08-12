@@ -1,0 +1,465 @@
+{
+  "r": [
+    {
+      "title": "Package",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "exuber",
+          "topic": "exuber",
+          "title": "exuber: Econometric Analysis of Explosive Time Series"
+        }
+      ]
+    },
+    {
+      "title": "Recursive Augmented Dickey Fuller",
+      "desc": "Estimation & Critical Values",
+      "replication": null,
+      "entries": [
+        {
+          "name": "radf",
+          "topic": "radf",
+          "title": "Recursive Augmented Dickey-Fuller Test"
+        },
+        {
+          "name": "radf_mc_cv",
+          "topic": "radf_mc_cv",
+          "title": "Monte Carlo Critical Values"
+        },
+        {
+          "name": "radf_wb_cv",
+          "topic": "radf_wb_cv",
+          "title": "Wild Bootstrap Critical Values"
+        },
+        {
+          "name": "radf_wb_cv2",
+          "topic": "radf_wb_cv2",
+          "title": "Wild Bootstrap Critical Values"
+        },
+        {
+          "name": "radf_sb_cv",
+          "topic": "radf_sb_cv",
+          "title": "Panel Sieve Bootstrap Critical Values"
+        },
+        {
+          "name": "radf_crit",
+          "topic": "radf_crit",
+          "title": "Stored Monte Carlo Critical Values"
+        }
+      ]
+    },
+    {
+      "title": "Heteroskedasticity-robust (time-transformed)",
+      "desc": "Bootstrap-free alternative to radf_wb_cv() under time-varying volatility",
+      "replication": null,
+      "entries": [
+        {
+          "name": "radf_tt",
+          "topic": "radf_tt",
+          "title": "Time-Transformed Test for Explosive Bubbles under Non-stationary Volatility"
+        },
+        {
+          "name": "radf_tt_cv",
+          "topic": "radf_tt_cv",
+          "title": "Monte Carlo critical values for the time-transformed test (STADF/GSTADF)"
+        }
+      ]
+    },
+    {
+      "title": "Volatility-robust (other routes)",
+      "desc": "Further tests robust to time-varying innovation variance",
+      "replication": "volatility-robustness",
+      "entries": [
+        {
+          "name": "radf_sbz_cv",
+          "topic": "radf_sbz_cv",
+          "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
+        },
+        {
+          "name": "radf_kp",
+          "topic": "radf_kp",
+          "title": "Kernel-Purged Heteroskedasticity-Robust PSY Test"
+        },
+        {
+          "name": "radf_sign",
+          "topic": "radf_sign",
+          "title": "Sign-Based Bubble Test (sPWY / sPSY)"
+        },
+        {
+          "name": "radf_sign_cv",
+          "topic": "radf_sign_cv",
+          "title": "Monte Carlo Critical Values for the Sign-Based Test"
+        },
+        {
+          "name": "radf_sign_dm",
+          "topic": "radf_sign_dm",
+          "title": "Recursively Demeaned Sign-Based Bubble Test (s-bar-PWY / s-bar-PSY)"
+        },
+        {
+          "name": "radf_sign_dm_cv",
+          "topic": "radf_sign_dm_cv",
+          "title": "Monte Carlo Critical Values for the Recursively Demeaned Sign-Based Test"
+        },
+        {
+          "name": "radf_ssu",
+          "topic": "radf_ssu",
+          "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)"
+        },
+        {
+          "name": "radf_svadf",
+          "topic": "radf_svadf",
+          "title": "SV-ADF Asymmetric-Threshold Bubble Dating (Sarkar & Wells 2026)"
+        }
+      ]
+    },
+    {
+      "title": "Dating and root inference",
+      "desc": "Start/end/recovery dates and confidence intervals on the explosive root",
+      "replication": "dating-and-root-inference",
+      "entries": [
+        {
+          "name": "explosive_root",
+          "topic": "explosive_root",
+          "title": "Estimate the Explosive Autoregressive Root over a Sub-Sample"
+        },
+        {
+          "name": "root_ci",
+          "topic": "root_ci",
+          "title": "Confidence Interval and Doubling Time for an Explosive Root"
+        },
+        {
+          "name": "root_ci_datestamp",
+          "topic": "root_ci_datestamp",
+          "title": "Root Confidence Intervals for Every Datestamped Episode"
+        },
+        {
+          "name": "radf_pdc",
+          "topic": "radf_pdc",
+          "title": "Sequential Sample-Splitting Bubble Dating (PDC/KS)"
+        },
+        {
+          "name": "radf_recovery",
+          "topic": "radf_recovery",
+          "title": "Reverse-Regression Dating of Crisis Origination and Market Recovery"
+        },
+        {
+          "name": "radf_recovery_cv",
+          "topic": "radf_recovery_cv",
+          "title": "Monte Carlo Critical Values for Reverse-Regression Recovery Dating"
+        },
+        {
+          "name": "radf_hls",
+          "topic": "radf_hls",
+          "title": "SSR/BIC Bubble Dating (Harvey, Leybourne & Sollis 2017)"
+        },
+        {
+          "name": "radf_hlw",
+          "topic": "radf_hlw",
+          "title": "Multi-Bubble SSR/BIC Dating (Harvey, Leybourne & Whitehouse 2020)"
+        },
+        {
+          "name": "radf_knp",
+          "topic": "radf_knp",
+          "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
+        }
+      ]
+    },
+    {
+      "title": "Real-time monitoring",
+      "desc": "Sequential/real-time bubble detection",
+      "replication": "monitoring",
+      "entries": [
+        {
+          "name": "radf_monitor",
+          "topic": "radf_monitor",
+          "title": "Real-Time Monitoring for Explosive Bubbles"
+        },
+        {
+          "name": "radf_cusum",
+          "topic": "radf_cusum",
+          "title": "CUSUM Real-Time Monitoring for Explosive Bubbles"
+        },
+        {
+          "name": "radf_lbi",
+          "topic": "radf_lbi",
+          "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
+        },
+        {
+          "name": "radf_lbi_monitor",
+          "topic": "radf_lbi_monitor",
+          "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)"
+        }
+      ]
+    },
+    {
+      "title": "Multivariate / panel bubble tests",
+      "desc": "Panel and cross-series tests",
+      "replication": "multivariate",
+      "entries": [
+        {
+          "name": "radf_common",
+          "topic": "radf_common",
+          "title": "Common-Bubble Detection via PCA + PSY"
+        },
+        {
+          "name": "radf_common_cv",
+          "topic": "radf_common_cv",
+          "title": "Critical Values for the Common-Bubble (PCA + PSY) Test"
+        },
+        {
+          "name": "radf_cobubble",
+          "topic": "radf_cobubble",
+          "title": "Test for Co-explosive Behaviour Between Two Series"
+        },
+        {
+          "name": "radf_contagion",
+          "topic": "radf_contagion",
+          "title": "Bubble Contagion Regression (Greenaway-McGrevy & Phillips 2016)"
+        }
+      ]
+    },
+    {
+      "title": "Alternative paradigms",
+      "desc": "Non-ADF-family approaches",
+      "replication": "alternative-paradigms",
+      "entries": [
+        {
+          "name": "radf_quantile",
+          "topic": "radf_quantile",
+          "title": "Quantile Unit Root Test for Bubble Detection (Global Test)"
+        },
+        {
+          "name": "radf_qpwy",
+          "topic": "radf_qpwy",
+          "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
+        }
+      ]
+    },
+    {
+      "title": "Analysis",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "summary.radf_obj",
+          "topic": "summary.radf_obj",
+          "title": "Summarizing radf models"
+        },
+        {
+          "name": "diagnostics",
+          "topic": "diagnostics",
+          "title": "Diagnostics on hypothesis testing"
+        },
+        {
+          "name": "datestamp",
+          "topic": "datestamp",
+          "title": "Date-stamping periods of mildly explosive behavior"
+        }
+      ]
+    },
+    {
+      "title": "Tidying",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "tidy.radf_obj",
+          "topic": "tidy.radf_obj",
+          "title": "Tidy a radf_obj object"
+        },
+        {
+          "name": "tidy.radf_cv",
+          "topic": "tidy.radf_cv",
+          "title": "Tidy a radf_cv object"
+        },
+        {
+          "name": "tidy.radf_distr",
+          "topic": "tidy.radf_distr",
+          "title": "Tidy a radf_distr object"
+        },
+        {
+          "name": "tidy.ds_radf",
+          "topic": "tidy.ds_radf",
+          "title": "Tidy a ds_radf object"
+        }
+      ]
+    },
+    {
+      "title": "Plotting",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "autoplot.radf_obj",
+          "topic": "autoplot.radf_obj",
+          "title": "Plotting radf models"
+        },
+        {
+          "name": "autoplot.radf_distr",
+          "topic": "autoplot.radf_distr",
+          "title": "Plotting a radf_distr object"
+        },
+        {
+          "name": "autoplot.ds_radf",
+          "topic": "autoplot.ds_radf",
+          "title": "Plotting a ds_radf object"
+        },
+        {
+          "name": "scale_exuber_manual",
+          "topic": "scale_exuber_manual",
+          "title": "Exuber scale and theme functions"
+        }
+      ]
+    },
+    {
+      "title": "Simulation",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "sim_psy1",
+          "topic": "sim_psy1",
+          "title": "Simulation of a single-bubble process"
+        },
+        {
+          "name": "sim_psy2",
+          "topic": "sim_psy2",
+          "title": "Simulation of a two-bubble process"
+        },
+        {
+          "name": "sim_ps1",
+          "topic": "sim_ps1",
+          "title": "Simulation of a single-bubble process with multiple forms of collapse regime"
+        },
+        {
+          "name": "sim_blan",
+          "topic": "sim_blan",
+          "title": "Simulation of a Blanchard (1979) / Rotermann-Wilfling (2018) bubble process"
+        },
+        {
+          "name": "sim_evans",
+          "topic": "sim_evans",
+          "title": "Simulation of an Evans (1991) bubble process"
+        },
+        {
+          "name": "sim_div",
+          "topic": "sim_div",
+          "title": "Simulation of dividends"
+        }
+      ]
+    },
+    {
+      "title": "Simulation (additional DGPs)",
+      "desc": "Data-generating processes for axes exuber's original sim_*() functions don't cover -- time-varying volatility, non-Gaussian innovations, long memory, and distinct multi-series/branching mechanisms",
+      "replication": "simulation-dgps",
+      "entries": [
+        {
+          "name": "sim_innov",
+          "topic": "sim_innov",
+          "title": "Simulate innovations with heavy-tailed/skewed marginal distributions"
+        },
+        {
+          "name": "sim_vol_garch",
+          "topic": "sim_vol_garch",
+          "title": "Simulate GARCH(1,1)/TGARCH(1,1) innovations"
+        },
+        {
+          "name": "sim_vol_cir",
+          "topic": "sim_vol_cir",
+          "title": "Simulate CIR-type stochastic-volatility innovations"
+        },
+        {
+          "name": "sim_vol_sv",
+          "topic": "sim_vol_sv",
+          "title": "Simulate AR(1) lognormal stochastic-volatility innovations"
+        },
+        {
+          "name": "sim_fi",
+          "topic": "sim_fi",
+          "title": "Simulate fractionally-integrated (long-memory) innovations"
+        },
+        {
+          "name": "sim_common",
+          "topic": "sim_common",
+          "title": "Simulation of a latent common-factor bubble across multiple series"
+        },
+        {
+          "name": "sim_coexplosive",
+          "topic": "sim_coexplosive",
+          "title": "Simulation of a bivariate co-explosive pair"
+        },
+        {
+          "name": "sim_tree",
+          "topic": "sim_tree",
+          "title": "Simulation of a stochastic branching-tree bubble"
+        },
+        {
+          "name": "sim_mar",
+          "topic": "sim_mar",
+          "title": "Simulation of a mixed causal-noncausal AR(1,1) bubble"
+        },
+        {
+          "name": "sim_msbubble",
+          "topic": "sim_msbubble",
+          "title": "Simulation of a Markov-switching present-value bubble"
+        },
+        {
+          "name": "sim_falsebubble",
+          "topic": "sim_falsebubble",
+          "title": "Simulation of a deterministic technology-adoption \"false bubble\" null"
+        }
+      ]
+    },
+    {
+      "title": "Helpers",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "psy_minw",
+          "topic": "psy_minw",
+          "title": "Helper functions in accordance to PSY(2015)"
+        },
+        {
+          "name": "psy_ds",
+          "topic": "psy_minw",
+          "title": "Helper functions in accordance to PSY(2015)"
+        },
+        {
+          "name": "index",
+          "topic": "index-rd",
+          "title": "Retrieve/Replace the index"
+        },
+        {
+          "name": "series_names",
+          "topic": "series_names",
+          "title": "Retrieve/Replace series names"
+        },
+        {
+          "name": "ps_tb",
+          "topic": "ps_tb",
+          "title": "Helper function to find tb from the Phillips and Shi (2020)"
+        }
+      ]
+    },
+    {
+      "title": "Extra tidying methods",
+      "desc": "",
+      "replication": null,
+      "entries": [
+        {
+          "name": "tidy_join",
+          "topic": "tidy_join",
+          "title": "Tidy into a joint model"
+        },
+        {
+          "name": "tidy_join.radf_obj",
+          "topic": "tidy_join.radf_obj",
+          "title": "Tidy into a joint model"
+        }
+      ]
+    }
+  ],
+  "ungrouped": ["%>%", "augment", "autoplot", "autoplot2", "calc_pvalue", "col_names", "fortify", "ggarrange", "mc_cv", "report", "sb_cv", "sim_dgp1", "sim_dgp2", "tidy", "wb_cv"]
+}

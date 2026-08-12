@@ -1,0 +1,66 @@
+{
+  "_comment": "Hand-maintained. The Python and C++ surfaces are small and change rarely, so they are not machine-derived the way the R index is (scripts/sync-content.R). Keep in step with pyexuber/src/exuber/__init__.py and exubercore/include/exubercore/radf.hpp.",
+  "python": {
+    "package": "pyexuber",
+    "import": "import exuber",
+    "repo": "https://github.com/kvasilopoulos/pyexuber",
+    "note": "Bindings over exubercore. Monte Carlo and wild-bootstrap critical values are ported; the sieve bootstrap (radf_sb_cv), the second wild-bootstrap variant (radf_wb_cv2), and the summary/tidy/diagnostics layer are not yet.",
+    "groups": [
+      {
+        "title": "Test",
+        "entries": [
+          { "name": "radf", "title": "Recursive univariate and panel Augmented Dickey-Fuller test" },
+          { "name": "RadfResult", "title": "Result object: adf, badf, sadf, gsadf, bsadf" },
+          { "name": "psy_minw", "title": "Default minimum window, (0.01 + 1.8/sqrt(n)) * n" },
+          { "name": "psy_ds", "title": "Minimum episode duration for datestamp()" }
+        ]
+      },
+      {
+        "title": "Critical values",
+        "entries": [
+          { "name": "radf_mc_cv", "title": "Monte Carlo critical values" },
+          { "name": "radf_mc_distr", "title": "Monte Carlo distribution of the statistics" },
+          { "name": "radf_wb_cv", "title": "Wild bootstrap critical values (HLST 2016)" },
+          { "name": "radf_wb_distr", "title": "Wild bootstrap distribution of the statistics" },
+          { "name": "RadfCv", "title": "Critical-value container" },
+          { "name": "RadfDistr", "title": "Simulated-distribution container" }
+        ]
+      },
+      {
+        "title": "Dating",
+        "entries": [
+          { "name": "datestamp", "title": "Date-stamp periods of explosive behaviour" },
+          { "name": "Episode", "title": "A single start/end explosive episode" }
+        ]
+      },
+      {
+        "title": "Simulation",
+        "entries": [
+          { "name": "sim_psy1", "title": "Single-bubble PSY data-generating process" },
+          { "name": "sim_psy2", "title": "Two-bubble PSY data-generating process" },
+          { "name": "sim_ps1", "title": "Phillips & Shi single-bubble process" },
+          { "name": "sim_ps2", "title": "Phillips & Shi two-bubble process" },
+          { "name": "sim_blan", "title": "Blanchard (1979) periodically collapsing bubble" },
+          { "name": "sim_evans", "title": "Evans (1991) periodically collapsing bubble" },
+          { "name": "sim_div", "title": "Dividend process without a bubble" }
+        ]
+      }
+    ]
+  },
+  "cpp": {
+    "package": "exubercore",
+    "repo": "https://github.com/kvasilopoulos/exubercore",
+    "note": "The statistic itself, and nothing else — Armadillo only, no R or Python dependency. Both bindings call this one function. The lag == 0 closed form is bit-reproducible across toolchains; the lag > 0 Sherman-Morrison path agrees to ~1e-12 but is not bit-identical.",
+    "groups": [
+      {
+        "title": "namespace exubercore",
+        "entries": [
+          {
+            "name": "arma::vec radf(const arma::mat& yxmat, int min_win, int lag = 0)",
+            "title": "Returns badf[0, total), adf, sadf, gsadf, then bsadf[total+3, 2*total+3), where total = nrow(yxmat) - min_win + 1"
+          }
+        ]
+      }
+    ]
+  }
+}

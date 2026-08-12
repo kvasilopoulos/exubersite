@@ -1,0 +1,123 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+import reference from "../data/reference.json";
+import extra from "../data/reference-extra.json";
+
+const PKGDOWN = "https://kvasilopoulos.github.io/exuber/reference";
+
+// The sidebar/TOC rail reuses the markdown heading shape.
+const slug = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
+const headings = [
+  ...reference.r.map((g) => ({ depth: 2, slug: slug(g.title), text: g.title })),
+  { depth: 2, slug: "python", text: "Python — pyexuber" },
+  { depth: 2, slug: "cpp", text: "C++ — exubercore" },
+];
+
+const total = reference.r.reduce((n, g) => n + g.entries.length, 0);
+---
+
+<DocsLayout
+  eyebrow="Packages"
+  title="Reference index"
+  description={`Every documented entry point across the three implementations — ${total} R topics grouped as in the package's own reference index, plus the Python and C++ surfaces.`}
+  headings={headings}
+>
+  <section class="prose">
+    <p>
+      Grouping and descriptions come straight from <code>exuber</code>'s
+      <code>_pkgdown.yml</code>, so this index cannot drift from the package's own.
+      Each row links to the full documentation — arguments, return value, examples —
+      on the <a href="https://kvasilopoulos.github.io/exuber/">pkgdown site</a>, which
+      stays canonical. Groups that came out of the replication research link back to
+      the family page that motivated them.
+    </p>
+  </section>
+
+  <div class="mt-10 space-y-12">
+    {
+      reference.r.map((group) => (
+        <section>
+          <div class="border-b border-border pb-3">
+            <h2 id={slug(group.title)} class="scroll-mt-24 font-display text-xl text-ink">
+              {group.title}
+            </h2>
+            {group.desc && <p class="mt-1.5 text-sm leading-relaxed text-muted">{group.desc}</p>}
+            {group.replication && (
+              <a
+                href={`/replication/${group.replication}`}
+                class="mt-2 inline-block font-mono text-[11px] uppercase tracking-wide text-explosive underline decoration-border underline-offset-4 hover:decoration-explosive"
+              >
+                Replication record →
+              </a>
+            )}
+          </div>
+          <ul class="mt-1 divide-y divide-border">
+            {group.entries.map((e) => (
+              <li>
+                <a
+                  href={`${PKGDOWN}/${e.topic}.html`}
+                  class="grid gap-1 py-2.5 transition-colors hover:bg-panel sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4"
+                >
+                  <code class="font-mono text-[13px] text-ink">{e.name}()</code>
+                  <span class="text-sm leading-snug text-muted">{e.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    {
+      [
+        { id: "python", label: "Python", data: extra.python },
+        { id: "cpp", label: "C++", data: extra.cpp },
+      ].map(({ id, label, data }) => (
+        <section>
+          <div class="border-b border-border pb-3">
+            <h2 id={id} class="scroll-mt-24 font-display text-xl text-ink">
+              {label} — {data.package}
+            </h2>
+            <p class="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">{data.note}</p>
+            <a
+              href={data.repo}
+              class="mt-2 inline-block font-mono text-[11px] uppercase tracking-wide text-muted underline decoration-border underline-offset-4 hover:text-ink"
+            >
+              {data.repo.replace("https://github.com/", "")} →
+            </a>
+          </div>
+          {data.groups.map((group) => (
+            <div class="mt-6">
+              <p class="font-mono text-[11px] uppercase tracking-wide text-muted">{group.title}</p>
+              <ul class="mt-1 divide-y divide-border">
+                {group.entries.map((e) => (
+                  <li class="grid gap-1 py-2.5 sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4">
+                    <code class="font-mono text-[13px] break-words text-ink">{e.name}</code>
+                    <span class="text-sm leading-snug text-muted">{e.title}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      ))
+    }
+  </div>
+
+  {
+    reference.ungrouped.length > 0 && (
+      <p class="mt-14 border-t border-border pt-6 text-xs leading-relaxed text-muted">
+        <span class="font-mono uppercase tracking-wide">Not indexed</span> — {reference.ungrouped.length}{" "}
+        exports are documented under an aliased topic and so carry no row of their own:{" "}
+        {reference.ungrouped.map((n) => (
+          <code class="font-mono">{n} </code>
+        ))}
+      </p>
+    )
+  }
+</DocsLayout>

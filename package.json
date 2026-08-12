@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check:links": "node scripts/check-links.mjs",
-    "sync": "Rscript scripts/sync-content.R"
+    "sync": "python scripts/sync_content.py"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.1.0",

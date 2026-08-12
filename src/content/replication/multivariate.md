@@ -3,7 +3,6 @@ title: "Multivariate bubble tests"
 blurb: "Panel and cross-series tests -- common bubbles, co-bubbles, and bubble contagion."
 order: 4
 ---
-
 **Status: common-bubble (Chen, Phillips & Shi), co-bubble (Evripidou,
 Harvey, Leybourne & Sollis), and contagion regression (Greenaway-McGrevy
 & Phillips) all done — every item in this file is now implemented in
@@ -233,6 +232,9 @@ independent-validation finding above, `N=30`'s null quantile is
 significantly higher than `N=4`'s (not the same, as a naive reading of
 Theorem 4.3 might expect) — the dependence on panel width validation found
 is exercised by the test suite now, not just a one-off simulation script.
+
+Replication script:
+[replication/multivariate/radf_common_validation.R](#script-radf_common_validation).
 
 ## Co-bubble test
 

@@ -3,7 +3,6 @@ title: "Real-time monitoring for bubbles"
 blurb: "Sequential and real-time detection: training-vs-monitoring orchestration, CUSUM families, and closed-form boundaries."
 order: 3
 ---
-
 **Status: Family A (Phillips & Shi 2020, `radf_monitor()`) done
 (2026-08-09); Family B's CUSUM procedure — both Homm & Breitung (2012)'s
 original statistic and Astill et al. (2023)'s volatility-robust "CUSUMV"

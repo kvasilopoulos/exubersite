@@ -3,7 +3,6 @@ title: "Simulation DGPs"
 blurb: "Data-generating processes for the axes the original sim_*() functions do not cover."
 order: 6
 ---
-
 Not a test/statistic taxonomy file like the others — this one catalogues
 **data-generating processes** (DGPs) for simulating bubble series, as used
 in Monte Carlo sections across the literature this project has already

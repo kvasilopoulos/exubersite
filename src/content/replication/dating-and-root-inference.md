@@ -3,7 +3,6 @@ title: "Dating and root inference"
 blurb: "Origination, collapse and recovery dates, plus confidence intervals on the explosive root itself."
 order: 2
 ---
-
 Two related post-detection problems, both operating on an episode
 `radf()`/`datestamp()` has already flagged as explosive: **dating** (when
 exactly did it start/end/recover?) and **root inference** (how explosive —
@@ -592,6 +591,9 @@ test coverage, and was validated from scratch before being trusted):
 passed, 0 failed). No implementation bug found — the only fix needed was to
 the test's synthetic data-generating process, not to `radf_pdc.R` itself.
 
+Replication script:
+[replication/dating-and-root-inference/radf_pdc_validation.R](#script-radf_pdc_validation).
+
 ---
 
 ## Root inference
@@ -808,6 +810,9 @@ is left to degrade honestly (matching what calling `explosive_root()`
 directly on 2-3 points would do) rather than silently filtered — the
 docs point at `datestamp()`'s existing `min_duration` argument instead of
 adding a second, redundant filtering knob.
+
+Replication script:
+[replication/dating-and-root-inference/explosive_root_validation.R](#script-explosive_root_validation).
 
 ---
 

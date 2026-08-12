@@ -3,7 +3,6 @@ title: "References — full bibliography"
 blurb: "Full bibliography behind the replication record, organised by methodological family."
 order: 7
 ---
-
 Every paper touched by this project, in one place, organized to match the
 taxonomy files (`volatility-robustness.md`, `dating-and-root-inference.md`,
 etc. — see `README.md`). Per-item detail, formulas, and exact-number

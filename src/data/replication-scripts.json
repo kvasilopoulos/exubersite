@@ -11,6 +11,11 @@
   },
   {
     "family": "dating-and-root-inference",
+    "name": "explosive_root_validation",
+    "file": "explosive_root_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
     "name": "radf_hls_validation",
     "file": "radf_hls_validation.R"
   },
@@ -23,6 +28,11 @@
     "family": "dating-and-root-inference",
     "name": "radf_knp_validation",
     "file": "radf_knp_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "radf_pdc_validation",
+    "file": "radf_pdc_validation.R"
   },
   {
     "family": "dating-and-root-inference",
@@ -91,6 +101,11 @@
   },
   {
     "family": "multivariate",
+    "name": "radf_common_validation",
+    "file": "radf_common_validation.R"
+  },
+  {
+    "family": "multivariate",
     "name": "radf_contagion_validation",
     "file": "radf_contagion_validation.R"
   },
@@ -108,6 +123,16 @@
     "family": "volatility-robustness",
     "name": "radf_kp_validation",
     "file": "radf_kp_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_sb_cv_aic_bic_validation",
+    "file": "radf_sb_cv_aic_bic_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
+    "name": "radf_sbz_validation",
+    "file": "radf_sbz_validation.R"
   },
   {
     "family": "volatility-robustness",

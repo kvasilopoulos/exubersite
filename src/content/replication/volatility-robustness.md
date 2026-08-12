@@ -3,7 +3,6 @@ title: "Volatility-robustness tests"
 blurb: "Tests robust to time-varying innovation variance: time-transformed, kernel-purged, WLS, sign-based, and stochastic-coefficient routes."
 order: 1
 ---
-
 Right-tailed unit-root tests modified to stay correctly sized when the
 innovation variance is time-varying (deterministically or stochastically) —
 PWY/PSY's original GSADF assumes homoskedasticity, and all methods here are
@@ -217,6 +216,9 @@ reproduces the published target within expected MC noise on an independent
 run (item 2), and the test behaves correctly on a case it should detect
 (item 3). No issues found.
 
+Replication script:
+[replication/volatility-robustness/radf_tt_validation.R](#script-radf_tt_validation).
+
 ### Open follow-ups
 
 - Extend `radf_tt_cv()`/`radf_tt()`'s asymptotic critical values across a
@@ -340,6 +342,9 @@ Remark 3.2 predicts rather than being a fluke of one seed.
 
 **Full existing suite**: `test-kp.R` — see combined results at the end of
 this file's validation runs.
+
+Replication script:
+[replication/volatility-robustness/radf_kp_validation.R](#script-radf_kp_validation).
 
 ### Not implemented: without-intercept variant and union test
 
@@ -527,6 +532,9 @@ real dataset is now fixed. Next step if resumed: commit, and if the
 original FTSE/S&P series can be sourced, a direct Table 1 comparison would
 be a stronger check than the H0 simulation above.
 
+Replication script:
+[replication/volatility-robustness/radf_sbz_validation.R](#script-radf_sbz_validation).
+
 ---
 
 ## Pedersen & Schütte sieve bootstrap
@@ -572,6 +580,9 @@ nonzero lag on genuinely AR(2)-autocorrelated data; and, checked across 8
 independent draws rather than asserted on one (BIC can pick a nonzero lag
 by chance in any single finite sample), the modal selection on pure
 random-walk data is 0, as it should be.
+
+Replication script:
+[replication/volatility-robustness/radf_sb_cv_aic_bic_validation.R](#script-radf_sb_cv_aic_bic_validation).
 
 ---
 

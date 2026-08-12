@@ -1,0 +1,76 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  headings.length > 0 && (
+    <nav
+      data-toc
+      aria-label="On this page"
+      class="sticky top-24 hidden max-h-[calc(100vh-8rem)] overflow-y-auto text-xs xl:block"
+    >
+      <p class="mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">On this page</p>
+      <ul class="space-y-1.5 border-l border-border">
+        {headings.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              data-toc-link={h.slug}
+              class:list={[
+                "-ml-px block border-l border-transparent py-0.5 leading-snug text-muted transition-colors hover:text-ink",
+                h.depth === 2 ? "pl-3" : "pl-6",
+              ]}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<script>
+  // Scroll-spy: mark the heading nearest the top of the viewport.
+  const links = new Map<string, HTMLElement>(
+    [...document.querySelectorAll<HTMLElement>("[data-toc-link]")].map((a) => [
+      a.dataset.tocLink!,
+      a,
+    ]),
+  );
+
+  if (links.size) {
+    const visible = new Set<string>();
+    const paint = () => {
+      const active = [...links.keys()].find((id) => visible.has(id));
+      links.forEach((a, id) => {
+        const on = id === active;
+        a.classList.toggle("border-explosive", on);
+        a.classList.toggle("border-transparent", !on);
+        a.classList.toggle("text-ink", on);
+        a.classList.toggle("text-muted", !on);
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        paint();
+      },
+      { rootMargin: "-80px 0px -70% 0px" },
+    );
+
+    links.forEach((_, id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
+</script>

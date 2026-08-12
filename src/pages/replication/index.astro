@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from "astro:content";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import scripts from "../../data/replication-scripts.json";
+
+const pages = (await getCollection("replication")).sort((a, b) => a.data.order - b.data.order);
+
+const cards = await Promise.all(
+  pages.map(async (p) => {
+    const { headings } = await render(p);
+    return {
+      id: p.id,
+      title: p.data.title,
+      blurb: p.data.blurb,
+      methods: headings.filter((h) => h.depth === 2).length,
+      scripts: scripts.filter((s) => s.family === p.id).length,
+    };
+  }),
+);
+---
+
+<DocsLayout
+  eyebrow="The replication record"
+  title="Replication"
+  description="Every method exuber implements beyond the original PSY test was read from its primary source, implemented, and then independently re-derived by a standalone script. This is that record — what was reproduced, how, and where it fell short."
+>
+  <section class="prose">
+    <p>
+      The pages below are the working research behind <code>exuber</code>'s post-PSY
+      surface, organised by methodological family. Each one states the primary source,
+      what the method actually does, which published numbers were reproduced exactly,
+      what was deliberately simplified relative to the paper, and what remains open.
+    </p>
+    <p>
+      Validation is kept separate from the test suite on purpose. The package's own
+      <code>testthat</code> tests guard against regression; the scripts collected here
+      re-derive each statistic from scratch — brute-force <code>lm()</code> fits,
+      hand-telescoped identities, Monte Carlo size and power — so that agreement means
+      something independent of the implementation being checked. Several of them found
+      real bugs, and those are recorded rather than quietly fixed.
+    </p>
+    <p>
+      Every script is self-contained and depends on none of the others. Run one from the
+      <code>exuber/</code> package root, or adjust the <code>devtools::load_all()</code>
+      call at its top:
+    </p>
+    <pre class="astro-code"><code>Rscript docs/enhancements/replication/monitoring/radf_cusum_validation.R</code></pre>
+  </section>
+
+  <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+    {
+      cards.map((c) => (
+        <a
+          href={`/replication/${c.id}`}
+          class="group flex flex-col gap-3 bg-panel p-6 transition-colors hover:bg-panel-hi"
+        >
+          <div class="flex items-baseline justify-between gap-3">
+            <h2 class="font-display text-lg text-ink">{c.title}</h2>
+            <span class="shrink-0 font-mono text-[11px] uppercase tracking-wide text-muted">
+              {c.methods} {c.methods === 1 ? "section" : "sections"}
+            </span>
+          </div>
+          <p class="text-sm leading-relaxed text-muted">{c.blurb}</p>
+          {c.scripts > 0 && (
+            <span class="mt-auto font-mono text-[11px] uppercase tracking-wide text-stable">
+              {c.scripts} replication {c.scripts === 1 ? "script" : "scripts"}
+            </span>
+          )}
+        </a>
+      ))
+    }
+  </div>
+
+  <p class="mt-10 text-xs leading-relaxed text-muted">
+    Cited PDFs are not redistributed here — the bibliography carries DOIs and working-paper
+    links instead. Earlier implementations (STADF, kernel-purge, SBZ, common-bubble, root
+    inference, PDC) were validated before this convention started and have no archived script.
+  </p>
+</DocsLayout>

@@ -1,0 +1,92 @@
+---
+import type { MarkdownHeading } from "astro";
+import { getCollection } from "astro:content";
+import Base from "./Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Toc from "../components/Toc.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow?: string;
+  headings?: MarkdownHeading[];
+}
+const { title, description, eyebrow, headings = [] } = Astro.props;
+
+const pages = (await getCollection("replication")).sort((a, b) => a.data.order - b.data.order);
+const path = Astro.url.pathname.replace(/\/$/, "");
+---
+
+<Base title={`${title} — exuber`} description={description}>
+  <Nav wide />
+  <div
+    class="mx-auto grid max-w-7xl gap-x-10 gap-y-8 px-6 py-10 lg:grid-cols-[13rem_minmax(0,1fr)] xl:grid-cols-[13rem_minmax(0,1fr)_13rem]"
+  >
+    <aside class="lg:sticky lg:top-24 lg:self-start">
+      <p class="mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">Replication</p>
+      <ul class="space-y-1 border-l border-border text-sm">
+        <li>
+          <a
+            href="/replication"
+            class:list={[
+              "-ml-px block border-l py-1 pl-3 transition-colors hover:text-ink",
+              path === "/replication"
+                ? "border-explosive text-ink"
+                : "border-transparent text-muted",
+            ]}
+          >
+            Overview
+          </a>
+        </li>
+        {
+          pages.map((p) => (
+            <li>
+              <a
+                href={`/replication/${p.id}`}
+                class:list={[
+                  "-ml-px block border-l py-1 pl-3 leading-snug transition-colors hover:text-ink",
+                  path === `/replication/${p.id}`
+                    ? "border-explosive text-ink"
+                    : "border-transparent text-muted",
+                ]}
+              >
+                {p.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">Packages</p>
+      <ul class="space-y-1 border-l border-border text-sm">
+        <li>
+          <a
+            href="/reference"
+            class:list={[
+              "-ml-px block border-l py-1 pl-3 transition-colors hover:text-ink",
+              path === "/reference" ? "border-explosive text-ink" : "border-transparent text-muted",
+            ]}
+          >
+            Reference index
+          </a>
+        </li>
+      </ul>
+    </aside>
+
+    <main id="main" class="min-w-0">
+      {
+        eyebrow && (
+          <p class="font-mono text-xs uppercase tracking-widest text-explosive">{eyebrow}</p>
+        )
+      }
+      <h1 class="mt-3 font-display text-3xl leading-tight text-ink sm:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">{description}</p>
+      <div class="mt-10">
+        <slot />
+      </div>
+    </main>
+
+    <Toc headings={headings} />
+  </div>
+  <Footer />
+</Base>

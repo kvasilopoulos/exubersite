@@ -1,0 +1,87 @@
+---
+import { getCollection, render } from "astro:content";
+import { Code } from "astro:components";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import manifest from "../../data/replication-scripts.json";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("replication");
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const { Content, headings } = await render(page);
+
+// Vite reads the vendored .R files at build time; the markdown links into them
+// as #script-<name> anchors, so they are rendered below the prose.
+const sources = import.meta.glob<string>("../../replication-code/*.R", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const scripts = manifest
+  .filter((s) => s.family === page.id)
+  .map((s) => ({ ...s, code: sources[`../../replication-code/${s.file}`] ?? "" }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<DocsLayout
+  eyebrow="Replication"
+  title={page.data.title}
+  description={page.data.blurb}
+  headings={headings}
+>
+  <article class="prose">
+    <Content />
+  </article>
+
+  {
+    scripts.length > 0 && (
+      <section class="mt-16 border-t border-border pt-10">
+        <h2 class="font-display text-2xl text-ink">Replication scripts</h2>
+        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+          {scripts.length} standalone {scripts.length === 1 ? "script" : "scripts"} backing
+          the claims above. Each runs on its own from the <code class="font-mono">exuber/</code>{" "}
+          package root and depends on none of the others.
+        </p>
+        <div class="mt-6 space-y-3">
+          {scripts.map((s) => (
+            <details id={`script-${s.name}`} class="rounded-lg border border-border bg-panel">
+              <summary class="cursor-pointer px-4 py-3 font-mono text-xs text-ink marker:text-muted">
+                {s.file}
+                <span class="ml-2 text-muted">
+                  {s.code.split("\n").length} lines
+                </span>
+              </summary>
+              <div class="code-block border-t border-border">
+                <Code code={s.code} lang="r" />
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</DocsLayout>
+
+<style>
+  details > div :global(pre.astro-code) {
+    border: 0;
+    border-radius: 0;
+    margin: 0;
+  }
+</style>
+
+<script>
+  // Jumping to #script-x from the prose must open the collapsed block.
+  const openTarget = () => {
+    const el = location.hash && document.querySelector(location.hash);
+    if (el instanceof HTMLDetailsElement) {
+      el.open = true;
+      el.scrollIntoView();
+    }
+  };
+  openTarget();
+  window.addEventListener("hashchange", openTarget);
+</script>

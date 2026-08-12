@@ -11,12 +11,12 @@ const examples = [
     lang: "r",
     code: `library(exuber)
 
-rsim <- radf(sim_data)
-cv <- radf_mc_cv(n = NROW(sim_data))
+rsim <- radf(sim_data)               # adf, badf, sadf, gsadf, bsadf, ...
+cv <- radf_mc_cv(n = NROW(sim_data)) # simulated 90/95/99% thresholds
 
-summary(rsim, cv)
-autoplot(rsim, cv)
-datestamp(rsim, cv)`,
+summary(rsim, cv)   # rejects/does not reject H0 per series, per statistic
+autoplot(rsim, cv)  # bsadf vs. its threshold, explosive spans shaded
+datestamp(rsim, cv) # a Start/End/Duration row per detected episode`,
   },
   {
     label: "Python",
@@ -25,11 +25,11 @@ datestamp(rsim, cv)`,
 import exuber
 
 data = np.cumsum(np.random.randn(200))
-result = exuber.radf(data)
-cv = exuber.radf_mc_cv(n=len(data))
+result = exuber.radf(data)          # RadfResult: .adf .badf .sadf .gsadf .bsadf
+cv = exuber.radf_mc_cv(n=len(data)) # RadfCv: simulated 90/95/99% thresholds
 
 result.adf, result.sadf, result.gsadf
-exuber.datestamp(result, cv)`,
+exuber.datestamp(result, cv)  # list[Episode]: one per detected explosive span`,
   },
   {
     label: "C++",
@@ -37,7 +37,9 @@ exuber.datestamp(result, cv)`,
     code: `#include <exubercore/radf.hpp>
 
 arma::vec y = arma::cumsum(arma::randn(200));
-auto result = exubercore::radf(y, /* min_win = */ 20);`,
+auto result = exubercore::radf(y, /* min_win = */ 20);
+// arma::vec: badf, then adf, sadf, gsadf, then the bsadf sequence --
+// see the reference entry for the exact layout and offsets.`,
   },
 ];
 
@@ -102,6 +104,34 @@ const suite = [
         <code class="text-ink">.to_numpy()</code> (pandas/polars) — neither is a hard dependency.
         C++ requires a system Armadillo with BLAS/LAPACK; build with CMake, link, done.
         The full surface of each is in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
+      </p>
+    </section>
+
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-muted">What comes back</p>
+      <h2 class="mt-4 font-display text-2xl text-ink"><code class="text-ink">radf()</code>'s return value.</h2>
+      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+        Same seven fields in every binding — a sequence per statistic, not a single number,
+        because the whole point is watching it evolve over the sample:
+      </p>
+      <dl class="mt-6 grid gap-x-8 gap-y-3 overflow-hidden rounded-lg border border-border bg-panel p-6 sm:grid-cols-[7rem_1fr]">
+        {[
+          ["adf", "The single, full-sample ADF t-statistic."],
+          ["badf", "That t-statistic recomputed at every expanding-window endpoint — one number per time point."],
+          ["sadf", "sup(badf) — the single largest reading anywhere in the sample."],
+          ["bsadf", "The full backward-supremum sequence — one number per time point, this is what gets plotted."],
+          ["gsadf", "sup(bsadf) — the headline single-number test statistic."],
+          ["bsadf_panel / gsadf_panel", "Cross-sectional average of bsadf/sup, only when data has more than one series."],
+        ].map(([name, desc]) => (
+          <>
+            <dt class="font-mono text-sm text-ink">{name}</dt>
+            <dd class="text-sm leading-relaxed text-muted">{desc}</dd>
+          </>
+        ))}
+      </dl>
+      <p class="mt-4 text-sm leading-relaxed text-muted">
+        Full argument and return-value documentation:
+        <a href="/reference/radf" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference entry for radf()</a>.
       </p>
     </section>
   </main>

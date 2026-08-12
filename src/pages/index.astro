@@ -6,28 +6,28 @@ import BubbleInstrument from "../components/BubbleInstrument.astro";
 
 const teasers = [
   {
-    href: "/methodology",
+    href: "/guide",
     eyebrow: "01 — the method",
     title: "Four tests, one recursion.",
-    body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, and how the resulting statistic becomes a calendar date.",
-  },
-  {
-    href: "/settings",
-    eyebrow: "02 — the settings",
-    title: "Two numbers, one choice.",
-    body: "What minw and lag actually control, and the real tradeoff: which critical-value method to test your statistic against.",
+    body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, what minw and lag control, and how thresholds get simulated rather than looked up.",
   },
   {
     href: "/suite",
-    eyebrow: "03 — the suite",
+    eyebrow: "02 — the suite",
     title: "One core. Three ways in.",
     body: "The statistic lives once, in C++. exuber (R) and pyexuber (Python) wrap it — see what each one adds, with real usage.",
   },
   {
-    href: "/critical-values",
-    eyebrow: "04 — the thresholds",
-    title: "Simulated, not looked up.",
-    body: "There's no closed-form distribution for GSADF. How Monte Carlo and wild-bootstrap thresholds are derived instead.",
+    href: "/reference",
+    eyebrow: "03 — the reference",
+    title: "Every function, natively.",
+    body: "Arguments, return values, and worked examples for the full R surface, plus Python and C++ — rendered directly from the package's own documentation.",
+  },
+  {
+    href: "/replication",
+    eyebrow: "04 — the replication record",
+    title: "What was reproduced, and how.",
+    body: "Every method beyond the original PSY test, independently re-derived by a standalone script — including the bugs those scripts found.",
   },
 ];
 ---

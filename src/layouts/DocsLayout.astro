@@ -1,21 +1,25 @@
 ---
 import type { MarkdownHeading } from "astro";
-import { getCollection } from "astro:content";
 import Base from "./Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import Toc from "../components/Toc.astro";
+
+export interface SidebarSection {
+  title: string;
+  items: { href: string; label: string }[];
+}
 
 interface Props {
   title: string;
   description: string;
   eyebrow?: string;
   headings?: MarkdownHeading[];
+  sidebar: SidebarSection[];
 }
-const { title, description, eyebrow, headings = [] } = Astro.props;
+const { title, description, eyebrow, headings = [], sidebar } = Astro.props;
 
-const pages = (await getCollection("replication")).sort((a, b) => a.data.order - b.data.order);
-const path = Astro.url.pathname.replace(/\/$/, "");
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
 
 <Base title={`${title} — exuber`} description={description}>
@@ -23,54 +27,33 @@ const path = Astro.url.pathname.replace(/\/$/, "");
   <div
     class="mx-auto grid max-w-7xl gap-x-10 gap-y-8 px-6 py-10 lg:grid-cols-[13rem_minmax(0,1fr)] xl:grid-cols-[13rem_minmax(0,1fr)_13rem]"
   >
-    <aside class="lg:sticky lg:top-24 lg:self-start">
-      <p class="mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">Replication</p>
-      <ul class="space-y-1 border-l border-border text-sm">
-        <li>
-          <a
-            href="/replication"
-            class:list={[
-              "-ml-px block border-l py-1 pl-3 transition-colors hover:text-ink",
-              path === "/replication"
-                ? "border-explosive text-ink"
-                : "border-transparent text-muted",
-            ]}
-          >
-            Overview
-          </a>
-        </li>
-        {
-          pages.map((p) => (
-            <li>
-              <a
-                href={`/replication/${p.id}`}
-                class:list={[
-                  "-ml-px block border-l py-1 pl-3 leading-snug transition-colors hover:text-ink",
-                  path === `/replication/${p.id}`
-                    ? "border-explosive text-ink"
-                    : "border-transparent text-muted",
-                ]}
-              >
-                {p.data.title}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-      <p class="mt-6 mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">Packages</p>
-      <ul class="space-y-1 border-l border-border text-sm">
-        <li>
-          <a
-            href="/reference"
-            class:list={[
-              "-ml-px block border-l py-1 pl-3 transition-colors hover:text-ink",
-              path === "/reference" ? "border-explosive text-ink" : "border-transparent text-muted",
-            ]}
-          >
-            Reference index
-          </a>
-        </li>
-      </ul>
+    <aside class="lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:self-start lg:overflow-y-auto">
+      {
+        sidebar.map((section) => (
+          <div class="mb-6 last:mb-0">
+            <p class="mb-3 font-mono text-[11px] uppercase tracking-wide text-muted">
+              {section.title}
+            </p>
+            <ul class="space-y-1 border-l border-border text-sm">
+              {section.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={[
+                      "-ml-px block border-l py-1 pl-3 leading-snug transition-colors hover:text-ink",
+                      path === item.href.replace(/\/$/, "")
+                        ? "border-explosive text-ink"
+                        : "border-transparent text-muted",
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
     </aside>
 
     <main id="main" class="min-w-0">

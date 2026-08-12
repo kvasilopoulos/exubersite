@@ -1,70 +1,65 @@
 ---
-import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { guideSection } from "../../sidebars";
+
+const headings = [
+  { depth: 2, slug: "monte-carlo", text: "Simulate the null directly" },
+  { depth: 2, slug: "wild-bootstrap", text: "Simulate the null from your data" },
+  { depth: 2, slug: "where-this-is-headed", text: "Where this is headed" },
+];
 ---
 
-<Base
-  title="Critical values — exuber"
-  description="There's no closed-form distribution for GSADF-family statistics — how thresholds are simulated instead, and where that's headed."
+<DocsLayout
+  eyebrow="Guide · 3 of 3"
+  title="Thresholds simulated, not looked up"
+  description="ADF has a tabulated asymptotic distribution because Dickey & Fuller solved it analytically. GSADF's sup-of-a-sequence has no such closed form — the only way to a threshold is to generate data under the null and see where the statistic actually lands."
+  headings={headings}
+  sidebar={[guideSection()]}
 >
-  <Nav />
-  <main id="main" class="mx-auto max-w-3xl px-6">
-    <section class="py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-explosive">Critical values</p>
-      <h1 class="mt-4 font-display text-4xl leading-[1.15] text-ink">Thresholds simulated, not looked up.</h1>
-      <p class="mt-6 text-base leading-relaxed text-muted">
-        ADF has a tabulated asymptotic distribution because Dickey &amp; Fuller solved it
-        analytically. GSADF's sup-of-a-sequence has no such closed form — the only way to a
-        threshold is to generate data under the null and see where the statistic actually lands.
-      </p>
-    </section>
+  <section id="monte-carlo" class="scroll-mt-24">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Monte Carlo</p>
+    <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null directly.</h2>
+    <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+      Draw a pure random walk — <code class="text-ink">cumsum(rnorm(n))</code>, nothing else — run
+      GSADF on it, and repeat. A few thousand replications later, the 90th/95th/99th percentile
+      of that empirical distribution is the critical value at that sample size. Exact for that T
+      and <code class="text-ink">minw</code>, but assumes homoskedastic Gaussian innovations,
+      which real series rarely have. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.
+    </p>
+    <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
+      <code class="text-ink">exuber</code>'s bundled table was built exactly this way: 2,000
+      replications, sample sizes 6 through 600, seeded for reproducibility
+      (<code class="text-ink">data-raw/sim-crit.R</code>) — then shipped as a lookup table so a
+      typical <code class="text-ink">radf()</code> call doesn't re-simulate anything.
+    </p>
+  </section>
 
-    <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">Monte Carlo</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null directly.</h2>
-      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-        Draw a pure random walk — <code class="text-ink">cumsum(rnorm(n))</code>, nothing else — run
-        GSADF on it, and repeat. A few thousand replications later, the 90th/95th/99th percentile
-        of that empirical distribution is the critical value at that sample size. Exact for that T
-        and <code class="text-ink">minw</code>, but assumes homoskedastic Gaussian innovations,
-        which real series rarely have.
-      </p>
-      <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-        <code class="text-ink">exuber</code>'s bundled table was built exactly this way: 2,000
-        replications, sample sizes 6 through 600, seeded for reproducibility
-        (<code class="text-ink">data-raw/sim-crit.R</code>) — then shipped as a lookup table so a
-        typical <code class="text-ink">radf()</code> call doesn't re-simulate anything.
-      </p>
-    </section>
+  <section id="wild-bootstrap" class="scroll-mt-24 border-t border-border pt-14 mt-14">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Wild bootstrap</p>
+    <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null from your data.</h2>
+    <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+      Instead of drawing fresh Gaussian noise, fit the null model to the actual series, take its
+      residuals, and resample them with random ± sign weights each replication. Whatever
+      heteroskedasticity is really in the data — volatility clustering, a variance break, fat
+      tails — survives into the simulated critical value instead of being assumed away.
+      Correspondingly more expensive: it's specific to one dataset, not reusable across series.
+      See <a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>.
+    </p>
+  </section>
 
-    <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">Wild bootstrap</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null from your data.</h2>
-      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-        Instead of drawing fresh Gaussian noise, fit the null model to the actual series, take its
-        residuals, and resample them with random ± sign weights each replication. Whatever
-        heteroskedasticity is really in the data — volatility clustering, a variance break, fat
-        tails — survives into the simulated critical value instead of being assumed away.
-        Correspondingly more expensive: it's specific to one dataset, not reusable across series.
-      </p>
-    </section>
-
-    <section class="border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-muted">Where this is headed</p>
-      <h2 class="mt-4 font-display text-2xl text-ink">One shared table, not three.</h2>
-      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-        Right now <code class="text-ink">exuber</code> bundles its own precomputed <code class="text-ink">.rda</code>,
-        and <code class="text-ink">pyexuber</code> has none yet — each binding would otherwise end up
-        re-simulating and re-bundling the same numbers separately. The plan is a standalone,
-        versioned critical-value table, computed once and served rather than duplicated, so
-        <code class="text-ink">pyexuber</code> and this site can read the same thresholds
-        <code class="text-ink">exuber</code> does.
-      </p>
-      <span class="mt-6 inline-block rounded-full border border-dashed border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
-        shared critical-value service — planned
-      </span>
-    </section>
-  </main>
-  <Footer />
-</Base>
+  <section id="where-this-is-headed" class="scroll-mt-24 border-t border-border pt-14 mt-14">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Where this is headed</p>
+    <h2 class="mt-4 font-display text-2xl text-ink">One shared table, not three.</h2>
+    <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+      Right now <code class="text-ink">exuber</code> bundles its own precomputed <code class="text-ink">.rda</code>,
+      and <code class="text-ink">pyexuber</code> has none yet — each binding would otherwise end up
+      re-simulating and re-bundling the same numbers separately. The plan is a standalone,
+      versioned critical-value table, computed once and served rather than duplicated, so
+      <code class="text-ink">pyexuber</code> and this site can read the same thresholds
+      <code class="text-ink">exuber</code> does.
+    </p>
+    <span class="mt-6 inline-block rounded-full border border-dashed border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
+      shared critical-value service — planned
+    </span>
+  </section>
+</DocsLayout>

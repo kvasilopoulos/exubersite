@@ -3,6 +3,7 @@ import { getCollection, render } from "astro:content";
 import { Code } from "astro:components";
 import DocsLayout from "../../layouts/DocsLayout.astro";
 import manifest from "../../data/replication-scripts.json";
+import { replicationSection, referenceSection } from "../../sidebars";
 
 export async function getStaticPaths() {
   const pages = await getCollection("replication");
@@ -11,6 +12,7 @@ export async function getStaticPaths() {
 
 const { page } = Astro.props;
 const { Content, headings } = await render(page);
+const sidebar = [await replicationSection(), referenceSection()];
 
 // Vite reads the vendored .R files at build time; the markdown links into them
 // as #script-<name> anchors, so they are rendered below the prose.
@@ -31,6 +33,7 @@ const scripts = manifest
   title={page.data.title}
   description={page.data.blurb}
   headings={headings}
+  sidebar={sidebar}
 >
   <article class="prose">
     <Content />

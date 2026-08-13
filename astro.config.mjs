@@ -10,6 +10,8 @@ export default defineConfig({
     "/methodology": "/guide/methodology",
     "/settings": "/guide/settings",
     "/critical-values": "/guide/critical-values",
+    // The suite section moved onto the landing page itself.
+    "/suite": "/#suite",
   },
   markdown: {
     // Astro ships Shiki; a light theme to sit on the white ground. The panel

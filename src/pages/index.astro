@@ -3,6 +3,72 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import BubbleInstrument from "../components/BubbleInstrument.astro";
+import SuiteCard from "../components/SuiteCard.astro";
+import CodeTabs from "../components/CodeTabs.astro";
+
+const suite = [
+  {
+    name: "exubercore",
+    lang: "C++ / Armadillo",
+    status: "core" as const,
+    description: "The recursive least-squares statistic itself. No R or Python dependency — plain matrices in, a statistic out. Everything RNG-driven (simulation, bootstrap, date-stamping) stays in the host language for now.",
+    href: "https://github.com/kvasilopoulos/exubercore",
+  },
+  {
+    name: "exuber",
+    lang: "R · on CRAN",
+    status: "stable" as const,
+    description: "The full surface: the statistic, Monte Carlo and wild-bootstrap critical values, date-stamping, plotting, and panel methods.",
+    install: 'install.packages("exuber")',
+    href: "https://github.com/kvasilopoulos/exuber",
+  },
+  {
+    name: "pyexuber",
+    lang: "Python · pybind11",
+    status: "early" as const,
+    description: "Bindings onto the same core, imported as exuber. The statistic, Monte Carlo and wild-bootstrap critical values, date-stamping and the simulation DGPs are ported; the sieve bootstrap and the summary/tidy layer are not yet.",
+    install: "git clone …exuber/pyexuber && uv sync --dev",
+    href: "https://github.com/kvasilopoulos/pyexuber",
+  },
+];
+
+const examples = [
+  {
+    label: "R",
+    lang: "r",
+    code: `library(exuber)
+
+rsim <- radf(sim_data)               # adf, badf, sadf, gsadf, bsadf, ...
+cv <- radf_mc_cv(n = NROW(sim_data)) # simulated 90/95/99% thresholds
+
+summary(rsim, cv)   # rejects/does not reject H0 per series, per statistic
+autoplot(rsim, cv)  # bsadf vs. its threshold, explosive spans shaded
+datestamp(rsim, cv) # a Start/End/Duration row per detected episode`,
+  },
+  {
+    label: "Python",
+    lang: "python",
+    code: `import numpy as np
+import exuber
+
+data = np.cumsum(np.random.randn(200))
+result = exuber.radf(data)          # RadfResult: .adf .badf .sadf .gsadf .bsadf
+cv = exuber.radf_mc_cv(n=len(data)) # RadfCv: simulated 90/95/99% thresholds
+
+result.adf, result.sadf, result.gsadf
+exuber.datestamp(result, cv)  # list[Episode]: one per detected explosive span`,
+  },
+  {
+    label: "C++",
+    lang: "cpp",
+    code: `#include <exubercore/radf.hpp>
+
+arma::vec y = arma::cumsum(arma::randn(200));
+auto result = exubercore::radf(y, /* min_win = */ 20);
+// arma::vec: badf, then adf, sadf, gsadf, then the bsadf sequence --
+// see the reference entry for the exact layout and offsets.`,
+  },
+];
 
 const teasers = [
   {
@@ -12,20 +78,14 @@ const teasers = [
     body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, what minw and lag control, and how thresholds get simulated rather than looked up.",
   },
   {
-    href: "/suite",
-    eyebrow: "02 — the suite",
-    title: "One core. Three ways in.",
-    body: "The statistic lives once, in C++. exuber (R) and pyexuber (Python) wrap it — see what each one adds, with real usage.",
-  },
-  {
     href: "/reference",
-    eyebrow: "03 — the reference",
+    eyebrow: "02 — the reference",
     title: "Every function, natively.",
     body: "Arguments, return values, and worked examples for the full R surface, plus Python and C++ — rendered directly from the package's own documentation.",
   },
   {
     href: "/replication",
-    eyebrow: "04 — the replication record",
+    eyebrow: "03 — the replication record",
     title: "What was reproduced, and how.",
     body: "Every method beyond the original PSY test, independently re-derived by a standalone script — including the bugs those scripts found.",
   },
@@ -53,7 +113,38 @@ const teasers = [
       </div>
     </section>
 
-    <section class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
+    <section id="suite" class="scroll-mt-24 border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-explosive">The calculation suite</p>
+      <h2 class="mt-4 font-display text-3xl text-ink">One core. Three ways in.</h2>
+      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+        The expensive part of a GSADF run — a Sherman-Morrison-updated recursive least squares,
+        repeated across O(T²) windows — lives once, in C++. Each language binding wraps that core
+        and adds whatever that ecosystem's users actually need on top of it.
+      </p>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-3">
+        {suite.map((s) => <SuiteCard {...s} />)}
+      </div>
+
+      <div class="mt-14">
+        <p class="font-mono text-xs uppercase tracking-widest text-muted">The same run</p>
+        <h3 class="mt-4 font-display text-xl text-ink">Three languages, one statistic.</h3>
+        <p class="mt-4 mb-6 text-sm leading-relaxed text-muted">
+          Simulate, test, calibrate, date-stamp. The R and Python paths differ only in
+          spelling; the C++ core stops at the statistic, because everything RNG-driven
+          stays in the host language.
+        </p>
+        <CodeTabs tabs={examples} />
+        <p class="mt-6 text-sm leading-relaxed text-muted">
+          Python accepts a numpy array, a 1-D sequence, or anything exposing
+          <code class="text-ink">.to_numpy()</code> (pandas/polars) — neither is a hard dependency.
+          C++ requires a system Armadillo with BLAS/LAPACK; build with CMake, link, done.
+          The full surface of each is in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
       {teasers.map((t) => (
         <a href={t.href} class="group flex flex-col gap-3 bg-panel p-7 transition-colors hover:bg-panel-hi">
           <span class="font-mono text-[11px] uppercase tracking-wide text-muted">{t.eyebrow}</span>

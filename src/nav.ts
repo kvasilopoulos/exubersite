@@ -2,7 +2,6 @@
 // pathname, so adding a page here is the only edit needed.
 export const links = [
   { href: "/guide", label: "Guide" },
-  { href: "/suite", label: "Suite" },
   { href: "/replication", label: "Replication" },
   { href: "/reference", label: "Reference" },
 ];

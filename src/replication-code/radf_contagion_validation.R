@@ -1,4 +1,4 @@
-# Validation of radf_contagion() -- Greenaway-McGrevy & Phillips (2016)'s
+﻿# Validation of contagion_reg() -- Greenaway-McGrevy & Phillips (2016)'s
 # bubble contagion regression, minimum-viable subset (fixed-window AR(1)
 # sequence, single-delay Nadaraya-Watson regression, LOOCV bandwidth).
 # See docs/enhancements/multivariate.md, "Contagion regression",
@@ -94,8 +94,8 @@ for (i in seq_len(nrep)) {
   }
   y_indep <- cumsum(rnorm(n))
 
-  out_planted <- radf_contagion(y_planted, core_i, S = S, d = 3, h = 0.3)
-  out_indep <- radf_contagion(y_indep, core_i, S = S, d = 3, h = 0.3)
+  out_planted <- contagion_reg(y_planted, core_i, S = S, d = 3, h = 0.3)
+  out_indep <- contagion_reg(y_indep, core_i, S = S, d = 3, h = 0.3)
   planted_range[i] <- diff(range(out_planted$delta2))
   indep_range[i] <- diff(range(out_indep$delta2))
 }

@@ -1,8 +1,10 @@
 ---
-title: "Multivariate bubble tests"
+title: "multivariate"
 blurb: "Panel and cross-series tests -- common bubbles, co-bubbles, and bubble contagion."
 order: 4
 ---
+﻿# Multivariate bubble tests
+
 **Status: common-bubble (Chen, Phillips & Shi), co-bubble (Evripidou,
 Harvey, Leybourne & Sollis), and contagion regression (Greenaway-McGrevy
 & Phillips) all done — every item in this file is now implemented in
@@ -15,11 +17,11 @@ it with (`radf_mc_cv(n, minw)`) is not actually valid at realistic panel
 sizes — the correct, `N`-dependent critical value now ships as
 `radf_common_cv()` (Bundle 1) — see the "Independent validation"/"Update"
 subsections under Common-bubble detection for the numbers.
-`radf_cobubble()` (Bundle 4, 2026-08-09) is implemented in
-`exuber/R/radf_cobubble.R`, cross-checked in
+`cobubble_test()` (Bundle 4, 2026-08-09) is implemented in
+`exuber/R/cobubble_test.R`, cross-checked in
 `exuber/tests/testthat/test-cobubble.R` — see "Implementation" under
-Co-bubble test below. `radf_contagion()` (2026-08-10, minimum-viable
-subset) is implemented in `exuber/R/radf_contagion.R`, cross-checked in
+Co-bubble test below. `contagion_reg()` (2026-08-10, minimum-viable
+subset) is implemented in `exuber/R/contagion_reg.R`, cross-checked in
 `exuber/tests/testthat/test-contagion.R` — see "Implementation" under
 Contagion regression below; re-triaging this item first found the
 earlier "most expensive, no reuse" assessment was wrong on two of its
@@ -244,7 +246,7 @@ Evripidou, A.C., Harvey, D.I., Leybourne, S.J. & Sollis, R. (2022). "Testing
 for Co-explosive Behaviour in Financial Time Series." *Oxford Bulletin of
 Economics and Statistics*, 84(3), 624-650. `doi:10.1111/obes.12487`.
 
-**Status: done (2026-08-09).** Shipped as `radf_cobubble()`. Full PDF read
+**Status: done (2026-08-09).** Shipped as `cobubble_test()`. Full PDF read
 (abstract through Section VI — model, Theorems 1-2, the wild bootstrap
 algorithm, and the lag-selection procedure), not just the abstract.
 
@@ -287,15 +289,15 @@ recovers `i`.
 
 ### Implementation
 
-Shipped as `radf_cobubble(y, x, lag = NULL, lags = -6:6, nboot = 499L,
-level = 0.05, seed = NULL)` in `exuber/R/radf_cobubble.R`:
+Shipped as `cobubble_test(y, x, lag = NULL, lags = -6:6, nboot = 499L,
+level = 0.05, seed = NULL)` in `exuber/R/cobubble_test.R`:
 
 - `coexplosive_stat_aligned(y, xreg)` — the core KPSS-type statistic (eq.
   3) on two already-aligned, equal-length vectors.
 - `coexplosive_stat(y, x, lag)` — builds the `(y_t, x_{t-lag})` pair over
   the paper's overlapping valid range and calls the aligned core.
 - `coexplosive_select_lag(y, x, lags)` — Section VI's `i_hat` search.
-- `radf_cobubble()` — ties it together: selects `lag` if not given, fits
+- `cobubble_test()` — ties it together: selects `lag` if not given, fits
   the observed statistic, runs the wild bootstrap (regressing each
   bootstrap sample on the *same* `x_{t-lag}` regressor, per Remark 2 —
   the paper explicitly found omitting it makes the bootstrap distribution
@@ -473,7 +475,7 @@ error — corrected below):
    (a recursive AR-coefficient-type sequence per window), but fixed-width
    rather than expanding — `radf()` doesn't currently support a
    fixed-width variant, but the underlying `O(1)`-per-window closed-form
-   OLS machinery already used for `radf_hls()`'s `hls_segment_ssr()`/
+   OLS machinery already used for `dating_hls()`'s `hls_segment_ssr()`/
    `hls_prefix_sums()` extends directly (same prefix-sum trick, just a
    moving rather than expanding window).
 2. Fit the functional regression (**eq. 4**, p.17):
@@ -541,7 +543,7 @@ correctly.**
 
 1. **Rolling-window AR(1) coefficient sequence** — a small, mechanical
    extension of the closed-form prefix-sum window pattern already used
-   for `radf_hls()`'s `hls_segment_ssr()`/`hls_prefix_sums()` (expanding
+   for `dating_hls()`'s `hls_segment_ssr()`/`hls_prefix_sums()` (expanding
    → moving window is a one-line change to which cumulative-sum
    differences get taken), not new machinery.
 2. **The Nadaraya-Watson step is not "from-scratch nonparametric
@@ -573,12 +575,12 @@ this file.
 
 ### Implementation — done (2026-08-10), minimum-viable subset
 
-Shipped as `radf_contagion(y, core, S, d, h, r_grid)` in
-`exuber/R/radf_contagion.R`: the fixed-window AR(1) coefficient sequence
+Shipped as `contagion_reg(y, core, S, d, h, r_grid)` in
+`exuber/R/contagion_reg.R`: the fixed-window AR(1) coefficient sequence
 (eq. 1), the Nadaraya-Watson regression at a caller-supplied delay `d`
 (eq. 6), and leave-one-out cross-validated bandwidth selection (eq. 7)
 when `h` isn't supplied. Eq. 8's automatic delay search is not
-implemented — call `radf_contagion` once per candidate `d` and compare
+implemented — call `contagion_reg` once per candidate `d` and compare
 if an automatic search is needed later, the same "thin, separable
 follow-on" scoping used for KNP's multi-bubble DP algorithm and HLW's
 fragmentation-joining heuristic elsewhere in this project.

@@ -1,4 +1,4 @@
-Sys.setenv(NOT_CRAN = "true")
+﻿Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
 
@@ -47,7 +47,7 @@ cat("=== 3. Under HOMOSKEDASTIC H0: standard vs kernel CUSUM should have",
 run_null_homo <- function(seed, type) {
   set.seed(seed)
   y <- cumsum(rnorm(150))
-  out <- radf_cusum(y, r_star = 0.5, b_alpha = 4.6, type = type)
+  out <- monitor_cusum(y, r_star = 0.5, b_alpha = 4.6, type = type)
   !is.na(out$alarm)
 }
 rate_std_homo <- mean(sapply(1:60, function(s) run_null_homo(s, "standard")))
@@ -64,7 +64,7 @@ run_null_hetero <- function(seed, type) {
   # sharp one-time volatility jump partway through the monitoring region
   vol <- c(rep(1, 90), rep(8, 60))
   y <- cumsum(rnorm(n) * vol)
-  out <- radf_cusum(y, r_star = 0.5, b_alpha = 4.6, type = type)
+  out <- monitor_cusum(y, r_star = 0.5, b_alpha = 4.6, type = type)
   !is.na(out$alarm)
 }
 rate_std_hetero <- mean(sapply(1:60, function(s) run_null_hetero(s, "standard")))
@@ -79,7 +79,7 @@ run_detect <- function(seed, type) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_cusum(y, r_star = n1 / length(y), type = type)
+  out <- monitor_cusum(y, r_star = n1 / length(y), type = type)
   !is.na(out$alarm)
 }
 power_std <- mean(sapply(1:30, function(s) run_detect(s, "standard")))

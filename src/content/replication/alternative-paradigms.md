@@ -1,8 +1,10 @@
 ---
-title: "Alternative paradigms"
+title: "alternative-paradigms"
 blurb: "Non-ADF-family approaches, principally the quantile-based global test and its recursive monitoring extension."
 order: 5
 ---
+﻿# Alternative paradigms
+
 Methods that address the same problem (detecting explosive/bubble dynamics)
 from outside the ADF/SADF/GSADF/BSADF recursive-regression family exuber is
 built around.
@@ -20,7 +22,7 @@ All from the *JTSA* 46(5) special issue except Bhandari (arXiv). Papers:
 ## Quantile-based detection
 
 **Status: Wu/Shi/Wu's "global test" done (2026-08-10); their `QPWY`
-recursive monitoring extension also done (2026-08-11, `radf_qpwy()`),
+recursive monitoring extension also done (2026-08-11, `monitor_quantile()`),
 re-triaged from "genuinely more expensive" — that verdict held for
 `QPSY` (their double recursion, still not implemented) but not for
 `QPWY` specifically, which was originally bundled with `QPSY` under the
@@ -103,7 +105,7 @@ below originally worried it might be.
 
 ### Implementation
 
-Shipped as `radf_quantile()` — the *global* test only (their Section
+Shipped as `quantile_test()` — the *global* test only (their Section
 3.1: a single static QR fit at one quantile, no recursion), exactly the
 "reasonable minimum-viable first cut" this note originally suggested.
 Adds `quantreg` (>= 5.9) as exuber's **first genuinely new estimation
@@ -149,10 +151,10 @@ fits, the *same cost order* as `badf` itself — tractable, not
 (additionally optimizing over the window start too) genuinely is.
 
 A second favorable finding: `QPWY`'s critical-value machinery reuses
-`radf_quantile()`'s own already-validated construction, not new theory.
+`quantile_test()`'s own already-validated construction, not new theory.
 Their Corollary 1 decomposes the limiting distribution of the general
 windowed statistic as `U'^{r1,r2}(tau) = sqrt(1-delta(tau)^2)*z +
-delta(tau)*Q_{r1,r2}` — the *same* decomposition `radf_quantile()`'s own
+delta(tau)*Q_{r1,r2}` — the *same* decomposition `quantile_test()`'s own
 critical value already uses — and their Corollary 2 identifies
 `Q_{0,r}` (the case relevant to `QPWY`) with exactly `radf()`'s own
 `badf` sequence under a simulated null path. One `radf()` call per
@@ -160,9 +162,9 @@ Monte Carlo replicate therefore gives the *whole* boundary-relevant path
 at once; no new simulation theory, only evaluating the existing
 construction along a path instead of at a single endpoint.
 
-**Implementation**: shipped as `radf_qpwy(data, tau = 0.5, minw, nrep,
-level, seed)` in `exuber/R/radf_qpwy.R`. `qpwy_stat_path()` is the `O(T)`
-loop of actual `quantreg::rq()` fits (mirroring `radf_quantile()`'s own
+**Implementation**: shipped as `monitor_quantile(data, tau = 0.5, minw, nrep,
+level, seed)` in `exuber/R/monitor_quantile.R`. `qpwy_stat_path()` is the `O(T)`
+loop of actual `quantreg::rq()` fits (mirroring `quantile_test()`'s own
 per-window t-ratio construction exactly, eq. 18, just repeated over a
 growing window); `qpwy_boundary_sim()` reuses `radf()` directly (one
 call per null replicate) to get the whole `Q_{0,r}` path at once.
@@ -205,7 +207,7 @@ from an explicit residual/sieve bootstrap (their page 7, steps 1-5)
 structurally very close to `radf_sb_()`'s already-shipped Pedersen-
 Schütte bootstrap (fit an `AR(q)` to `diff(y)` under `H0`, resample
 centered residuals, recursively regenerate and cumulate). `quantreg` is
-already an exuber dependency (added for `radf_quantile()`), so this
+already an exuber dependency (added for `quantile_test()`), so this
 looked like a well-scoped, moderate-effort item with a rare bonus: the
 paper's own Table 2 gives published Monte Carlo empirical size numbers
 (N(0,1)/t3/t2 errors, `n = 100/200/300/400`) to validate directly

@@ -1,4 +1,4 @@
-Sys.setenv(NOT_CRAN = "true")
+﻿Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
 
@@ -28,7 +28,7 @@ run_null <- function(seed) {
   set.seed(seed)
   n <- 150
   y <- cumsum(rnorm(n))
-  out <- radf_cusum(y, r_star = 0.5, b_alpha = 4.6)
+  out <- monitor_cusum(y, r_star = 0.5, b_alpha = 4.6)
   !is.na(out$alarm)
 }
 false_alarm_rate <- mean(sapply(1:100, run_null))
@@ -46,7 +46,7 @@ run_detect <- function(seed) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_cusum(y, r_star = n1 / length(y), b_alpha = 4.6)
+  out <- monitor_cusum(y, r_star = n1 / length(y), b_alpha = 4.6)
   c(alarm = unname(out$alarm), true_origination = n1)
 }
 res2 <- t(sapply(1:30, run_detect))

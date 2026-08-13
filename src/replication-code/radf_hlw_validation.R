@@ -1,6 +1,6 @@
-# Validation script for radf_hlw() (Harvey, Leybourne & Whitehouse 2020,
+﻿# Validation script for dating_hlw() (Harvey, Leybourne & Whitehouse 2020,
 # "Date-stamping multiple bubble regimes" -- the two-step wrapper around
-# radf_hls() that extends single-bubble SSR/BIC dating to series with
+# dating_hls() that extends single-bubble SSR/BIC dating to series with
 # more than one explosive episode). See docs/enhancements/
 # dating-and-root-inference.md, "SSR/BIC dating vs. PSY recursive
 # dating", for the full write-up. Run from the exuber/ package root (or
@@ -19,7 +19,7 @@ cat("local_tau=5, s=21 -> i_index=", g$i_index, " position=", g$position,
 cat("=== 2. Two genuine bubbles: window count + breakpoint accuracy (20 reps) ===\n")
 cat("(datestamp()'s own step-1 PSY detection can fragment a true episode\n")
 cat("into extra spurious windows under noise -- this is expected and is\n")
-cat("HLW's own documented issue, not a radf_hlw() bug; we report the full\n")
+cat("HLW's own documented issue, not a dating_hlw() bug; we report the full\n")
 cat("window-count distribution rather than hiding the fragmentation)\n\n")
 sim_two_bubbles <- function(seed, n1a = 50, n2a = 20, n3a = 30, n1b = 50, n2b = 20, n3b = 30) {
   set.seed(seed)
@@ -34,7 +34,7 @@ sim_two_bubbles <- function(seed, n1a = 50, n2a = 20, n3a = 30, n1b = 50, n2b = 
 }
 run_two <- function(seed) {
   sim <- sim_two_bubbles(seed)
-  out <- radf_hlw(sim$y, trim = 0.1, min_duration = psy_ds(length(sim$y)), nboot = 199, seed = 1)
+  out <- dating_hlw(sim$y, trim = 0.1, min_duration = psy_ds(length(sim$y)), nboot = 199, seed = 1)
   df <- out[["series1"]]
   list(n_windows = nrow(df), df = df, true1 = sim$true1, true2 = sim$true2)
 }
@@ -65,13 +65,13 @@ cat("=== 4. Pure H0 (no bubble at all): no error, and how often 0 windows ===\n"
 run_h0 <- function(seed) {
   set.seed(seed)
   y0 <- 100 + cumsum(rnorm(150))
-  out <- radf_hlw(y0, trim = 0.1, nboot = 199, seed = 1)
+  out <- dating_hlw(y0, trim = 0.1, nboot = 199, seed = 1)
   nrow(out[["series1"]])
 }
 n0 <- sapply(1:20, run_h0)
 cat("Window counts under H0:", paste(names(table(n0)), table(n0), sep = "=", collapse = ", "), "\n\n")
 
-cat("=== 5. Single clean bubble: final window vs standalone radf_hls() ===\n")
+cat("=== 5. Single clean bubble: final window vs standalone dating_hls() ===\n")
 run_single <- function(seed, n1 = 60, n2 = 25, n3 = 25, n4 = 40) {
   set.seed(seed)
   unit1 <- 100 + cumsum(rnorm(n1))
@@ -82,8 +82,8 @@ run_single <- function(seed, n1 = 60, n2 = 25, n3 = 25, n4 = 40) {
   for (k in 2:n3) collapse[k] <- target + 0.85 * (collapse[k - 1] - target) + rnorm(1)
   recovery <- collapse[n3] + cumsum(rnorm(n4))
   y <- c(unit1, bubble, collapse, recovery)
-  hls_out <- radf_hls(y, trim = 0.1)
-  hlw_out <- radf_hlw(y, trim = 0.1, min_duration = psy_ds(length(y)), nboot = 199, seed = 1)
+  hls_out <- dating_hls(y, trim = 0.1)
+  hlw_out <- dating_hlw(y, trim = 0.1, min_duration = psy_ds(length(y)), nboot = 199, seed = 1)
   df <- hlw_out[["series1"]]
   last <- df[nrow(df), ]
   list(
@@ -94,7 +94,7 @@ run_single <- function(seed, n1 = 60, n2 = 25, n3 = 25, n4 = 40) {
   )
 }
 res_single <- lapply(1:15, run_single)
-cat(sprintf("Final-window match rate vs standalone radf_hls(): %.2f\n",
+cat(sprintf("Final-window match rate vs standalone dating_hls(): %.2f\n",
             mean(sapply(res_single, `[[`, "match"))))
 cat("Window count distribution:",
     paste(names(table(sapply(res_single, `[[`, "n_windows"))),

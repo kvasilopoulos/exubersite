@@ -1,8 +1,10 @@
 ---
-title: "Dating and root inference"
+title: "dating-and-root-inference"
 blurb: "Origination, collapse and recovery dates, plus confidence intervals on the explosive root itself."
 order: 2
 ---
+﻿# Dating and root inference
+
 Two related post-detection problems, both operating on an episode
 `radf()`/`datestamp()` has already flagged as explosive: **dating** (when
 exactly did it start/end/recover?) and **root inference** (how explosive —
@@ -31,12 +33,12 @@ All papers: [references.md](/replication/references#dating-and-root-inference).
 **Status: PDC/KS route done (2026-08-09); HLS (2017)'s single-bubble
 SSR+BIC route done (2026-08-10); HLW (2020)'s multi-bubble two-step
 wrapper around it also done (2026-08-10).** The PDC/KS sequential
-sample-splitting estimator is implemented as `radf_pdc()` — see
+sample-splitting estimator is implemented as `dating_pdc()` — see
 [Implementation (PDC/KS route)](#implementation-pdcks-route) below. HLS's
-four-model grid-search BIC approach is implemented as `radf_hls()` — see
+four-model grid-search BIC approach is implemented as `dating_hls()` — see
 [Implementation (HLS route)](#implementation-hls-route) below, including
 a real sign-constraint bug found and fixed shortly after it first
-shipped. HLW's two-step extension is implemented as `radf_hlw()` — see
+shipped. HLW's two-step extension is implemented as `dating_hlw()` — see
 [Implementation (HLW route)](#implementation-hlw-route) below.
 
 ### Source
@@ -318,7 +320,7 @@ work:
    never overlap, any candidate partition's total SSR decomposes exactly
    into independent per-segment closed-form OLS fits, each a `O(1)`
    lookup into precomputed cumulative sums — the same style of trick
-   `radf_pdc()`'s own (differently-specified) breakpoint search already
+   `dating_pdc()`'s own (differently-specified) breakpoint search already
    uses. This keeps the *grid search itself* fast (`~2` seconds at
    `T=400` for the full 4-model search) even though it is still, in
    absolute terms, an `O(T)`/`O(T^2)`/`O(T^3)` search across the four
@@ -326,7 +328,7 @@ work:
    below. HLW's step 1 (splitting into date windows) can legitimately
    reuse exuber's *existing* `radf()`/`datestamp()` output almost as-is
    (it's exactly PSY's own detected start/end dates, already what
-   `datestamp()` returns) — step 2 (applying `radf_hls()` inside each
+   `datestamp()` returns) — step 2 (applying `dating_hls()` inside each
    window) is now a thin wrapper around already-shipped code rather than
    the "100% new estimation code" this note originally worried about, but
    the wrapper itself — window construction, the Models-2-and-4-only
@@ -366,7 +368,7 @@ work:
 
 ### Implementation (HLS route)
 
-Shipped as `radf_hls(data, trim = 0.05)` in `exuber/R/radf_hls.R`, tested
+Shipped as `dating_hls(data, trim = 0.05)` in `exuber/R/dating_hls.R`, tested
 in `exuber/tests/testthat/test-hls.R`. Fits all four of HLS's regime-dummy
 models, each by exact SSR minimisation over its candidate breakpoint(s)
 (subject to the paper's own minimum-regime-duration trim and
@@ -388,9 +390,9 @@ with an active dummy is a plain intercept+slope fit. Both reduce to a
 closed-form ratio of cumulative sums (`Sx, Sxx, Sz, Szz, Sxz`), so every
 candidate breakpoint (or breakpoint pair/triple) evaluates in `O(1)`
 given precomputed prefix sums — no repeated `lm()` calls, the same style
-of trick `radf_pdc()`'s own (differently-specified, no-intercept)
+of trick `dating_pdc()`'s own (differently-specified, no-intercept)
 breakpoint search already uses. This keeps the search itself fast:
-`radf_hls()` returns in well under 2 seconds at `T=400`, HLW's own
+`dating_hls()` returns in well under 2 seconds at `T=400`, HLW's own
 sample size, on plain R with no C++.
 
 **Validation**: formula-exact — `hls_segment_ssr()` matches a
@@ -438,7 +440,7 @@ the true DGP. Diagnosing this (by comparing the selected models' actual
 SSR/BIC values, not just the pass/fail selection frequency) traced it to
 DGP signal strength, not the search or BIC code — confirmed by rebuilding
 the DGP on a large positive base level (matching the successful
-construction already used for `radf_quantile()`'s Monte Carlo checks
+construction already used for `quantile_test()`'s Monte Carlo checks
 earlier this session).
 
 **A real sign-constraint gap found and fixed shortly after this item was
@@ -449,7 +451,7 @@ file's first pass had abbreviated — Model 1 requires `y_T > y_{tau1}`
 require the fitted peak `y_{tau2}` to exceed not just the bubble's
 starting level but also wherever the series ends up after the fitted
 collapse regime (`y_T` for Model 3, `y_{tau3}` for Model 4) — otherwise
-`y_{tau2}` isn't a genuine peak. The initial `radf_hls()` only checked
+`y_{tau2}` isn't a genuine peak. The initial `dating_hls()` only checked
 `y_{tau2} > y_{tau1}`, missing the second half of each constraint. Fixed
 in all three affected search functions, with brute-force validation
 updated to match; re-running the Monte Carlo checks after the fix showed
@@ -461,9 +463,9 @@ script:
 
 ### Implementation (HLW route)
 
-Shipped as `radf_hlw(data, cv = NULL, minw = NULL, trim = 0.1, min_duration = NULL, nboot = 199L, seed = NULL)`
-in `exuber/R/radf_hlw.R`, tested in `exuber/tests/testthat/test-hlw.R`. A
-two-step wrapper around `radf_hls()`, exactly as HLW's paper describes:
+Shipped as `dating_hlw(data, cv = NULL, minw = NULL, trim = 0.1, min_duration = NULL, nboot = 199L, seed = NULL)`
+in `exuber/R/dating_hlw.R`, tested in `exuber/tests/testthat/test-hlw.R`. A
+two-step wrapper around `dating_hls()`, exactly as HLW's paper describes:
 
 1. **Step 1**: run PSY's existing detection and dating
    (`radf()`/`datestamp()`, with `min_duration` defaulting to
@@ -475,7 +477,7 @@ two-step wrapper around `radf_hls()`, exactly as HLW's paper describes:
    (`e_j = tau2_psy[j] + floor((tau1_psy[j+1] - tau2_psy[j])/2)`, the
    last window running to the sample end) — then fit each window with
    `hls_fit_series()` (a new shared internal helper factored out of
-   `radf_hls()` for exactly this reuse), restricted to Models 2 and 4
+   `dating_hls()` for exactly this reuse), restricted to Models 2 and 4
    for every window but the last, since a window boundary is by
    construction a unit-root/collapse point, not a genuine sample end.
    After fitting window `j`, HLW's sequential-adjustment rule sets the
@@ -489,15 +491,15 @@ two-step wrapper around `radf_hls()`, exactly as HLW's paper describes:
 choices**:
 1. `datestamp()` itself raises a hard error ("Cannot reject H0 at the 5%
    significance level"), not a warning, when no series has any detected
-   episode — an initial version of `radf_hlw()` only caught `warning`
+   episode — an initial version of `dating_hlw()` only caught `warning`
    conditions from this call, so a genuine no-bubble series crashed
    instead of returning the intended empty result. Fixed by also
    catching `error`.
 2. While reading this paper for the window-construction rule, its own
    restatement of HLS (2017)'s Models 1/3/4 sign constraints turned out
-   to be more complete than what the just-shipped `radf_hls()` checked —
+   to be more complete than what the just-shipped `dating_hls()` checked —
    see the sign-constraint fix noted above. Fixed there, not here, since
-   it affects `radf_hls()` directly and `radf_hlw()` inherits the fix by
+   it affects `dating_hls()` directly and `dating_hlw()` inherits the fix by
    reuse.
 
 **Validation** (structural, Monte Carlo, and a strong equivalence
@@ -510,10 +512,10 @@ for it, not implemented here, see "Not implemented" below); among the
 13 clean reps, origination and collapse date bias for *both* bubbles
 was exactly 0 in every replication. Windows were always correctly
 ordered/non-overlapping across all 20 reps. Under a pure `H0` null (no
-bubble at all), `radf_hlw()` never errors and returned 0 detected
+bubble at all), `dating_hlw()` never errors and returned 0 detected
 windows in all 20 reps tried (no false positives). On a single clean
 bubble episode (15 reps), the wrapper's *final* window matched
-standalone `radf_hls()` run on the whole series *exactly* (model,
+standalone `dating_hls()` run on the whole series *exactly* (model,
 origination, and collapse all identical) in 100% of the reps where a
 final window existed — a strong structural correctness check, since
 HLW's own paper states the two-step procedure should reduce to plain
@@ -523,9 +525,9 @@ HLS when there is only one episode. Replication script:
 **Not implemented**: HLW's own run-joining heuristic for step-1
 fragmentation ("if up to 3 non-rejections are surrounded on either side
 by an explosive regime of length `ln(T)`, treat them as a single
-episode") — `radf_hlw()` uses `datestamp()`'s regimes as detected,
+episode") — `dating_hlw()` uses `datestamp()`'s regimes as detected,
 un-joined, so a single true bubble can occasionally surface as multiple
-windows in `radf_hlw()`'s output when PSY's own step-1 detection
+windows in `dating_hlw()`'s output when PSY's own step-1 detection
 fragments it (quantified above: 13/20 clean vs. 7/20 fragmented on the
 two-bubble DGP, 12/15 vs. 3/15 on the single-bubble DGP). This is a
 property of PSY's own step-1 detection noise, not of the window-
@@ -535,12 +537,12 @@ rather than folded into this pass.
 
 ### Implementation (PDC/KS route)
 
-Shipped as `radf_pdc(data, regimes = 3L, trim = 0.05)` in `exuber/R/radf_pdc.R`,
+Shipped as `dating_pdc(data, regimes = 3L, trim = 0.05)` in `exuber/R/dating_pdc.R`,
 tested in `exuber/tests/testthat/test-pdc.R`. Internal helper
 `pdc_find_break(y, trim)` implements the single-breakpoint no-intercept
 AR(1) RSS minimiser exactly as specified above (§"3. PDC/KS") — closed-form
 `β̂(τ)` via prefix sums of `Σy_t y_{t-1}` and `Σy_{t-1}²`, so the whole
-`RSS(τ)` curve is `O(T)`. `radf_pdc()` calls it sequentially per PDC's
+`RSS(τ)` curve is `O(T)`. `dating_pdc()` calls it sequentially per PDC's
 Step 1/Step 2 (collapse first, then origination on the left subsample), and
 once more on the right subsample for KS's 4-regime recovery date when
 `regimes = 4`.
@@ -555,7 +557,7 @@ test coverage, and was validated from scratch before being trusted):
    Confirms the cumulative-sum algebra is not just fast but correct.
 2. **Consistency in the low-noise/long-series/strong-effect limit**: on a
    synthetic 3-regime series (unit-root → explosive → collapse) and a
-   4-regime series (...→ recovery), `radf_pdc()` recovers the true break
+   4-regime series (...→ recovery), `dating_pdc()` recovers the true break
    dates to within 1-2 observations. This is the same technique used
    elsewhere in this project (e.g. SBZ, common-bubble) to distinguish "the
    estimator is asymptotically correct" from "the estimator happens to pass
@@ -589,7 +591,7 @@ test coverage, and was validated from scratch before being trusted):
 
 **Result**: 13/13 assertions pass (`devtools::test()`, full suite: 306
 passed, 0 failed). No implementation bug found — the only fix needed was to
-the test's synthetic data-generating process, not to `radf_pdc.R` itself.
+the test's synthetic data-generating process, not to `dating_pdc.R` itself.
 
 Replication script:
 [replication/dating-and-root-inference/radf_pdc_validation.R](#script-radf_pdc_validation).
@@ -852,7 +854,7 @@ statistics (LR-type, Elliott-Müller-type) each with their own critical
 values, a rule for combining them, and per-date confidence-set
 construction (invert-a-test-statistic, not point-estimate-plus-margin)
 repeated for three separate dates. Its own precondition — a
-WLS/volatility-corrected `radf_pdc()` variant — is now shipped (see
+WLS/volatility-corrected `dating_pdc()` variant — is now shipped (see
 [below](#wls-dating-under-time-varying-volatility)), which prompted a
 re-triage.
 
@@ -884,7 +886,7 @@ statistic construction itself confirms the original "multi-step, HLS
   11) — a `min` over candidate break dates of `(y²_{T2} - ρ̂_a ·
   Σ_{t=T1+1}^{T2} y²_{t-1}) / (T·φ�̂_a^{2(T2-T1)}·σ̂²/2)` — the numerator
   *is* the familiar prefix-sum-window pattern (`Σy²_{t-1}` via
-  cumulative sums, exactly `radf_hls()`'s own `hls_prefix_sums()`
+  cumulative sums, exactly `dating_hls()`'s own `hls_prefix_sums()`
   construction), but the nuisance-parameter estimators `ρ̂_a`, `φ̂_a`,
   `σ̂²` and the admissible-break-date set `Λ^e_{12}`'s construction rule
   were not pinned down this pass (need more of Section 2's model setup
@@ -959,16 +961,16 @@ formula is algebraically the standard bivariate OLS slope (the
 *level* `y_t` on `y_{t-1}` with an intercept gives identical residuals/SSR
 to regressing `Delta y_t` on `y_{t-1}` with an intercept (a fixed
 reparameterization, `slope' = delta - 1`) — the same regression
-`radf_hls.R`'s `hls_segment_ssr()` already computes for HLS's own Model 2
+`dating_hls.R`'s `hls_segment_ssr()` already computes for HLS's own Model 2
 search. The entire fix reduces to `SSR_om(T1,T2) = SSR(T1,T2) -
 (Delta y_{T2+1})^2`: one already-computed squared term subtracted from an
 already-computed SSR, no new regression at all.
 
 ### Implementation
 
-Shipped as `radf_knp(data, trim = 0.05, omit = TRUE)` in
-`exuber/R/radf_knp.R`, tested in `exuber/tests/testthat/test-knp.R`.
-Internal helper `knp_find_break()` reuses `radf_hls.R`'s
+Shipped as `dating_knp(data, trim = 0.05, omit = TRUE)` in
+`exuber/R/dating_knp.R`, tested in `exuber/tests/testthat/test-knp.R`.
+Internal helper `knp_find_break()` reuses `dating_hls.R`'s
 `hls_prefix_sums()`/`hls_segment_ssr()` directly (no new closed-form
 derivation needed, per the structural finding above), jointly searching
 `(tau1, tau2)` to minimise the omission-corrected SSR — or, with
@@ -1015,7 +1017,7 @@ fragmentation-joining heuristic elsewhere in this file.
 
 ## WLS dating under time-varying volatility
 
-**Status: done (2026-08-09).** Shipped as `radf_pdc(..., type = "wls")`.
+**Status: done (2026-08-09).** Shipped as `dating_pdc(..., type = "wls")`.
 
 ### Source
 
@@ -1026,10 +1028,10 @@ estimators under time-varying volatility." arXiv:2306.02977.
 
 A direct two-step generalization of PDC/KS's own sequential dating
 estimator — same authors as the [KS (2023) 4-regime extension](#3-pdc-2021-journal--ks-2023-journal--sequential-sample-splitting)
-`radf_pdc()` already implements, explicitly built on top of it ("we
+`dating_pdc()` already implements, explicitly built on top of it ("we
 estimate these break dates as proposed by PDC and Kurozumi and Skrobotov
 (2022) and collect the residuals..."). Step 1 is exactly
-`pdc_find_break()`/`radf_pdc()` as already implemented: fit the
+`pdc_find_break()`/`dating_pdc()` as already implemented: fit the
 homoskedastic no-intercept AR(1) break model, get consistent break-date
 (fraction) estimates and their residuals. Step 2 nonparametrically
 estimates the time-varying error variance `sigma_t^2` from those
@@ -1042,8 +1044,8 @@ volatility weights.
 
 ### Implementation
 
-Shipped as `radf_pdc(data, ..., type = c("ols", "wls"))` in
-`exuber/R/radf_pdc.R`. `type = "ols"` is the original PDC/KS estimator,
+Shipped as `dating_pdc(data, ..., type = c("ols", "wls"))` in
+`exuber/R/dating_pdc.R`. `type = "ols"` is the original PDC/KS estimator,
 unchanged. `type = "wls"`:
 
 1. Runs the existing sequential `type = "ols"` fit to get step-1 break

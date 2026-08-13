@@ -1,4 +1,4 @@
-# Validation script for radf_lbi() (Breitung & Diegel 2025's static
+﻿# Validation script for lbi_test() (Breitung & Diegel 2025's static
 # locally best invariant test). See docs/enhancements/monitoring.md for
 # the full write-up. Run from the exuber/ package root (or adjust the
 # devtools::load_all() path below).
@@ -22,7 +22,7 @@ cat("LHS:", lhs, " RHS:", rhs, " match:", isTRUE(all.equal(lhs, rhs)), "\n\n")
 cat("=== 2. Basic run ===\n")
 set.seed(1)
 y2 <- cumsum(rnorm(100))
-out <- radf_lbi(y2)
+out <- lbi_test(y2)
 print(out)
 
 cat("\n=== 3. H0 calibration: does the statistic actually follow N(0,1)? ===\n")
@@ -31,7 +31,7 @@ cat("this checks that claim, not just an approximately-correct size)\n\n")
 run_stat <- function(seed) {
   set.seed(seed)
   y <- cumsum(rnorm(100))
-  radf_lbi(y)$stat[["series1"]]
+  lbi_test(y)$stat[["series1"]]
 }
 stats <- sapply(1:500, run_stat)
 cat(sprintf("mean=%.3f (expect ~0), sd=%.3f (expect ~1)\n", mean(stats), sd(stats)))
@@ -43,7 +43,7 @@ run_power_lbi <- function(seed) {
   set.seed(seed)
   n1 <- 60
   y <- 100 * 1.03^(1:n1) + cumsum(rnorm(n1, sd = 1))
-  radf_lbi(y)$detected[["series1"]]
+  lbi_test(y)$detected[["series1"]]
 }
 run_power_sadf <- function(seed) {
   set.seed(seed)

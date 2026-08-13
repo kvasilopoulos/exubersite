@@ -1,4 +1,4 @@
-# Validation script for radf_hls() (Harvey, Leybourne & Sollis 2017,
+﻿# Validation script for dating_hls() (Harvey, Leybourne & Sollis 2017,
 # "Improving the accuracy of asset price bubble start and end date
 # estimators"). See docs/enhancements/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", for the full write-up. Run
@@ -55,7 +55,7 @@ for (n in c(100, 200, 400)) {
   set.seed(1)
   yn <- cumsum(rnorm(n))
   t0 <- Sys.time()
-  radf_hls(yn, trim = 0.05)
+  dating_hls(yn, trim = 0.05)
   cat(sprintf("n=%d: %.2f sec\n", n, as.numeric(Sys.time() - t0)))
 }
 
@@ -80,7 +80,7 @@ sim_model4 <- function(seed, n1 = 60, n2 = 25, n3 = 25, n4 = 40, base = 100, c_b
 }
 run4 <- function(seed) {
   sim <- sim_model4(seed)
-  out <- radf_hls(sim$y, trim = 0.05)
+  out <- dating_hls(sim$y, trim = 0.05)
   list(model = out$model[["series1"]],
        orig_bias = as.numeric(out$origination[["series1"]]) - sim$true_tau1,
        coll_bias = if (!is.na(out$collapse[["series1"]])) as.numeric(out$collapse[["series1"]]) - sim$true_tau2 else NA)
@@ -101,7 +101,7 @@ sim_model2 <- function(seed, n1 = 60, n2 = 30, n3 = 60, base = 100, c_bubble = 1
 }
 run2 <- function(seed) {
   sim <- sim_model2(seed)
-  out <- radf_hls(sim$y, trim = 0.05)
+  out <- dating_hls(sim$y, trim = 0.05)
   list(model = out$model[["series1"]], orig_bias = as.numeric(out$origination[["series1"]]) - sim$true_tau1)
 }
 res2 <- lapply(1:30, run2)
@@ -117,7 +117,7 @@ sim_model1 <- function(seed, n1 = 80, n2 = 60, base = 100, c_bubble = 1.05) {
 }
 run1 <- function(seed) {
   sim <- sim_model1(seed)
-  out <- radf_hls(sim$y, trim = 0.05)
+  out <- dating_hls(sim$y, trim = 0.05)
   list(model = out$model[["series1"]], orig_bias = as.numeric(out$origination[["series1"]]) - sim$true_tau1)
 }
 res1 <- lapply(1:30, run1)
@@ -128,7 +128,7 @@ cat("Model 1 DGP -- selection freq:", paste(sapply(1:4, function(m) sprintf("M%d
 run_h0 <- function(seed) {
   set.seed(seed)
   y0 <- 100 + cumsum(rnorm(150))
-  radf_hls(y0, trim = 0.05)$model[["series1"]]
+  dating_hls(y0, trim = 0.05)$model[["series1"]]
 }
 models0 <- sapply(1:30, run_h0)
 cat("Pure H0 (no bubble) -- selection freq:", paste(sapply(1:4, function(m) sprintf("M%d=%.2f", m, mean(models0 == m))), collapse = ", "), "\n")

@@ -1,4 +1,4 @@
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+﻿devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
 
 cat("=== 1. Formula check: coexplosive_stat() vs independent brute-force loop ===\n")
 set.seed(1)
@@ -43,7 +43,7 @@ run_h0_homo <- function(seed) {
   x <- c(ex, expl)
   # y co-explosive with x at lag 0: y = a + b*x + iid noise
   y <- 1 + 0.8 * x + rnorm(Tn, sd = 1)
-  out <- exuber:::radf_cobubble(y, x, lag = 0L, nboot = 199L, seed = 1)
+  out <- exuber:::cobubble_test(y, x, lag = 0L, nboot = 199L, seed = 1)
   out$reject
 }
 rejections <- sapply(1:100, run_h0_homo)
@@ -60,7 +60,7 @@ run_h0_hetero <- function(seed) {
   # heteroskedastic errors: sd jumps from 1 to 4 partway through
   sd_pattern <- c(rep(1, Tn %/% 2), rep(4, Tn - Tn %/% 2))
   y <- 1 + 0.8 * x + rnorm(Tn, sd = sd_pattern)
-  out <- exuber:::radf_cobubble(y, x, lag = 0L, nboot = 199L, seed = 1)
+  out <- exuber:::cobubble_test(y, x, lag = 0L, nboot = 199L, seed = 1)
   out$reject
 }
 rejections_hetero <- sapply(1:100, run_h0_hetero)
@@ -78,7 +78,7 @@ run_h1 <- function(seed) {
   ey <- cumsum(rnorm(Te))
   expl_y <- ey[Te] * 1.05^(1:(Tn - Te)) + cumsum(rnorm(Tn - Te, sd = 0.3))
   y <- ey_full <- c(ey, expl_y)
-  out <- exuber:::radf_cobubble(y, x, lag = 0L, nboot = 199L, seed = 1)
+  out <- exuber:::cobubble_test(y, x, lag = 0L, nboot = 199L, seed = 1)
   out$reject
 }
 rejections_h1 <- sapply(1:60, run_h1)

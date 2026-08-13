@@ -1,8 +1,10 @@
 ---
-title: "Volatility-robustness tests"
+title: "...vs. per-window lm(dy[1:b] ~ ylag[1:b] - 1) for b in minw:n1"
 blurb: "Tests robust to time-varying innovation variance: time-transformed, kernel-purged, WLS, sign-based, and stochastic-coefficient routes."
 order: 1
 ---
+﻿# Volatility-robustness tests
+
 Right-tailed unit-root tests modified to stay correctly sized when the
 innovation variance is time-varying (deterministically or stochastically) —
 PWY/PSY's original GSADF assumes homoskedasticity, and all methods here are
@@ -19,7 +21,7 @@ but not yet cross-checked, `evaluated` = source read, not implemented,
 | [Sieve bootstrap (autocorrelated innovations)](#pedersen--schütte-sieve-bootstrap) | Pedersen & Montes Schütte (2020) | **done** |
 | [Skewness-corrected wild bootstrap](#hafner-skewness-corrected-wild-bootstrap) | Hafner (2020) | **done** |
 | [Sign-based sGSADF](#sign-based-sgsadf) | Harvey, Leybourne & Zu (2020); level-shift robustness + demeaned variant: Harvey, Leybourne, Tatlow & Zu (2025) | **done** |
-| [Stochastic explosive-coefficient test](#stochastic-explosive-coefficient-test) | Kurozumi & Nishi (2025) | **done** (2026-08-10, `radf_ssu()`, minimum-viable subset — GSSU/CUSUM/CUSUM-SQ/union not implemented) |
+| [Stochastic explosive-coefficient test](#stochastic-explosive-coefficient-test) | Kurozumi & Nishi (2025) | **done** (2026-08-10, `ssu_test()`, minimum-viable subset — GSSU/CUSUM/CUSUM-SQ/union not implemented) |
 | [SV-ADF](#sv-adf) | Sarkar & Wells (2026, preprint) | **done** (2026-08-11, `radf_svadf()`; preprint, not peer-reviewed) |
 
 All papers: [references.md](/replication/references#volatility-robustness).
@@ -167,7 +169,6 @@ on data/parameters the test suite doesn't use (`n=65`, `minw=15`,
 set.seed(4242)
 y <- cumsum(rnorm(65)); minw <- 15
 res <- exuber:::gls_dfstat_grid(y, minw)
-# ...vs. per-window lm(dy[1:b] ~ ylag[1:b] - 1) for b in minw:n1
 ```
 
 Result: `max|badf_formula - badf_lm| = 6.66e-16` — machine precision, i.e.
@@ -950,7 +951,7 @@ Replication script:
 
 ## Stochastic explosive-coefficient test
 
-**Status: SSU done (2026-08-10, `radf_ssu()`), the minimum-viable
+**Status: SSU done (2026-08-10, `ssu_test()`), the minimum-viable
 subset this file's own earlier triage identified — GSSU, CUSUM/
 CUSUM-SQ, and the union-of-rejections procedure not implemented.** Full
 PDF read (model, Section 3's test statistics through the union-of
@@ -1053,7 +1054,7 @@ specifically:
   still a plain 2-variable OLS over a window — the *same* generic
   `hls_prefix_sums()`/`hls_segment_coef()` closed-form pattern
   (arbitrary `(x, z)` pair over a segment) already used for
-  `radf_hls()`/`radf_knp()`, just with `x = y_{t-1}^2` and
+  `dating_hls()`/`dating_knp()`, just with `x = y_{t-1}^2` and
   `z = (Delta y_t)^2` instead of `x = y_{t-1}`, `z = Delta y_t`. No new
   estimation *theory*, only a different pair of input series.
 - **Point 2 (bias correction) is real but also closed-form, not
@@ -1082,14 +1083,14 @@ families, deliberately scoped out of this pass as originally planned.
 
 ### Implementation — SSU done (2026-08-10)
 
-Shipped as `radf_ssu(data, minw = NULL, level = 0.95)` in
-`exuber/R/radf_ssu.R`. `ssu_prefix_sums()` builds twelve cumulative-sum
+Shipped as `ssu_test(data, minw = NULL, level = 0.95)` in
+`exuber/R/ssu_test.R`. `ssu_prefix_sums()` builds twelve cumulative-sum
 vectors from the two base per-observation series (`y_{t-1}` and
 `Delta y_t`); `ssu_stat_path()` evaluates the bias-corrected
 `t^{omega,c}_{0,r2}` statistic for every candidate end point via those
 sums (algebra verified by hand-expanding the residual cross-moment
 `sum(eps_hat*eta_hat)` into its bilinear window-sum form, then confirmed
-numerically against brute force below); `radf_ssu()` takes the running
+numerically against brute force below); `ssu_test()` takes the running
 maximum (`SSU`'s own sup-statistic) and compares it against
 `ssu_q(level)`'s lookup into Table I.
 
@@ -1097,7 +1098,7 @@ maximum (`SSU`'s own sup-statistic) and compares it against
 separately `lm()`-fitted regressions on the raw window data, plus a
 manual residual cross-moment) to machine precision (`< 1e-8`) at four
 separate window sizes; Table I lookups exact, with a clean error for an
-untabulated level; `radf_ssu()`'s default `minw` matches `psy_minw()`
+untabulated level; `ssu_test()`'s default `minw` matches `psy_minw()`
 exactly, confirming `SSU`'s own `r0` formula needed no adaptation.
 Empirical false-alarm rate under `H0` (300 reps, `n=200`) is
 `12.0%`/`8.7%`/`2.7%` against nominal `10%`/`5%`/`1%` — mildly
@@ -1263,7 +1264,7 @@ collapse is structurally guaranteed to never date before origination
 across 20 reps with no exceptions). On a synthetic bubble+collapse
 episode (using this project's own established large-base bubble-DGP
 convention, since an initial mean-zero-random-walk-base attempt gave a
-weak/diluted signal the same way it did for `radf_hls()`'s own earlier
+weak/diluted signal the same way it did for `dating_hls()`'s own earlier
 validation): 100% detection rate across 20 reps, mean absolute
 origination-date error `4.95` periods, mean absolute collapse-date
 error `20.25` periods (collapse detection is inherently less precise —

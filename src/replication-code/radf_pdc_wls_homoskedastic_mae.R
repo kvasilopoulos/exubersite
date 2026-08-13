@@ -1,4 +1,4 @@
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+﻿devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
 
 run_once <- function(seed) {
   set.seed(seed)
@@ -14,8 +14,8 @@ run_once <- function(seed) {
   true_origination <- n1_len
   true_collapse <- n1_len + n2_len
 
-  out_ols <- radf_pdc(y, regimes = 3L, trim = 0.05, type = "ols")
-  out_wls <- radf_pdc(y, regimes = 3L, trim = 0.05, type = "wls")
+  out_ols <- dating_pdc(y, regimes = 3L, trim = 0.05, type = "ols")
+  out_wls <- dating_pdc(y, regimes = 3L, trim = 0.05, type = "wls")
 
   c(
     ols_orig_err = out_ols$origination - true_origination,

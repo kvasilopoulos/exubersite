@@ -1,11 +1,11 @@
-# Replication script for radf_pdc()'s base OLS estimator (Pang, Du & Chong
+﻿# Replication script for dating_pdc()'s base OLS estimator (Pang, Du & Chong
 # 2021 / Kurozumi & Skrobotov 2023 sequential sample-splitting dating).
 # Archived retroactively -- see docs/enhancements/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", "Implementation (PDC/KS route)"
 # for the narrative this reproduces. The WLS variant (Kurozumi & Skrobotov
 # 2023's volatility correction) already has its own replication scripts
 # (radf_pdc_wls_*_mae.R in this folder); this one covers the base
-# radf_pdc(..., type = "ols") route those build on. Different seeds/sample
+# dating_pdc(..., type = "ols") route those build on. Different seeds/sample
 # sizes from test-pdc.R throughout, per this project's convention of an
 # independent check rather than a re-execution of the same numbers.
 Sys.setenv(NOT_CRAN = "true")
@@ -47,7 +47,7 @@ regime3[1] <- rho3 * peak + rnorm(1, sd = 0.5)
 for (t in 2:n3_len) regime3[t] <- rho3 * regime3[t - 1] + rnorm(1, sd = 0.5)
 y3 <- c(regime1, regime2, regime3)
 
-out3 <- radf_pdc(y3, regimes = 3L, trim = 0.05)
+out3 <- dating_pdc(y3, regimes = 3L, trim = 0.05)
 true_origination <- n1_len
 true_collapse <- n1_len + n2_len
 cat("origination: true =", true_origination, " estimated =", out3$origination,
@@ -73,7 +73,7 @@ for (t in 2:n3_len) regime3[t] <- rho3 * regime3[t - 1] + rnorm(1, sd = 1)
 regime4 <- regime3[n3_len] + cumsum(rnorm(n4_len, sd = 0.5))
 y4 <- c(regime1, regime2, regime3, regime4)
 
-out4 <- radf_pdc(y4, regimes = 4L, trim = 0.05)
+out4 <- dating_pdc(y4, regimes = 4L, trim = 0.05)
 true_origination <- n1_len
 true_collapse <- n1_len + n2_len
 true_recovery <- n1_len + n2_len + n3_len
@@ -104,7 +104,7 @@ for (s in 1:30) {
   regime3[1] <- rho3 * peak + rnorm(1, sd = 0.5)
   for (t in 2:n3_len) regime3[t] <- rho3 * regime3[t - 1] + rnorm(1, sd = 0.5)
   y <- c(regime1, regime2, regime3)
-  out <- radf_pdc(y, regimes = 3L, trim = 0.05)
+  out <- dating_pdc(y, regimes = 3L, trim = 0.05)
   exact_orig[s] <- out$origination == n1_len
   exact_coll[s] <- out$collapse == (n1_len + n2_len)
   abs_err_orig[s] <- abs(out$origination - n1_len)

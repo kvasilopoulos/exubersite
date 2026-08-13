@@ -1,4 +1,4 @@
-# Validation script for radf_cusum(..., boundary = "finite") (Homm &
+﻿# Validation script for monitor_cusum(..., boundary = "finite") (Homm &
 # Breitung 2012's finite-sample CUSUM boundary, their Table 8). See
 # docs/enhancements/monitoring.md, "Implementation (CUSUM)", for the
 # full write-up. Run from the exuber/ package root (or adjust the
@@ -17,7 +17,7 @@ tryCatch(exuber:::hb_cusum_finite_q(0.93, 100, 2), error = function(e) cat("leve
 cat("\n=== 2. Basic run with boundary='finite' ===\n")
 set.seed(1)
 y <- cumsum(rnorm(150))
-out <- radf_cusum(y, r_star = 0.5, boundary = "finite", level = 0.95)
+out <- monitor_cusum(y, r_star = 0.5, boundary = "finite", level = 0.95)
 print(out)
 cat("b_alpha used:", attr(out, "b_alpha"), "(vs asymptotic default 4.6)\n")
 
@@ -25,7 +25,7 @@ cat("\n=== 3. False-alarm rate and detection power: asymptotic vs finite ===\n")
 run_null <- function(seed, boundary) {
   set.seed(seed)
   y <- cumsum(rnorm(150))
-  out <- radf_cusum(y, r_star = 0.5, boundary = boundary)
+  out <- monitor_cusum(y, r_star = 0.5, boundary = boundary)
   !is.na(out$alarm)
 }
 run_detect <- function(seed, boundary) {
@@ -34,7 +34,7 @@ run_detect <- function(seed, boundary) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_cusum(y, r_star = n1 / length(y), boundary = boundary)
+  out <- monitor_cusum(y, r_star = n1 / length(y), boundary = boundary)
   !is.na(out$alarm)
 }
 cat(sprintf("False-alarm rate, asymptotic: %.3f\n", mean(sapply(1:100, function(s) run_null(s, "asymptotic")))))
@@ -44,5 +44,5 @@ cat(sprintf("Detection rate, finite:     %.3f\n", mean(sapply(1:30, function(s) 
 
 cat("\n=== 4. boundary='finite' also works with type='kernel' (CUSUMV), ===\n")
 cat("    extending Corollary 1's shared-boundary result to the table ===\n")
-out_k <- radf_cusum(y, r_star = 0.5, boundary = "finite", type = "kernel")
+out_k <- monitor_cusum(y, r_star = 0.5, boundary = "finite", type = "kernel")
 print(out_k)

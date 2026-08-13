@@ -1,19 +1,21 @@
 ---
-title: "Real-time monitoring for bubbles"
+title: "monitoring"
 blurb: "Sequential and real-time detection: training-vs-monitoring orchestration, CUSUM families, and closed-form boundaries."
 order: 3
 ---
+﻿# Real-time monitoring for bubbles
+
 **Status: Family A (Phillips & Shi 2020, `radf_monitor()`) done
 (2026-08-09); Family B's CUSUM procedure — both Homm & Breitung (2012)'s
 original statistic and Astill et al. (2023)'s volatility-robust "CUSUMV"
-kernel variant, `radf_cusum(..., type = "standard"/"kernel")`, plus HB's
-own finite-sample boundary (`radf_cusum(..., boundary = "finite")`) —
+kernel variant, `monitor_cusum(..., type = "standard"/"kernel")`, plus HB's
+own finite-sample boundary (`monitor_cusum(..., boundary = "finite")`) —
 done (2026-08-10); Kurozumi (2020)'s closed-form `SADF` boundary AND its
 `GSADF_{s0}` generalization (`radf_monitor(..., boundary = "kurozumi",
 s0 = 0/0.4/0.8)`), plus HB's own second statistic FLUC
 (`radf_monitor(..., boundary = "fluc")`), all done (2026-08-10);
-Breitung & Diegel (2025)'s static LBI test (`radf_lbi()`) AND their own
-sequential/monitoring extension (`radf_lbi_monitor()`, constant-boundary
+Breitung & Diegel (2025)'s static LBI test (`lbi_test()`) AND their own
+sequential/monitoring extension (`monitor_lbi()`, constant-boundary
 `mCUSUM`/`wCUSUM`), both done (2026-08-10). Horváth-Trapani's RCA
 framework (a feasible nuisance-parameter estimator remains an open gap,
 see below) and Kurozumi's 2021 delay-time paper remain evaluated, not
@@ -118,7 +120,7 @@ below.
 
 ## Implementation (CUSUM)
 
-**Status: done (2026-08-10).** Shipped as `radf_cusum()`.
+**Status: done (2026-08-10).** Shipped as `monitor_cusum()`.
 
 Homm & Breitung (2012)'s CUSUM procedure (their Section 3, eq. 26-30) is
 structurally unrelated to Family A: not a recursive ADF regression at
@@ -132,7 +134,7 @@ statistic itself [is] trivial, one `cumsum()` in R, no C++ needed."
 
 **What HB actually propose** (confirmed by reading the primary source,
 not the earlier restatement-only draft): *two* monitoring statistics,
-CUSUM and FLUC. Both are now implemented — CUSUM here as `radf_cusum()`,
+CUSUM and FLUC. Both are now implemented — CUSUM here as `monitor_cusum()`,
 FLUC (2026-08-10) as `radf_monitor(..., boundary = "fluc")`, since its
 point statistic turns out to be `radf()`'s own `badf` sequence, not a
 new one — see "Implementation (FLUC)" below.
@@ -158,7 +160,7 @@ used; there is no future information to leak.
 
 ### Implementation shape
 
-`cusum_stat_path()` (internal) + `radf_cusum(data, r_star, b_alpha)`
+`cusum_stat_path()` (internal) + `monitor_cusum(data, r_star, b_alpha)`
 (exported), returning a `radf_cusum_obj`. **Zero code reuse from Family A
 or from `radf()`/`exubercore`** — confirmed, not just predicted, by
 actually building it: this statistic shares no structure with the
@@ -224,7 +226,7 @@ upper bound. New tests extend `test-cusum.R`. Replication script:
 
 ### CUSUMV: the volatility-robust variant (Astill et al. 2023)
 
-**Status: done (2026-08-10).** Shipped as `radf_cusum(..., type = "kernel")`.
+**Status: done (2026-08-10).** Shipped as `monitor_cusum(..., type = "kernel")`.
 
 Astill, Harvey, Leybourne, Taylor & Zu (2023, *JFEC* 21(1), 187-227;
 "AHLTZ") generalize HB's CUSUM procedure to allow time-varying volatility:
@@ -249,7 +251,7 @@ statistic's own construction does.
 **Implementation**: `one_sided_kernel_spot_vol()` (a fixed causal kernel
 weight vector, computed via `stats::filter(..., sides = 1)`, following
 AHLTZ's own convention of `σ̂²_{j,N} := 1` for `j <= N`) +
-`cusum_stat_path_kernel()`, wired into `radf_cusum()` as a new
+`cusum_stat_path_kernel()`, wired into `monitor_cusum()` as a new
 `type = "kernel"` option reusing the existing boundary/decision-rule
 logic unchanged — not a separate function, since the only thing that
 differs is the statistic's numerator. Default bandwidth `N = 20`, AHLTZ's
@@ -536,7 +538,7 @@ setting assumes an infinite monitoring horizon and is described (by item
 HB's own paper instead gives finite-sample `b_α` values in their **Table
 8, p.221**, calibrated for target FPR ∈ {0.10, 0.05, 0.01} at specific
 training/monitoring lengths — **now transcribed and implemented
-(2026-08-10)** as `radf_cusum(..., boundary = "finite")`, see
+(2026-08-10)** as `monitor_cusum(..., boundary = "finite")`, see
 "Implementation (CUSUM)" above.
 
 ### Astill et al. (2021/2023) volatility-robust modification (via item 6, not yet re-verified against the now-available primary copy)
@@ -662,9 +664,9 @@ directly from Table 6.2 in the extracted text).
 
 **Cost/feasibility note**: the detector statistic `Z_m(k)` itself is
 cheap — closed-form, one `cumsum()`, same complexity class as
-`radf_cusum()` (an OLS coefficient `θ̂_m` from the training window, then a
+`monitor_cusum()` (an OLS coefficient `θ̂_m` from the training window, then a
 weighted running sum). What makes this a meaningfully bigger lift than
-`radf_cusum()`/`radf_cusum(..., type = "kernel")` is the **critical-value
+`monitor_cusum()`/`monitor_cusum(..., type = "kernel")` is the **critical-value
 theory**, which is genuinely more involved than HB/Astill's single
 published constant `b_α`:
 
@@ -805,7 +807,7 @@ ratio `s̄ = k̄/m` (monitoring runs `k̄` observations past training length
 
 (`CS(k)` itself is HB's own CUSUM statistic, eq. 26, restated in
 Kurozumi's own notation — so the `q^cs` columns are, in effect, published
-finite-sample-simulated alternatives to `radf_cusum()`'s asymptotic
+finite-sample-simulated alternatives to `monitor_cusum()`'s asymptotic
 `b_α = 4.6` constant, for the two specific `γ ∈ {0.25, 0.45}` cases
 tabulated. These were obtained by simulation — "50,000 replications... a
 standard Brownian motion is approximated by the sum of suitably
@@ -856,7 +858,7 @@ needs `ADF_{k1}^{t}` for `k1` in a small bounded band, not a growing
 triangular grid. Each `ADF_{k1}^{t}` is a plain WITH-INTERCEPT OLS ADF
 t-statistic on a fixed window, computable via the same closed-form
 cumulative-sum-difference construction already used throughout this
-project (`radf_hls.R`'s `hls_segment_ssr()`, `radf_tt.R`'s
+project (`dating_hls.R`'s `hls_segment_ssr()`, `radf_tt.R`'s
 `gls_dfstat_grid()`) — no recursion, no C++, just `O(1)` per `(k1, t)`
 cell via prefix sums, restricted to the bounded band instead of the full
 grid.
@@ -900,14 +902,14 @@ level for this pass: it studies the stochastic order of the detection-
 delay (stopping time) for the same detector families as the 2020 paper,
 confirming the qualitative early/short-bubble-favors-CUSUM vs.
 middle/late-bubble-favors-ADF split already cited elsewhere in this file
-(and now empirically reproduced by this session's own `radf_cusum()` vs.
+(and now empirically reproduced by this session's own `monitor_cusum()` vs.
 `radf_monitor()` comparison). A dating/inference layer on top of
 detection, not a new detector — lower priority than validating the 2020
 paper's boundary functions.
 
 (Kurozumi (2020)'s formulas, Table 1 boundary constants, and the
 structural finding that his `SADF`/`GSADF`/`CS` detectors are literally
-`radf_monitor()`/`radf_cusum()`'s existing statistics are now transcribed
+`radf_monitor()`/`monitor_cusum()`'s existing statistics are now transcribed
 in full — see the dedicated subsection under "Exact numbers/formulas
 reproduced" above, not repeated here.)
 
@@ -915,8 +917,8 @@ reproduced" above, not repeated here.)
 both done (2026-08-10)
 
 **Status: both the static (known/full-sample bubble window) LBI test
-(`radf_lbi()`) and their own headline sequential/monitoring extension
-(`radf_lbi_monitor()`) are done.** Full abstract/intro read plus the
+(`lbi_test()`) and their own headline sequential/monitoring extension
+(`monitor_lbi()`) are done.** Full abstract/intro read plus the
 core statistic's derivation section and Section 4's sequential
 extension, re-verified against rendered PDF pages 3-7 (the raw-text
 extraction badly scrambles the `σ̃`/summation notation throughout,
@@ -947,8 +949,8 @@ asset). Genuinely the cheapest statistic validated in this whole
 project: no C++, no bootstrap, no published table, not even a boundary
 function — just a mean and a normal quantile.
 
-**Implementation**: `radf_lbi(data, level = 0.95)` in
-`exuber/R/radf_lbi.R`, tested in `exuber/tests/testthat/test-lbi.R`.
+**Implementation**: `lbi_test(data, level = 0.95)` in
+`exuber/R/lbi_test.R`, tested in `exuber/tests/testthat/test-lbi.R`.
 **Validation, including a direct check of the paper's own claimed null
 distribution, not just an approximately-correct size**: eq. 4's
 telescoping identity confirmed to hold exactly (not just approximately)
@@ -977,7 +979,7 @@ Tests Based on the LBI Detector"):
   fixed monitoring horizon, chosen in advance), and compute the
   (optionally weighted) partial sum `LBI_[rT] = (1/(σ̃√T_m)) *
   sum_{t=1}^{[rT_m]} w_t Δy_t ⇒ W(r)`, a standard Brownian motion under
-  `H0`. Unlike `radf_cusum()`'s existing Chu-Stinchcombe-White boundary
+  `H0`. Unlike `monitor_cusum()`'s existing Chu-Stinchcombe-White boundary
   (which grows as `sqrt(t)`), normalizing by the *fixed* `T_m` up front
   means a single **constant** boundary controls size uniformly across
   the whole monitoring window — this constant-boundary variant is what
@@ -1006,18 +1008,18 @@ Tests Based on the LBI Detector"):
   HB's own FLUC/CUSUM boundaries elsewhere in this project.
 - `σ̃²` is estimated from the **training window only** (their own
   Section 4.2 text: "the training set ... is used for estimating
-  nuisance parameters such as `σ²`"), consistent with `radf_lbi()`'s
+  nuisance parameters such as `σ²`"), consistent with `lbi_test()`'s
   own training-free full-sample `σ̃²` for the static case.
 
-**Implementation**: `radf_lbi_monitor(data, r_star = 0.5, c_bar = 0,
-level = 0.95)` in `exuber/R/radf_lbi.R`, extended
+**Implementation**: `monitor_lbi(data, r_star = 0.5, c_bar = 0,
+level = 0.95)` in `exuber/R/lbi_test.R`, extended
 `exuber/tests/testthat/test-lbi.R`. **Validated**: the flat-weight
 (`c̄ = 0`) weight vector's sum of squares equals `1` exactly (eq. 12's
 own discrete closed form, not an approximation); for `c̄ > 0` it equals
 `1` to within the expected Riemann-sum-approximation error (`< 0.5%` at
 `T_m = 500`); the final monitoring-point statistic under `mCUSUM`
 matches, to machine precision, a hand-computed telescoped value using
-training-window `σ̃²` — the same telescoping identity `radf_lbi()`
+training-window `σ̃²` — the same telescoping identity `lbi_test()`
 itself relies on, now cross-checked in the monitoring context too;
 table lookups match Table 1 exactly, with a clean error for an
 untabulated level; alarms never fire before the training window ends
@@ -1028,7 +1030,7 @@ pattern of most other finite-sample-vs-asymptotic boundaries validated
 in this project. Detection power on a post-training-bubble DGP (60
 reps, bubble starting well into the monitoring window) is `41%`
 (`mCUSUM`) and `44%` (`wCUSUM`) — both clearly exceeding
-`radf_cusum(type = "standard")`'s `31%` on the identical DGP, a direct
+`monitor_cusum(type = "standard")`'s `31%` on the identical DGP, a direct
 confirmation of the paper's own claim that the constant-boundary LBI
 detector is more powerful than HB's classical CSW-boundary CUSUM, and
 `wCUSUM ≥ mCUSUM` as expected from the added up-weighting. Replication
@@ -1093,10 +1095,10 @@ meaningful partial infrastructure for exactly one:
    standardized running sum of `Δy_t`, not a recursive ADF regression),
    so none of `exubercore/src`'s RLS machinery
    (`rls_gsadf.cpp`/`radf.hpp`, matrix-inversion-lemma recursive OLS)
-   applies — confirmed empirically, not just predicted: `radf_cusum()`
+   applies — confirmed empirically, not just predicted: `monitor_cusum()`
    shares no code with `radf_monitor()`/`radf()` at all. What's now
    actually built vs. still missing: (a) **the CUSUM partial-sum
-   statistic itself — done**, `radf_cusum()`, closed-form, no C++, same
+   statistic itself — done**, `monitor_cusum()`, closed-form, no C++, same
    "why not exubercore" logic as
    [STADF's closed-form statistic](/replication/volatility-robustness#why-not-exubercore-c));
    (b) **a boundary-function/critical-value module — partially done**:
@@ -1111,9 +1113,9 @@ meaningful partial infrastructure for exactly one:
    `radf_monitor(..., boundary = "fluc")`. HB's *finite-sample* `b_{k,α}`
    values for CUSUM itself (their Table 8, a different table from FLUC's
    Table 7) are **now also done** (2026-08-10), via
-   `radf_cusum(..., boundary = "finite")`; (c) **the volatility-robust
+   `monitor_cusum(..., boundary = "finite")`; (c) **the volatility-robust
    variant's one-sided kernel spot-variance estimator — done**,
-   `radf_cusum(..., type = "kernel")`, structurally close to, but built
+   `monitor_cusum(..., type = "kernel")`, structurally close to, but built
    as a genuinely separate function from, the two-sided/profile kernel
    estimator already built for
    [`radf_tt.R`](/replication/volatility-robustness#time-transformed-test-stadf--gstadf)

@@ -1,4 +1,4 @@
-# Validation of radf_ssu() -- Kurozumi & Nishi (2025)'s SSU stochastic
+﻿# Validation of ssu_test() -- Kurozumi & Nishi (2025)'s SSU stochastic
 # -unit-root bubble test (minimum-viable subset: SSU only, not GSSU, not
 # CUSUM/CUSUM-SQ, not the union-of-rejections procedure).
 # See docs/enhancements/volatility-robustness.md, "Stochastic explosive
@@ -59,7 +59,7 @@ cat("untabulated level=0.80:", res, "\n")
 cat("\n=== 3. minw matches psy_minw() (SSU's own r0 formula) ===\n")
 set.seed(1)
 y2 <- cumsum(rnorm(120))
-out <- radf_ssu(y2)
+out <- ssu_test(y2)
 cat("minw:", attr(out, "minw"), " psy_minw(120):", psy_minw(120), "\n")
 
 cat("\n=== 4. Empirical false-alarm rate under H0 ===\n")
@@ -69,9 +69,9 @@ n <- 200
 fa_10 <- fa_05 <- fa_01 <- 0
 for (i in seq_len(nrep)) {
   yy <- cumsum(rnorm(n))
-  out10 <- radf_ssu(yy, level = 0.90)
-  out05 <- radf_ssu(yy, level = 0.95)
-  out01 <- radf_ssu(yy, level = 0.99)
+  out10 <- ssu_test(yy, level = 0.90)
+  out05 <- ssu_test(yy, level = 0.95)
+  out01 <- ssu_test(yy, level = 0.99)
   if (out10$detected) fa_10 <- fa_10 + 1
   if (out05$detected) fa_05 <- fa_05 + 1
   if (out01$detected) fa_01 <- fa_01 + 1
@@ -101,7 +101,7 @@ make_stochastic_bubble <- function(n, te_frac = 0.5, c1 = 3, a = 4) {
 det_ssu <- 0
 for (i in seq_len(nrep)) {
   yy <- make_stochastic_bubble(n)
-  out <- radf_ssu(yy, level = 0.95)
+  out <- ssu_test(yy, level = 0.95)
   if (out$detected) det_ssu <- det_ssu + 1
 }
 cat(sprintf("SSU power on stochastic-coefficient bubble DGP: %.3f\n", det_ssu / nrep))
@@ -114,7 +114,7 @@ for (i in seq_len(nrep)) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.03^(1:100) + cumsum(rnorm(100, sd = 1))
   yy <- c(normal_part, expl_part)
-  out <- radf_ssu(yy, level = 0.95)
+  out <- ssu_test(yy, level = 0.95)
   r <- radf(yy)
   cv <- radf_mc_cv(length(yy))
   if (out$detected) det_ssu2 <- det_ssu2 + 1

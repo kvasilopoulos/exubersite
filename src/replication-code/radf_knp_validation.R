@@ -1,4 +1,4 @@
-# Validation script for radf_knp() (Kejriwal, Nguyen & Perron 2025, "An
+﻿# Validation script for dating_knp() (Kejriwal, Nguyen & Perron 2025, "An
 # Improved Procedure for Retrospectively Dating the Emergence and
 # Collapse of Bubbles"). See docs/enhancements/dating-and-root-
 # inference.md, "SSR/BIC dating vs. PSY recursive dating", for the full
@@ -68,7 +68,7 @@ cat(sprintf("Omission-corrected:     mean|tau1-T1|=%.2f   mean|tau2-T2|=%.2f\n\n
 cat("=== 3. delta_hat accuracy under omission correction (true delta=1.05) ===\n")
 run_delta <- function(seed) {
   sim <- sim_knp(seed)
-  out <- radf_knp(sim$y, trim = 0.05, omit = TRUE)
+  out <- dating_knp(sim$y, trim = 0.05, omit = TRUE)
   unname(out$delta[["series1"]])
 }
 deltas <- sapply(1:30, run_delta)

@@ -1,4 +1,4 @@
-# Validation of radf_qpwy() -- Wu, Shi & Wu (2025)'s QPWY recursive
+﻿# Validation of monitor_quantile() -- Wu, Shi & Wu (2025)'s QPWY recursive
 # quantile monitoring strategy (single-recursion subset; QPSY's double
 # recursion is not implemented). See docs/enhancements/
 # alternative-paradigms.md, "Quantile-based detection", "Implementation
@@ -11,7 +11,7 @@
 devtools::load_all(".")
 
 cat("=== 1. Point statistic: qpwy_stat_path at the full sample matches
-radf_quantile()'s own per-window QR t-ratio formula exactly ===\n")
+quantile_test()'s own per-window QR t-ratio formula exactly ===\n")
 set.seed(3)
 y <- cumsum(rnorm(60))
 full_stat <- exuber:::qpwy_stat_path(y, 0.5, 60)
@@ -58,7 +58,7 @@ fa <- 0
 for (i in seq_len(nrep_mc)) {
   set.seed(2000 + i)
   yy <- cumsum(rnorm(n))
-  out <- radf_qpwy(yy, tau = 0.5, nrep = 150, seed = i)
+  out <- monitor_quantile(yy, tau = 0.5, nrep = 150, seed = i)
   if (!is.na(out$alarm)) fa <- fa + 1
 }
 cat(sprintf("false-alarm rate (nominal 5%%): %.3f\n", fa / nrep_mc))
@@ -72,7 +72,7 @@ for (i in seq_len(nrep_mc)) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.03^(1:50) + cumsum(rnorm(50, sd = 1))
   yy <- c(normal_part, expl_part)
-  out <- radf_qpwy(yy, tau = 0.5, nrep = 150, seed = i)
+  out <- monitor_quantile(yy, tau = 0.5, nrep = 150, seed = i)
   r <- radf(yy)
   cv <- radf_mc_cv(length(yy))
   if (!is.na(out$alarm)) det_qpwy <- det_qpwy + 1

@@ -1,5 +1,5 @@
-# Validation of radf_lbi_monitor() -- Breitung & Diegel (2025)'s sequential
-# (constant-boundary mCUSUM/wCUSUM) monitoring extension of radf_lbi().
+﻿# Validation of monitor_lbi() -- Breitung & Diegel (2025)'s sequential
+# (constant-boundary mCUSUM/wCUSUM) monitoring extension of lbi_test().
 # See docs/enhancements/monitoring.md, "Breitung & Diegel (2025) -- static
 # LBI test AND sequential extension both done", for the full writeup.
 #
@@ -23,13 +23,13 @@ set.seed(1)
 n <- 300
 T_star <- 150
 y <- cumsum(rnorm(n))
-out <- radf_lbi_monitor(y, r_star = T_star, c_bar = 0, level = 0.95)
+out <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
 final_stat <- out$stat[nrow(out$stat), 1]
 dy <- diff(y)
 sigma2_tilde <- mean(dy[seq_len(T_star - 1L)]^2)
 manual <- (y[n] - y[T_star]) / sqrt(sigma2_tilde * (n - T_star))
 cat(sprintf(
-  "radf_lbi_monitor: %.8f   manual telescoped: %.8f   |diff|: %.2e\n",
+  "monitor_lbi: %.8f   manual telescoped: %.8f   |diff|: %.2e\n",
   final_stat, manual, abs(final_stat - manual)
 ))
 
@@ -45,7 +45,7 @@ set.seed(3)
 ok <- TRUE
 for (i in 1:50) {
   y <- cumsum(rnorm(200))
-  om <- radf_lbi_monitor(y, r_star = 100, c_bar = 0, level = 0.95)
+  om <- monitor_lbi(y, r_star = 100, c_bar = 0, level = 0.95)
   if (!is.na(om$alarm) && om$alarm <= 100) ok <- FALSE
 }
 cat("all alarms strictly after T_star (50 reps):", ok, "\n")
@@ -58,15 +58,15 @@ T_star <- 100
 fa_mcusum <- fa_wcusum <- 0
 for (i in seq_len(nrep)) {
   y <- cumsum(rnorm(n))
-  om <- radf_lbi_monitor(y, r_star = T_star, c_bar = 0, level = 0.95)
-  ow <- radf_lbi_monitor(y, r_star = T_star, c_bar = 2, level = 0.95)
+  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
+  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, level = 0.95)
   if (!is.na(om$alarm)) fa_mcusum <- fa_mcusum + 1
   if (!is.na(ow$alarm)) fa_wcusum <- fa_wcusum + 1
 }
 cat(sprintf("mCUSUM (c_bar=0) false-alarm rate: %.4f (nominal 0.05)\n", fa_mcusum / nrep))
 cat(sprintf("wCUSUM (c_bar=2) false-alarm rate: %.4f (nominal 0.05)\n", fa_wcusum / nrep))
 
-cat("\n=== 6. Detection power vs. radf_cusum(type = 'standard') on the same DGP ===\n")
+cat("\n=== 6. Detection power vs. monitor_cusum(type = 'standard') on the same DGP ===\n")
 set.seed(4)
 nrep <- 100
 n <- 200
@@ -85,15 +85,15 @@ make_bubble_series <- function(n, T_star, bubble_start_frac = 0.65, rho = 1.03) 
 det_mcusum <- det_wcusum <- det_cusum_std <- 0
 for (i in seq_len(nrep)) {
   y <- make_bubble_series(n, T_star)
-  om <- radf_lbi_monitor(y, r_star = T_star, c_bar = 0, level = 0.95)
-  ow <- radf_lbi_monitor(y, r_star = T_star, c_bar = 2, level = 0.95)
-  oc <- radf_cusum(y, r_star = T_star / n, b_alpha = 4.6)
+  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
+  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, level = 0.95)
+  oc <- monitor_cusum(y, r_star = T_star / n, b_alpha = 4.6)
   if (!is.na(om$alarm)) det_mcusum <- det_mcusum + 1
   if (!is.na(ow$alarm)) det_wcusum <- det_wcusum + 1
   if (!is.na(oc$alarm)) det_cusum_std <- det_cusum_std + 1
 }
 cat(sprintf("mCUSUM (c_bar=0) power: %.3f\n", det_mcusum / nrep))
 cat(sprintf("wCUSUM (c_bar=2) power: %.3f\n", det_wcusum / nrep))
-cat(sprintf("radf_cusum(type='standard') power (same DGP): %.3f\n", det_cusum_std / nrep))
+cat(sprintf("monitor_cusum(type='standard') power (same DGP): %.3f\n", det_cusum_std / nrep))
 
 cat("\ndone\n")

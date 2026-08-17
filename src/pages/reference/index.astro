@@ -44,8 +44,32 @@ const topicPages: Record<string, unknown> = reference.topics;
       (<code>dating_hls()</code>, <code>dating_hlw()</code>, <code>dating_knp()</code>,
       <code>dating_pdc()</code>); a <code>monitor_</code> prefix is real-time/sequential detection
       (<code>monitor_cusum()</code>, <code>monitor_lbi()</code>, <code>monitor_quantile()</code>,
-      alongside ADF-family <code>radf_monitor()</code>); and <code>contagion_reg()</code> stands on
-      its own as a point-estimation tool that performs no formal inference at all.
+      alongside ADF-family <code>radf_monitor()</code>); a <code>root_</code> prefix is confidence-
+      interval inference on the <em>magnitude</em> of the explosive autoregressive root itself,
+      not a test for its presence (<code>explosive_root()</code>, <code>root_ci()</code>,
+      <code>root_ci_datestamp()</code>); and <code>contagion_reg()</code> stands on its own as a
+      point-estimation tool that performs no formal inference at all.
+    </p>
+    <p class="mt-4">
+      Don't confuse the standalone <code>dating_</code> family above with
+      <a href="/reference/datestamp"><code>datestamp()</code></a> in the Analysis group below —
+      <code>datestamp()</code> is PSY's own threshold-crossing rule, a generic dispatched on any
+      <code>radf_obj</code> + <code>radf_cv</code> pair; the <code>dating_</code> functions are
+      unrelated SSR/BIC dating procedures called directly on raw data, with no critical value
+      involved at all.
+    </p>
+    <p class="mt-4">
+      Only results that carry the <code>radf_obj</code> class can be passed to the shared
+      Analysis/Tidying/Plotting generics below (<code>summary()</code>, <code>datestamp()</code>,
+      <code>tidy()</code>, <code>autoplot()</code>) — everything else prints its own way, in a
+      shape that generic table doesn't fit. <code>radf_common()</code> and <code>radf_kp()</code>
+      return <code>radf()</code>'s own output unmodified and so support the full set.
+      <code>radf_sign()</code>/<code>radf_sign_dm()</code>/<code>radf_tt()</code> carry the class
+      too, but only <code>summary()</code>/<code>tidy()</code> currently work — their own
+      <code>_cv()</code> functions compute just the three scalar critical values
+      <code>summary()</code> needs, not the time-varying boundary <code>datestamp()</code>/
+      <code>autoplot()</code> require, a known gap. See <code>vignette("naming-and-analysis",
+      package = "exuber")</code> for the full picture with worked examples.
     </p>
   </section>
 

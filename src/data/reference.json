@@ -15530,7 +15530,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_sign(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_cv(n = 100, minw = 20)\nsummary(res, cv = cv)",
+      "examples": "res <- radf_sign(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)",
       "references": [
         [
           {
@@ -16313,7 +16313,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_sign_dm(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_dm_cv(n = 100, minw = 20)\nsummary(res, cv = cv)",
+      "examples": "res <- radf_sign_dm(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_dm_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)",
       "references": [
         [
           {
@@ -17489,7 +17489,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_tt(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_tt_cv(n = 100, minw = 20)\nsummary(res, cv = cv)",
+      "examples": "res <- radf_tt(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_tt_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)",
       "references": [
         [
           {

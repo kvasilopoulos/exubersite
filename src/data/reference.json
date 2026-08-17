@@ -1694,7 +1694,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- cobubble_test(sim_data$sim_psy1, sim_data$sim_psy2, nboot = 199L, seed = 1)\nprint(res)",
+      "examples": "res <- cobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199L, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -2078,7 +2078,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- contagion_reg(sim_data$sim_psy1, sim_data$sim_psy2, d = 0L)\nprint(res)",
+      "examples": "res <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 0L)\nprint(res)",
       "references": [
         [
           {
@@ -2773,7 +2773,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_hls(sim_data$sim_psy1, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_hls(sim_data$psy1, trim = 0.05)\nprint(res)",
       "references": [
         [
           {
@@ -3436,7 +3436,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_hlw(sim_data$sim_psy1, trim = 0.1, nboot = 199L, seed = 1)\nprint(res)",
+      "examples": "res <- dating_hlw(sim_data$psy1, trim = 0.1, nboot = 199L, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -3825,7 +3825,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_knp(sim_data$sim_psy1, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_knp(sim_data$psy1, trim = 0.05)\nprint(res)",
       "references": [
         [
           {
@@ -4435,7 +4435,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_pdc(sim_data$sim_psy1, regimes = 3L, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_pdc(sim_data$psy1, regimes = 3L, trim = 0.05)\nprint(res)",
       "references": [
         [
           {
@@ -5860,7 +5860,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- lbi_test(sim_data$sim_psy1)\nprint(res)",
+      "examples": "res <- lbi_test(sim_data$psy1)\nprint(res)",
       "references": [
         [
           {
@@ -6629,7 +6629,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_cusum(sim_data$sim_psy1, r_star = 0.5)\nprint(res)",
+      "examples": "res <- monitor_cusum(sim_data$psy1, r_star = 0.5)\nprint(res)",
       "references": [
         [
           {
@@ -7288,7 +7288,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_lbi(sim_data$sim_psy1, r_star = 0.5)\nprint(res)",
+      "examples": "res <- monitor_lbi(sim_data$psy1, r_star = 0.5)\nprint(res)",
       "references": [
         [
           {
@@ -8229,7 +8229,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_quantile(sim_data$sim_psy1, tau = 0.5, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- monitor_quantile(sim_data$psy1, tau = 0.5, nrep = 100, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -9119,7 +9119,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- quantile_test(sim_data$sim_psy1, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- quantile_test(sim_data$psy1, nrep = 100, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -14040,7 +14040,7 @@
         ]
       },
       "format": null,
-      "examples": "cv <- radf_recovery_cv(n = 100, minw = 20, nrep = 200)\nprint(cv)",
+      "examples": "cv <- radf_recovery_cv(n = 100, minw = 20, nrep = 200)\nrange(cv$bsadf_cv)",
       "references": null,
       "seealso": [
         [
@@ -27333,7 +27333,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- ssu_test(sim_data$sim_psy1, level = 0.95)\nprint(res)",
+      "examples": "res <- ssu_test(sim_data$psy1, level = 0.95)\nprint(res)",
       "references": [
         [
           {

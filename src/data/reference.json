@@ -9,6 +9,11 @@
           "name": "exuber",
           "topic": "exuber",
           "title": "exuber: Econometric Analysis of Explosive Time Series"
+        },
+        {
+          "name": "exuber_functions",
+          "topic": "exuber_functions",
+          "title": "Look Up exuber's Test/Procedure Functions by Family"
         }
       ]
     },
@@ -171,8 +176,8 @@
       "replication": "monitoring",
       "entries": [
         {
-          "name": "radf_monitor",
-          "topic": "radf_monitor",
+          "name": "monitor_radf",
+          "topic": "monitor_radf",
           "title": "Real-Time Monitoring for Explosive Bubbles"
         },
         {
@@ -181,14 +186,14 @@
           "title": "CUSUM Real-Time Monitoring for Explosive Bubbles"
         },
         {
-          "name": "lbi_test",
-          "topic": "lbi_test",
-          "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
-        },
-        {
           "name": "monitor_lbi",
           "topic": "monitor_lbi",
           "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)"
+        },
+        {
+          "name": "lbi_test",
+          "topic": "lbi_test",
+          "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
         }
       ]
     },
@@ -4817,7 +4822,7 @@
         ]
       },
       "format": null,
-      "examples": null,
+      "examples": "set.seed(2026)\nburn <- cumsum(rnorm(60))\nbubble <- burn[length(burn)] * 1.04^(1:40) + cumsum(rnorm(40, sd = 0.5))\ny <- c(burn, bubble)\n\nr <- radf(y, minw = 20)\ncv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)\nds <- datestamp(r, cv = cv, min_duration = 3)\n\nest <- explosive_root(y, ds[[\"series1\"]]$Start[1], ds[[\"series1\"]]$End[1])\nest",
       "references": [
         [
           {
@@ -5408,6 +5413,388 @@
         }
       ]
     },
+    "exuber_functions": {
+      "topic": "exuber_functions",
+      "aliases": [
+        "exuber_functions"
+      ],
+      "title": "Look Up exuber's Test/Procedure Functions by Family",
+      "usage": "exuber_functions(family = NULL)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Naming conventions ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf_"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "_test"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "dating_"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/ "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "monitor_"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "root_"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", see "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "vignette(\"naming-and-analysis\")"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ") are a guide, not a contract -- easy to misremember, and occasionally traded off deliberately ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "monitor_radf()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " is ADF-family internally but named for what it does). This is the actual, queryable source of truth: which of the package's test/dating/monitoring/root-inference functions belong to which family."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "family",
+          "desc": [
+            {
+              "t": "text",
+              "v": "One of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"adf\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (built on the recursive-ADF core),\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"test\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (a standalone hypothesis test), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"dating\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\n(point-estimation/model-selection, no formal test), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"monitor\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\n(real-time/sequential), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"root\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (confidence-interval inference on\nthe explosive root), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"regression\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (point estimation, no test), or\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NULL"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (default) for every function. A function can belong to more\nthan one family ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_radf()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is both "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"adf\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"monitor\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ")."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A tibble with columns "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "name"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "family"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "description"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", one row per function."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "exuber_functions()\nexuber_functions(family = \"monitor\")\nexuber_functions(family = \"test\")",
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "vignette(\"naming-and-analysis\", package = \"exuber\")"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the full naming scheme and which functions plug into "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "summary()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "datestamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "datestamp"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "tidy"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "/"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "autoplot"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "."
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
     "fetch_crit_bucket": {
       "topic": "fetch_crit_bucket",
       "aliases": [
@@ -5860,7 +6247,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- lbi_test(sim_data$psy1)\nprint(res)",
+      "examples": "set.seed(1)\nn <- 60\ny <- 100 * 1.03^(1:n) + cumsum(rnorm(n, sd = 1)) # genuine explosive AR\nres <- lbi_test(y)\nprint(res)",
       "references": [
         [
           {
@@ -6629,7 +7016,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_cusum(sim_data$psy1, r_star = 0.5)\nprint(res)",
+      "examples": "make_bubble_series <- function(n, T_star, bstart, rho = 1.04) {\n  y <- numeric(n)\n  y[seq_len(T_star)] <- cumsum(rnorm(T_star))\n  for (t in (T_star + 1):n) {\n    y[t] <- if (t < bstart) y[t - 1] + rnorm(1) else rho * y[t - 1] + rnorm(1)\n  }\n  y\n}\nset.seed(7)\ny <- make_bubble_series(200, T_star = 100, bstart = 150) # bubble starts at 150\nres <- monitor_cusum(y, r_star = 0.5)\nprint(res) # alarm should fire soon after t = 150",
       "references": [
         [
           {
@@ -6657,13 +7044,13 @@
             "c": [
               {
                 "t": "link",
-                "topic": "radf_monitor",
+                "topic": "monitor_radf",
                 "external": false,
                 "href": null,
                 "c": [
                   {
                     "t": "text",
-                    "v": "radf_monitor"
+                    "v": "monitor_radf"
                   }
                 ]
               }
@@ -7288,7 +7675,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_lbi(sim_data$psy1, r_star = 0.5)\nprint(res)",
+      "examples": "make_bubble_series <- function(n, T_star, bstart, rho = 1.04) {\n  y <- numeric(n)\n  y[seq_len(T_star)] <- cumsum(rnorm(T_star))\n  for (t in (T_star + 1):n) {\n    y[t] <- if (t < bstart) y[t - 1] + rnorm(1) else rho * y[t - 1] + rnorm(1)\n  }\n  y\n}\nset.seed(7)\ny <- make_bubble_series(200, T_star = 100, bstart = 150) # bubble starts at 150\nres <- monitor_lbi(y, r_star = 100)\nprint(res) # alarm should fire soon after t = 150",
       "references": [
         [
           {
@@ -7346,13 +7733,13 @@
             "c": [
               {
                 "t": "link",
-                "topic": "radf_monitor",
+                "topic": "monitor_radf",
                 "external": false,
                 "href": null,
                 "c": [
                   {
                     "t": "text",
-                    "v": "radf_monitor"
+                    "v": "monitor_radf"
                   }
                 ]
               }
@@ -8229,7 +8616,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_quantile(sim_data$psy1, tau = 0.5, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- monitor_quantile(sim_data$psy2, tau = 0.5, nrep = 100, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -8266,13 +8653,13 @@
             "c": [
               {
                 "t": "link",
-                "topic": "radf_monitor",
+                "topic": "monitor_radf",
                 "external": false,
                 "href": null,
                 "c": [
                   {
                     "t": "text",
-                    "v": "radf_monitor"
+                    "v": "monitor_radf"
                   }
                 ]
               }
@@ -8287,6 +8674,1368 @@
       "source": null,
       "author": null,
       "sections": []
+    },
+    "monitor_radf": {
+      "topic": "monitor_radf",
+      "aliases": [
+        "monitor_radf"
+      ],
+      "title": "Real-Time Monitoring for Explosive Bubbles",
+      "usage": "monitor_radf(\n  data,\n  r_star = 0.5,\n  minw = NULL,\n  nboot = 500L,\n  level = 0.95,\n  adflag = 0,\n  type = c(\"fixed\", \"aic\", \"bic\"),\n  seed = NULL,\n  boundary = c(\"bootstrap\", \"kurozumi\", \"fluc\"),\n  s0 = 0\n)",
+      "description": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "monitor_radf"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " implements real-time monitoring: fix a training window "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "[1, T*]"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " assumed free of exuberance, calibrate a critical value on it, then compare the running recursive statistic at each subsequent point "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "T*+1, ..., T"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " against that fixed boundary, flagging the first date it is breached."
+          }
+        ]
+      ],
+      "details": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "boundary = \"bootstrap\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (default) implements Phillips & Shi (2020): the boundary is a wild-bootstrap quantile of the GSADF-type statistic ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv2",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", its "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "tb"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " parameter), compared against "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "bsadf"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " sequence. Deliberately calibrates on the training window "
+          },
+          {
+            "t": "em",
+            "c": [
+              {
+                "t": "text",
+                "v": "only"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "data[1:T*]"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "), not the full series: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv2",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s underlying null-model fit ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "adf_res()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ") uses whatever data it is given in full, with no internal truncation to "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "tb"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " -- passing post-"
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "T*"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (possibly explosive) data to it directly would leak future information into the null calibration."
+          }
+        ],
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "boundary = \"kurozumi\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " implements Kurozumi (2020)'s closed-form alternative: no bootstrap at all, just a published constant (his Table 1) compared against "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "badf"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " sequence (his "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "SADF(k)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " detector -- the "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "s0 = 0"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", fixed-start-at-1 case, the default). Setting "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "s0"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " to "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.4"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " or "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.8"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " instead switches to his "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "GSADF_{s0}(k)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " generalization: the window start is allowed to range over "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "[1, floor(T* * s0)]"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " rather than being fixed at "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "1"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", compared against his "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "k"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "-varying (not constant) boundary function and its own published scaling constant. "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "level"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " must be one of "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.90"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.95"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", or "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.99"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (the levels his table tabulates)."
+          }
+        ],
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "boundary = \"fluc\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " implements Homm & Breitung (2012)'s FLUC detector: their "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "DF_{t/n}"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " is likewise exactly "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf()"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "badf"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " sequence, compared against a published constant from their Table 7 (no detrending case) rather than a simulated one. "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "level"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " must be one of "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.90"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.95"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "0.99"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "."
+          }
+        ]
+      ],
+      "arguments": [
+        {
+          "name": "data",
+          "desc": [
+            {
+              "t": "text",
+              "v": "A univariate or multivariate numeric time series object, a numeric\nvector or matrix, or a data.frame. A column may have leading and/or trailing\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " values (an uneven/unbalanced panel where series enter or exit the\nsample at different times) -- those periods are filled with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " in\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and excluded from that series' "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ". Interior "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " values (a gap in the middle of a series) are\nnot supported. When any series is padded this way, the panel statistic\n("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf_panel"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf_panel"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") is not available and is returned as\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", with a warning."
+            }
+          ]
+        },
+        {
+          "name": "r_star",
+          "desc": [
+            {
+              "t": "text",
+              "v": "The end of the training window: a fraction in\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "(0, 1)"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " of the sample (default "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.5"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), or an integer\nobservation count if "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": ">= 1"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "minw",
+          "desc": [
+            {
+              "t": "text",
+              "v": "A positive integer. The minimum window size (default =\n"
+            },
+            {
+              "t": "eqn",
+              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "display": false
+            },
+            {
+              "t": "text",
+              "v": ", where T denotes the sample size)."
+            }
+          ]
+        },
+        {
+          "name": "nboot",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Number of wild bootstrap replications for the training\ncritical value. Ignored unless "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "level",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Nominal confidence level for the monitoring boundary\n(default "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "). When "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"kurozumi\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " or\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"fluc\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", must be one of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.90"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.99"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "adflag, type",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Passed to "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_wb_cv2",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_wb_cv2"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (lag length /\nselection for the wild bootstrap DGP). Ignored unless\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "seed",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Optional seed for the bootstrap draws. Ignored unless\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "boundary",
+          "desc": [
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (default, Phillips & Shi 2020),\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"kurozumi\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (Kurozumi 2020's closed-form SADF/GSADF boundary), or\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"fluc\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (Homm & Breitung 2012's FLUC boundary)."
+            }
+          ]
+        },
+        {
+          "name": "s0",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Kurozumi (2020)'s window-start range as a fraction of the\ntraining length, only used when "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"kurozumi\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ".\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (default) is the "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "SADF"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " case (window start fixed at\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "1"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "); "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.4"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " or "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0.8"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " switches to the "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "GSADF_{s0}"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\ncase (window start ranges over "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "[1, floor(T* * s0)]"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), the only\ntwo values his boundary function's scaling constants are tabulated\nfor."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": a list with the full-sample statistic path ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "stat"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " -- "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " for "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " for "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"kurozumi\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/ "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"fluc\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), the calibrated "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (one flat value per series), the training window length "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "T_star"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "alarm"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "alarm_date"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (the first monitoring-period observation/date at which "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "stat"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " breaches the boundary, "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " if never)."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- monitor_radf(sim_data, r_star = 0.5, nboot = 200)\nprint(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- monitor_radf(sim_data, r_star = 0.5, boundary = \"kurozumi\")\nprint(mon_kz)",
+      "references": [
+        [
+          {
+            "t": "text",
+            "v": "Phillips, P. C., & Shi, S. (2020). Real time monitoring of asset markets: Bubbles and crises. In Handbook of Statistics (Vol. 42, pp. 61-80). Elsevier."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Kurozumi, E. (2020). Asymptotic properties of bubble monitoring tests. Econometric Reviews, 39(5), 510-538."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Homm, U., & Breitung, J. (2012). Testing for speculative bubbles in stock markets: A comparison of alternative methods. Journal of Financial Econometrics, 10(1), 198-231."
+          }
+        ]
+      ],
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv2",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the underlying wild bootstrap, and "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "datestamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "datestamp"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the (non-monitoring, full-sample) origination/collapse dating that already exists."
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": [
+        {
+          "title": "Status",
+          "body": [
+            [
+              {
+                "t": "strong",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "[Experimental]"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
     },
     "parse_crit_bin": {
       "topic": "parse_crit_bin",
@@ -9119,7 +10868,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- quantile_test(sim_data$psy1, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- quantile_test(sim_data$psy2, nrep = 100, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -11662,1368 +13411,6 @@
       "author": null,
       "sections": []
     },
-    "radf_monitor": {
-      "topic": "radf_monitor",
-      "aliases": [
-        "radf_monitor"
-      ],
-      "title": "Real-Time Monitoring for Explosive Bubbles",
-      "usage": "radf_monitor(\n  data,\n  r_star = 0.5,\n  minw = NULL,\n  nboot = 500L,\n  level = 0.95,\n  adflag = 0,\n  type = c(\"fixed\", \"aic\", \"bic\"),\n  seed = NULL,\n  boundary = c(\"bootstrap\", \"kurozumi\", \"fluc\"),\n  s0 = 0\n)",
-      "description": [
-        [
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf_monitor"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " implements real-time monitoring: fix a training window "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "[1, T*]"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " assumed free of exuberance, calibrate a critical value on it, then compare the running recursive statistic at each subsequent point "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "T*+1, ..., T"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " against that fixed boundary, flagging the first date it is breached."
-          }
-        ]
-      ],
-      "details": [
-        [
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "boundary = \"bootstrap\""
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " (default) implements Phillips & Shi (2020): the boundary is a wild-bootstrap quantile of the GSADF-type statistic ("
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "radf_wb_cv2",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_wb_cv2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", its "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "tb"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " parameter), compared against "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "bsadf"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " sequence. Deliberately calibrates on the training window "
-          },
-          {
-            "t": "em",
-            "c": [
-              {
-                "t": "text",
-                "v": "only"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " ("
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "data[1:T*]"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "), not the full series: "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "radf_wb_cv2",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_wb_cv2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s underlying null-model fit ("
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "adf_res()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ") uses whatever data it is given in full, with no internal truncation to "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "tb"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " -- passing post-"
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "T*"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " (possibly explosive) data to it directly would leak future information into the null calibration."
-          }
-        ],
-        [
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "boundary = \"kurozumi\""
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " implements Kurozumi (2020)'s closed-form alternative: no bootstrap at all, just a published constant (his Table 1) compared against "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "badf"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " sequence (his "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "SADF(k)"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " detector -- the "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "s0 = 0"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", fixed-start-at-1 case, the default). Setting "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "s0"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " to "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.4"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " or "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.8"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " instead switches to his "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "GSADF_{s0}(k)"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " generalization: the window start is allowed to range over "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "[1, floor(T* * s0)]"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " rather than being fixed at "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "1"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", compared against his "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "k"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "-varying (not constant) boundary function and its own published scaling constant. "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "level"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " must be one of "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.90"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.95"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", or "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.99"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " (the levels his table tabulates)."
-          }
-        ],
-        [
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "boundary = \"fluc\""
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " implements Homm & Breitung (2012)'s FLUC detector: their "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "DF_{t/n}"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " is likewise exactly "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "badf"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " sequence, compared against a published constant from their Table 7 (no detrending case) rather than a simulated one. "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "level"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " must be one of "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.90"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.95"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "0.99"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "."
-          }
-        ]
-      ],
-      "arguments": [
-        {
-          "name": "data",
-          "desc": [
-            {
-              "t": "text",
-              "v": "A univariate or multivariate numeric time series object, a numeric\nvector or matrix, or a data.frame. A column may have leading and/or trailing\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "NA"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " values (an uneven/unbalanced panel where series enter or exit the\nsample at different times) -- those periods are filled with "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "NA"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " in\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "badf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "bsadf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " and excluded from that series' "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "adf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "sadf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "gsadf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ". Interior "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "NA"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " values (a gap in the middle of a series) are\nnot supported. When any series is padded this way, the panel statistic\n("
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "bsadf_panel"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "gsadf_panel"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ") is not available and is returned as\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "NA"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", with a warning."
-            }
-          ]
-        },
-        {
-          "name": "r_star",
-          "desc": [
-            {
-              "t": "text",
-              "v": "The end of the training window: a fraction in\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "(0, 1)"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " of the sample (default "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.5"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "), or an integer\nobservation count if "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": ">= 1"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "minw",
-          "desc": [
-            {
-              "t": "text",
-              "v": "A positive integer. The minimum window size (default =\n"
-            },
-            {
-              "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
-              "display": false
-            },
-            {
-              "t": "text",
-              "v": ", where T denotes the sample size)."
-            }
-          ]
-        },
-        {
-          "name": "nboot",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Number of wild bootstrap replications for the training\ncritical value. Ignored unless "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary = \"bootstrap\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "level",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Nominal confidence level for the monitoring boundary\n(default "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.95"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "). When "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " is "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"kurozumi\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " or\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"fluc\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", must be one of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.90"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.95"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.99"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "adflag, type",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Passed to "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "link",
-                  "topic": "radf_wb_cv2",
-                  "external": false,
-                  "href": null,
-                  "c": [
-                    {
-                      "t": "text",
-                      "v": "radf_wb_cv2"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (lag length /\nselection for the wild bootstrap DGP). Ignored unless\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary = \"bootstrap\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "seed",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Optional seed for the bootstrap draws. Ignored unless\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary = \"bootstrap\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "boundary",
-          "desc": [
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"bootstrap\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (default, Phillips & Shi 2020),\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"kurozumi\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (Kurozumi 2020's closed-form SADF/GSADF boundary), or\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"fluc\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (Homm & Breitung 2012's FLUC boundary)."
-            }
-          ]
-        },
-        {
-          "name": "s0",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Kurozumi (2020)'s window-start range as a fraction of the\ntraining length, only used when "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary = \"kurozumi\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ".\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (default) is the "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "SADF"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " case (window start fixed at\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "1"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "); "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.4"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " or "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.8"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " switches to the "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "GSADF_{s0}"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "\ncase (window start ranges over "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "[1, floor(T* * s0)]"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "), the only\ntwo values his boundary function's scaling constants are tabulated\nfor."
-            }
-          ]
-        }
-      ],
-      "value": {
-        "kind": "prose",
-        "paragraphs": [
-          [
-            {
-              "t": "text",
-              "v": "An object of class "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "radf_monitor_obj"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ": a list with the full-sample statistic path ("
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "stat"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " -- "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "bsadf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " for "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary = \"bootstrap\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "badf"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " for "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"kurozumi\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/ "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"fluc\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "), the calibrated "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (one flat value per series), the training window length "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "T_star"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", and "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "alarm"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "/"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "alarm_date"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (the first monitoring-period observation/date at which "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "stat"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " breaches the boundary, "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "NA"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " if never)."
-            }
-          ]
-        ]
-      },
-      "format": null,
-      "examples": "# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- radf_monitor(sim_data, r_star = 0.5, nboot = 200)\nprint(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- radf_monitor(sim_data, r_star = 0.5, boundary = \"kurozumi\")\nprint(mon_kz)",
-      "references": [
-        [
-          {
-            "t": "text",
-            "v": "Phillips, P. C., & Shi, S. (2020). Real time monitoring of asset markets: Bubbles and crises. In Handbook of Statistics (Vol. 42, pp. 61-80). Elsevier."
-          }
-        ],
-        [
-          {
-            "t": "text",
-            "v": "Kurozumi, E. (2020). Asymptotic properties of bubble monitoring tests. Econometric Reviews, 39(5), 510-538."
-          }
-        ],
-        [
-          {
-            "t": "text",
-            "v": "Homm, U., & Breitung, J. (2012). Testing for speculative bubbles in stock markets: A comparison of alternative methods. Journal of Financial Econometrics, 10(1), 198-231."
-          }
-        ]
-      ],
-      "seealso": [
-        [
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "radf_wb_cv2",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_wb_cv2"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " for the underlying wild bootstrap, and "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "datestamp",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "datestamp"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " for the (non-monitoring, full-sample) origination/collapse dating that already exists."
-          }
-        ]
-      ],
-      "source": null,
-      "author": null,
-      "sections": [
-        {
-          "title": "Status",
-          "body": [
-            [
-              {
-                "t": "strong",
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "[Experimental]"
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      ]
-    },
     "radf_recovery": {
       "topic": "radf_recovery",
       "aliases": [
@@ -13565,7 +13952,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_recovery(sim_data, nrep = 200)\nprint(res)",
+      "examples": "set.seed(2)\nn1 <- 40; n2 <- 25; n3 <- 35\nexpansion <- 100 * 1.03^(1:n1) + cumsum(rnorm(n1, sd = 1))\ncollapse <- expansion[n1] * 0.5^((1:n2) / n2) + cumsum(rnorm(n2, sd = 1))\nrecovery <- collapse[n2] + cumsum(rnorm(n3, sd = 1)) + (1:n3) * 0.5\ny <- c(expansion, collapse, recovery) # expansion -> collapse -> recovery\nres <- radf_recovery(y, minw = 15, nrep = 200, seed = 1)\nprint(res)",
       "references": [
         [
           {
@@ -19271,7 +19658,7 @@
         ]
       },
       "format": null,
-      "examples": null,
+      "examples": "set.seed(2026)\nburn <- cumsum(rnorm(60))\nbubble <- burn[length(burn)] * 1.04^(1:40) + cumsum(rnorm(40, sd = 0.5))\ny <- c(burn, bubble)\n\nr <- radf(y, minw = 20)\ncv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)\nds <- datestamp(r, cv = cv, min_duration = 3)\n\nest <- explosive_root(y, ds[[\"series1\"]]$Start[1], ds[[\"series1\"]]$End[1])\nroot_ci(est) # true rho = 1.04 -- CI should bracket it\nroot_ci(est, type = \"cauchy\")",
       "references": [
         [
           {
@@ -19910,7 +20297,7 @@
         ]
       },
       "format": null,
-      "examples": null,
+      "examples": "set.seed(2026)\nburn <- cumsum(rnorm(60))\nbubble <- burn[length(burn)] * 1.04^(1:40) + cumsum(rnorm(40, sd = 0.5))\ny <- c(burn, bubble)\n\nr <- radf(y, minw = 20)\ncv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)\nds <- datestamp(r, cv = cv, min_duration = 3)\n\nroot_ci_datestamp(r, ds) # one row per datestamped episode",
       "references": null,
       "seealso": [
         [

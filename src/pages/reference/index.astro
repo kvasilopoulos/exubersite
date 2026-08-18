@@ -35,20 +35,24 @@ const topicPages: Record<string, unknown> = reference.topics;
       Naming follows what a function actually computes, not just which paper it came from.
       <code>radf_</code> is reserved for functions genuinely built on the recursive-ADF core —
       they call <code>radf()</code> directly or reuse its <code>badf</code>/<code>bsadf</code>
-      output (<code>radf_tt()</code>, <code>radf_sign()</code>, <code>radf_monitor()</code>, and
-      the <code>_cv</code>/<code>_mc</code> critical-value engines). Everything else is named for
-      what it does instead of borrowed prefix: a <code>_test</code> suffix is a hypothesis test
-      with its own null distribution (<code>lbi_test()</code>, <code>ssu_test()</code>,
-      <code>quantile_test()</code>, <code>cobubble_test()</code>); a <code>dating_</code> prefix is
-      a point-estimation / model-selection procedure with no formal test at all
-      (<code>dating_hls()</code>, <code>dating_hlw()</code>, <code>dating_knp()</code>,
-      <code>dating_pdc()</code>); a <code>monitor_</code> prefix is real-time/sequential detection
-      (<code>monitor_cusum()</code>, <code>monitor_lbi()</code>, <code>monitor_quantile()</code>,
-      alongside ADF-family <code>radf_monitor()</code>); a <code>root_</code> prefix is confidence-
-      interval inference on the <em>magnitude</em> of the explosive autoregressive root itself,
-      not a test for its presence (<code>explosive_root()</code>, <code>root_ci()</code>,
+      output (<code>radf_tt()</code>, <code>radf_sign()</code>, and the <code>_cv</code>/
+      <code>_mc</code> critical-value engines). Everything else is named for what it does instead
+      of borrowed prefix: a <code>_test</code> suffix is a hypothesis test with its own null
+      distribution (<code>lbi_test()</code>, <code>ssu_test()</code>, <code>quantile_test()</code>,
+      <code>cobubble_test()</code>); a <code>dating_</code> prefix is a point-estimation /
+      model-selection procedure with no formal test at all (<code>dating_hls()</code>,
+      <code>dating_hlw()</code>, <code>dating_knp()</code>, <code>dating_pdc()</code>); a
+      <code>monitor_</code> prefix is real-time/sequential detection (<code>monitor_cusum()</code>,
+      <code>monitor_lbi()</code>, <code>monitor_quantile()</code>, and <code>monitor_radf()</code>
+      — grouped with its fellow monitors deliberately, even though it reuses <code>radf()</code>'s
+      own <code>badf</code>/<code>bsadf</code> internals, since "what monitors in real time" is
+      what a reader searching that prefix actually wants); a <code>root_</code> prefix is
+      confidence-interval inference on the <em>magnitude</em> of the explosive autoregressive root
+      itself, not a test for its presence (<code>explosive_root()</code>, <code>root_ci()</code>,
       <code>root_ci_datestamp()</code>); and <code>contagion_reg()</code> stands on its own as a
-      point-estimation tool that performs no formal inference at all.
+      point-estimation tool that performs no formal inference at all. Naming is a guide, not a
+      contract — for anything programmatic, call <code>exuber_functions(family = ...)</code>
+      instead of parsing names.
     </p>
     <p class="mt-4">
       Don't confuse the standalone <code>dating_</code> family above with

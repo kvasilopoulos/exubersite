@@ -602,9 +602,17 @@ Replication script:
 
 **Status: done.** Guo, Sun & Wang's normal-t CI + doubling time, the
 Phillips-Magdalinos Cauchy CI, and per-episode datestamp integration are
-all implemented in `exuber/R/explosive_root.R` (`explosive_root()`,
-`root_ci()`, `root_ci_datestamp()`), tested in
-`exuber/tests/testthat/test-root-ci.R`.
+all implemented in `exuber/R/rootstamp.R` as a single S3 generic,
+`rootstamp()` (`default` method for a single sub-sample, `radf_obj` method
+for every `datestamp()` episode at once), tested in
+`exuber/tests/testthat/test-rootstamp.R`. **Update (2026-08-18):**
+originally shipped as three separate functions (`explosive_root()`,
+`root_ci()`, `root_ci_datestamp()`); consolidated into `rootstamp()` before
+release once the three-call handoff (and `root_ci_datestamp()`'s
+backwards-reading name) turned out to be UX friction worth fixing early,
+not a stable public API worth preserving. Historical mentions of the three
+old names below are left as-is (they describe what was true at each dated
+entry); read them as `rootstamp()` in current terms.
 
 ### Source
 
@@ -664,7 +672,7 @@ freedom, a pure mathematical fact independent of whichever paper states it
 — so this is checkable exactly, no simulation, no primary-source risk:
 `qt(0.95, df = 1) = 6.313752`, `qt(0.975, df = 1) = 12.7062`,
 `qt(0.995, df = 1) = 63.65674`, matching the footnote to the precision
-given. Tested in `test-root-ci.R`. (This doesn't validate the *exponent*
+given. Tested in `test-rootstamp.R`. (This doesn't validate the *exponent*
 in result (1)'s CI formula, which is why that formula wasn't shipped
 immediately — only that the percentile table quoted is correct.)
 
@@ -687,13 +695,13 @@ A 500-replication simulation at a modest sample size (explosive episode of
 around 90%, not 95% — finite-sample undercoverage, not a bug (verified the
 formula reduces to the textbook Wald interval correctly; the CLT this
 relies on is a T → ∞ result and this specific estimator is known in the
-literature to converge slowly). `test-root-ci.R`'s coverage test checks
+literature to converge slowly). `test-rootstamp.R`'s coverage test checks
 against a deliberately loose bound (>80%) reflecting this, rather than
 asserting the nominal rate — documented here rather than glossed over.
 
 ### Independent validation (2026-08-09)
 
-Different parameters and seed from `test-root-ci.R` throughout (that suite
+Different parameters and seed from `test-rootstamp.R` throughout (that suite
 uses `rho=1.03, n=150`; here `rho=1.05, n=200`), to check the finding isn't
 an artifact of one specific parameterization.
 
@@ -716,7 +724,7 @@ explosive root).
 covered <- replicate(800, {
   y <- numeric(200); e <- rnorm(200)
   for (t in 2:200) y[t] <- 1.05 * y[t-1] + e[t]
-  ci <- root_ci(explosive_root(y, 1, 200))
+  ci <- rootstamp(y)
   ci$rho_ci[1] <= 1.05 && 1.05 <= ci$rho_ci[2]
 })
 mean(covered)
@@ -733,7 +741,7 @@ disclosure: the undercoverage shrinks in the direction the theory predicts,
 which is itself a check that the CLT justification is the right one and
 not a coincidence.
 
-**Full existing suite**: `test-root-ci.R` — **8 passed, 0 failed** (1
+**Full existing suite**: `test-rootstamp.R` — **8 passed, 0 failed** (1
 skipped, CRAN-only).
 
 **Conclusion**: no issues found. Point estimate and CI behave exactly as
@@ -774,7 +782,7 @@ now ships this as a second CI type alongside the default `"normal"` one,
 using the fixed-root form (eq. 27) derived above. Roxygen docs note the
 Cauchy interval assumes a *fixed* explosive root while the default
 normal-t interval (Guo/Sun/Wang) allows drift/dependence and stays the
-safer default. Tested in `test-root-ci.R` (brackets the point estimate;
+safer default. Tested in `test-rootstamp.R` (brackets the point estimate;
 matches the closed-form eq. 27 formula exactly, not just approximately).
 The true moderate-deviations form (eq. 26, needing an estimate of
 \eqn{\alpha}, the localizing-rate exponent) is a materially harder
@@ -805,7 +813,7 @@ Shipped instead: `root_ci_datestamp(object, ds, level = 0.95, type =
 "normal")`, a standalone function that runs `explosive_root()`/`root_ci()`
 on every episode in a `datestamp()` result and returns output in the same
 per-series-named-list shape `datestamp()` itself uses. Tested end-to-end
-in `test-root-ci.R` against a real `radf()` → `radf_mc_cv()` → `datestamp()`
+in `test-rootstamp.R` against a real `radf()` → `radf_mc_cv()` → `datestamp()`
 pipeline, checked against calling `explosive_root()`/`root_ci()` directly
 on the same episode. Root inference on very short episodes (duration 1-2)
 is left to degrade honestly (matching what calling `explosive_root()`
@@ -814,7 +822,7 @@ docs point at `datestamp()`'s existing `min_duration` argument instead of
 adding a second, redundant filtering knob.
 
 Replication script:
-[replication/dating-and-root-inference/explosive_root_validation.R](#script-explosive_root_validation).
+[replication/dating-and-root-inference/rootstamp_validation.R](#script-rootstamp_validation).
 
 ---
 

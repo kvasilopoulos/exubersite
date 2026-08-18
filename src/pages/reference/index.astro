@@ -48,8 +48,9 @@ const topicPages: Record<string, unknown> = reference.topics;
       own <code>badf</code>/<code>bsadf</code> internals, since "what monitors in real time" is
       what a reader searching that prefix actually wants); a <code>root_</code> prefix is
       confidence-interval inference on the <em>magnitude</em> of the explosive autoregressive root
-      itself, not a test for its presence (<code>explosive_root()</code>, <code>root_ci()</code>,
-      <code>root_ci_datestamp()</code>); and <code>contagion_reg()</code> stands on its own as a
+      itself, not a test for its presence (<code>rootstamp()</code>, via two S3 methods — default
+      for a single sub-sample, <code>radf_obj</code> to run every <code>datestamp()</code> episode
+      at once); and <code>contagion_reg()</code> stands on its own as a
       point-estimation tool that performs no formal inference at all. Naming is a guide, not a
       contract — for anything programmatic, call <code>exuber_functions(family = ...)</code>
       instead of parsing names.

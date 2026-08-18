@@ -220,13 +220,59 @@ run (item 2), and the test behaves correctly on a case it should detect
 Replication script:
 [replication/volatility-robustness/radf_tt_validation.R](#script-radf_tt_validation).
 
+### `datestamp()`/`autoplot()` parity (done, 2026-08-18)
+
+The "Open follow-ups" below used to list "Full tidy/autoplot/datestamp S3
+method parity with `radf_obj`" — closed. `radf_tt_cv()` computed only the
+three scalar critical values (`adf_cv`/`sadf_cv`/`gsadf_cv`) needed by
+`summary()`/`tidy()`, never the `badf_cv`/`bsadf_cv` time-varying boundary
+`datestamp()`/`autoplot()` need — surfaced when a user reported
+`radf_sign()`'s equivalent gap, which prompted checking all three
+GLS-demeaned-family functions (`radf_sign()`, `radf_sign_dm()`,
+`radf_tt()`). Re-triaged: `gls_dfstat_grid()` (the shared no-intercept
+recursive-DF machinery `radf_tt()` already calls) returns the genuine
+sup-over-all-window-starts `bsadf` at each point directly, not the
+cummax-of-single-start-series shortcut `radf_mc_cv()`'s own `bsadf_cv`
+needs around the base C++ engine's output shape — so no new recursion or
+shortcut derivation was needed, just collecting `badf`/`bsadf` across
+replicates (already computed, previously discarded) and taking the
+per-time-point quantile, the same construction `radf_mc_cv()` uses.
+
+Validated:
+1. **Formula-exact**: `badf_cv`'s last row is bit-identical to `adf_cv`
+   (not approximate — `adf` is literally `badf`'s last point per
+   replicate, so their quantiles across replicates must match exactly).
+2. **Monte Carlo size**: false-alarm rate under `H0` (pure random walk,
+   n=100, minw=20, nrep=2000, 300 replications) is 3.3% against nominal
+   5% for both `option = "gsadf"` (`bsadf_cv`) and `option = "sadf"`
+   (`badf_cv`) — conservative, no size distortion.
+3. **Power, cross-checked against the established baseline**: on an
+   identical synthetic bubble (60 pre-bubble + 30 explosive at ρ=1.03 +
+   10 post-collapse, 50 replications), `radf_tt()`'s new `datestamp()`
+   detects 18% of the time, `radf()`/`radf_mc_cv()`'s own long-established
+   pipeline detects 16% — the low absolute number is this DGP being a
+   short/moderate bubble at this sample size, confirmed by getting the
+   same number from the already-trusted baseline on the identical
+   series, not a defect in the new critical-value code.
+4. Confirmed on `sim_data`'s own bundled bubble series (`psy2`):
+   `datestamp()` finds two sensible episodes (Start=21/Peak=27/End=35 and
+   Start=55/Peak=55/End=73).
+
+`radf_sign_cv()`/`radf_sign_dm_cv()` had the identical gap; checked
+immediately after and confirmed the same shortcut applies unchanged —
+both call `gls_dfstat_grid()` too (on a sign-transformed series), so the
+same fix, same pass. See [Sign-based sGSADF](#sign-based-sgsadf)'s own
+"`datestamp()`/`autoplot()` parity" note for that validation record.
+
 ### Open follow-ups
 
 - Extend `radf_tt_cv()`/`radf_tt()`'s asymptotic critical values across a
   grid of `r0`, not just r0=0.1 (the paper notes this is directly available
   from their R code at https://sites.google.com/site/antonskrobotov/,
   not fetched in this pass).
-- Full tidy/autoplot/datestamp S3 method parity with `radf_obj`.
+- ~~`radf_sign_cv()`/`radf_sign_dm_cv()` still lack `badf_cv`/`bsadf_cv`~~
+  — done 2026-08-18, same pass, see [Sign-based sGSADF](#sign-based-sgsadf)'s
+  own "`datestamp()`/`autoplot()` parity" note below.
 - The [sign-based test](#sign-based-sgsadf) is still blocked on paywall
   access — this paper's own literature review (Section 1) is a decent
   secondary source for its qualitative behaviour, but not for exact
@@ -946,6 +992,42 @@ affected `_cv` functions). Full package suite green.
 
 Replication script:
 [replication/volatility-robustness/radf_sign_dm_levelshift_validation.R](#script-radf_sign_dm_levelshift_validation).
+
+### `datestamp()`/`autoplot()` parity (done, 2026-08-18)
+
+Same gap and same fix as [STADF/GSTADF](#time-transformed-test-stadf--gstadf):
+`radf_sign_cv()`/`radf_sign_dm_cv()` computed only the three scalar
+critical values `summary()`/`tidy()` need, discarding the `badf`/`bsadf`
+path their own `gls_dfstat_grid(sign_transform(y), minw)` /
+`gls_dfstat_grid(sign_demean_transform(y), minw)` calls already compute
+per replicate. Checked immediately after confirming the fix for
+`radf_tt_cv()`, since all three call `gls_dfstat_grid()` on a transformed
+series — confirmed the identical construction applies unchanged (no
+cummax shortcut needed; the per-replicate `bsadf` is already the genuine
+sup-over-all-window-starts statistic, regardless of which series feeds
+the grid).
+
+Validated per function, same battery as STADF/GSTADF:
+1. **Formula-exact**: `badf_cv`'s last row bit-identical to `adf_cv` for
+   both `radf_sign_cv()` and `radf_sign_dm_cv()` — a hard identity
+   (`adf <- badf[length(badf)]` inside `gls_dfstat_grid()`), true
+   regardless of the sign-transform.
+2. **Monte Carlo size** (pure random walk, n=100, minw=20, nrep=2000,
+   200 replications): `radf_sign` false-alarm rate 5.5%, `radf_sign_dm`
+   3.5%, both against nominal 5% — no size distortion.
+3. **Power, cross-checked against the same baseline**: on the identical
+   synthetic bubble used for STADF/GSTADF's own check (`radf()`/
+   `radf_mc_cv()` baseline: 16%), `radf_sign` detects 20%, `radf_sign_dm`
+   8% — `radf_sign_dm`'s lower number is consistent with the
+   heteroskedasticity-invariance/power tradeoff this whole test family is
+   already documented (above) to have, not a validation concern.
+4. Both `datestamp()` (`option = "gsadf"` and `"sadf"`, exercising
+   `bsadf_cv` and `badf_cv` respectively) and `autoplot()` run without
+   error on `radf_sign(sim_data)`/`radf_sign_dm(sim_data)`.
+
+New tests in `test-sign.R` (shape/identity check, full-pipeline smoke
+test for both functions). Full package suite green (724 assertions,
+up from 700 before this `badf_cv`/`bsadf_cv` pass).
 
 ---
 

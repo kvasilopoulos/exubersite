@@ -11,11 +11,6 @@
   },
   {
     "family": "dating-and-root-inference",
-    "name": "explosive_root_validation",
-    "file": "explosive_root_validation.R"
-  },
-  {
-    "family": "dating-and-root-inference",
     "name": "radf_hls_validation",
     "file": "radf_hls_validation.R"
   },
@@ -48,6 +43,11 @@
     "family": "dating-and-root-inference",
     "name": "radf_recovery_validation",
     "file": "radf_recovery_validation.R"
+  },
+  {
+    "family": "dating-and-root-inference",
+    "name": "rootstamp_validation",
+    "file": "rootstamp_validation.R"
   },
   {
     "family": "monitoring",

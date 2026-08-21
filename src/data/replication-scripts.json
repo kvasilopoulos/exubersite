@@ -111,6 +111,11 @@
   },
   {
     "family": "volatility-robustness",
+    "name": "datestamp_svadf_validation",
+    "file": "datestamp_svadf_validation.R"
+  },
+  {
+    "family": "volatility-robustness",
     "name": "hafner_dist_skew_moments_and_regression",
     "file": "hafner_dist_skew_moments_and_regression.R"
   },
@@ -143,11 +148,6 @@
     "family": "volatility-robustness",
     "name": "radf_ssu_validation",
     "file": "radf_ssu_validation.R"
-  },
-  {
-    "family": "volatility-robustness",
-    "name": "radf_svadf_validation",
-    "file": "radf_svadf_validation.R"
   },
   {
     "family": "volatility-robustness",

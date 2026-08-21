@@ -1359,7 +1359,7 @@ counts *any* origination crossing anywhere in the series across a full
 than a single-point 10% test, so a somewhat-inflated aggregate rate
 here is expected, not a sign of miscalibration at any individual point.
 New `test-svadf.R` (7 tests). Replication script:
-[replication/volatility-robustness/radf_svadf_validation.R](#script-radf_svadf_validation).
+[replication/volatility-robustness/datestamp_svadf_validation.R](#script-datestamp_svadf_validation).
 
 The AI-equity empirical hook (2025-26 exuberance in Nvidia, Tesla,
 TSMC, etc.) is a plausible source for a topical worked-example vignette

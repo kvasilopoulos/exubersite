@@ -674,19 +674,36 @@ def build_reference() -> None:
 
     pk = yaml.safe_load((EXUBER / "_pkgdown.yml").read_text(encoding="utf-8"))
 
-    groups = []
-    for g in pk["reference"]:
+    # pkgdown's reference index is a flat list mixing three row kinds: a
+    # `title` (h2), a `subtitle` (h3, belongs to the preceding title) and a
+    # `contents` list (belongs to the preceding title or subtitle). Fold it
+    # into groups -> sections -> entries; a title with its own contents gets
+    # one anonymous section so every group renders the same way.
+    def clean_desc(g: dict) -> tuple[str, str | None]:
         desc = re.sub(r"\s+", " ", (g.get("desc") or "")).strip()
         m = re.search(r"docs/enhancements/([a-z-]+)\.md", desc)
         replication = m.group(1) if m and m.group(1) in PUBLISHED else None
         desc = re.sub(r";?\s*see docs/enhancements/[a-z-]+\.md", "", desc).strip()
+        return desc, replication
 
-        contents = g.get("contents") or []
-        entries = []
-        for name in contents:
-            topic = alias_topic.get(name, name)
-            entries.append({"name": name, "topic": topic, "title": topic_title.get(topic, "")})
-        groups.append({"title": g["title"], "desc": desc, "replication": replication, "entries": entries})
+    groups: list[dict] = []
+    for g in pk["reference"]:
+        if "title" in g:
+            desc, replication = clean_desc(g)
+            groups.append({"title": g["title"], "desc": desc, "replication": replication, "sections": []})
+        if "subtitle" in g:
+            desc, _ = clean_desc(g)
+            groups[-1]["sections"].append({"subtitle": g["subtitle"], "desc": desc, "entries": []})
+        if "contents" in g:
+            if "subtitle" not in g and ("title" in g or not groups[-1]["sections"]):
+                groups[-1]["sections"].append({"subtitle": None, "desc": "", "entries": []})
+            for name in g["contents"]:
+                topic = alias_topic.get(name, name)
+                groups[-1]["sections"][-1]["entries"].append(
+                    {"name": name, "topic": topic, "title": topic_title.get(topic, "")}
+                )
+    for g in groups:
+        g["entries"] = [e for sec in g["sections"] for e in sec["entries"]]
 
     namespace = (EXUBER / "NAMESPACE").read_text(encoding="utf-8").splitlines()
     exports = [
@@ -712,7 +729,8 @@ def build_reference() -> None:
     )
 
     n_topics = sum(len(g["entries"]) for g in groups)
-    print(f"reference: {len(groups)} groups, {n_topics} topics, {len(topics)} Rd files parsed -> src/data/reference.json")
+    n_sections = sum(len(g["sections"]) for g in groups)
+    print(f"reference: {len(groups)} groups, {n_sections} sections, {n_topics} topics, {len(topics)} Rd files parsed -> src/data/reference.json")
     if ungrouped:
         print(f"  {len(ungrouped)} exports with no _pkgdown.yml reference entry:")
         print(f"    {', '.join(ungrouped)}")

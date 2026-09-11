@@ -17,6 +17,9 @@ const doc = (reference.topics as Record<string, any>)[topic!];
 // sidebar and the breadcrumb back to the group's own description.
 const groups = reference.r.filter((g) => g.entries.some((e) => e.topic === topic));
 const primaryGroup = groups[0];
+// The subtitle block this topic sits in (a function plus the methods that
+// consume its output) -- the natural "siblings" list; falls back to the group.
+const primarySection = primaryGroup?.sections.find((s) => s.entries.some((e) => e.topic === topic));
 
 const headings = [
   doc.arguments && doc.arguments.length > 0 && { depth: 2, slug: "arguments", text: "Arguments" },
@@ -34,10 +37,10 @@ function slugify(s: string) {
 const sidebar = primaryGroup
   ? [
       {
-        title: primaryGroup.title,
+        title: primarySection?.subtitle ?? primaryGroup.title,
         items: [
           { href: "/reference", label: "← All functions" },
-          ...primaryGroup.entries.map((e) => ({ href: `/reference/${e.topic}`, label: e.name })),
+          ...(primarySection ?? primaryGroup).entries.map((e) => ({ href: `/reference/${e.topic}`, label: e.name })),
         ],
       },
       referenceSection(),

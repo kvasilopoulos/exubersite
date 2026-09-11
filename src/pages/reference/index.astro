@@ -5,7 +5,12 @@ import extra from "../../data/reference-extra.json";
 import { replicationSection, referenceSection, slugify } from "../../sidebars";
 
 const headings = [
-  ...reference.r.map((g) => ({ depth: 2, slug: slugify(g.title), text: g.title })),
+  ...reference.r.flatMap((g) => [
+    { depth: 2, slug: slugify(g.title), text: g.title },
+    ...g.sections
+      .filter((s) => s.subtitle)
+      .map((s) => ({ depth: 3, slug: slugify(`${g.title} ${s.subtitle}`), text: s.subtitle! })),
+  ]),
   { depth: 2, slug: "python", text: "Python — pyexuber" },
   { depth: 2, slug: "cpp", text: "C++ — exubercore" },
 ];
@@ -18,7 +23,7 @@ const topicPages: Record<string, unknown> = reference.topics;
 <DocsLayout
   eyebrow="Packages"
   title="Reference index"
-  description={`Every documented entry point across the three implementations — ${total} R topics grouped as in the package's own reference index, plus the Python and C++ surfaces.`}
+  description={`Every documented entry point across the three implementations — ${total} R topics grouped as in the package's own reference index — each function next to the methods that consume its output — plus the Python and C++ surfaces.`}
   headings={headings}
   sidebar={sidebar}
 >
@@ -96,26 +101,39 @@ const topicPages: Record<string, unknown> = reference.topics;
               </a>
             )}
           </div>
-          <ul class="mt-1 divide-y divide-border">
-            {group.entries.map((e) => (
-              <li>
-                {topicPages[e.topic] ? (
-                  <a
-                    href={`/reference/${e.topic}`}
-                    class="grid gap-1 py-2.5 transition-colors hover:bg-panel sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4"
-                  >
-                    <code class="font-mono text-[13px] text-ink">{e.name}()</code>
-                    <span class="text-sm leading-snug text-muted">{e.title}</span>
-                  </a>
-                ) : (
-                  <span class="grid gap-1 py-2.5 sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4">
-                    <code class="font-mono text-[13px] text-ink">{e.name}()</code>
-                    <span class="text-sm leading-snug text-muted">{e.title}</span>
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
+          {group.sections.map((sec) => (
+            <div class={sec.subtitle ? "mt-6" : ""}>
+              {sec.subtitle && (
+                <h3
+                  id={slugify(`${group.title} ${sec.subtitle}`)}
+                  class="scroll-mt-24 font-mono text-[11px] uppercase tracking-wide text-muted"
+                >
+                  {sec.subtitle}
+                </h3>
+              )}
+              {sec.desc && <p class="mt-1 text-sm leading-relaxed text-muted">{sec.desc}</p>}
+              <ul class="mt-1 divide-y divide-border">
+                {sec.entries.map((e) => (
+                  <li>
+                    {topicPages[e.topic] ? (
+                      <a
+                        href={`/reference/${e.topic}`}
+                        class="grid gap-1 py-2.5 transition-colors hover:bg-panel sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4"
+                      >
+                        <code class="font-mono text-[13px] text-ink">{e.name}()</code>
+                        <span class="text-sm leading-snug text-muted">{e.title}</span>
+                      </a>
+                    ) : (
+                      <span class="grid gap-1 py-2.5 sm:grid-cols-[15rem_minmax(0,1fr)] sm:gap-4">
+                        <code class="font-mono text-[13px] text-ink">{e.name}()</code>
+                        <span class="text-sm leading-snug text-muted">{e.title}</span>
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
       ))
     }

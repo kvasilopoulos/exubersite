@@ -4,6 +4,24 @@
       "title": "Package",
       "desc": "",
       "replication": null,
+      "sections": [
+        {
+          "subtitle": null,
+          "desc": "",
+          "entries": [
+            {
+              "name": "exuber",
+              "topic": "exuber",
+              "title": "exuber: Econometric Analysis of Explosive Time Series"
+            },
+            {
+              "name": "exuber_functions",
+              "topic": "exuber_functions",
+              "title": "Look Up exuber's Test/Procedure Functions by Family"
+            }
+          ]
+        }
+      ],
       "entries": [
         {
           "name": "exuber",
@@ -18,14 +36,144 @@
       ]
     },
     {
-      "title": "Recursive Augmented Dickey Fuller",
-      "desc": "Estimation & Critical Values -- the cornerstone of the package",
+      "title": "Recursive Augmented Dickey-Fuller",
+      "desc": "Estimation & critical values -- the cornerstone of the package. Each function is listed with the methods that consume its output.",
       "replication": null,
+      "sections": [
+        {
+          "subtitle": "radf()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf",
+              "topic": "radf",
+              "title": "Recursive Augmented Dickey-Fuller Test"
+            },
+            {
+              "name": "summary.radf_obj",
+              "topic": "summary.radf_obj",
+              "title": "Summarizing radf models"
+            },
+            {
+              "name": "tidy.radf_obj",
+              "topic": "tidy.radf_obj",
+              "title": "Tidy a radf_obj object"
+            },
+            {
+              "name": "augment.radf_obj",
+              "topic": "augment.radf_obj",
+              "title": "Augment a radf_obj object"
+            },
+            {
+              "name": "autoplot.radf_obj",
+              "topic": "autoplot.radf_obj",
+              "title": "Plotting radf models"
+            }
+          ]
+        },
+        {
+          "subtitle": "Critical values",
+          "desc": "One engine per null distribution; each `_cv()` has a `_distr()` twin that returns the full simulated distribution instead of its quantiles",
+          "entries": [
+            {
+              "name": "radf_mc_cv",
+              "topic": "radf_mc_cv",
+              "title": "Monte Carlo Critical Values"
+            },
+            {
+              "name": "radf_wb_cv",
+              "topic": "radf_wb_cv",
+              "title": "Wild Bootstrap Critical Values"
+            },
+            {
+              "name": "radf_wb_ps_cv",
+              "topic": "radf_wb_ps_cv",
+              "title": "Wild Bootstrap Critical Values (Phillips & Shi 2020)"
+            },
+            {
+              "name": "radf_sb_cv",
+              "topic": "radf_sb_cv",
+              "title": "Panel Sieve Bootstrap Critical Values"
+            },
+            {
+              "name": "radf_crit",
+              "topic": "radf_crit",
+              "title": "Stored Monte Carlo Critical Values"
+            },
+            {
+              "name": "tidy.radf_cv",
+              "topic": "tidy.radf_cv",
+              "title": "Tidy a radf_cv object"
+            },
+            {
+              "name": "augment.radf_cv",
+              "topic": "augment.radf_cv",
+              "title": "Augment a radf_cv object"
+            },
+            {
+              "name": "tidy.radf_distr",
+              "topic": "tidy.radf_distr",
+              "title": "Tidy a radf_distr object"
+            },
+            {
+              "name": "autoplot.radf_distr",
+              "topic": "autoplot.radf_distr",
+              "title": "Plotting a radf_distr object"
+            }
+          ]
+        },
+        {
+          "subtitle": "Joining statistics and critical values",
+          "desc": "",
+          "entries": [
+            {
+              "name": "tidy_join",
+              "topic": "tidy_join",
+              "title": "Tidy into a joint model"
+            },
+            {
+              "name": "tidy_join.radf_obj",
+              "topic": "tidy_join.radf_obj",
+              "title": "Tidy into a joint model"
+            },
+            {
+              "name": "augment_join",
+              "topic": "augment_join",
+              "title": "Augment into a joint model"
+            },
+            {
+              "name": "augment_join.radf_obj",
+              "topic": "augment_join.radf_obj",
+              "title": "Augment into a joint model"
+            }
+          ]
+        }
+      ],
       "entries": [
         {
           "name": "radf",
           "topic": "radf",
           "title": "Recursive Augmented Dickey-Fuller Test"
+        },
+        {
+          "name": "summary.radf_obj",
+          "topic": "summary.radf_obj",
+          "title": "Summarizing radf models"
+        },
+        {
+          "name": "tidy.radf_obj",
+          "topic": "tidy.radf_obj",
+          "title": "Tidy a radf_obj object"
+        },
+        {
+          "name": "augment.radf_obj",
+          "topic": "augment.radf_obj",
+          "title": "Augment a radf_obj object"
+        },
+        {
+          "name": "autoplot.radf_obj",
+          "topic": "autoplot.radf_obj",
+          "title": "Plotting radf models"
         },
         {
           "name": "radf_mc_cv",
@@ -51,19 +199,109 @@
           "name": "radf_crit",
           "topic": "radf_crit",
           "title": "Stored Monte Carlo Critical Values"
+        },
+        {
+          "name": "tidy.radf_cv",
+          "topic": "tidy.radf_cv",
+          "title": "Tidy a radf_cv object"
+        },
+        {
+          "name": "augment.radf_cv",
+          "topic": "augment.radf_cv",
+          "title": "Augment a radf_cv object"
+        },
+        {
+          "name": "tidy.radf_distr",
+          "topic": "tidy.radf_distr",
+          "title": "Tidy a radf_distr object"
+        },
+        {
+          "name": "autoplot.radf_distr",
+          "topic": "autoplot.radf_distr",
+          "title": "Plotting a radf_distr object"
+        },
+        {
+          "name": "tidy_join",
+          "topic": "tidy_join",
+          "title": "Tidy into a joint model"
+        },
+        {
+          "name": "tidy_join.radf_obj",
+          "topic": "tidy_join.radf_obj",
+          "title": "Tidy into a joint model"
+        },
+        {
+          "name": "augment_join",
+          "topic": "augment_join",
+          "title": "Augment into a joint model"
+        },
+        {
+          "name": "augment_join.radf_obj",
+          "topic": "augment_join.radf_obj",
+          "title": "Augment into a joint model"
         }
       ]
     },
     {
       "title": "Analysis",
-      "desc": "The core workflow, in order: summarize the fit, check which series reject the null, date the explosive episodes, then quantify how fast each one is growing",
+      "desc": "The core workflow, in order: check which series reject the null, date the explosive episodes, then quantify how fast each one is growing",
       "replication": null,
-      "entries": [
+      "sections": [
         {
-          "name": "summary.radf_obj",
-          "topic": "summary.radf_obj",
-          "title": "Summarizing radf models"
+          "subtitle": "diagnostics()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "diagnostics",
+              "topic": "diagnostics",
+              "title": "Diagnostics on hypothesis testing"
+            }
+          ]
         },
+        {
+          "subtitle": "datestamp()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "datestamp",
+              "topic": "datestamp",
+              "title": "Date-stamping periods of mildly explosive behavior"
+            },
+            {
+              "name": "tidy.ds_radf",
+              "topic": "tidy.ds_radf",
+              "title": "Tidy a ds_radf object"
+            },
+            {
+              "name": "autoplot.ds_radf",
+              "topic": "autoplot.ds_radf",
+              "title": "Plotting a ds_radf object"
+            }
+          ]
+        },
+        {
+          "subtitle": "rootstamp()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "rootstamp",
+              "topic": "rootstamp",
+              "title": "Confidence Interval and Doubling Time for an Explosive Root"
+            },
+            {
+              "name": "autoplot.rootstamp_est",
+              "topic": "autoplot.rootstamp_est",
+              "title": "Plot method for rootstamp() output on a single sub-sample"
+            },
+            {
+              "name": "autoplot.rootstamp_episodes",
+              "topic": "autoplot.rootstamp_episodes",
+              "title": "Plot method for rootstamp() output on datestamped episodes"
+            }
+          ]
+        }
+      ],
+      "entries": [
         {
           "name": "diagnostics",
           "topic": "diagnostics",
@@ -75,53 +313,9 @@
           "title": "Date-stamping periods of mildly explosive behavior"
         },
         {
-          "name": "rootstamp",
-          "topic": "rootstamp",
-          "title": "Confidence Interval and Doubling Time for an Explosive Root"
-        }
-      ]
-    },
-    {
-      "title": "Tidying",
-      "desc": "",
-      "replication": null,
-      "entries": [
-        {
-          "name": "tidy.radf_obj",
-          "topic": "tidy.radf_obj",
-          "title": "Tidy a radf_obj object"
-        },
-        {
-          "name": "tidy.radf_cv",
-          "topic": "tidy.radf_cv",
-          "title": "Tidy a radf_cv object"
-        },
-        {
-          "name": "tidy.radf_distr",
-          "topic": "tidy.radf_distr",
-          "title": "Tidy a radf_distr object"
-        },
-        {
           "name": "tidy.ds_radf",
           "topic": "tidy.ds_radf",
           "title": "Tidy a ds_radf object"
-        }
-      ]
-    },
-    {
-      "title": "Plotting",
-      "desc": "",
-      "replication": null,
-      "entries": [
-        {
-          "name": "autoplot.radf_obj",
-          "topic": "autoplot.radf_obj",
-          "title": "Plotting radf models"
-        },
-        {
-          "name": "autoplot.radf_distr",
-          "topic": "autoplot.radf_distr",
-          "title": "Plotting a radf_distr object"
         },
         {
           "name": "autoplot.ds_radf",
@@ -129,9 +323,586 @@
           "title": "Plotting a ds_radf object"
         },
         {
-          "name": "scale_exuber_manual",
-          "topic": "scale_exuber_manual",
-          "title": "Exuber scale and theme functions"
+          "name": "rootstamp",
+          "topic": "rootstamp",
+          "title": "Confidence Interval and Doubling Time for an Explosive Root"
+        },
+        {
+          "name": "autoplot.rootstamp_est",
+          "topic": "autoplot.rootstamp_est",
+          "title": "Plot method for rootstamp() output on a single sub-sample"
+        },
+        {
+          "name": "autoplot.rootstamp_episodes",
+          "topic": "autoplot.rootstamp_episodes",
+          "title": "Plot method for rootstamp() output on datestamped episodes"
+        }
+      ]
+    },
+    {
+      "title": "Heteroskedasticity-robust (time-transformed)",
+      "desc": "Bootstrap-free alternative to radf_wb_cv() under time-varying volatility",
+      "replication": null,
+      "sections": [
+        {
+          "subtitle": null,
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_tt",
+              "topic": "radf_tt",
+              "title": "Time-Transformed Test for Explosive Bubbles under Non-stationary Volatility"
+            },
+            {
+              "name": "radf_tt_cv",
+              "topic": "radf_tt_cv",
+              "title": "Monte Carlo critical values for the time-transformed test (STADF/GSTADF)"
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "name": "radf_tt",
+          "topic": "radf_tt",
+          "title": "Time-Transformed Test for Explosive Bubbles under Non-stationary Volatility"
+        },
+        {
+          "name": "radf_tt_cv",
+          "topic": "radf_tt_cv",
+          "title": "Monte Carlo critical values for the time-transformed test (STADF/GSTADF)"
+        }
+      ]
+    },
+    {
+      "title": "Volatility-robust (other routes)",
+      "desc": "Further tests robust to time-varying innovation variance",
+      "replication": "volatility-robustness",
+      "sections": [
+        {
+          "subtitle": "radf_sbz()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_sbz",
+              "topic": "radf_sbz",
+              "title": "WLS/Kernel-Volatility Bubble Statistic (SBZ)"
+            },
+            {
+              "name": "radf_sbz_cv",
+              "topic": "radf_sbz_cv",
+              "title": "Wild Bootstrap Critical Values for the SBZ Statistic"
+            },
+            {
+              "name": "radf_sbz_union",
+              "topic": "radf_sbz_union",
+              "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
+            },
+            {
+              "name": "autoplot.radf_sbz_union",
+              "topic": "autoplot.radf_sbz_union",
+              "title": "Plot method for radf_sbz_union() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "radf_sign()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_sign",
+              "topic": "radf_sign",
+              "title": "Sign-Based Bubble Test (sPWY / sPSY)"
+            },
+            {
+              "name": "radf_sign_cv",
+              "topic": "radf_sign_cv",
+              "title": "Monte Carlo Critical Values for the Sign-Based Test"
+            },
+            {
+              "name": "radf_sign_dm",
+              "topic": "radf_sign_dm",
+              "title": "Recursively Demeaned Sign-Based Bubble Test (s-bar-PWY / s-bar-PSY)"
+            },
+            {
+              "name": "radf_sign_dm_cv",
+              "topic": "radf_sign_dm_cv",
+              "title": "Monte Carlo Critical Values for the Recursively Demeaned Sign-Based Test"
+            }
+          ]
+        },
+        {
+          "subtitle": "ssu_test()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "ssu_test",
+              "topic": "ssu_test",
+              "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)"
+            },
+            {
+              "name": "autoplot.ssu_test_obj",
+              "topic": "autoplot.ssu_test_obj",
+              "title": "Plot method for ssu_test() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "radf_kp()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_kp",
+              "topic": "radf_kp",
+              "title": "Kernel-Purged Heteroskedasticity-Robust PSY Test"
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "name": "radf_sbz",
+          "topic": "radf_sbz",
+          "title": "WLS/Kernel-Volatility Bubble Statistic (SBZ)"
+        },
+        {
+          "name": "radf_sbz_cv",
+          "topic": "radf_sbz_cv",
+          "title": "Wild Bootstrap Critical Values for the SBZ Statistic"
+        },
+        {
+          "name": "radf_sbz_union",
+          "topic": "radf_sbz_union",
+          "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
+        },
+        {
+          "name": "autoplot.radf_sbz_union",
+          "topic": "autoplot.radf_sbz_union",
+          "title": "Plot method for radf_sbz_union() output"
+        },
+        {
+          "name": "radf_sign",
+          "topic": "radf_sign",
+          "title": "Sign-Based Bubble Test (sPWY / sPSY)"
+        },
+        {
+          "name": "radf_sign_cv",
+          "topic": "radf_sign_cv",
+          "title": "Monte Carlo Critical Values for the Sign-Based Test"
+        },
+        {
+          "name": "radf_sign_dm",
+          "topic": "radf_sign_dm",
+          "title": "Recursively Demeaned Sign-Based Bubble Test (s-bar-PWY / s-bar-PSY)"
+        },
+        {
+          "name": "radf_sign_dm_cv",
+          "topic": "radf_sign_dm_cv",
+          "title": "Monte Carlo Critical Values for the Recursively Demeaned Sign-Based Test"
+        },
+        {
+          "name": "ssu_test",
+          "topic": "ssu_test",
+          "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)"
+        },
+        {
+          "name": "autoplot.ssu_test_obj",
+          "topic": "autoplot.ssu_test_obj",
+          "title": "Plot method for ssu_test() output"
+        },
+        {
+          "name": "radf_kp",
+          "topic": "radf_kp",
+          "title": "Kernel-Purged Heteroskedasticity-Robust PSY Test"
+        }
+      ]
+    },
+    {
+      "title": "Dating procedures",
+      "desc": "Standalone dating procedures with no critical value needed, and recovery dating. rootstamp() itself lives under Analysis above -- it's the last step of the core workflow, not an alternative to datestamp()",
+      "replication": "dating-and-root-inference",
+      "sections": [
+        {
+          "subtitle": "dating_pdc()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "dating_pdc",
+              "topic": "dating_pdc",
+              "title": "Sequential Sample-Splitting Bubble Dating (PDC/KS)"
+            },
+            {
+              "name": "autoplot.dating_pdc_obj",
+              "topic": "autoplot.dating_pdc_obj",
+              "title": "Plot method for dating_pdc() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "dating_hls()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "dating_hls",
+              "topic": "dating_hls",
+              "title": "SSR/BIC Bubble Dating (Harvey, Leybourne & Sollis 2017)"
+            },
+            {
+              "name": "autoplot.dating_hls_obj",
+              "topic": "autoplot.dating_hls_obj",
+              "title": "Plot method for dating_hls() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "dating_hlw()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "dating_hlw",
+              "topic": "dating_hlw",
+              "title": "Multi-Bubble SSR/BIC Dating (Harvey, Leybourne & Whitehouse 2020)"
+            },
+            {
+              "name": "autoplot.dating_hlw_obj",
+              "topic": "autoplot.dating_hlw_obj",
+              "title": "Plot method for dating_hlw() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "dating_knp()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "dating_knp",
+              "topic": "dating_knp",
+              "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
+            },
+            {
+              "name": "autoplot.dating_knp_obj",
+              "topic": "autoplot.dating_knp_obj",
+              "title": "Plot method for dating_knp() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "radf_recovery()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_recovery",
+              "topic": "radf_recovery",
+              "title": "Reverse-Regression Dating of Crisis Origination and Market Recovery"
+            },
+            {
+              "name": "radf_recovery_cv",
+              "topic": "radf_recovery_cv",
+              "title": "Monte Carlo Critical Values for Reverse-Regression Recovery Dating"
+            },
+            {
+              "name": "autoplot.radf_recovery_obj",
+              "topic": "autoplot.radf_recovery_obj",
+              "title": "Plot method for radf_recovery() output"
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "name": "dating_pdc",
+          "topic": "dating_pdc",
+          "title": "Sequential Sample-Splitting Bubble Dating (PDC/KS)"
+        },
+        {
+          "name": "autoplot.dating_pdc_obj",
+          "topic": "autoplot.dating_pdc_obj",
+          "title": "Plot method for dating_pdc() output"
+        },
+        {
+          "name": "dating_hls",
+          "topic": "dating_hls",
+          "title": "SSR/BIC Bubble Dating (Harvey, Leybourne & Sollis 2017)"
+        },
+        {
+          "name": "autoplot.dating_hls_obj",
+          "topic": "autoplot.dating_hls_obj",
+          "title": "Plot method for dating_hls() output"
+        },
+        {
+          "name": "dating_hlw",
+          "topic": "dating_hlw",
+          "title": "Multi-Bubble SSR/BIC Dating (Harvey, Leybourne & Whitehouse 2020)"
+        },
+        {
+          "name": "autoplot.dating_hlw_obj",
+          "topic": "autoplot.dating_hlw_obj",
+          "title": "Plot method for dating_hlw() output"
+        },
+        {
+          "name": "dating_knp",
+          "topic": "dating_knp",
+          "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
+        },
+        {
+          "name": "autoplot.dating_knp_obj",
+          "topic": "autoplot.dating_knp_obj",
+          "title": "Plot method for dating_knp() output"
+        },
+        {
+          "name": "radf_recovery",
+          "topic": "radf_recovery",
+          "title": "Reverse-Regression Dating of Crisis Origination and Market Recovery"
+        },
+        {
+          "name": "radf_recovery_cv",
+          "topic": "radf_recovery_cv",
+          "title": "Monte Carlo Critical Values for Reverse-Regression Recovery Dating"
+        },
+        {
+          "name": "autoplot.radf_recovery_obj",
+          "topic": "autoplot.radf_recovery_obj",
+          "title": "Plot method for radf_recovery() output"
+        }
+      ]
+    },
+    {
+      "title": "Real-time monitoring",
+      "desc": "Sequential/real-time bubble detection. Each monitor is listed with its static, full-sample counterpart where one exists.",
+      "replication": "monitoring",
+      "sections": [
+        {
+          "subtitle": "monitor()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "monitor",
+              "topic": "monitor",
+              "title": "Real-Time Monitoring for Explosive Bubbles"
+            },
+            {
+              "name": "autoplot.monitor_obj",
+              "topic": "autoplot.monitor_obj",
+              "title": "Plot method for monitor() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "monitor_cusum()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "monitor_cusum",
+              "topic": "monitor_cusum",
+              "title": "CUSUM Real-Time Monitoring for Explosive Bubbles"
+            },
+            {
+              "name": "autoplot.monitor_cusum_obj",
+              "topic": "autoplot.monitor_cusum_obj",
+              "title": "Plot method for monitor_cusum() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "monitor_lbi()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "monitor_lbi",
+              "topic": "monitor_lbi",
+              "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)"
+            },
+            {
+              "name": "autoplot.monitor_lbi_obj",
+              "topic": "autoplot.monitor_lbi_obj",
+              "title": "Plot method for monitor_lbi() output"
+            },
+            {
+              "name": "lbi_test",
+              "topic": "lbi_test",
+              "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
+            },
+            {
+              "name": "autoplot.lbi_test_obj",
+              "topic": "autoplot.lbi_test_obj",
+              "title": "Plot method for lbi_test() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "monitor_quantile()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "monitor_quantile",
+              "topic": "monitor_quantile",
+              "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
+            },
+            {
+              "name": "autoplot.monitor_quantile_obj",
+              "topic": "autoplot.monitor_quantile_obj",
+              "title": "Plot method for monitor_quantile() output"
+            },
+            {
+              "name": "quantile_test",
+              "topic": "quantile_test",
+              "title": "Quantile Unit Root Test for Bubble Detection (Global Test)"
+            },
+            {
+              "name": "autoplot.quantile_test_obj",
+              "topic": "autoplot.quantile_test_obj",
+              "title": "Plot method for quantile_test() output"
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "name": "monitor",
+          "topic": "monitor",
+          "title": "Real-Time Monitoring for Explosive Bubbles"
+        },
+        {
+          "name": "autoplot.monitor_obj",
+          "topic": "autoplot.monitor_obj",
+          "title": "Plot method for monitor() output"
+        },
+        {
+          "name": "monitor_cusum",
+          "topic": "monitor_cusum",
+          "title": "CUSUM Real-Time Monitoring for Explosive Bubbles"
+        },
+        {
+          "name": "autoplot.monitor_cusum_obj",
+          "topic": "autoplot.monitor_cusum_obj",
+          "title": "Plot method for monitor_cusum() output"
+        },
+        {
+          "name": "monitor_lbi",
+          "topic": "monitor_lbi",
+          "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)"
+        },
+        {
+          "name": "autoplot.monitor_lbi_obj",
+          "topic": "autoplot.monitor_lbi_obj",
+          "title": "Plot method for monitor_lbi() output"
+        },
+        {
+          "name": "lbi_test",
+          "topic": "lbi_test",
+          "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
+        },
+        {
+          "name": "autoplot.lbi_test_obj",
+          "topic": "autoplot.lbi_test_obj",
+          "title": "Plot method for lbi_test() output"
+        },
+        {
+          "name": "monitor_quantile",
+          "topic": "monitor_quantile",
+          "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
+        },
+        {
+          "name": "autoplot.monitor_quantile_obj",
+          "topic": "autoplot.monitor_quantile_obj",
+          "title": "Plot method for monitor_quantile() output"
+        },
+        {
+          "name": "quantile_test",
+          "topic": "quantile_test",
+          "title": "Quantile Unit Root Test for Bubble Detection (Global Test)"
+        },
+        {
+          "name": "autoplot.quantile_test_obj",
+          "topic": "autoplot.quantile_test_obj",
+          "title": "Plot method for quantile_test() output"
+        }
+      ]
+    },
+    {
+      "title": "Multivariate / panel bubble tests",
+      "desc": "Panel and cross-series tests",
+      "replication": "multivariate",
+      "sections": [
+        {
+          "subtitle": "radf_common()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "radf_common",
+              "topic": "radf_common",
+              "title": "Common-Bubble Detection via PCA + PSY"
+            },
+            {
+              "name": "radf_common_cv",
+              "topic": "radf_common_cv",
+              "title": "Critical Values for the Common-Bubble (PCA + PSY) Test"
+            }
+          ]
+        },
+        {
+          "subtitle": "cobubble_test()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "cobubble_test",
+              "topic": "cobubble_test",
+              "title": "Test for Co-explosive Behaviour Between Two Series"
+            },
+            {
+              "name": "autoplot.cobubble_test",
+              "topic": "autoplot.cobubble_test",
+              "title": "Plot method for cobubble_test() output"
+            }
+          ]
+        },
+        {
+          "subtitle": "contagion_reg()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "contagion_reg",
+              "topic": "contagion_reg",
+              "title": "Bubble Contagion Regression (Greenaway-McGrevy & Phillips 2016)"
+            },
+            {
+              "name": "autoplot.contagion_reg_obj",
+              "topic": "autoplot.contagion_reg_obj",
+              "title": "Plot method for contagion_reg() output"
+            }
+          ]
+        }
+      ],
+      "entries": [
+        {
+          "name": "radf_common",
+          "topic": "radf_common",
+          "title": "Common-Bubble Detection via PCA + PSY"
+        },
+        {
+          "name": "radf_common_cv",
+          "topic": "radf_common_cv",
+          "title": "Critical Values for the Common-Bubble (PCA + PSY) Test"
+        },
+        {
+          "name": "cobubble_test",
+          "topic": "cobubble_test",
+          "title": "Test for Co-explosive Behaviour Between Two Series"
+        },
+        {
+          "name": "autoplot.cobubble_test",
+          "topic": "autoplot.cobubble_test",
+          "title": "Plot method for cobubble_test() output"
+        },
+        {
+          "name": "contagion_reg",
+          "topic": "contagion_reg",
+          "title": "Bubble Contagion Regression (Greenaway-McGrevy & Phillips 2016)"
+        },
+        {
+          "name": "autoplot.contagion_reg_obj",
+          "topic": "autoplot.contagion_reg_obj",
+          "title": "Plot method for contagion_reg() output"
         }
       ]
     },
@@ -139,6 +910,121 @@
       "title": "Simulation",
       "desc": "",
       "replication": null,
+      "sections": [
+        {
+          "subtitle": "Original DGPs",
+          "desc": "",
+          "entries": [
+            {
+              "name": "sim_psy1",
+              "topic": "sim_psy1",
+              "title": "Simulation of a single-bubble process"
+            },
+            {
+              "name": "sim_psy2",
+              "topic": "sim_psy2",
+              "title": "Simulation of a two-bubble process"
+            },
+            {
+              "name": "sim_ps1",
+              "topic": "sim_ps1",
+              "title": "Simulation of a single-bubble process with multiple forms of collapse regime"
+            },
+            {
+              "name": "sim_blan",
+              "topic": "sim_blan",
+              "title": "Simulation of a Blanchard (1979) / Rotermann-Wilfling (2018) bubble process"
+            },
+            {
+              "name": "sim_evans",
+              "topic": "sim_evans",
+              "title": "Simulation of an Evans (1991) bubble process"
+            },
+            {
+              "name": "sim_div",
+              "topic": "sim_div",
+              "title": "Simulation of dividends"
+            }
+          ]
+        },
+        {
+          "subtitle": "Additional DGPs",
+          "desc": "Data-generating processes for axes exuber's original sim_*() functions don't cover -- time-varying volatility, non-Gaussian innovations, long memory, and distinct multi-series/branching mechanisms",
+          "entries": [
+            {
+              "name": "sim_innov",
+              "topic": "sim_innov",
+              "title": "Simulate innovations with heavy-tailed/skewed marginal distributions"
+            },
+            {
+              "name": "sim_vol_break",
+              "topic": "sim_vol_break",
+              "title": "Simulate innovations with a permanent volatility break"
+            },
+            {
+              "name": "sim_vol_garch",
+              "topic": "sim_vol_garch",
+              "title": "Simulate GARCH(1,1)/TGARCH(1,1) innovations"
+            },
+            {
+              "name": "sim_vol_cir",
+              "topic": "sim_vol_cir",
+              "title": "Simulate CIR-type stochastic-volatility innovations"
+            },
+            {
+              "name": "sim_vol_sv",
+              "topic": "sim_vol_sv",
+              "title": "Simulate AR(1) lognormal stochastic-volatility innovations"
+            },
+            {
+              "name": "sim_fi",
+              "topic": "sim_fi",
+              "title": "Simulate fractionally-integrated (long-memory) innovations"
+            },
+            {
+              "name": "sim_common",
+              "topic": "sim_common",
+              "title": "Simulation of a latent common-factor bubble across multiple series"
+            },
+            {
+              "name": "sim_coexplosive",
+              "topic": "sim_coexplosive",
+              "title": "Simulation of a bivariate co-explosive pair"
+            },
+            {
+              "name": "sim_tree",
+              "topic": "sim_tree",
+              "title": "Simulation of a stochastic branching-tree bubble"
+            },
+            {
+              "name": "sim_mar",
+              "topic": "sim_mar",
+              "title": "Simulation of a mixed causal-noncausal AR(1,1) bubble"
+            },
+            {
+              "name": "sim_msbubble",
+              "topic": "sim_msbubble",
+              "title": "Simulation of a Markov-switching present-value bubble"
+            },
+            {
+              "name": "sim_falsebubble",
+              "topic": "sim_falsebubble",
+              "title": "Simulation of a deterministic technology-adoption \"false bubble\" null"
+            }
+          ]
+        },
+        {
+          "subtitle": "Bundled data",
+          "desc": "",
+          "entries": [
+            {
+              "name": "sim_data",
+              "topic": "sim_data",
+              "title": "Simulated dataset"
+            }
+          ]
+        }
+      ],
       "entries": [
         {
           "name": "sim_psy1",
@@ -169,18 +1055,16 @@
           "name": "sim_div",
           "topic": "sim_div",
           "title": "Simulation of dividends"
-        }
-      ]
-    },
-    {
-      "title": "Simulation (additional DGPs)",
-      "desc": "Data-generating processes for axes exuber's original sim_*() functions don't cover -- time-varying volatility, non-Gaussian innovations, long memory, and distinct multi-series/branching mechanisms",
-      "replication": "simulation-dgps",
-      "entries": [
+        },
         {
           "name": "sim_innov",
           "topic": "sim_innov",
           "title": "Simulate innovations with heavy-tailed/skewed marginal distributions"
+        },
+        {
+          "name": "sim_vol_break",
+          "topic": "sim_vol_break",
+          "title": "Simulate innovations with a permanent volatility break"
         },
         {
           "name": "sim_vol_garch",
@@ -231,176 +1115,11 @@
           "name": "sim_falsebubble",
           "topic": "sim_falsebubble",
           "title": "Simulation of a deterministic technology-adoption \"false bubble\" null"
-        }
-      ]
-    },
-    {
-      "title": "Heteroskedasticity-robust (time-transformed)",
-      "desc": "Bootstrap-free alternative to radf_wb_cv() under time-varying volatility",
-      "replication": null,
-      "entries": [
-        {
-          "name": "radf_tt",
-          "topic": "radf_tt",
-          "title": "Time-Transformed Test for Explosive Bubbles under Non-stationary Volatility"
         },
         {
-          "name": "radf_tt_cv",
-          "topic": "radf_tt_cv",
-          "title": "Monte Carlo critical values for the time-transformed test (STADF/GSTADF)"
-        }
-      ]
-    },
-    {
-      "title": "Volatility-robust (other routes)",
-      "desc": "Further tests robust to time-varying innovation variance",
-      "replication": "volatility-robustness",
-      "entries": [
-        {
-          "name": "radf_sbz",
-          "topic": "radf_sbz",
-          "title": "WLS/Kernel-Volatility Bubble Statistic (SBZ)"
-        },
-        {
-          "name": "radf_sbz_cv",
-          "topic": "radf_sbz_cv",
-          "title": "Wild Bootstrap Critical Values for the SBZ Statistic"
-        },
-        {
-          "name": "radf_sbz_union",
-          "topic": "radf_sbz_union",
-          "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
-        },
-        {
-          "name": "radf_kp",
-          "topic": "radf_kp",
-          "title": "Kernel-Purged Heteroskedasticity-Robust PSY Test"
-        },
-        {
-          "name": "radf_sign",
-          "topic": "radf_sign",
-          "title": "Sign-Based Bubble Test (sPWY / sPSY)"
-        },
-        {
-          "name": "radf_sign_cv",
-          "topic": "radf_sign_cv",
-          "title": "Monte Carlo Critical Values for the Sign-Based Test"
-        },
-        {
-          "name": "radf_sign_dm",
-          "topic": "radf_sign_dm",
-          "title": "Recursively Demeaned Sign-Based Bubble Test (s-bar-PWY / s-bar-PSY)"
-        },
-        {
-          "name": "radf_sign_dm_cv",
-          "topic": "radf_sign_dm_cv",
-          "title": "Monte Carlo Critical Values for the Recursively Demeaned Sign-Based Test"
-        },
-        {
-          "name": "ssu_test",
-          "topic": "ssu_test",
-          "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)"
-        }
-      ]
-    },
-    {
-      "title": "Dating and root inference",
-      "desc": "Standalone dating procedures with no critical value needed, and recovery dating. rootstamp() itself now lives under Analysis above -- it's the last step of the core workflow, not an alternative to datestamp()",
-      "replication": "dating-and-root-inference",
-      "entries": [
-        {
-          "name": "dating_pdc",
-          "topic": "dating_pdc",
-          "title": "Sequential Sample-Splitting Bubble Dating (PDC/KS)"
-        },
-        {
-          "name": "radf_recovery",
-          "topic": "radf_recovery",
-          "title": "Reverse-Regression Dating of Crisis Origination and Market Recovery"
-        },
-        {
-          "name": "radf_recovery_cv",
-          "topic": "radf_recovery_cv",
-          "title": "Monte Carlo Critical Values for Reverse-Regression Recovery Dating"
-        },
-        {
-          "name": "dating_hls",
-          "topic": "dating_hls",
-          "title": "SSR/BIC Bubble Dating (Harvey, Leybourne & Sollis 2017)"
-        },
-        {
-          "name": "dating_hlw",
-          "topic": "dating_hlw",
-          "title": "Multi-Bubble SSR/BIC Dating (Harvey, Leybourne & Whitehouse 2020)"
-        },
-        {
-          "name": "dating_knp",
-          "topic": "dating_knp",
-          "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
-        }
-      ]
-    },
-    {
-      "title": "Real-time monitoring",
-      "desc": "Sequential/real-time bubble detection. Each monitor is listed with its static, full-sample counterpart where one exists.",
-      "replication": "monitoring",
-      "entries": [
-        {
-          "name": "monitor",
-          "topic": "monitor",
-          "title": "Real-Time Monitoring for Explosive Bubbles"
-        },
-        {
-          "name": "monitor_cusum",
-          "topic": "monitor_cusum",
-          "title": "CUSUM Real-Time Monitoring for Explosive Bubbles"
-        },
-        {
-          "name": "monitor_lbi",
-          "topic": "monitor_lbi",
-          "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)"
-        },
-        {
-          "name": "lbi_test",
-          "topic": "lbi_test",
-          "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)"
-        },
-        {
-          "name": "monitor_quantile",
-          "topic": "monitor_quantile",
-          "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
-        },
-        {
-          "name": "quantile_test",
-          "topic": "quantile_test",
-          "title": "Quantile Unit Root Test for Bubble Detection (Global Test)"
-        }
-      ]
-    },
-    {
-      "title": "Multivariate / panel bubble tests",
-      "desc": "Panel and cross-series tests",
-      "replication": "multivariate",
-      "entries": [
-        {
-          "name": "radf_common",
-          "topic": "radf_common",
-          "title": "Common-Bubble Detection via PCA + PSY"
-        },
-        {
-          "name": "radf_common_cv",
-          "topic": "radf_common_cv",
-          "title": "Critical Values for the Common-Bubble (PCA + PSY) Test"
-        },
-        {
-          "name": "cobubble_test",
-          "topic": "cobubble_test",
-          "title": "Test for Co-explosive Behaviour Between Two Series"
-        },
-        {
-          "name": "contagion_reg",
-          "topic": "contagion_reg",
-          "title": "Bubble Contagion Regression (Greenaway-McGrevy & Phillips 2016)"
+          "name": "sim_data",
+          "topic": "sim_data",
+          "title": "Simulated dataset"
         }
       ]
     },
@@ -408,6 +1127,44 @@
       "title": "Helpers",
       "desc": "",
       "replication": null,
+      "sections": [
+        {
+          "subtitle": null,
+          "desc": "",
+          "entries": [
+            {
+              "name": "psy_minw",
+              "topic": "psy_minw",
+              "title": "Helper functions in accordance to PSY(2015)"
+            },
+            {
+              "name": "psy_ds",
+              "topic": "psy_minw",
+              "title": "Helper functions in accordance to PSY(2015)"
+            },
+            {
+              "name": "index",
+              "topic": "index-rd",
+              "title": "Retrieve/Replace the index"
+            },
+            {
+              "name": "series_names",
+              "topic": "series_names",
+              "title": "Retrieve/Replace series names"
+            },
+            {
+              "name": "ps_tb",
+              "topic": "ps_tb",
+              "title": "Helper function to find tb from the Phillips and Shi (2020)"
+            },
+            {
+              "name": "scale_exuber_manual",
+              "topic": "scale_exuber_manual",
+              "title": "Exuber scale and theme functions"
+            }
+          ]
+        }
+      ],
       "entries": [
         {
           "name": "psy_minw",
@@ -433,23 +1190,11 @@
           "name": "ps_tb",
           "topic": "ps_tb",
           "title": "Helper function to find tb from the Phillips and Shi (2020)"
-        }
-      ]
-    },
-    {
-      "title": "Extra tidying methods",
-      "desc": "",
-      "replication": null,
-      "entries": [
-        {
-          "name": "tidy_join",
-          "topic": "tidy_join",
-          "title": "Tidy into a joint model"
         },
         {
-          "name": "tidy_join.radf_obj",
-          "topic": "tidy_join.radf_obj",
-          "title": "Tidy into a joint model"
+          "name": "scale_exuber_manual",
+          "topic": "scale_exuber_manual",
+          "title": "Exuber scale and theme functions"
         }
       ]
     }
@@ -474,6 +1219,1276 @@
     "wb_cv"
   ],
   "topics": {
+    "augment.radf_cv": {
+      "topic": "augment.radf_cv",
+      "aliases": [
+        "augment.radf_cv"
+      ],
+      "title": "Augment a radf_cv object",
+      "usage": "augment(x, format = c(\"wide\", \"long\"), trunc = TRUE, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Returns the full critical-value sequences (badf_cv, bsadf_cv) of a "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf_cv"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", one row per observation; see "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "tidy.radf_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tidy.radf_cv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the scalar critical values."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "format",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Long or wide format (default = \"wide\")."
+            }
+          ]
+        },
+        {
+          "name": "trunc",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": null,
+                  "external": true,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "tibble::tibble()"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "augment.radf_obj": {
+      "topic": "augment.radf_obj",
+      "aliases": [
+        "augment.radf_obj"
+      ],
+      "title": "Augment a radf_obj object",
+      "usage": "augment(x, format = c(\"wide\", \"long\"), panel = FALSE, trunc = TRUE, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Returns the full test-statistic sequences (badf, bsadf) of a "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf_obj"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", one row per observation; see "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "tidy.radf_obj",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tidy.radf_obj"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the scalar statistics."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "format",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Long or wide format (default = \"wide\")."
+            }
+          ]
+        },
+        {
+          "name": "panel",
+          "desc": [
+            {
+              "t": "text",
+              "v": "If TRUE then returns the panel statistics"
+            }
+          ]
+        },
+        {
+          "name": "trunc",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": null,
+                  "external": true,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "tibble::tibble()"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "augment_join.radf_obj": {
+      "topic": "augment_join.radf_obj",
+      "aliases": [
+        "augment_join.radf_obj"
+      ],
+      "title": "Augment into a joint model",
+      "usage": "augment_join(x, y = NULL, trunc = TRUE, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Augment and then join the full statistic sequences of a "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf_obj"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " with the critical-value sequences of a "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "radf_cv"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", one row per observation -- the table "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "autoplot.radf_obj",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "autoplot.radf_obj"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " is built on."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "y",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ". The output will depend on the type of\ncritical value."
+            }
+          ]
+        },
+        {
+          "name": "trunc",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": null,
+                  "external": true,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "tibble::tibble()"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# Full statistic-path/critical-value-path join -- the table autoplot() is built on\naj <- augment_join(rsim_data, cv)\naj\n\n# Reproduce (a simplified version of) autoplot()'s own bsadf-vs-crit line plot\nlibrary(ggplot2)\naj \\%>\\%\n  dplyr::filter(sig == 95, stat == \"bsadf\") \\%>\\%\n  tidyr::pivot_longer(c(tstat, crit), names_to = \"series\") \\%>\\%\n  ggplot(aes(index, value, col = series)) +\n  geom_line() +\n  facet_wrap(~id, scales = \"free\")",
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "augment_join": {
+      "topic": "augment_join",
+      "aliases": [
+        "augment_join"
+      ],
+      "title": "Augment into a joint model",
+      "usage": "augment_join(x, y, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Augment and then join objects."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "y",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods."
+            }
+          ]
+        }
+      ],
+      "value": null,
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.cobubble_test": {
+      "topic": "autoplot.cobubble_test",
+      "aliases": [
+        "autoplot.cobubble_test"
+      ],
+      "title": "Plot method for cobubble_test() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the two input series over the sample, with the test statistic and lag in the title."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cobubble_test"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "cobubble_test",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "cobubble_test"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cobubble_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cobubble_test"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.contagion_reg_obj": {
+      "topic": "autoplot.contagion_reg_obj",
+      "aliases": [
+        "autoplot.contagion_reg_obj"
+      ],
+      "title": "Plot method for contagion_reg() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the time-varying contagion coefficient "
+          },
+          {
+            "t": "eqn",
+            "tex": "\\delta_2(r)",
+            "display": false
+          },
+          {
+            "t": "text",
+            "v": " against the sample fraction "
+          },
+          {
+            "t": "eqn",
+            "tex": "r",
+            "display": false
+          },
+          {
+            "t": "text",
+            "v": ", with a zero reference line."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "contagion_reg_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "contagion_reg",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "contagion_reg"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "contagion_reg",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "contagion_reg"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.dating_hls_obj": {
+      "topic": "autoplot.dating_hls_obj",
+      "aliases": [
+        "autoplot.dating_hls_obj"
+      ],
+      "title": "Plot method for dating_hls() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots each series with vertical markers at the estimated origination, collapse and recovery dates."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "dating_hls_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "dating_hls",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "dating_hls"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.dating_hlw_obj": {
+      "topic": "autoplot.dating_hlw_obj",
+      "aliases": [
+        "autoplot.dating_hlw_obj"
+      ],
+      "title": "Plot method for dating_hlw() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots each series with vertical markers at every estimated origination, collapse and recovery date."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "dating_hlw_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "dating_hlw",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "dating_hlw"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.dating_knp_obj": {
+      "topic": "autoplot.dating_knp_obj",
+      "aliases": [
+        "autoplot.dating_knp_obj"
+      ],
+      "title": "Plot method for dating_knp() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots each series with vertical markers at the estimated origination and collapse dates."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "dating_knp_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "dating_knp",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "dating_knp"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.dating_pdc_obj": {
+      "topic": "autoplot.dating_pdc_obj",
+      "aliases": [
+        "autoplot.dating_pdc_obj"
+      ],
+      "title": "Plot method for dating_pdc() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots each series with vertical markers at the estimated origination, collapse and (where estimated) recovery dates."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "dating_pdc_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "dating_pdc",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "dating_pdc"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
     "autoplot.ds_radf": {
       "topic": "autoplot.ds_radf",
       "aliases": [
@@ -605,6 +2620,732 @@
       "author": null,
       "sections": []
     },
+    "autoplot.lbi_test_obj": {
+      "topic": "autoplot.lbi_test_obj",
+      "aliases": [
+        "autoplot.lbi_test_obj"
+      ],
+      "title": "Plot method for lbi_test() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Bar chart of the LBI statistic per series against its critical value; series that exceed it are flagged as detected."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "lbi_test_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "lbi_test",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "lbi_test"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "lbi_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "lbi_test"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.monitor_cusum_obj": {
+      "topic": "autoplot.monitor_cusum_obj",
+      "aliases": [
+        "autoplot.monitor_cusum_obj"
+      ],
+      "title": "Plot method for monitor_cusum() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the CUSUM detector path against its boundary, one panel per series, with vertical markers at the end of the training sample and at the alarm date."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_cusum_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "monitor_cusum",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "monitor_cusum"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_cusum",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_cusum"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.monitor_lbi_obj": {
+      "topic": "autoplot.monitor_lbi_obj",
+      "aliases": [
+        "autoplot.monitor_lbi_obj"
+      ],
+      "title": "Plot method for monitor_lbi() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the LBI CUSUM detector path against its boundary, one panel per series, with a vertical marker at the alarm date."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_lbi_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "monitor_lbi",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "monitor_lbi"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_lbi",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_lbi"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.monitor_obj": {
+      "topic": "autoplot.monitor_obj",
+      "aliases": [
+        "autoplot.monitor_obj"
+      ],
+      "title": "Plot method for monitor() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the monitoring statistic against its boundary, one panel per series, with vertical markers at the end of the training sample and at the alarm date."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "monitor",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "monitor"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.monitor_quantile_obj": {
+      "topic": "autoplot.monitor_quantile_obj",
+      "aliases": [
+        "autoplot.monitor_quantile_obj"
+      ],
+      "title": "Plot method for monitor_quantile() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the quantile monitoring statistic against its boundary, one panel per series, with a vertical marker at the alarm date."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "monitor_quantile_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "monitor_quantile",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "monitor_quantile"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_quantile",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_quantile"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.quantile_test_obj": {
+      "topic": "autoplot.quantile_test_obj",
+      "aliases": [
+        "autoplot.quantile_test_obj"
+      ],
+      "title": "Plot method for quantile_test() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Bar chart of the quantile-DF statistic per series against its critical value; series that exceed it are flagged as detected."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "quantile_test_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "quantile_test",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "quantile_test"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "quantile_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "quantile_test"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
     "autoplot.radf_distr": {
       "topic": "autoplot.radf_distr",
       "aliases": [
@@ -709,7 +3450,7 @@
         ]
       },
       "format": null,
-      "examples": null,
+      "examples": "# Monte Carlo distribution\nmdist <- radf_mc_distr(n = 100, nrep = 1000)\nautoplot(mdist)\n\n# Wild bootstrap distribution (one facet per series)\nwdist <- radf_wb_distr(sim_data)\nautoplot(wdist)\n\n# Panel sieve bootstrap distribution\nsdist <- radf_sb_distr(sim_data, nboot = 500)\nautoplot(sdist)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -1101,6 +3842,660 @@
       "author": null,
       "sections": []
     },
+    "autoplot.radf_recovery_obj": {
+      "topic": "autoplot.radf_recovery_obj",
+      "aliases": [
+        "autoplot.radf_recovery_obj"
+      ],
+      "title": "Plot method for radf_recovery() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots each series with vertical markers at the estimated collapse and recovery dates."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_recovery_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_recovery",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_recovery"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.radf_sbz_union": {
+      "topic": "autoplot.radf_sbz_union",
+      "aliases": [
+        "autoplot.radf_sbz_union"
+      ],
+      "title": "Plot method for radf_sbz_union() output",
+      "usage": "autoplot(object, sig_lvl = 95, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots, for each series, the supDF, supBZ and union statistics against their bootstrap critical values at the chosen significance level."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_sbz_union"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " object."
+            }
+          ]
+        },
+        {
+          "name": "sig_lvl",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Significance level to plot the critical value at, one of\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "90"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (default), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "99"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.rootstamp_episodes": {
+      "topic": "autoplot.rootstamp_episodes",
+      "aliases": [
+        "autoplot.rootstamp_episodes"
+      ],
+      "title": "Plot method for rootstamp() output on datestamped episodes",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the estimated root and its confidence interval for every episode, one panel per series."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "rootstamp_episodes"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of\nthe "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "rootstamp",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "rootstamp"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " method."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.rootstamp_est": {
+      "topic": "autoplot.rootstamp_est",
+      "aliases": [
+        "autoplot.rootstamp_est"
+      ],
+      "title": "Plot method for rootstamp() output on a single sub-sample",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the sub-sample against the fitted explosive path implied by the estimated root, "
+          },
+          {
+            "t": "eqn",
+            "tex": "y_1 \\rho^{t-1}",
+            "display": false
+          },
+          {
+            "t": "text",
+            "v": "."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "rootstamp_est"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of the\ndefault "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "rootstamp",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "rootstamp"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " method."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.ssu_test_obj": {
+      "topic": "autoplot.ssu_test_obj",
+      "aliases": [
+        "autoplot.ssu_test_obj"
+      ],
+      "title": "Plot method for ssu_test() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the recursive SSU statistic path against its critical value, one panel per series."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ssu_test_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "ssu_test",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "ssu_test"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
     "autoplot2": {
       "topic": "autoplot2",
       "aliases": [
@@ -1244,7 +4639,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "radf_psy1 <- radf(sim_psy1(100))\n\ncalc_pvalue(radf_psy1)\n\n# Using the Wild-Bootstrapped\nwb_psy1 <- radf_wb_distr(sim_psy1(100))\n\ncalc_pvalue(radf_psy1, wb_psy1)\n\nsb_psy1 <- radf_sb_distr(sim_data)\n\ncalc_pvalue(radf(sim_data), sb_psy1)",
+      "examples": "radf_psy1 <- radf(sim_psy1(100))\n\n# Default: p-values against a Monte Carlo null distribution\npv <- calc_pvalue(radf_psy1)\npv\n\n# Using the Wild-Bootstrapped null instead\nwb_psy1 <- radf_wb_distr(sim_psy1(100))\n\ncalc_pvalue(radf_psy1, wb_psy1)\n\nsb_psy1 <- radf_sb_distr(sim_data, nboot = 500)\n\ncalc_pvalue(radf(sim_data), sb_psy1)\n\n# Plot the three p-values for this series\nbarplot(unlist(pv[, c(\"adf\", \"sadf\", \"gsadf\")]), ylab = \"p-value\",\n  main = \"calc_pvalue(): rejects at the usual 5\\% level if the bar is short\")\nabline(h = 0.05, col = \"red\", lty = 2)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -1723,7 +5118,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- cobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199L, seed = 1)\nprint(res)",
+      "examples": "res <- cobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199L, seed = 1)\nprint(res)\n\n# Force a specific lead/lag instead of estimating it\nres_lag0 <- cobubble_test(sim_data$psy1, sim_data$psy2, lag = 0L, nboot = 199L, seed = 1)\nprint(res_lag0)\n\n# Plot the two series being tested for co-explosivity\nautoplot(res)",
       "references": [
         [
           {
@@ -2107,7 +5502,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 0L)\nprint(res)",
+      "examples": "res <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 0L)\nprint(res)\n\n# Plot the estimated time-varying contagion coefficient\nautoplot(res)\n\n# Compare a one-period lead (d = 1) against the contemporaneous case\nres_d1 <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 1L)\nautoplot(res) +\n  ggplot2::geom_line(data = data.frame(r = res_d1$r_grid, delta2 = res_d1$delta2),\n    ggplot2::aes(r, delta2), color = \"red\", inherit.aes = FALSE)",
       "references": [
         [
           {
@@ -3024,7 +6419,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_hls(sim_data$psy1, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_hls(sim_data$psy1, trim = 0.05)\nprint(res)\n\n# Plot the series with the selected model's breakpoint(s) overlaid\nautoplot(res)\n\n# A whole panel at once, faceted one subplot per series\nautoplot(dating_hls(sim_data, trim = 0.05))",
       "references": [
         [
           {
@@ -3687,7 +7082,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_hlw(sim_data$psy1, trim = 0.1, nboot = 199L, seed = 1)\nprint(res)",
+      "examples": "res <- dating_hlw(sim_data$psy1, trim = 0.1, nboot = 199L, seed = 1)\nprint(res)\n\n# Plot every detected episode's breakpoints over the series\nautoplot(res)\n\n# A two-bubble series: dating_hls() alone would only fit one bubble\nres2 <- dating_hlw(sim_psy2(n = 200, seed = 123), trim = 0.1, nboot = 199L, seed = 1)\nautoplot(res2)",
       "references": [
         [
           {
@@ -4076,7 +7471,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_knp(sim_data$psy1, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_knp(sim_data$psy1, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# Compare the bias-corrected estimate against the plain (inconsistent) OLS\n# one, layering an extra reference line onto the internal autoplot() output\nres_plain <- dating_knp(sim_data$psy1, trim = 0.05, omit = FALSE)\nautoplot(res) +\n  ggplot2::geom_vline(xintercept = as.numeric(res_plain$origination), linetype = 3)",
       "references": [
         [
           {
@@ -4686,7 +8081,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_pdc(sim_data$psy1, regimes = 3L, trim = 0.05)\nprint(res)",
+      "examples": "res <- dating_pdc(sim_data$psy1, regimes = 3L, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# 4-regime extension, adding a post-collapse recovery breakpoint\nres4 <- dating_pdc(sim_data$psy1, regimes = 4L, trim = 0.05)\nautoplot(res4)\n\n# Volatility-weighted (WLS) variant, robust to time-varying volatility\nautoplot(dating_pdc(sim_data$psy1, type = \"wls\"))",
       "references": [
         [
           {
@@ -4760,7 +8155,7 @@
         "diagnostics.radf_obj"
       ],
       "title": "Diagnostics on hypothesis testing",
-      "usage": "diagnostics(object, cv = NULL, ...)\n\ndiagnostics(object, cv = NULL, option = c(\"gsadf\", \"sadf\"), ...)",
+      "usage": "diagnostics(object, cv = NULL, ...)\n\ndiagnostics(object, cv = NULL, option = c(\"gsadf\", \"sadf\"), sig_lvl = 95, ...)",
       "description": [
         [
           {
@@ -4839,6 +8234,28 @@
               "v": "Whether to apply the \"gsadf\" or \"sadf\" methodology (default = \"gsadf\")."
             }
           ]
+        },
+        {
+          "name": "sig_lvl",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Significance level, one of 90, 95 or 99, that decides\nwhether a series counts as \"positive\" (rejects the null). Independent of\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "option"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "'s choice of test statistic."
+            }
+          ]
         }
       ],
       "value": {
@@ -4853,7 +8270,7 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")",
+      "examples": "rsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")\n\n# Gate on the 90\\% critical value instead of the 95\\% default\ndiagnostics(rsim_data, sig_lvl = 90)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -5908,7 +9325,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": null,
+      "examples": "# A plain numeric vector gets a pseudo-index (1, 2, 3, ...)\nrsim <- radf(sim_data)\nhead(index(rsim))\n\n# A data.frame with a Date column uses it as the index automatically\nrsim_wdate <- radf(sim_data_wdate)\nhead(index(rsim_wdate))\nclass(index(rsim_wdate))\n\n# autoplot() uses index() internally for the x-axis\nautoplot(rsim_wdate)\n\n# Replace the index, e.g. with a custom Date sequence\nindex(rsim) <- seq(as.Date(\"2000-01-01\"), by = \"month\", length.out = length(index(rsim)))\nhead(index(rsim))\nautoplot(rsim)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -6226,7 +9643,7 @@
         ]
       },
       "format": null,
-      "examples": "set.seed(1)\nn <- 60\ny <- 100 * 1.03^(1:n) + cumsum(rnorm(n, sd = 1)) # genuine explosive AR\nres <- lbi_test(y)\nprint(res)",
+      "examples": "y <- sim_psy1(n = 60, te = 1, tf = 60, seed = 1) # explosive from the start\nres <- lbi_test(y)\nprint(res)\n\n# Compare the statistic to its critical value\nautoplot(res)",
       "references": [
         [
           {
@@ -7555,7 +10972,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- monitor(sim_data, r_star = 0.5, nboot = 200)\nprint(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- monitor(sim_data, r_star = 0.5, boundary = \"kurozumi\")\nprint(mon_kz)",
+      "examples": "# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- monitor(sim_data, r_star = 0.5, nboot = 200)\nprint(mon)\nautoplot(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- monitor(sim_data, r_star = 0.5, boundary = \"kurozumi\")\nautoplot(mon_kz)\n\n# Homm & Breitung (2012) FLUC boundary\nautoplot(monitor(sim_data, r_star = 0.5, boundary = \"fluc\"))",
       "references": [
         [
           {
@@ -8357,7 +11774,7 @@
         ]
       },
       "format": null,
-      "examples": "make_bubble_series <- function(n, T_star, bstart, rho = 1.04) {\n  y <- numeric(n)\n  y[seq_len(T_star)] <- cumsum(rnorm(T_star))\n  for (t in (T_star + 1):n) {\n    y[t] <- if (t < bstart) y[t - 1] + rnorm(1) else rho * y[t - 1] + rnorm(1)\n  }\n  y\n}\nset.seed(7)\ny <- make_bubble_series(200, T_star = 100, bstart = 150) # bubble starts at 150\nres <- monitor_cusum(y, r_star = 0.5)\nprint(res) # alarm should fire soon after t = 150",
+      "examples": "# A martingale training window, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7)\nres <- monitor_cusum(y, r_star = 0.5)\nprint(res) # alarm should fire soon after t = 150\nautoplot(res)\n\n# Volatility-robust \"CUSUMV\" variant (Astill, Harvey, Leybourne, Taylor & Zu 2023)\nres_kernel <- monitor_cusum(y, r_star = 0.5, type = \"kernel\")\nautoplot(res_kernel)",
       "references": [
         [
           {
@@ -9016,7 +12433,7 @@
         ]
       },
       "format": null,
-      "examples": "make_bubble_series <- function(n, T_star, bstart, rho = 1.04) {\n  y <- numeric(n)\n  y[seq_len(T_star)] <- cumsum(rnorm(T_star))\n  for (t in (T_star + 1):n) {\n    y[t] <- if (t < bstart) y[t - 1] + rnorm(1) else rho * y[t - 1] + rnorm(1)\n  }\n  y\n}\nset.seed(7)\ny <- make_bubble_series(200, T_star = 100, bstart = 150) # bubble starts at 150\nres <- monitor_lbi(y, r_star = 100)\nprint(res) # alarm should fire soon after t = 150",
+      "examples": "# A martingale training window, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7)\nres <- monitor_lbi(y, r_star = 100)\nprint(res) # alarm should fire soon after t = 150\nautoplot(res)\n\n# wCUSUM: exponentially up-weight later monitoring observations\nautoplot(monitor_lbi(y, r_star = 100, c_bar = 2))",
       "references": [
         [
           {
@@ -9957,7 +13374,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_quantile(sim_data$psy2, tau = 0.5, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- monitor_quantile(sim_data$psy2, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Upper-quantile monitoring is typically more powerful for right-tailed bubbles\nautoplot(monitor_quantile(sim_data$psy2, tau = 0.9, nrep = 100, seed = 1))",
       "references": [
         [
           {
@@ -10089,7 +13506,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": null,
+      "examples": "# Training window controlling size over a 2-year span of monthly data\ntb <- ps_tb(100, freq = \"monthly\", size = 2)\ntb\n\n\\donttest{\n# Use it directly as monitor()'s training window\nmonitor(sim_data, r_star = tb, boundary = \"kurozumi\")\n}",
       "references": [
         [
           {
@@ -10847,7 +14264,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- quantile_test(sim_data$psy2, nrep = 100, seed = 1)\nprint(res)",
+      "examples": "res <- quantile_test(sim_data$psy2, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Test at a fixed upper quantile instead of the optimal one\nautoplot(quantile_test(sim_data$psy2, tau = 0.9, nrep = 100, seed = 1))",
       "references": [
         [
           {
@@ -11810,7 +15227,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_common(sim_data, minw = 20)\nprint(res)\n\n# radf_common_cv() is needed here -- NOT radf_mc_cv(), see Details\ncv <- radf_common_cv(n = 100, N = ncol(sim_data), minw = 20)\nsummary(res, cv = cv)",
+      "examples": "res <- radf_common(sim_data, minw = 20)\nprint(res)\n\n# radf_common_cv() is needed here -- NOT radf_mc_cv(), see Details\ncv <- radf_common_cv(n = 100, N = ncol(sim_data), minw = 20)\nsummary(res, cv = cv)\n\n# The result is an ordinary radf_obj, so autoplot()/datestamp() work directly\nautoplot(res, cv = cv)\ndatestamp(res, cv = cv)",
       "references": [
         [
           {
@@ -13062,7 +16479,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_kp(sim_data, minw = 20)\nprint(res)\n\n# radf_mc_cv() applies unmodified -- see Details\ncv <- radf_mc_cv(n = attr(res, \"n\"), minw = 20)\nsummary(res, cv = cv)",
+      "examples": "res <- radf_kp(sim_data, minw = 20)\nprint(res)\n\n# radf_mc_cv() applies unmodified -- see Details\ncv <- radf_mc_cv(n = attr(res, \"n\"), minw = 20)\nsummary(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -13338,7 +16755,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default minimum window\nmc <- radf_mc_cv(n = 100)\n\ntidy(mc)\n\n# Change the minimum window and the number of simulations\nmc2 <- radf_mc_cv(n = 100, nrep = 600, minw = 20)\n\ntidy(mc2)\n\nmdist <- radf_mc_distr(n = 100, nrep = 1000)\n\nautoplot(mdist)",
+      "examples": "# Default minimum window\nmc <- radf_mc_cv(n = 100)\n\ntidy(mc)\n\n# Change the minimum window and the number of simulations\nmc2 <- radf_mc_cv(n = 100, nrep = 600, minw = 20)\n\ntidy(mc2)\n\nmdist <- radf_mc_distr(n = 100, nrep = 1000)\n\nautoplot(mdist)\n\n# Apply the critical values to actual data\nrsim_data <- radf(sim_data, minw = 20)\nautoplot(rsim_data, cv = mc2)",
       "references": null,
       "seealso": [
         [
@@ -13931,7 +17348,7 @@
         ]
       },
       "format": null,
-      "examples": "set.seed(2)\nn1 <- 40; n2 <- 25; n3 <- 35\nexpansion <- 100 * 1.03^(1:n1) + cumsum(rnorm(n1, sd = 1))\ncollapse <- expansion[n1] * 0.5^((1:n2) / n2) + cumsum(rnorm(n2, sd = 1))\nrecovery <- collapse[n2] + cumsum(rnorm(n3, sd = 1)) + (1:n3) * 0.5\ny <- c(expansion, collapse, recovery) # expansion -> collapse -> recovery\nres <- radf_recovery(y, minw = 15, nrep = 200, seed = 1)\nprint(res)",
+      "examples": "# sim_ps1()'s own expansion -> bubble -> collapse -> recovery DGP\ny <- sim_ps1(n = 100, seed = 1)\nres <- radf_recovery(y, minw = 15, nrep = 200, seed = 1)\nprint(res)\n\n# Plot the series with the estimated collapse (f_c) / recovery (f_r) points\nautoplot(res)",
       "references": [
         [
           {
@@ -16329,11 +19746,10 @@
     "radf_sbz_union": {
       "topic": "radf_sbz_union",
       "aliases": [
-        "radf_sbz_union",
-        "autoplot.radf_sbz_union"
+        "radf_sbz_union"
       ],
       "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections",
-      "usage": "radf_sbz_union(\n  data,\n  minw = NULL,\n  nboot = 499L,\n  kernel = c(\"gaussian\", \"uniform\"),\n  h = NULL,\n  seed = NULL\n)\n\nautoplot(object, sig_lvl = 95, ...)",
+      "usage": "radf_sbz_union(\n  data,\n  minw = NULL,\n  nboot = 499L,\n  kernel = c(\"gaussian\", \"uniform\"),\n  h = NULL,\n  seed = NULL\n)",
       "description": [
         [
           {
@@ -16916,85 +20332,6 @@
             {
               "t": "text",
               "v": " before simulation. If set, the value is saved as \"seed\" attribute\nof the returned value. The default, NULL, will not change rng state, and\nreturn .Random.seed as the \"seed\" attribute. Results are reproducible\nacross the parallel and non-parallel option when the same seed is used."
-            }
-          ]
-        },
-        {
-          "name": "object",
-          "desc": [
-            {
-              "t": "text",
-              "v": "A "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "radf_sbz_union"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " object."
-            }
-          ]
-        },
-        {
-          "name": "sig_lvl",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Significance level to plot the critical value at, one of\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "90"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "95"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " (default), "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "99"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "...",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Further arguments passed to methods. Not used."
             }
           ]
         }
@@ -19602,7 +22939,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default minimum window\nwb <- radf_wb_cv(sim_data)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_cv(sim_data, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_distr(sim_data)\n\nautoplot(wdist)",
+      "examples": "# Default minimum window\nwb <- radf_wb_cv(sim_data)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_cv(sim_data, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_distr(sim_data)\n\nautoplot(wdist)\n\n# Apply the critical values to actual data\nrsim_data <- radf(sim_data, minw = 20)\nautoplot(rsim_data, cv = wb2)",
       "references": [
         [
           {
@@ -20035,7 +23372,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default minimum window\nwb <- radf_wb_ps_cv(sim_data)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_ps_cv(sim_data, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_ps_distr(sim_data)\n\nautoplot(wdist)",
+      "examples": "# Default minimum window\nwb <- radf_wb_ps_cv(sim_data)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_ps_cv(sim_data, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_ps_distr(sim_data)\n\nautoplot(wdist)\n\n# Apply the critical values to actual data\nrsim_data <- radf(sim_data, minw = 20)\nautoplot(rsim_data, cv = wb2)",
       "references": [
         [
           {
@@ -20398,7 +23735,7 @@
             "c": [
               {
                 "t": "link",
-                "topic": "tidy.radf_obj",
+                "topic": "augment.radf_obj",
                 "external": false,
                 "href": null,
                 "c": [
@@ -20419,7 +23756,7 @@
             "c": [
               {
                 "t": "link",
-                "topic": "tidy.radf_cv",
+                "topic": "augment.radf_cv",
                 "external": false,
                 "href": null,
                 "c": [
@@ -21309,7 +24646,7 @@
         ]
       },
       "format": null,
-      "examples": "set.seed(2026)\nburn <- cumsum(rnorm(60))\nbubble <- burn[length(burn)] * 1.04^(1:40) + cumsum(rnorm(40, sd = 0.5))\ny <- c(burn, bubble)\n\nr <- radf(y, minw = 20)\ncv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)\nds <- datestamp(r, cv = cv, min_duration = 3)\n\n# default method: one episode, sliced by hand\nrootstamp(y[ds[[\"series1\"]]$Start[1]:ds[[\"series1\"]]$End[1]]) # true rho = 1.04\nrootstamp(y[ds[[\"series1\"]]$Start[1]:ds[[\"series1\"]]$End[1]], type = \"cauchy\")\n\n\n# radf_obj method: every datestamped episode at once\nrootstamp(r, ds)",
+      "examples": "# sim_psy1()'s own martingale -> explosive DGP, explosive through the sample end\ny <- sim_psy1(n = 100, te = 60, tf = 100, seed = 2026)\n\nr <- radf(y, minw = 20)\ncv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)\nds <- datestamp(r, cv = cv, min_duration = 3)\n\n# default method: one episode, sliced by hand\nep <- y[ds[[\"series1\"]]$Start[1]:ds[[\"series1\"]]$End[1]]\nfit <- rootstamp(ep) # recovers the DGP's explosive AR coefficient\nfit\nrootstamp(ep, type = \"cauchy\")\n\n# Plot the episode with the fitted explosive-root path overlaid\nautoplot(fit)\n\n\n# radf_obj method: every datestamped episode at once\nres_all <- rootstamp(r, ds)\nres_all\n\n# Plot the estimated rho (with its CI) for every episode\nautoplot(res_all)",
       "references": [
         [
           {
@@ -21523,7 +24860,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "# Simulate bubble processes\ndta <- data.frame(psy1 = sim_psy1(n = 100), psy2 = sim_psy2(n = 100))\n\nrfd <- radf(dta)\n\nseries_names(rfd) <- c(\"OneBubble\", \"TwoBubbles\")",
+      "examples": "\\donttest{\nrfd <- radf(sim_data)\nseries_names(rfd)\n\n# Rename the series -- propagates through tidy()/autoplot()'s facet labels\nseries_names(rfd) <- c(\"Bubble A\", \"Bubble B\", \"Bubble C\", \"Bubble D\", \"Bubble E\")\nseries_names(rfd)\ntidy(rfd)\nautoplot(rfd)\n}\n\n# Simulate bubble processes\ndta <- data.frame(psy1 = sim_psy1(n = 100), psy2 = sim_psy2(n = 100))\n\nrfd <- radf(dta)\n\nseries_names(rfd) <- c(\"OneBubble\", \"TwoBubbles\")",
       "references": null,
       "seealso": null,
       "source": null,
@@ -22482,7 +25819,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_coexplosive(n = 100, lag = 5, seed = 123)",
+      "examples": "x <- sim_coexplosive(n = 100, lag = 5, seed = 123)\nx\n\n# x's explosive episode should visibly lead y's by 5 periods\nmatplot(x, type = \"l\", lty = 1, col = c(\"steelblue\", \"tomato\"),\n  xlab = \"t\", ylab = \"value\", main = \"sim_coexplosive(): x leads y by 5 periods\")\nlegend(\"topleft\", legend = c(\"x\", \"y\"), col = c(\"steelblue\", \"tomato\"),\n  lty = 1, bty = \"n\")",
       "references": [
         [
           {
@@ -22749,7 +26086,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_common(n_series = 5, n = 100, seed = 123)",
+      "examples": "x <- sim_common(n_series = 5, n = 100, seed = 123)\nx\n\n# Plot every observed series (grey) against the shared latent factor (red)\nmatplot(x, type = \"l\", col = \"grey60\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_common(): observed series driven by one latent bubble factor\")\nlines(attr(x, \"factor\"), col = \"red\", lwd = 2)\nlegend(\"topleft\", legend = c(\"observed series\", \"latent factor\"),\n  col = c(\"grey60\", \"red\"), lty = 1, bty = \"n\")",
       "references": [
         [
           {
@@ -22897,7 +26234,7 @@
           ]
         ]
       },
-      "examples": "# The dataset can be easily replicated with the code below\nlibrary(tibble)\nset.seed(1122)\nsim_data <- tibble(\n  sim_psy1 = sim_psy1(100),\n  sim_psy2 = sim_psy2(100),\n  sim_evans = sim_evans(100),\n  sim_div = sim_div(100),\n  sim_blan = sim_blan(100)\n)\nsim_data_wdate <- tibble(\n  psy1 = sim_psy1(100),\n  psy2 = sim_psy2(100),\n  evans = sim_evans(100),\n  div = sim_div(100),\n  blan = sim_blan(100),\n  date = seq(as.Date(\"2000-01-01\"), by = \"month\", length.out = 100)\n)",
+      "examples": "\\dontrun{\n# The dataset can be easily replicated with the code below\nlibrary(tibble)\nset.seed(1122)\nsim_data <- tibble(\n  sim_psy1 = sim_psy1(100),\n  sim_psy2 = sim_psy2(100),\n  sim_evans = sim_evans(100),\n  sim_div = sim_div(100),\n  sim_blan = sim_blan(100)\n)\nsim_data_wdate <- tibble(\n  psy1 = sim_psy1(100),\n  psy2 = sim_psy2(100),\n  evans = sim_evans(100),\n  div = sim_div(100),\n  blan = sim_blan(100),\n  date = seq(as.Date(\"2000-01-01\"), by = \"month\", length.out = 100)\n)\n}\n\n# Explore the five bundled series before running any test\nmatplot(sim_data, type = \"l\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_data: the five bundled example series\")\nlegend(\"topleft\", legend = colnames(sim_data), col = 1:5, lty = 1, bty = \"n\")\n\n\\donttest{\n# The usual next step: run radf() and plot with the bundled critical values\nautoplot(radf(sim_data))\n}",
       "references": null,
       "seealso": [
         [
@@ -24302,7 +27639,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_fi(199, d = 0.2, seed = 1)",
+      "examples": "sim_fi(199, d = 0.2, seed = 1) \\%>\\%\n  autoplot()",
       "references": [
         [
           {
@@ -24764,7 +28101,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1)",
+      "examples": "sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1) \\%>\\%\n  autoplot()\n\n# Feed skew-t innovations into sim_psy1() instead of i.i.d. Gaussian\nsim_psy1(n = 200, seed = 123, e = sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1)) \\%>\\%\n  autoplot()",
       "references": [
         [
           {
@@ -26268,6 +29605,27 @@
               "c": [
                 {
                   "t": "link",
+                  "topic": "sim_vol_break",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_vol_break"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (permanent\nvolatility break), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
                   "topic": "sim_vol_garch",
                   "external": false,
                   "href": null,
@@ -27524,6 +30882,426 @@
       "author": null,
       "sections": []
     },
+    "sim_vol_break": {
+      "topic": "sim_vol_break",
+      "aliases": [
+        "sim_vol_break"
+      ],
+      "title": "Simulate innovations with a permanent volatility break",
+      "usage": "sim_vol_break(n, tau = 0.5, ratio = 3, sigma = 6.79, seed = NULL)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Generates i.i.d. Gaussian shocks whose standard deviation shifts permanently from "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sigma"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " to "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sigma * ratio"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " at observation "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "tau * n"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", for use as "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sim_psy1(..., e = sim_vol_break(...))"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ". This is the "
+          },
+          {
+            "t": "em",
+            "c": [
+              {
+                "t": "text",
+                "v": "non-stationary"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " volatility DGP (Cavaliere & Taylor 2007's single break) under which "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s standard critical values lose size control, and the one the volatility-robust tests ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ") are designed for -- unlike stationary conditional heteroskedasticity ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_vol_garch",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_vol_garch"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "), whose variance profile is asymptotically flat."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "n",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Number of innovations to generate."
+            }
+          ]
+        },
+        {
+          "name": "tau",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Break fraction in (0, 1): the shift happens after observation\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "floor(tau * n)"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "ratio",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Positive post-/pre-break standard deviation ratio;\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ratio > 1"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is an upward break (the case where "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\nover-rejects most), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ratio < 1"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " a downward one."
+            }
+          ]
+        },
+        {
+          "name": "sigma",
+          "desc": [
+            {
+              "t": "text",
+              "v": "A positive scalar indicating the standard deviation of the innovations."
+            }
+          ]
+        },
+        {
+          "name": "seed",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object specifying if and how the random number generator (rng)\nshould be initialized. Either NULL or an integer will be used in a call to\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "set.seed"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " before simulation. If set, the value is saved as \"seed\" attribute\nof the returned value. The default, NULL, will not change rng state, and\nreturn .Random.seed as the \"seed\" attribute. Results are reproducible\nacross the parallel and non-parallel option when the same seed is used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A numeric vector of length "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "n"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "sim_vol_break(199, seed = 1) \\%>\\%\n  autoplot()\n# Volatility triples half-way through a PSY bubble series\nsim_psy1(n = 200, seed = 123, e = sim_vol_break(199, seed = 123)) \\%>\\%\n  autoplot()",
+      "references": [
+        [
+          {
+            "t": "text",
+            "v": "Cavaliere, G. & Taylor, A.M.R. (2007). \"Testing for unit roots in time series models with non-stationary volatility.\" Journal of Econometrics, 140, 919-947. Harvey, D.I., Leybourne, S.J., Sollis, R. & Taylor, A.M.R. (2016). \"Tests for explosive financial bubbles in the presence of non-stationary volatility.\" Journal of Empirical Finance, 38, 548-574."
+          }
+        ]
+      ],
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_psy1",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_psy1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_vol_garch",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_vol_garch"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
     "sim_vol_cir": {
       "topic": "sim_vol_cir",
       "aliases": [
@@ -27718,7 +31496,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_cir(199, seed = 1)",
+      "examples": "sim_vol_cir(199, seed = 1) \\%>\\%\n  autoplot()",
       "references": [
         [
           {
@@ -27975,7 +31753,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_garch(199, seed = 1)\n# NASDAQ-calibrated TGARCH (Monschang & Wilfling 2021)\nsim_vol_garch(199, omega = 0.4387, alpha = 0, beta = 0.9319, gamma = 0.1306, seed = 1)",
+      "examples": "sim_vol_garch(199, seed = 1) \\%>\\%\n  autoplot()\n# NASDAQ-calibrated TGARCH (Monschang & Wilfling 2021)\nsim_vol_garch(199, omega = 0.4387, alpha = 0, beta = 0.9319, gamma = 0.1306, seed = 1) \\%>\\%\n  autoplot()",
       "references": [
         [
           {
@@ -28176,7 +31954,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_sv(199, seed = 1)",
+      "examples": "sim_vol_sv(199, seed = 1) \\%>\\%\n  autoplot()",
       "references": [
         [
           {
@@ -28683,7 +32461,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- ssu_test(sim_data$psy1, level = 0.95)\nprint(res)",
+      "examples": "res <- ssu_test(sim_data$psy1, level = 0.95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
       "references": [
         [
           {
@@ -28940,7 +32718,7 @@
         ]
       },
       "format": null,
-      "examples": "# Simulate bubble processes, compute the test statistics and critical values\nrsim_data <- radf(sim_data)\n\n# Summary, diagnostics and datestamp (default)\nsummary(rsim_data)\n\n# Summary, diagnostics and datestamp (wild bootstrap critical values)\n\nwb <- radf_wb_cv(sim_data)\n\nsummary(rsim_data, cv = wb)",
+      "examples": "# Simulate bubble processes, compute the test statistics and critical values\nrsim_data <- radf(sim_data)\n\n# Summary, diagnostics and datestamp (default)\nsummary(rsim_data)\n\n# Summary, diagnostics and datestamp (wild bootstrap critical values)\n\nwb <- radf_wb_cv(sim_data)\n\nsummary(rsim_data, cv = wb)\n\n# summary() reports the same numbers autoplot() draws\nautoplot(rsim_data, cv = wb)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -29011,7 +32789,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": null,
+      "examples": "rsim_data <- radf(sim_data)\nds_data <- datestamp(rsim_data)\n\n# One row per detected explosive episode, across all series\ntidy(ds_data)\n\n# Feeds straight into ggplot2 if autoplot()'s default layout isn't wanted\nlibrary(ggplot2)\ntidy(ds_data) \\%>\\%\n  ggplot(aes(y = id)) +\n  geom_segment(aes(x = Start, xend = End, yend = id), linewidth = 3)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -29021,11 +32799,10 @@
     "tidy.radf_cv": {
       "topic": "tidy.radf_cv",
       "aliases": [
-        "tidy.radf_cv",
-        "augment.radf_cv"
+        "tidy.radf_cv"
       ],
       "title": "Tidy a radf_cv object",
-      "usage": "tidy(x, format = c(\"wide\", \"long\"), ...)\n\naugment(x, format = c(\"wide\", \"long\"), trunc = TRUE, ...)",
+      "usage": "tidy(x, format = c(\"wide\", \"long\"), ...)",
       "description": [
         [
           {
@@ -29086,15 +32863,6 @@
             {
               "t": "text",
               "v": "Further arguments passed to methods. Not used."
-            }
-          ]
-        },
-        {
-          "name": "trunc",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
             }
           ]
         }
@@ -29270,7 +33038,7 @@
         ]
       },
       "format": null,
-      "examples": "mc <- mc_cv(n = 100)\n\ntidy(mc)",
+      "examples": "mdist <- radf_mc_distr(n = 100, nrep = 1000)\n\ntidy(mdist)\n\n# Plot the resulting statistic distributions\nautoplot(mdist)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -29280,11 +33048,10 @@
     "tidy.radf_obj": {
       "topic": "tidy.radf_obj",
       "aliases": [
-        "tidy.radf_obj",
-        "augment.radf_obj"
+        "tidy.radf_obj"
       ],
       "title": "Tidy a radf_obj object",
-      "usage": "tidy(x, format = c(\"wide\", \"long\"), panel = FALSE, ...)\n\naugment(x, format = c(\"wide\", \"long\"), panel = FALSE, trunc = TRUE, ...)",
+      "usage": "tidy(x, format = c(\"wide\", \"long\"), panel = FALSE, ...)",
       "description": [
         [
           {
@@ -29356,15 +33123,6 @@
               "v": "Further arguments passed to methods. Not used."
             }
           ]
-        },
-        {
-          "name": "trunc",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
-            }
-          ]
         }
       ],
       "value": {
@@ -29406,11 +33164,10 @@
     "tidy_join.radf_obj": {
       "topic": "tidy_join.radf_obj",
       "aliases": [
-        "tidy_join.radf_obj",
-        "augment_join.radf_obj"
+        "tidy_join.radf_obj"
       ],
       "title": "Tidy into a joint model",
-      "usage": "tidy_join(x, y = NULL, ...)\n\naugment_join(x, y = NULL, trunc = TRUE, ...)",
+      "usage": "tidy_join(x, y = NULL, ...)",
       "description": [
         [
           {
@@ -29567,20 +33324,11 @@
               "v": "Further arguments passed to methods. Not used."
             }
           ]
-        },
-        {
-          "name": "trunc",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Whether to remove the period of the minimum window from the plot (default = TRUE)."
-            }
-          ]
         }
       ],
       "value": null,
       "format": null,
-      "examples": null,
+      "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# One row per series/statistic, statistic and critical value side by side\ntidy_join(rsim_data, cv)\n\n# summary() and diagnostics() are themselves built on top of tidy_join()\nsummary(rsim_data, cv = cv)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -29590,11 +33338,10 @@
     "tidy_join": {
       "topic": "tidy_join",
       "aliases": [
-        "tidy_join",
-        "augment_join"
+        "tidy_join"
       ],
       "title": "Tidy into a joint model",
-      "usage": "tidy_join(x, y, ...)\n\naugment_join(x, y, ...)",
+      "usage": "tidy_join(x, y, ...)",
       "description": [
         [
           {

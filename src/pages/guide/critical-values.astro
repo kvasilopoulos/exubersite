@@ -60,13 +60,14 @@ const headings = [
       <code class="text-ink">exuber.radf_crit(n, lag)</code>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      Current coverage: <code class="text-ink">lag = 0</code> for <code class="text-ink">n</code> up to 2,000.
-      Lagged specifications and larger samples aren't simulated yet — a request for one of those
-      says so, and <code class="text-ink">radf_mc_cv()</code> / <code class="text-ink">radf_wb_cv()</code>
+      Current coverage: <code class="text-ink">lag = 0</code> for <code class="text-ink">n</code> up to 2,000;
+      <code class="text-ink">lag = 1</code> is being filled in from small <code class="text-ink">n</code>
+      upward. Anything not simulated yet says so when requested, and
+      <code class="text-ink">radf_mc_cv()</code> / <code class="text-ink">radf_wb_cv()</code>
       remain the way to compute your own.
     </p>
     <span class="mt-6 inline-block rounded-full border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
-      shared critical-value store — live for lag 0, n ≤ 2000
+      shared critical-value store — live
     </span>
   </section>
 </DocsLayout>

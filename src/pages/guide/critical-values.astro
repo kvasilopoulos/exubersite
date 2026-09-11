@@ -5,7 +5,7 @@ import { guideSection } from "../../sidebars";
 const headings = [
   { depth: 2, slug: "monte-carlo", text: "Simulate the null directly" },
   { depth: 2, slug: "wild-bootstrap", text: "Simulate the null from your data" },
-  { depth: 2, slug: "where-this-is-headed", text: "Where this is headed" },
+  { depth: 2, slug: "shared-store", text: "Shared store" },
 ];
 ---
 
@@ -47,19 +47,26 @@ const headings = [
     </p>
   </section>
 
-  <section id="where-this-is-headed" class="scroll-mt-24 border-t border-border pt-14 mt-14">
-    <p class="font-mono text-xs uppercase tracking-widest text-muted">Where this is headed</p>
-    <h2 class="mt-4 font-display text-2xl text-ink">One shared table, not three.</h2>
+  <section id="shared-store" class="scroll-mt-24 border-t border-border pt-14 mt-14">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Shared store</p>
+    <h2 class="mt-4 font-display text-2xl text-ink">One table, served, not three bundled.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Right now <code class="text-ink">exuber</code> bundles its own precomputed <code class="text-ink">.rda</code>,
-      and <code class="text-ink">pyexuber</code> has none yet — each binding would otherwise end up
-      re-simulating and re-bundling the same numbers separately. The plan is a standalone,
-      versioned critical-value table, computed once and served rather than duplicated, so
-      <code class="text-ink">pyexuber</code> and this site can read the same thresholds
-      <code class="text-ink">exuber</code> does.
+      Beyond the bundled range, <code class="text-ink">exuber</code> and <code class="text-ink">pyexuber</code>
+      read the same precomputed tables from a small read-only store: one object per
+      (<code class="text-ink">lag</code>, <code class="text-ink">n</code>), simulated once with
+      2,000 replications, fetched on first use and cached on disk. In R this is automatic —
+      <code class="text-ink">radf()</code> reaches for it whenever <code class="text-ink">n &gt; 600</code>
+      or <code class="text-ink">lag &gt; 0</code>. In Python it's
+      <code class="text-ink">exuber.radf_crit(n, lag)</code>.
     </p>
-    <span class="mt-6 inline-block rounded-full border border-dashed border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
-      shared critical-value service — planned
+    <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
+      Current coverage: <code class="text-ink">lag = 0</code> for <code class="text-ink">n</code> up to 2,000.
+      Lagged specifications and larger samples aren't simulated yet — a request for one of those
+      says so, and <code class="text-ink">radf_mc_cv()</code> / <code class="text-ink">radf_wb_cv()</code>
+      remain the way to compute your own.
+    </p>
+    <span class="mt-6 inline-block rounded-full border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
+      shared critical-value store — live for lag 0, n ≤ 2000
     </span>
   </section>
 </DocsLayout>

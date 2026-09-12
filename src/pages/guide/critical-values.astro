@@ -60,9 +60,8 @@ const headings = [
       <code class="text-ink">exuber.radf_crit(n, lag)</code>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      Current coverage: <code class="text-ink">lag = 0</code> for <code class="text-ink">n</code> up to 2,000;
-      <code class="text-ink">lag = 1</code> is being filled in from small <code class="text-ink">n</code>
-      upward. Anything not simulated yet says so when requested, and
+      Coverage: <code class="text-ink">lag</code> 0 through 4, every sample size from the smallest
+      the PSY window allows up to <code class="text-ink">n = 4,000</code>. Beyond that,
       <code class="text-ink">radf_mc_cv()</code> / <code class="text-ink">radf_wb_cv()</code>
       remain the way to compute your own.
     </p>

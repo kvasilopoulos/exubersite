@@ -27,10 +27,9 @@ const headings = [
       which real series rarely have. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      <code class="text-ink">exuber</code>'s bundled table was built exactly this way: 2,000
-      replications, sample sizes 6 through 600, seeded for reproducibility
-      (<code class="text-ink">data-raw/sim-crit.R</code>) — then shipped as a lookup table so a
-      typical <code class="text-ink">radf()</code> call doesn't re-simulate anything.
+      The default tables were built exactly this way: 2,000 replications per lag, seeded, every
+      sample size up to 4,000 — then served as a lookup so a typical
+      <code class="text-ink">radf()</code> call doesn't re-simulate anything (see the shared store below).
     </p>
   </section>
 
@@ -49,14 +48,14 @@ const headings = [
 
   <section id="shared-store" class="scroll-mt-24 border-t border-border pt-14 mt-14">
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Shared store</p>
-    <h2 class="mt-4 font-display text-2xl text-ink">One table, served, not three bundled.</h2>
+    <h2 class="mt-4 font-display text-2xl text-ink">One table, served, not bundled.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Beyond the bundled range, <code class="text-ink">exuber</code> and <code class="text-ink">pyexuber</code>
+      <code class="text-ink">exuber</code> and <code class="text-ink">pyexuber</code>
       read the same precomputed tables from a small read-only store: one object per
       (<code class="text-ink">lag</code>, <code class="text-ink">n</code>), simulated once with
       2,000 replications, fetched on first use and cached on disk. In R this is automatic —
-      <code class="text-ink">radf()</code> reaches for it whenever <code class="text-ink">n &gt; 600</code>
-      or <code class="text-ink">lag &gt; 0</code>. In Python it's
+      any <code class="text-ink">summary()</code>, <code class="text-ink">datestamp()</code> or
+      <code class="text-ink">autoplot()</code> without an explicit <code class="text-ink">cv</code> uses it. In Python it's
       <code class="text-ink">exuber.radf_crit(n, lag)</code>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">

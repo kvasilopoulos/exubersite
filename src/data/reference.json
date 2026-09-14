@@ -96,11 +96,6 @@
               "title": "Panel Sieve Bootstrap Critical Values"
             },
             {
-              "name": "radf_crit",
-              "topic": "radf_crit",
-              "title": "Stored Monte Carlo Critical Values"
-            },
-            {
               "name": "tidy.radf_cv",
               "topic": "tidy.radf_cv",
               "title": "Tidy a radf_cv object"
@@ -194,11 +189,6 @@
           "name": "radf_sb_cv",
           "topic": "radf_sb_cv",
           "title": "Panel Sieve Bootstrap Critical Values"
-        },
-        {
-          "name": "radf_crit",
-          "topic": "radf_crit",
-          "title": "Stored Monte Carlo Critical Values"
         },
         {
           "name": "tidy.radf_cv",
@@ -5118,7 +5108,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- cobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199L, seed = 1)\nprint(res)\n\n# Force a specific lead/lag instead of estimating it\nres_lag0 <- cobubble_test(sim_data$psy1, sim_data$psy2, lag = 0L, nboot = 199L, seed = 1)\nprint(res_lag0)\n\n# Plot the two series being tested for co-explosivity\nautoplot(res)",
+      "examples": "# A genuinely co-explosive pair (Evripidou et al.'s own DGP): not rejected\nxy <- sim_coexplosive(n = 100, seed = 123)\nres <- cobubble_test(xy$y, xy$x, nboot = 199L, seed = 1)\nprint(res)\n\n# Force a specific lead/lag instead of estimating it\nres_lag0 <- cobubble_test(xy$y, xy$x, lag = 0L, nboot = 199L, seed = 1)\nprint(res_lag0)\n\n# Two independent bubbles: co-explosivity correctly rejected\ncobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199L, seed = 1)\n\n# Plot the two series being tested for co-explosivity\nautoplot(res)",
       "references": [
         [
           {
@@ -5502,7 +5492,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 0L)\nprint(res)\n\n# Plot the estimated time-varying contagion coefficient\nautoplot(res)\n\n# Compare a one-period lead (d = 1) against the contemporaneous case\nres_d1 <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 1L)\nautoplot(res) +\n  ggplot2::geom_line(data = data.frame(r = res_d1$r_grid, delta2 = res_d1$delta2),\n    ggplot2::aes(r, delta2), color = \"red\", inherit.aes = FALSE)",
+      "examples": "# A co-explosive pair: y's AR coefficient tracks x's almost one-for-one\nxy <- sim_coexplosive(n = 100, seed = 123)\nres <- contagion_reg(xy$y, xy$x, d = 0L)\nprint(res)\n\n# Plot the estimated time-varying contagion coefficient\nautoplot(res)\n\n# Compare a one-period lead (d = 1) against the contemporaneous case\nres_d1 <- contagion_reg(xy$y, xy$x, d = 1L)\nautoplot(res) +\n  ggplot2::geom_line(data = data.frame(r = res_d1$r_grid, delta2 = res_d1$delta2),\n    ggplot2::aes(r, delta2), color = \"red\", inherit.aes = FALSE)",
       "references": [
         [
           {
@@ -8081,7 +8071,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- dating_pdc(sim_data$psy1, regimes = 3L, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# 4-regime extension, adding a post-collapse recovery breakpoint\nres4 <- dating_pdc(sim_data$psy1, regimes = 4L, trim = 0.05)\nautoplot(res4)\n\n# Volatility-weighted (WLS) variant, robust to time-varying volatility\nautoplot(dating_pdc(sim_data$psy1, type = \"wls\"))",
+      "examples": "# sim_ps1()'s unit-root -> explosive -> collapse -> recovery DGP is exactly\n# the regime structure dating_pdc() fits (true breaks at 40, 60, 70)\ny <- sim_ps1(n = 100, seed = 1)\nres <- dating_pdc(y, regimes = 3L, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# 4-regime extension, adding a post-collapse recovery breakpoint\nres4 <- dating_pdc(y, regimes = 4L, trim = 0.05)\nautoplot(res4)\n\n# Volatility-weighted (WLS) variant, robust to time-varying volatility\ny_vol <- sim_ps1(n = 100, seed = 1, e = sim_vol_break(99))\nautoplot(dating_pdc(y_vol, type = \"wls\"))",
       "references": [
         [
           {
@@ -9215,7 +9205,7 @@
           },
           {
             "t": "text",
-            "v": " (rather than erroring) if neither has it, so callers can fail gracefully."
+            "v": " when the store answers 404 (that combination hasn't been simulated yet) so callers can fail gracefully; any other failure (no network, proxy down) is an error, since retrying later may well succeed."
           }
         ]
       ],
@@ -10437,7 +10427,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -10972,7 +10962,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- monitor(sim_data, r_star = 0.5, nboot = 200)\nprint(mon)\nautoplot(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- monitor(sim_data, r_star = 0.5, boundary = \"kurozumi\")\nautoplot(mon_kz)\n\n# Homm & Breitung (2012) FLUC boundary\nautoplot(monitor(sim_data, r_star = 0.5, boundary = \"fluc\"))",
+      "examples": "# A bubble-free training window (first half), explosive from t = 150 on\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7)\n# Default: Phillips & Shi (2020) wild bootstrap boundary\nmon <- monitor(y, r_star = 0.5, nboot = 200)\nprint(mon)\nautoplot(mon)\n\n# Kurozumi (2020) closed-form boundary -- no bootstrap needed\nmon_kz <- monitor(y, r_star = 0.5, boundary = \"kurozumi\")\nautoplot(mon_kz)\n\n# Homm & Breitung (2012) FLUC boundary\nautoplot(monitor(y, r_star = 0.5, boundary = \"fluc\"))",
       "references": [
         [
           {
@@ -11774,7 +11764,7 @@
         ]
       },
       "format": null,
-      "examples": "# A martingale training window, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7)\nres <- monitor_cusum(y, r_star = 0.5)\nprint(res) # alarm should fire soon after t = 150\nautoplot(res)\n\n# Volatility-robust \"CUSUMV\" variant (Astill, Harvey, Leybourne, Taylor & Zu 2023)\nres_kernel <- monitor_cusum(y, r_star = 0.5, type = \"kernel\")\nautoplot(res_kernel)",
+      "examples": "# A martingale training window, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7)\nres <- monitor_cusum(y, r_star = 0.5)\nprint(res) # alarm should fire soon after t = 150\nautoplot(res)\n\n# Volatility-robust \"CUSUMV\" variant (Astill, Harvey, Leybourne, Taylor & Zu 2023):\n# same bubble, but volatility triples at t = 120, after the training window\ny_vol <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_vol_break(199, tau = 0.6))\nres_kernel <- monitor_cusum(y_vol, r_star = 0.5, type = \"kernel\")\nautoplot(res_kernel)",
       "references": [
         [
           {
@@ -13195,7 +13185,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -13374,7 +13364,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- monitor_quantile(sim_data$psy2, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Upper-quantile monitoring is typically more powerful for right-tailed bubbles\nautoplot(monitor_quantile(sim_data$psy2, tau = 0.9, nrep = 100, seed = 1))",
+      "examples": "# Heavy-tailed (t3) innovations, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_innov(199, dist = \"t\", df = 3))\nres <- monitor_quantile(y, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Upper-quantile monitoring is typically more powerful for right-tailed bubbles\nautoplot(monitor_quantile(y, tau = 0.9, nrep = 100, seed = 1))",
       "references": [
         [
           {
@@ -13438,13 +13428,13 @@
       "aliases": [
         "parse_crit_bin"
       ],
-      "title": "Parse the fixed little-endian binary layout written by data-raw/crit-bucket/simulate-and-upload.R: int32 x4: n, minw, lag, nrows float64 x3: adf_cv, x3: sadf_cv, x3: gsadf_cv float64 x(nrows*3): bsadf_cv (row-major) badf_cv isn't stored -- it's always the constant PWY asymptotic tiling, reconstructed here instead of transferred.",
+      "title": "Parse the fixed little-endian binary layout written by exubercrit's simulate-crit.R: int32 x4: n, minw, lag, nrows float64 x3: adf_cv, x3: sadf_cv, x3: gsadf_cv float64 x(nrows*3): bsadf_cv (row-major) badf_cv isn't stored -- it's always the constant PWY asymptotic tiling, reconstructed here instead of transferred.",
       "usage": "parse_crit_bin(path)",
       "description": [
         [
           {
             "t": "text",
-            "v": "Parse the fixed little-endian binary layout written by data-raw/crit-bucket/simulate-and-upload.R: int32 x4: n, minw, lag, nrows float64 x3: adf_cv, x3: sadf_cv, x3: gsadf_cv float64 x(nrows*3): bsadf_cv (row-major) badf_cv isn't stored -- it's always the constant PWY asymptotic tiling, reconstructed here instead of transferred."
+            "v": "Parse the fixed little-endian binary layout written by exubercrit's simulate-crit.R: int32 x4: n, minw, lag, nrows float64 x3: adf_cv, x3: sadf_cv, x3: gsadf_cv float64 x(nrows*3): bsadf_cv (row-major) badf_cv isn't stored -- it's always the constant PWY asymptotic tiling, reconstructed here instead of transferred."
           }
         ]
       ],
@@ -13587,7 +13577,7 @@
         [
           {
             "t": "eqn",
-            "tex": "rule_1 = \\delta \\log(n) \\quad\\& \\quad rule_2 = \\delta \\log(n)/n",
+            "tex": "\\text{rule}_1 = \\delta \\log(n) \\quad \\text{and} \\quad \\text{rule}_2 = \\delta \\log(n)/n",
             "display": true
           }
         ],
@@ -14264,7 +14254,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- quantile_test(sim_data$psy2, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Test at a fixed upper quantile instead of the optimal one\nautoplot(quantile_test(sim_data$psy2, tau = 0.9, nrep = 100, seed = 1))",
+      "examples": "# Heavy-tailed (t3) innovations: where a quantile test earns its keep over the mean\ny <- sim_psy1(n = 100, seed = 1, e = sim_innov(99, dist = \"t\", df = 3))\nres <- quantile_test(y, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Test at a fixed upper quantile instead of the optimal one\nautoplot(quantile_test(y, tau = 0.9, nrep = 100, seed = 1))",
       "references": [
         [
           {
@@ -14526,7 +14516,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -15123,7 +15113,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -15227,7 +15217,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_common(sim_data, minw = 20)\nprint(res)\n\n# radf_common_cv() is needed here -- NOT radf_mc_cv(), see Details\ncv <- radf_common_cv(n = 100, N = ncol(sim_data), minw = 20)\nsummary(res, cv = cv)\n\n# The result is an ordinary radf_obj, so autoplot()/datestamp() work directly\nautoplot(res, cv = cv)\ndatestamp(res, cv = cv)",
+      "examples": "# A panel of 5 series driven by one shared latent bubble factor\nx <- sim_common(n_series = 5, n = 100, seed = 123)\nres <- radf_common(x, minw = 20)\nprint(res)\n\n# radf_common_cv() is needed here -- NOT radf_mc_cv(), see Details\ncv <- radf_common_cv(n = 100, N = ncol(x), minw = 20)\nsummary(res, cv = cv)\n\n# The result is an ordinary radf_obj, so autoplot()/datestamp() work directly\nautoplot(res, cv = cv)\ndatestamp(res, cv = cv)",
       "references": [
         [
           {
@@ -15560,7 +15550,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -15851,193 +15841,6 @@
           ]
         }
       ]
-    },
-    "radf_crit": {
-      "topic": "radf_crit",
-      "aliases": [
-        "radf_crit"
-      ],
-      "title": "Stored Monte Carlo Critical Values",
-      "usage": "radf_crit",
-      "description": [
-        [
-          {
-            "t": "text",
-            "v": "A dataset containing Monte Carlo critical values for up to 600 observations generated using the default minimum window. The critical values have been simulated and stored as data to save computation time for the user. The stored critical values can be obtained with the "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "radf_mc_cv",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_mc_cv"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " function, using nrep = "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "2000"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " and the "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "seed = 123"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "."
-          }
-        ]
-      ],
-      "details": null,
-      "arguments": null,
-      "value": null,
-      "format": {
-        "kind": "prose",
-        "paragraphs": [
-          [
-            {
-              "t": "text",
-              "v": "A list with lower level lists that contain "
-            },
-            {
-              "t": "list",
-              "ordered": false,
-              "items": [
-                {
-                  "name": [
-                    {
-                      "t": "text",
-                      "v": "adf_cv:"
-                    }
-                  ],
-                  "body": [
-                    {
-                      "t": "text",
-                      "v": "Augmented Dickey-Fuller"
-                    }
-                  ]
-                },
-                {
-                  "name": [
-                    {
-                      "t": "text",
-                      "v": "badf_cv:"
-                    }
-                  ],
-                  "body": [
-                    {
-                      "t": "text",
-                      "v": "Backward Augmented Dickey-Fuller"
-                    }
-                  ]
-                },
-                {
-                  "name": [
-                    {
-                      "t": "text",
-                      "v": "sadf_cv:"
-                    }
-                  ],
-                  "body": [
-                    {
-                      "t": "text",
-                      "v": "Supremum Augmented Dickey-Fuller"
-                    }
-                  ]
-                },
-                {
-                  "name": [
-                    {
-                      "t": "text",
-                      "v": "bsadf_cv:"
-                    }
-                  ],
-                  "body": [
-                    {
-                      "t": "text",
-                      "v": "Backward Supremum Augmented Dickey-Fuller"
-                    }
-                  ]
-                },
-                {
-                  "name": [
-                    {
-                      "t": "text",
-                      "v": "gsadf_cv:"
-                    }
-                  ],
-                  "body": [
-                    {
-                      "t": "text",
-                      "v": "Generalized Supremum Augmented Dickey Fuller"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        ]
-      },
-      "examples": "all.equal(radf_crit[[50]], radf_mc_cv(50, nrep = 2000, seed = 123))",
-      "references": null,
-      "seealso": null,
-      "source": [
-        [
-          {
-            "t": "text",
-            "v": "Simulated from exuber package function "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "link",
-                "topic": "radf_mc_cv",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_mc_cv"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "."
-          }
-        ]
-      ],
-      "author": null,
-      "sections": []
     },
     "radf_kp": {
       "topic": "radf_kp",
@@ -16332,7 +16135,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -16479,7 +16282,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_kp(sim_data, minw = 20)\nprint(res)\n\n# radf_mc_cv() applies unmodified -- see Details\ncv <- radf_mc_cv(n = attr(res, \"n\"), minw = 20)\nsummary(res, cv = cv)\nautoplot(res, cv = cv)",
+      "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_kp(y, minw = 20)\nprint(res)\n\n# radf_mc_cv() applies unmodified -- see Details\ncv <- radf_mc_cv(n = attr(res, \"n\"), minw = 20)\nsummary(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -16646,7 +16449,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -17139,7 +16942,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -17628,7 +17431,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -18089,7 +17892,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -18871,7 +18674,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -19028,7 +18831,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_sbz(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sbz_cv(sim_data, minw = 20, nboot = 200)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\n\n# datestamp()/autoplot() need at least one rejection; supBZ's\n# kernel-volatility weighting trades away enough power that none of\n# sim_data's five series clear it, so use a series built to reject:\nset.seed(7)\nn <- 120; te <- 70\ny <- cumsum(rnorm(n))\ny[(te + 1):n] <- y[te] * 1.15 ^ seq_len(n - te)\nres2 <- radf_sbz(y, minw = 20)\ncv2 <- radf_sbz_cv(y, minw = 20, nboot = 100, seed = 1)\ndatestamp(res2, cv = cv2)\nautoplot(res2, cv = cv2)",
+      "examples": "# Volatility triples at t = 100, then a strong explosive regime (rho = 1.03)\n# from t = 120 to the sample end: supBZ's kernel-volatility weighting trades\n# away enough power that sim_psy1()'s default, milder bubble doesn't clear it\ny <- sim_psy1(n = 200, te = 120, tf = 200, c = 0.03, alpha = 0, seed = 1,\n  e = sim_vol_break(199))\nres <- radf_sbz(y, minw = 20)\nprint(res)\n\ncv <- radf_sbz_cv(y, minw = 20, nboot = 200, seed = 1)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -19432,7 +19235,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -20251,7 +20054,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -20426,7 +20229,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- radf_sbz_union(sim_data, nboot = 200)\nprint(res)\nautoplot(res)",
+      "examples": "y <- sim_psy1(n = 200, te = 120, tf = 200, c = 0.03, alpha = 0, seed = 1,\n  e = sim_vol_break(199))\nres <- radf_sbz_union(y, nboot = 200, seed = 1)\nprint(res)\nautoplot(res)",
       "references": [
         [
           {
@@ -20884,7 +20687,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -20896,7 +20699,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_sign(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
+      "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_sign(y, minw = 20)\nprint(res)\n\ncv <- radf_sign_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -21266,7 +21069,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -21309,7 +21112,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "cv <- radf_sign_cv(n = 100, minw = 20)\ntidy(cv)",
+      "examples": "cv <- radf_sign_cv(n = 200, minw = 20)\ntidy(cv)",
       "references": [
         [
           {
@@ -21667,7 +21470,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -21679,7 +21482,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_sign_dm(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_sign_dm_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
+      "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_sign_dm(y, minw = 20)\nprint(res)\n\ncv <- radf_sign_dm_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -21850,7 +21653,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -21893,7 +21696,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "cv <- radf_sign_dm_cv(n = 100, minw = 20)\ntidy(cv)",
+      "examples": "cv <- radf_sign_dm_cv(n = 200, minw = 20)\ntidy(cv)",
       "references": [
         [
           {
@@ -22181,7 +21984,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -22259,7 +22062,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "res <- radf_tt(sim_data, minw = 20)\nprint(res)\n\ncv <- radf_tt_cv(n = 100, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
+      "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_tt(y, minw = 20)\nprint(res)\n\ncv <- radf_tt_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -22513,7 +22316,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -22556,7 +22359,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "cv <- radf_tt_cv(n = 100, minw = 20)\ntidy(cv)\n\nres <- radf_tt(sim_data, minw = 20)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
+      "examples": "cv <- radf_tt_cv(n = 200, minw = 20)\ntidy(cv)\n\n# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_tt(y, minw = 20)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
         [
           {
@@ -22790,7 +22593,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -22939,7 +22742,7 @@
         ]
       },
       "format": null,
-      "examples": "# Default minimum window\nwb <- radf_wb_cv(sim_data)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_cv(sim_data, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_distr(sim_data)\n\nautoplot(wdist)\n\n# Apply the critical values to actual data\nrsim_data <- radf(sim_data, minw = 20)\nautoplot(rsim_data, cv = wb2)",
+      "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case the wild bootstrap is built for (plain radf_mc_cv() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\n# Default minimum window\nwb <- radf_wb_cv(y)\n\ntidy(wb)\n\n# Change the minimum window and the number of bootstraps\nwb2 <- radf_wb_cv(y, nboot = 600, minw = 20)\n\ntidy(wb2)\n\n# Simulate distribution\nwdist <- radf_wb_distr(y)\n\nautoplot(wdist)\n\n# Apply the critical values to actual data\nrsim_data <- radf(y, minw = 20)\nautoplot(rsim_data, cv = wb2)",
       "references": [
         [
           {
@@ -23266,7 +23069,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -26311,7 +26114,7 @@
           },
           {
             "t": "eqn",
-            "tex": "d[0] = 1.3",
+            "tex": "d_0 = 1.3",
             "display": false
           },
           {
@@ -26675,7 +26478,7 @@
         [
           {
             "t": "eqn",
-            "tex": "B_{t+1} =  [\\delta + (1+r)\\pi^{-1} \\theta_{t+1}(B_t -  (1+r)^{-1}\\delta B_t )]u_{t+1},",
+            "tex": "B_{t+1} =  [\\delta + (1+r)\\pi^{-1} \\theta_{t+1}(B_t -  (1+r)^{-1}\\delta)]u_{t+1},",
             "display": true
           }
         ],
@@ -26691,7 +26494,7 @@
           },
           {
             "t": "text",
-            "v": " theta is a binary variable that takes the value 0 with probability "
+            "v": " is a binary variable that takes the value 0 with probability "
           },
           {
             "t": "eqn",
@@ -28875,7 +28678,7 @@
         "sim_ps1"
       ],
       "title": "Simulation of a single-bubble process with multiple forms of collapse regime",
-      "usage": "sim_ps1(\n  n,\n  te = 0.4 * n,\n  tf = te + 0.2 * n,\n  tr = tf + 0.1 * n,\n  c = 1,\n  c1 = 1,\n  c2 = 1,\n  eta = 0.6,\n  alpha = 0.6,\n  beta = 0.5,\n  sigma = 6.79,\n  seed = NULL\n)",
+      "usage": "sim_ps1(\n  n,\n  te = 0.4 * n,\n  tf = te + 0.2 * n,\n  tr = tf + 0.1 * n,\n  c = 1,\n  c1 = 1,\n  c2 = 1,\n  eta = 0.6,\n  alpha = 0.6,\n  beta = 0.5,\n  sigma = 6.79,\n  seed = NULL,\n  e = NULL\n)",
       "description": [
         [
           {
@@ -29229,6 +29032,180 @@
               "v": " before simulation. If set, the value is saved as \"seed\" attribute\nof the returned value. The default, NULL, will not change rng state, and\nreturn .Random.seed as the \"seed\" attribute. Results are reproducible\nacross the parallel and non-parallel option when the same seed is used."
             }
           ]
+        },
+        {
+          "name": "e",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An optional numeric vector of length "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "n - 1"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " of innovations\nto use in place of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "rnorm(n - 1, sd = sigma)"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ". Lets the plain PSY\nequation above be driven by a non-Gaussian/heteroskedastic/dependent shock\nsequence instead of i.i.d. Gaussian noise -- see "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_innov",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_innov"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\n(heavy-tailed/skewed), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_vol_break",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_vol_break"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (permanent\nvolatility break), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_vol_garch",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_vol_garch"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (GARCH/TGARCH),\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_vol_cir",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_vol_cir"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_vol_sv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_vol_sv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (stochastic volatility)\nand "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_fi",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_fi"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (long-memory) for ready-made generators. Default\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NULL"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " reproduces the plain i.i.d. Gaussian DGP exactly."
+            }
+          ]
         }
       ],
       "value": {
@@ -29427,7 +29404,7 @@
           },
           {
             "t": "eqn",
-            "tex": "\\tau_e, \\tau_f]",
+            "tex": "[\\tau_e, \\tau_f]",
             "display": false
           },
           {
@@ -30077,14 +30054,7 @@
         [
           {
             "t": "eqn",
-            "tex": "X_t = X_{t-1}1\\{t \\in N_0\\}+ \\delta_T X_{t-1}1\\{t \\in B_1 \\cup B_2\\} +\n\\left(\\sum_{k=\\tau_{1f}+1}^t \\epsilon_k + X_{\\tau_{1f}}\\right) 1\\{t \\in N_1\\}",
-            "display": true
-          }
-        ],
-        [
-          {
-            "t": "eqn",
-            "tex": "+ \\left(\\sum_{l=\\tau_{2f}+1}^t \\epsilon_l + X_{\\tau_{2f}}\\right) 1\\{t \\in N_2\\} +\n\\epsilon_t 1\\{t \\in N_0 \\cup B_1 \\cup B_2\\}",
+            "tex": "\\begin{aligned}\nX_t = {} & X_{t-1}1\\{t \\in N_0\\}+ \\delta_T X_{t-1}1\\{t \\in B_1 \\cup B_2\\} +\n\\left(\\sum_{k=\\tau_{1f}+1}^t \\epsilon_k + X_{\\tau_{1f}}\\right) 1\\{t \\in N_1\\} \\\\\n& + \\left(\\sum_{l=\\tau_{2f}+1}^t \\epsilon_l + X_{\\tau_{2f}}\\right) 1\\{t \\in N_2\\} +\n\\epsilon_t 1\\{t \\in N_0 \\cup B_1 \\cup B_2\\}\n\\end{aligned}",
             "display": true
           }
         ],
@@ -32287,7 +32257,7 @@
             },
             {
               "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt(T))T",
+              "tex": "(0.01 + 1.8/\\sqrt{T})T",
               "display": false
             },
             {
@@ -32461,7 +32431,7 @@
         ]
       },
       "format": null,
-      "examples": "res <- ssu_test(sim_data$psy1, level = 0.95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
+      "examples": "# A stochastically varying explosive root, rho_t = 1 + 3/n + 4 * u_t / sqrt(n):\n# the alternative ssu_test() is built for (a fixed-root DGP is lbi_test()'s)\ny <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\nres <- ssu_test(y, level = 0.95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
       "references": [
         [
           {

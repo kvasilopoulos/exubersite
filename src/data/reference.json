@@ -389,8 +389,8 @@
               "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
             },
             {
-              "name": "autoplot.radf_sbz_union",
-              "topic": "autoplot.radf_sbz_union",
+              "name": "autoplot.radf_sbz_union_obj",
+              "topic": "autoplot.radf_sbz_union_obj",
               "title": "Plot method for radf_sbz_union() output"
             }
           ]
@@ -466,8 +466,8 @@
           "title": "SBZ Weighted Least Squares Bubble Test with Union-of-Rejections"
         },
         {
-          "name": "autoplot.radf_sbz_union",
-          "topic": "autoplot.radf_sbz_union",
+          "name": "autoplot.radf_sbz_union_obj",
+          "topic": "autoplot.radf_sbz_union_obj",
           "title": "Plot method for radf_sbz_union() output"
         },
         {
@@ -840,8 +840,8 @@
               "title": "Test for Co-explosive Behaviour Between Two Series"
             },
             {
-              "name": "autoplot.cobubble_test",
-              "topic": "autoplot.cobubble_test",
+              "name": "autoplot.cobubble_test_obj",
+              "topic": "autoplot.cobubble_test_obj",
               "title": "Plot method for cobubble_test() output"
             }
           ]
@@ -880,8 +880,8 @@
           "title": "Test for Co-explosive Behaviour Between Two Series"
         },
         {
-          "name": "autoplot.cobubble_test",
-          "topic": "autoplot.cobubble_test",
+          "name": "autoplot.cobubble_test_obj",
+          "topic": "autoplot.cobubble_test_obj",
           "title": "Plot method for cobubble_test() output"
         },
         {
@@ -1726,7 +1726,56 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tibble"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " joining the augmented statistics of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "x"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the augmented critical values of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "y"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; see the methods for the exact columns."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": null,
       "references": null,
@@ -1735,10 +1784,10 @@
       "author": null,
       "sections": []
     },
-    "autoplot.cobubble_test": {
-      "topic": "autoplot.cobubble_test",
+    "autoplot.cobubble_test_obj": {
+      "topic": "autoplot.cobubble_test_obj",
       "aliases": [
-        "autoplot.cobubble_test"
+        "autoplot.cobubble_test_obj"
       ],
       "title": "Plot method for cobubble_test() output",
       "usage": "autoplot(object, ...)",
@@ -3825,7 +3874,7 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data_wdate)\n\nautoplot(rsim_data)\n\n# Modify facet_wrap options through ellipsis\nautoplot(rsim_data, scales = \"free_y\", dir = \"v\")\n\n# Modify the shading options\nautoplot(rsim_data, shade_opt = shade(fill = \"pink\", opacity = 0.5))\n\n# Allow for nonrejected series to be plotted\nautoplot(rsim_data, nonrejected = TRUE)\n\n# Remove the shading completely (2 ways)\nautoplot(rsim_data, shade_opt = NULL)\nautoplot(rsim_data, shade_opt = shade(opacity = 0))\n\n# Plot only the series with the shading options\nautoplot2(rsim_data)\nautoplot2(rsim_data, trunc = FALSE) # keep the minw period\n\n# We will need ggplot2 from here on out\nlibrary(ggplot2)\n\n# Change (overwrite) color, size or linetype\nautoplot(rsim_data) +\n  scale_color_manual(values = c(\"black\", \"black\")) +\n  scale_size_manual(values = c(0.9, 1)) +\n  scale_linetype_manual(values = c(\"solid\", \"solid\"))\n\n# Change names through labeller (first way)\ncustom_labels <- c(\"psy1\" = \"new_name_for_psy1\", \"psy2\" = \"new_name_for_psy2\")\nautoplot(rsim_data, labeller = labeller(.default = label_value, id = as_labeller(custom_labels)))\n\n# Change names through labeller (second way)\ncustom_labels2 <- series_names(rsim_data)\nnames(custom_labels2) <- custom_labels2\ncustom_labels2[c(3, 5)] <- c(\"Evans\", \"Blanchard\")\nautoplot(rsim_data, labeller = labeller(id = custom_labels2))\n\n# Or change names before plotting\nseries_names(rsim_data) <- LETTERS[1:5]\nautoplot(rsim_data)\n\n# Change Theme options\nautoplot(rsim_data) +\n  theme(legend.position = \"right\")",
+      "examples": "rsim_data <- radf(sim_data_wdate)\n\nautoplot(rsim_data)\n\n# Modify facet_wrap options through ellipsis\nautoplot(rsim_data, scales = \"free_y\", dir = \"v\")\n\n# Modify the shading options\nautoplot(rsim_data, shade_opt = shade(fill = \"pink\", opacity = 0.5))\n\n# Allow for nonrejected series to be plotted\nautoplot(rsim_data, nonrejected = TRUE)\n\n# Remove the shading completely (2 ways)\nautoplot(rsim_data, shade_opt = NULL)\nautoplot(rsim_data, shade_opt = shade(opacity = 0))\n\n# Plot only the series with the shading options\nautoplot2(rsim_data)\nautoplot2(rsim_data, trunc = FALSE) # keep the minw period\n\n# We will need ggplot2 from here on out\nlibrary(ggplot2)\n\n# Change (overwrite) color, size or linetype\nautoplot(rsim_data) +\n  scale_color_manual(values = c(\"black\", \"black\")) +\n  scale_linewidth_manual(values = c(0.9, 1)) +\n  scale_linetype_manual(values = c(\"solid\", \"solid\"))\n\n# Change names through labeller (first way)\ncustom_labels <- c(\"psy1\" = \"new_name_for_psy1\", \"psy2\" = \"new_name_for_psy2\")\nautoplot(rsim_data, labeller = labeller(.default = label_value, id = as_labeller(custom_labels)))\n\n# Change names through labeller (second way)\ncustom_labels2 <- series_names(rsim_data)\nnames(custom_labels2) <- custom_labels2\ncustom_labels2[c(3, 5)] <- c(\"Evans\", \"Blanchard\")\nautoplot(rsim_data, labeller = labeller(id = custom_labels2))\n\n# Or change names before plotting\nseries_names(rsim_data) <- LETTERS[1:5]\nautoplot(rsim_data)\n\n# Change Theme options\nautoplot(rsim_data) +\n  theme(legend.position = \"right\")",
       "references": null,
       "seealso": null,
       "source": null,
@@ -3953,10 +4002,10 @@
       "author": null,
       "sections": []
     },
-    "autoplot.radf_sbz_union": {
-      "topic": "autoplot.radf_sbz_union",
+    "autoplot.radf_sbz_union_obj": {
+      "topic": "autoplot.radf_sbz_union_obj",
       "aliases": [
-        "autoplot.radf_sbz_union"
+        "autoplot.radf_sbz_union_obj"
       ],
       "title": "Plot method for radf_sbz_union() output",
       "usage": "autoplot(object, sig_lvl = 95, ...)",
@@ -4531,7 +4580,38 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": null,
+                  "external": true,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "ggplot"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " object, produced by the method."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": null,
       "references": null,
@@ -4627,7 +4707,95 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tibble"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with one row per series ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "id"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") and one p-value column per statistic ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; the panel statistic only when "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "distr"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is a sieve-bootstrap distribution)."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "radf_psy1 <- radf(sim_psy1(100))\n\n# Default: p-values against a Monte Carlo null distribution\npv <- calc_pvalue(radf_psy1)\npv\n\n# Using the Wild-Bootstrapped null instead\nwb_psy1 <- radf_wb_distr(sim_psy1(100))\n\ncalc_pvalue(radf_psy1, wb_psy1)\n\nsb_psy1 <- radf_sb_distr(sim_data, nboot = 500)\n\ncalc_pvalue(radf(sim_data), sb_psy1)\n\n# Plot the three p-values for this series\nbarplot(unlist(pv[, c(\"adf\", \"sadf\", \"gsadf\")]), ylab = \"p-value\",\n  main = \"calc_pvalue(): rejects at the usual 5\\% level if the bar is short\")\nabline(h = 0.05, col = \"red\", lty = 2)",
       "references": null,
@@ -4642,7 +4810,7 @@
         "cobubble_test"
       ],
       "title": "Test for Co-explosive Behaviour Between Two Series",
-      "usage": "cobubble_test(\n  y,\n  x,\n  lag = NULL,\n  lags = -6:6,\n  nboot = 499L,\n  level = 0.05,\n  seed = NULL\n)",
+      "usage": "cobubble_test(\n  y,\n  x,\n  lag = NULL,\n  lag_grid = -6:6,\n  nboot = 499L,\n  sig_lvl = 95,\n  seed = NULL\n)",
       "description": [
         [
           {
@@ -4880,7 +5048,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "lags"
+                  "v": "lag_grid"
                 }
               ]
             },
@@ -4904,7 +5072,7 @@
           ]
         },
         {
-          "name": "lags",
+          "name": "lag_grid",
           "desc": [
             {
               "t": "text",
@@ -4948,11 +5116,58 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal test size (upper-tail rejection region)."
+              "v": "Significance level, on the same 0-100 scale as\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "datestamp",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "datestamp"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "'s "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sig_lvl"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (default "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", i.e. a 5\\%\nupper-tail rejection region)."
             }
           ]
         },
@@ -4979,7 +5194,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "cobubble_test"
+                  "v": "cobubble_test_obj"
                 }
               ]
             },
@@ -5031,7 +5246,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "level"
+                  "v": "sig_lvl"
                 }
               ]
             },
@@ -5117,7 +5332,52 @@
           }
         ]
       ],
-      "seealso": null,
+      "seealso": [
+        [
+          {
+            "t": "text",
+            "v": "Other multivariate: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "contagion_reg",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "contagion_reg()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
       "source": null,
       "author": null,
       "sections": [
@@ -5524,6 +5784,50 @@
             "t": "text",
             "v": " for a different (symmetric, hypothesis-testing) bivariate bubble relationship."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other multivariate: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cobubble_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cobubble_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -5911,12 +6215,24 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data)\n\nds_data <- datestamp(rsim_data)\nds_data\n\n# Choose minimum window\ndatestamp(rsim_data, min_duration = psy_ds(nrow(sim_data)))\n\nautoplot(ds_data)\n\n# SV-ADF asymmetric-threshold dating (no critical values needed)\ndatestamp(rsim_data, option = \"svadf\")",
+      "examples": "rsim_data <- radf(sim_data)\n\n# SV-ADF asymmetric-threshold dating (no critical values needed)\ndatestamp(rsim_data, option = \"svadf\")\n\n\\donttest{\n# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nds_data <- datestamp(rsim_data)\nds_data\n\n# Choose minimum window\ndatestamp(rsim_data, min_duration = psy_ds(nrow(sim_data)))\n\nautoplot(ds_data)\n}",
       "references": [
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ],
         [
@@ -6461,6 +6777,113 @@
           {
             "t": "text",
             "v": " for PSY's original threshold-crossing rule."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -7125,6 +7548,113 @@
             "t": "text",
             "v": " for PSY's own multi-bubble threshold-crossing dating."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -7513,6 +8043,113 @@
           {
             "t": "text",
             "v": " for related SSR-based dating approaches."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -8000,7 +8637,20 @@
           [
             {
               "t": "text",
-              "v": "A "
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "dating_pdc_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (a "
             },
             {
               "t": "code",
@@ -8065,7 +8715,33 @@
             },
             {
               "t": "text",
-              "v": ", giving the estimated break dates (or observation indices, if no date index is available)."
+              "v": ", giving the estimated break dates (or observation indices, if no date index is available); it has its own "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "print()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "autoplot()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " methods."
             }
           ]
         ]
@@ -8114,6 +8790,113 @@
           {
             "t": "text",
             "v": " for the PSY threshold-crossing alternative."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -8260,7 +9043,7 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")\n\n# Gate on the 90\\% critical value instead of the 95\\% default\ndiagnostics(rsim_data, sig_lvl = 90)",
+      "examples": "# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nrsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")\n\n# Gate on the 90\\% critical value instead of the 95\\% default\ndiagnostics(rsim_data, sig_lvl = 90)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -8728,7 +9511,98 @@
                     "body": [
                       {
                         "t": "text",
-                        "v": " Should lengthy operations use parallel computation? Default: TRUE\n"
+                        "v": " Should lengthy operations use parallel computation? Default: TRUE.\nHonored by the "
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_*_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": "/"
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_*_distr()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": " simulation engines\n("
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_mc_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": ", "
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_wb_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": ", "
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_sb_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": ",\n"
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_recovery_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": ", "
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "radf_common_cv()"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": "); the standalone\ntests and monitors run serially regardless.\n"
                       }
                     ]
                   }
@@ -8758,7 +9632,20 @@
                     "body": [
                       {
                         "t": "text",
-                        "v": " How many cores to use for parallel computation. Default: system cores - 1\n"
+                        "v": " How many cores to use for parallel computation. Default: system cores - 1\n(2 in a non-interactive session), capped by the "
+                      },
+                      {
+                        "t": "code",
+                        "c": [
+                          {
+                            "t": "text",
+                            "v": "MC_CORES"
+                          }
+                        ]
+                      },
+                      {
+                        "t": "text",
+                        "v": "\nenvironment variable when it is set.\n"
                       }
                     ]
                   }
@@ -8857,19 +9744,6 @@
               {
                 "t": "text",
                 "v": "monitor_"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "/"
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "root_"
               }
             ]
           },
@@ -9313,7 +10187,30 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "The index of the object (a "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "Date"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " vector when the input data carried one, otherwise an integer sequence); the replacement form returns the modified object."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "# A plain numeric vector gets a pseudo-index (1, 2, 3, ...)\nrsim <- radf(sim_data)\nhead(index(rsim))\n\n# A data.frame with a Date column uses it as the index automatically\nrsim_wdate <- radf(sim_data_wdate)\nhead(index(rsim_wdate))\nclass(index(rsim_wdate))\n\n# autoplot() uses index() internally for the x-axis\nautoplot(rsim_wdate)\n\n# Replace the index, e.g. with a custom Date sequence\nindex(rsim) <- seq(as.Date(\"2000-01-01\"), by = \"month\", length.out = length(index(rsim)))\nhead(index(rsim))\nautoplot(rsim)",
       "references": null,
@@ -9328,7 +10225,7 @@
         "lbi_test"
       ],
       "title": "Locally Best Invariant Test for a Bubble (Breitung & Diegel 2025)",
-      "usage": "lbi_test(data, level = 0.95)",
+      "usage": "lbi_test(data, sig_lvl = 95)",
       "description": [
         [
           {
@@ -9534,24 +10431,37 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal confidence level for the (one-sided, right-tailed\n-- positive bubbles only) test (default "
+              "v": "Significance level for the (one-sided, right-tailed --\npositive bubbles only) test, on the package-wide 0-100 scale (default\n"
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
+                  "v": "95"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ")."
+              "v": "); any value in "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "[50, 100)"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is accepted since the\ncritical value is a closed-form normal quantile."
             }
           ]
         }
@@ -9665,6 +10575,29 @@
             "t": "text",
             "v": " for the recursive ADF-family alternative this complements."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other alternative tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "quantile_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "quantile_test()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -9694,7 +10627,7 @@
         "monitor"
       ],
       "title": "Real-Time Monitoring for Explosive Bubbles",
-      "usage": "monitor(\n  data,\n  r_star = 0.5,\n  minw = NULL,\n  nboot = 500L,\n  level = 0.95,\n  adflag = 0,\n  type = c(\"fixed\", \"aic\", \"bic\"),\n  seed = NULL,\n  boundary = c(\"bootstrap\", \"kurozumi\", \"fluc\"),\n  s0 = 0\n)",
+      "usage": "monitor(\n  data,\n  r_star = 0.5,\n  minw = NULL,\n  nboot = 500L,\n  sig_lvl = 95,\n  lag = 0L,\n  type = c(\"fixed\", \"aic\", \"bic\"),\n  seed = NULL,\n  boundary = c(\"bootstrap\", \"kurozumi\", \"fluc\"),\n  s0 = 0\n)",
       "description": [
         [
           {
@@ -10062,7 +10995,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "level"
+                "v": "sig_lvl"
               }
             ]
           },
@@ -10075,7 +11008,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.90"
+                "v": "90"
               }
             ]
           },
@@ -10088,7 +11021,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.95"
+                "v": "95"
               }
             ]
           },
@@ -10101,7 +11034,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.99"
+                "v": "99"
               }
             ]
           },
@@ -10168,7 +11101,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "level"
+                "v": "sig_lvl"
               }
             ]
           },
@@ -10181,7 +11114,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.90"
+                "v": "90"
               }
             ]
           },
@@ -10194,7 +11127,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.95"
+                "v": "95"
               }
             ]
           },
@@ -10207,7 +11140,7 @@
             "c": [
               {
                 "t": "text",
-                "v": "0.99"
+                "v": "99"
               }
             ]
           },
@@ -10459,70 +11392,18 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal confidence level for the monitoring boundary\n(default "
+              "v": "Significance level for the monitoring boundary on the\npackage-wide 0-100 scale, one of "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "). When "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "boundary"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " is "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"kurozumi\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " or\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "\"fluc\""
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ", must be one of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.90"
+                  "v": "90"
                 }
               ]
             },
@@ -10535,20 +11416,20 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
+                  "v": "95"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ", "
+              "v": " (default),\n"
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.99"
+                  "v": "99"
                 }
               ]
             },
@@ -10559,11 +11440,20 @@
           ]
         },
         {
-          "name": "adflag, type",
+          "name": "lag",
           "desc": [
             {
               "t": "text",
-              "v": "Passed to "
+              "v": "A non-negative integer. The lag length of the Augmented Dickey-Fuller regression (default = 0L)."
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Lag selection for the wild bootstrap DGP, passed to\n"
             },
             {
               "t": "code",
@@ -10584,7 +11474,7 @@
             },
             {
               "t": "text",
-              "v": " (lag length /\nselection for the wild bootstrap DGP). Ignored unless\n"
+              "v": ". Ignored unless "
             },
             {
               "t": "code",
@@ -11027,6 +11917,71 @@
             "t": "text",
             "v": " for the (non-monitoring, full-sample) origination/collapse dating that already exists."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other monitoring: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_cusum",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_cusum()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_lbi",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_lbi()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_quantile",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_quantile()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -11056,7 +12011,7 @@
         "monitor_cusum"
       ],
       "title": "CUSUM Real-Time Monitoring for Explosive Bubbles",
-      "usage": "monitor_cusum(\n  data,\n  r_star = 0.5,\n  b_alpha = 4.6,\n  boundary = c(\"asymptotic\", \"finite\"),\n  level = 0.95,\n  type = c(\"standard\", \"kernel\"),\n  N = 20,\n  kernel = c(\"gaussian\", \"uniform\")\n)",
+      "usage": "monitor_cusum(\n  data,\n  r_star = 0.5,\n  b_alpha = 4.6,\n  boundary = c(\"asymptotic\", \"finite\"),\n  sig_lvl = 95,\n  type = c(\"standard\", \"kernel\"),\n  h = 20,\n  kernel = c(\"gaussian\", \"uniform\")\n)",
       "description": [
         [
           {
@@ -11410,7 +12365,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "level"
+                  "v": "sig_lvl"
                 }
               ]
             },
@@ -11423,7 +12378,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "level"
+                  "v": "sig_lvl"
                 }
               ]
             },
@@ -11436,7 +12391,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.90"
+                  "v": "90"
                 }
               ]
             },
@@ -11449,7 +12404,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
+                  "v": "95"
                 }
               ]
             },
@@ -11462,7 +12417,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.99"
+                  "v": "99"
                 }
               ]
             },
@@ -11473,11 +12428,11 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal confidence level when "
+              "v": "Significance level on the package-wide 0-100 scale when\n"
             },
             {
               "t": "code",
@@ -11490,20 +12445,20 @@
             },
             {
               "t": "text",
-              "v": "\n(default "
+              "v": " (default "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
+                  "v": "95"
                 }
               ]
             },
             {
               "t": "text",
-              "v": "); ignored when "
+              "v": "); ignored when\n"
             },
             {
               "t": "code",
@@ -11552,11 +12507,24 @@
           ]
         },
         {
-          "name": "N",
+          "name": "h",
           "desc": [
             {
               "t": "text",
-              "v": "Bandwidth/window length for the one-sided kernel spot-variance\nestimator when "
+              "v": "Bandwidth/window length (AHLTZ's "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "N"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") for the one-sided kernel spot-variance\nestimator when "
             },
             {
               "t": "code",
@@ -11808,6 +12776,71 @@
             "t": "text",
             "v": " for the recursive-ADF (Family A) monitoring alternative."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other monitoring: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_lbi",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_lbi()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_quantile",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_quantile()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -11837,7 +12870,7 @@
         "monitor_lbi"
       ],
       "title": "Sequential LBI Monitoring for an Unknown Bubble Start Date (Breitung & Diegel 2025)",
-      "usage": "monitor_lbi(data, r_star = 0.5, c_bar = 0, level = 0.95)",
+      "usage": "monitor_lbi(data, r_star = 0.5, c_bar = 0, sig_lvl = 95)",
       "description": [
         [
           {
@@ -12222,7 +13255,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "level"
+                  "v": "sig_lvl"
                 }
               ]
             },
@@ -12246,18 +13279,18 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal confidence level, one of "
+              "v": "Significance level on the package-wide 0-100 scale, one\nof "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.90"
+                  "v": "90"
                 }
               ]
             },
@@ -12270,20 +13303,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": ",\n"
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "0.975"
+                  "v": "95"
                 }
               ]
             },
@@ -12296,7 +13316,7 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.99"
+                  "v": "97.5"
                 }
               ]
             },
@@ -12309,13 +13329,26 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.995"
+                  "v": "99"
                 }
               ]
             },
             {
               "t": "text",
-              "v": " (Breitung & Diegel's Table 1\nonly tabulates these)."
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "99.5"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (Breitung &\nDiegel's Table 1 only tabulates these)."
             }
           ]
         }
@@ -12497,6 +13530,71 @@
             "t": "text",
             "v": " for structurally different monitoring detectors."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other monitoring: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_cusum",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_cusum()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_quantile",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_quantile()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -12526,7 +13624,7 @@
         "monitor_quantile"
       ],
       "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)",
-      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  level = 95,\n  seed = NULL\n)",
+      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  sig_lvl = 95,\n  seed = NULL\n)",
       "description": [
         [
           {
@@ -13204,7 +14302,7 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
@@ -13417,11 +14515,93 @@
             "t": "text",
             "v": " for the OLS-based monitoring alternative."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other monitoring: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_cusum",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_cusum()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_lbi",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_lbi()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
       "author": null,
-      "sections": []
+      "sections": [
+        {
+          "title": "Status",
+          "body": [
+            [
+              {
+                "t": "strong",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "[Experimental]"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
     },
     "parse_crit_bin": {
       "topic": "parse_crit_bin",
@@ -13494,7 +14674,51 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A single integer, the training-window length in observations, suitable for "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "monitor",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "monitor"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "'s "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "r_star"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "# Training window controlling size over a 2-year span of monthly data\ntb <- ps_tb(100, freq = \"monthly\", size = 2)\ntb\n\n\\donttest{\n# Use it directly as monitor()'s training window\nmonitor(sim_data, r_star = tb, boundary = \"kurozumi\")\n}",
       "references": [
@@ -13626,14 +14850,58 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "psy_minw"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": a single integer, the minimum window length. "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "psy_ds"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": a single integer, the minimum episode duration in observations."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "psy_minw(100)\npsy_ds(100)",
       "references": [
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ]
       ],
@@ -13648,7 +14916,7 @@
         "quantile_test"
       ],
       "title": "Quantile Unit Root Test for Bubble Detection (Global Test)",
-      "usage": "quantile_test(\n  data,\n  tau = \"optimal\",\n  tau_grid = seq(0.2, 0.8, by = 0.05),\n  nrep = 1000L,\n  level = 95,\n  seed = NULL\n)",
+      "usage": "quantile_test(\n  data,\n  tau = \"optimal\",\n  tau_grid = seq(0.2, 0.8, by = 0.05),\n  nrep = 1000L,\n  sig_lvl = 95,\n  seed = NULL\n)",
       "description": [
         [
           {
@@ -14094,7 +15362,7 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
@@ -14285,6 +15553,29 @@
           {
             "t": "text",
             "v": " for the mean-regression (ADF/SADF/GSADF) family this complements."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other alternative tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "lbi_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "lbi_test()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -14669,13 +15960,37 @@
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ],
         [
           {
             "t": "text",
-            "v": "Pavlidis, E., Yusupova, A., Paya, I., Peel, D., Mart\u00ednez-Garc\u00eda, E., Mack, A., & Grossman, V. (2016). Episodes of exuberance in housing markets: in search of the smoking gun. The Journal of Real Estate Finance and Economics, 53(4), 419-449."
+            "v": "Pavlidis, E., Yusupova, A., Paya, I., Peel, D., Mart\u00ednez-Garc\u00eda, E., Mack, A., & Grossman, V. (2016). Episodes of exuberance in housing markets: in search of the smoking gun. The Journal of Real Estate Finance and Economics, 53(4), 419-449. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1007/s11146-015-9531-2",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1007/s11146-015-9531-2"
+              }
+            ]
           }
         ]
       ],
@@ -15270,6 +16585,50 @@
             "t": "text",
             "v": " for its (panel-width-specific) critical values."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other multivariate: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cobubble_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cobubble_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "contagion_reg",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "contagion_reg()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -15814,6 +17173,197 @@
                   {
                     "t": "text",
                     "v": "radf_mc_cv"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
                   }
                 ]
               }
@@ -16368,6 +17918,134 @@
             "t": "text",
             "v": " for another bootstrap-free alternative."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -16603,6 +18281,197 @@
           {
             "t": "text",
             "v": " for sieve bootstrap critical values"
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -17183,6 +19052,113 @@
             "t": "text",
             "v": " for the (forward, non-reversed) origination/collapse dating this complements."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "rootstamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "rootstamp()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -17663,6 +19639,197 @@
                   {
                     "t": "text",
                     "v": "radf_mc_cv"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
                   }
                 ]
               }
@@ -18154,7 +20321,19 @@
         [
           {
             "t": "text",
-            "v": "Pavlidis, E., Yusupova, A., Paya, I., Peel, D., Mart\u00ednez-Garc\u00eda, E., Mack, A., & Grossman, V. (2016). Episodes of exuberance in housing markets: In search of the smoking gun. The Journal of Real Estate Finance and Economics, 53(4), 419-449."
+            "v": "Pavlidis, E., Yusupova, A., Paya, I., Peel, D., Mart\u00ednez-Garc\u00eda, E., Mack, A., & Grossman, V. (2016). Episodes of exuberance in housing markets: In search of the smoking gun. The Journal of Real Estate Finance and Economics, 53(4), 419-449. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1007/s11146-015-9531-2",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1007/s11146-015-9531-2"
+              }
+            ]
           }
         ],
         [
@@ -18207,6 +20386,197 @@
           {
             "t": "text",
             "v": " for wild Bootstrap critical values"
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -18897,6 +21267,134 @@
             "t": "text",
             "v": " statistic."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -19436,7 +21934,7 @@
         ]
       },
       "format": null,
-      "examples": null,
+      "examples": "y <- sim_psy1(150, seed = 1)\nres <- radf_sbz(y, minw = 20)\ncv <- radf_sbz_cv(y, minw = 20, nboot = 200, seed = 1)\nsummary(res, cv = cv)\ndatestamp(res, cv = cv)",
       "references": [
         [
           {
@@ -19522,6 +22020,197 @@
           {
             "t": "text",
             "v": " independently -- see that function's Details for why)."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -20324,6 +23013,134 @@
             "t": "text",
             "v": " for a bootstrap-free heteroskedasticity-robust alternative."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
@@ -20697,7 +23514,150 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_sign_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": the same "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " list as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", computed on the sign-transformed series; pair with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_sign_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_sign_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_sign(y, minw = 20)\nprint(res)\n\ncv <- radf_sign_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
@@ -20790,6 +23750,134 @@
           {
             "t": "text",
             "v": " for the standard (non-invariant) test."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -21110,7 +24198,77 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sign_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "mc_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the same structure as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_mc_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_mc_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "cv <- radf_sign_cv(n = 200, minw = 20)\ntidy(cv)",
       "references": [
@@ -21121,7 +24279,199 @@
           }
         ]
       ],
-      "seealso": null,
+      "seealso": [
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
       "source": null,
       "author": null,
       "sections": [
@@ -21480,7 +24830,150 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_sign_dm_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": the same "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " list as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; pair with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_sign_dm_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_sign_dm_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_sign_dm(y, minw = 20)\nprint(res)\n\ncv <- radf_sign_dm_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
@@ -21552,6 +25045,134 @@
           {
             "t": "text",
             "v": " for the non-demeaned sign-based analogue."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -21694,7 +25315,77 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sign_dm_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "mc_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the same structure as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_mc_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_mc_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "cv <- radf_sign_dm_cv(n = 200, minw = 20)\ntidy(cv)",
       "references": [
@@ -21705,7 +25396,199 @@
           }
         ]
       ],
-      "seealso": null,
+      "seealso": [
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
       "source": null,
       "author": null,
       "sections": [
@@ -22060,7 +25943,202 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_tt_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": the same "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " list as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", computed on the time-transformed series, so it plugs into "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "summary()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "datestamp()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tidy()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "autoplot()"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " paired with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_tt_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_tt_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_tt(y, minw = 20)\nprint(res)\n\ncv <- radf_tt_cv(n = 200, minw = 20)\nsummary(res, cv = cv)\ntidy(res, cv = cv)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
@@ -22127,11 +26205,156 @@
             "t": "text",
             "v": " for the bootstrap-based alternative (Harvey, Leybourne, Sollis & Taylor)."
           }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
+          }
         ]
       ],
       "source": null,
       "author": null,
-      "sections": []
+      "sections": [
+        {
+          "title": "Status",
+          "body": [
+            [
+              {
+                "t": "strong",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "[Experimental]"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
     },
     "radf_tt_cv": {
       "topic": "radf_tt_cv",
@@ -22357,7 +26580,155 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tt_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "mc_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": the same structure as "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_mc_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_mc_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/ "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " scalars per level plus the "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " sequences), usable wherever a "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "radf_cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " is accepted."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "cv <- radf_tt_cv(n = 200, minw = 20)\ntidy(cv)\n\n# Volatility triples half-way through the sample: the non-stationary-volatility\n# case this test is built for (plain radf() over-rejects here)\ny <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))\nres <- radf_tt(y, minw = 20)\ndatestamp(res, cv = cv)\nautoplot(res, cv = cv)",
       "references": [
@@ -22380,10 +26751,219 @@
           }
         ]
       ],
-      "seealso": null,
+      "seealso": [
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
       "source": null,
       "author": null,
-      "sections": []
+      "sections": [
+        {
+          "title": "Status",
+          "body": [
+            [
+              {
+                "t": "strong",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "[Experimental]"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
     },
     "radf_wb_cv": {
       "topic": "radf_wb_cv",
@@ -22753,7 +27333,19 @@
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ],
         [
@@ -22806,6 +27398,197 @@
           {
             "t": "text",
             "v": " for sieve bootstrap critical values."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_ps_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_ps_cv()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -23186,7 +27969,19 @@
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 56(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ]
       ],
@@ -23254,6 +28049,197 @@
           {
             "t": "text",
             "v": " for sieve bootstrap critical values."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other critical values: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_common_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_common_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sb_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt_cv()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_wb_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_wb_cv()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -23585,7 +28571,7 @@
         "rootstamp.radf_obj"
       ],
       "title": "Confidence Interval and Doubling Time for an Explosive Root",
-      "usage": "rootstamp(object, ...)\n\nrootstamp(object, level = 0.95, type = c(\"normal\", \"cauchy\"), ...)\n\nrootstamp(object, ds, level = 0.95, type = c(\"normal\", \"cauchy\"), ...)",
+      "usage": "rootstamp(object, ...)\n\nrootstamp(object, sig_lvl = 95, type = c(\"normal\", \"cauchy\"), ...)\n\nrootstamp(object, ds, sig_lvl = 95, type = c(\"normal\", \"cauchy\"), ...)",
       "description": [
         [
           {
@@ -24002,11 +28988,37 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Confidence level (default 0.95)."
+              "v": "Confidence level of the interval on the package-wide 0-100\nscale (default "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "); any value in "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "[50, 100)"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
             }
           ]
         },
@@ -24464,7 +29476,115 @@
           }
         ]
       ],
-      "seealso": null,
+      "seealso": [
+        [
+          {
+            "t": "text",
+            "v": "Other dating: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hls",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hls()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_hlw",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_hlw()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_knp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_knp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "dating_pdc",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "dating_pdc()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_recovery",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_recovery()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
       "source": null,
       "author": null,
       "sections": [
@@ -24493,7 +29613,7 @@
         "theme_exuber"
       ],
       "title": "Exuber scale and theme functions",
-      "usage": "scale_exuber_manual(\n  color_values = c(\"red\", \"blue\"),\n  linetype_values = c(2, 1),\n  size_values = c(0.8, 0.7)\n)\n\ntheme_exuber(\n  base_size = 11,\n  base_family = \"\",\n  base_line_size = base_size/22,\n  base_rect_size = base_size/22\n)",
+      "usage": "scale_exuber_manual(\n  color_values = c(\"red\", \"blue\"),\n  linetype_values = c(2, 1),\n  linewidth_values = c(0.8, 0.7),\n  size_values = \"DEPRECATED\"\n)\n\ntheme_exuber(\n  base_size = 11,\n  base_family = \"\",\n  base_line_size = base_size/22,\n  base_rect_size = base_size/22\n)",
       "description": [
         [
           {
@@ -24507,7 +29627,7 @@
           },
           {
             "t": "text",
-            "v": " allows specifying the color, size and linetype in "
+            "v": " allows specifying the color, linewidth and linetype in "
           },
           {
             "t": "code",
@@ -24558,11 +29678,42 @@
           ]
         },
         {
-          "name": "size_values",
+          "name": "linewidth_values",
           "desc": [
             {
               "t": "text",
-              "v": "a set of size values to map data values to."
+              "v": "a set of linewidth values to map data values to."
+            }
+          ]
+        },
+        {
+          "name": "size_values",
+          "desc": [
+            {
+              "t": "strong",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "[Deprecated]"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " use "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "linewidth_values"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
             }
           ]
         },
@@ -24603,9 +29754,58 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A list of three ggplot2 scales ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "scale_exuber_manual"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") or a ggplot2 theme object ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "theme_exuber"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), to be added to a plot with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "+"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
       "format": null,
-      "examples": null,
+      "examples": "rsim <- radf(sim_psy1(100))\nautoplot(rsim, cv = radf_mc_cv(100, nrep = 100)) +\n  scale_exuber_manual(color_values = c(\"black\", \"black\")) +\n  theme_exuber(base_size = 9)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -24661,7 +29861,17 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A character vector of series names; the replacement form returns the modified object."
+            }
+          ]
+        ]
+      },
       "format": null,
       "examples": "\\donttest{\nrfd <- radf(sim_data)\nseries_names(rfd)\n\n# Rename the series -- propagates through tidy()/autoplot()'s facet labels\nseries_names(rfd) <- c(\"Bubble A\", \"Bubble B\", \"Bubble C\", \"Bubble D\", \"Bubble E\")\nseries_names(rfd)\ntidy(rfd)\nautoplot(rfd)\n}\n\n# Simulate bubble processes\ndta <- data.frame(psy1 = sim_psy1(n = 100), psy2 = sim_psy2(n = 100))\n\nrfd <- radf(dta)\n\nseries_names(rfd) <- c(\"OneBubble\", \"TwoBubbles\")",
       "references": null,
@@ -25935,7 +31145,72 @@
         [
           {
             "t": "text",
-            "v": "An artificial dataset containing series simulated from data generating processes widely used in the literature on speculative bubbles."
+            "v": "An artificial dataset containing series simulated from data generating processes widely used in the literature on speculative bubbles. "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sim_data"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " holds five series of 100 observations each; "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sim_data_wdate"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " is the same data with an additional monthly "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "date"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " column. Both were generated by "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "data-raw/sim-data.R"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " with "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "set.seed(1122)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "."
           }
         ]
       ],
@@ -25948,46 +31223,203 @@
           [
             {
               "t": "text",
-              "v": "An object of class "
+              "v": "A tibble with 100 rows and columns "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "tbl_df"
+                  "v": "psy1"
                 }
               ]
             },
             {
               "t": "text",
-              "v": " (inherits from "
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_psy1",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_psy1()"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "tbl"
+                  "v": "psy2"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ", "
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_psy2",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_psy2()"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "data.frame"
+                  "v": "evans"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ") with 100 rows and 5 columns."
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_evans",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_evans()"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "div"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_div",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_div()"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "blan"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "sim_blan",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "sim_blan()"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "); "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sim_data_wdate"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " adds a "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "date"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " column (monthly from 2000-01-01)."
             }
           ],
           [
@@ -26037,13 +31469,114 @@
           ]
         ]
       },
-      "examples": "\\dontrun{\n# The dataset can be easily replicated with the code below\nlibrary(tibble)\nset.seed(1122)\nsim_data <- tibble(\n  sim_psy1 = sim_psy1(100),\n  sim_psy2 = sim_psy2(100),\n  sim_evans = sim_evans(100),\n  sim_div = sim_div(100),\n  sim_blan = sim_blan(100)\n)\nsim_data_wdate <- tibble(\n  psy1 = sim_psy1(100),\n  psy2 = sim_psy2(100),\n  evans = sim_evans(100),\n  div = sim_div(100),\n  blan = sim_blan(100),\n  date = seq(as.Date(\"2000-01-01\"), by = \"month\", length.out = 100)\n)\n}\n\n# Explore the five bundled series before running any test\nmatplot(sim_data, type = \"l\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_data: the five bundled example series\")\nlegend(\"topleft\", legend = colnames(sim_data), col = 1:5, lty = 1, bty = \"n\")\n\n\\donttest{\n# The usual next step: run radf() and plot with the bundled critical values\nautoplot(radf(sim_data))\n}",
+      "examples": "# Explore the five bundled series before running any test\nmatplot(sim_data, type = \"l\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_data: the five bundled example series\")\nlegend(\"topleft\", legend = colnames(sim_data), col = 1:5, lty = 1, bty = \"n\")\n\n\\donttest{\n# The usual next step: run radf() and plot with the bundled critical values\nautoplot(radf(sim_data))\n}",
       "references": null,
       "seealso": [
         [
           {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_psy1",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_psy1()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "t": "text",
-            "v": "sim_psy1 sim_psy1 sim_evans sim_div sim_blan"
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_psy2",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_psy2()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_evans",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_evans()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_div",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_div()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "sim_blan",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "sim_blan()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the generating processes."
           }
         ]
       ],
@@ -29924,7 +35457,19 @@
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 5 6(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 5 6(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ]
       ],
@@ -30399,7 +35944,19 @@
         [
           {
             "t": "text",
-            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 5 6(4), 1043-1078."
+            "v": "Phillips, P. C. B., Shi, S., & Yu, J. (2015). Testing for Multiple Bubbles: Historical Episodes of Exuberance and Collapse in the S&P 500. International Economic Review, 5 6(4), 1043-1078. "
+          },
+          {
+            "t": "link",
+            "topic": null,
+            "external": true,
+            "href": "https://doi.org/10.1111/iere.12132",
+            "c": [
+              {
+                "t": "text",
+                "v": "10.1111/iere.12132"
+              }
+            ]
           }
         ]
       ],
@@ -31985,7 +37542,7 @@
         "ssu_test"
       ],
       "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)",
-      "usage": "ssu_test(data, minw = NULL, level = 0.95)",
+      "usage": "ssu_test(data, minw = NULL, sig_lvl = 95)",
       "description": [
         [
           {
@@ -32267,18 +37824,18 @@
           ]
         },
         {
-          "name": "level",
+          "name": "sig_lvl",
           "desc": [
             {
               "t": "text",
-              "v": "Nominal confidence level, one of "
+              "v": "Significance level on the package-wide 0-100 scale, one\nof "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.90"
+                  "v": "90"
                 }
               ]
             },
@@ -32291,26 +37848,26 @@
               "c": [
                 {
                   "t": "text",
-                  "v": "0.95"
+                  "v": "95"
                 }
               ]
             },
             {
               "t": "text",
-              "v": ",\n"
+              "v": ", "
             },
             {
               "t": "code",
               "c": [
                 {
                   "t": "text",
-                  "v": "0.99"
+                  "v": "99"
                 }
               ]
             },
             {
               "t": "text",
-              "v": " (the levels Kurozumi & Nishi's Table I tabulates)."
+              "v": " (the levels Kurozumi & Nishi's Table I\ntabulates)."
             }
           ]
         }
@@ -32431,7 +37988,7 @@
         ]
       },
       "format": null,
-      "examples": "# A stochastically varying explosive root, rho_t = 1 + 3/n + 4 * u_t / sqrt(n):\n# the alternative ssu_test() is built for (a fixed-root DGP is lbi_test()'s)\ny <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\nres <- ssu_test(y, level = 0.95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
+      "examples": "# A stochastically varying explosive root, rho_t = 1 + 3/n + 4 * u_t / sqrt(n):\n# the alternative ssu_test() is built for (a fixed-root DGP is lbi_test()'s)\ny <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\nres <- ssu_test(y, sig_lvl = 95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
       "references": [
         [
           {
@@ -32462,6 +38019,134 @@
           {
             "t": "text",
             "v": " for the deterministic-coefficient recursive ADF-family alternative this complements."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
           }
         ]
       ],
@@ -33376,9 +39061,58 @@
           ]
         }
       ],
-      "value": null,
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tibble"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " joining the tidied statistics of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "x"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the tidied critical values of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "y"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; see the methods for the exact columns."
+            }
+          ]
+        ]
+      },
       "format": null,
-      "examples": null,
+      "examples": "rsim <- radf(sim_data)\nmc <- radf_mc_cv(nrow(sim_data), nrep = 200)\ntidy_join(rsim, mc)\naugment_join(rsim, mc)",
       "references": null,
       "seealso": null,
       "source": null,

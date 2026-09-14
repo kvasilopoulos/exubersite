@@ -42,7 +42,7 @@ set.seed(11)
 y2 <- numeric(150)
 e2 <- rnorm(150)
 for (t in 2:150) y2[t] <- 1.04 * y2[t - 1] + e2[t]
-ci_cauchy <- rootstamp(y2, type = "cauchy", level = 0.95)
+ci_cauchy <- rootstamp(y2, type = "cauchy", sig_lvl = 95)
 q <- qt(0.975, df = 1)
 rho_hat <- ci_cauchy$rho
 n2 <- ci_cauchy$n

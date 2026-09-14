@@ -23,7 +23,7 @@ set.seed(1)
 n <- 300
 T_star <- 150
 y <- cumsum(rnorm(n))
-out <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
+out <- monitor_lbi(y, r_star = T_star, c_bar = 0, sig_lvl = 95)
 final_stat <- out$stat[nrow(out$stat), 1]
 dy <- diff(y)
 sigma2_tilde <- mean(dy[seq_len(T_star - 1L)]^2)
@@ -34,18 +34,18 @@ cat(sprintf(
 ))
 
 cat("\n=== 3. Table 1 lookup (exact, both mCUSUM and wCUSUM share it) ===\n")
-for (lv in c(0.90, 0.95, 0.975, 0.99, 0.995)) {
-  cat(sprintf("level=%.3f -> b_alpha=%.2f\n", lv, exuber:::bd_cusum_q(lv)))
+for (lv in c(90, 95, 97.5, 99, 99.5)) {
+  cat(sprintf("sig_lvl=%g -> b_alpha=%.2f\n", lv, exuber:::bd_cusum_q(lv)))
 }
-res <- tryCatch(exuber:::bd_cusum_q(0.80), error = function(e) "ERROR (expected)")
-cat("untabulated level=0.80:", res, "\n")
+res <- tryCatch(exuber:::bd_cusum_q(80), error = function(e) "ERROR (expected)")
+cat("untabulated sig_lvl=80:", res, "\n")
 
 cat("\n=== 4. Alarms never fire before the training window ends ===\n")
 set.seed(3)
 ok <- TRUE
 for (i in 1:50) {
   y <- cumsum(rnorm(200))
-  om <- monitor_lbi(y, r_star = 100, c_bar = 0, level = 0.95)
+  om <- monitor_lbi(y, r_star = 100, c_bar = 0, sig_lvl = 95)
   if (!is.na(om$alarm) && om$alarm <= 100) ok <- FALSE
 }
 cat("all alarms strictly after T_star (50 reps):", ok, "\n")
@@ -58,8 +58,8 @@ T_star <- 100
 fa_mcusum <- fa_wcusum <- 0
 for (i in seq_len(nrep)) {
   y <- cumsum(rnorm(n))
-  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
-  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, level = 0.95)
+  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, sig_lvl = 95)
+  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, sig_lvl = 95)
   if (!is.na(om$alarm)) fa_mcusum <- fa_mcusum + 1
   if (!is.na(ow$alarm)) fa_wcusum <- fa_wcusum + 1
 }
@@ -85,8 +85,8 @@ make_bubble_series <- function(n, T_star, bubble_start_frac = 0.65, rho = 1.03) 
 det_mcusum <- det_wcusum <- det_cusum_std <- 0
 for (i in seq_len(nrep)) {
   y <- make_bubble_series(n, T_star)
-  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, level = 0.95)
-  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, level = 0.95)
+  om <- monitor_lbi(y, r_star = T_star, c_bar = 0, sig_lvl = 95)
+  ow <- monitor_lbi(y, r_star = T_star, c_bar = 2, sig_lvl = 95)
   oc <- monitor_cusum(y, r_star = T_star / n, b_alpha = 4.6)
   if (!is.na(om$alarm)) det_mcusum <- det_mcusum + 1
   if (!is.na(ow$alarm)) det_wcusum <- det_wcusum + 1

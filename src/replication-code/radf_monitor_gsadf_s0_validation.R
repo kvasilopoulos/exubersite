@@ -11,8 +11,8 @@ devtools::load_all("exuber", quiet = TRUE)
 cat("=== 1. Backward compatibility: s0 = 0 (default) unchanged ===\n")
 set.seed(1)
 y <- cumsum(rnorm(150))
-o_default <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", level = 0.95)
-o_explicit <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", s0 = 0, level = 0.95)
+o_default <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", sig_lvl = 95)
+o_explicit <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", s0 = 0, sig_lvl = 95)
 cat("stat identical:", identical(o_default$stat, o_explicit$stat), "\n")
 cat("boundary identical:", identical(o_default$boundary, o_explicit$boundary), "\n")
 
@@ -42,18 +42,18 @@ for (k_check in c(5, 30, 60)) {
 }
 
 cat("\n=== 4. Table 1 GSADF lookups (q04_df/q08_df columns) ===\n")
-for (lv in c(0.90, 0.95, 0.99)) {
-  cat(sprintf("level=%.2f s_bar=1 s0=0.4 -> %.4f\n", lv, exuber:::kurozumi_gsadf_q(lv, 1, 0.4)))
+for (lv in c(90, 95, 99)) {
+  cat(sprintf("sig_lvl=%g s_bar=1 s0=0.4 -> %.4f\n", lv, exuber:::kurozumi_gsadf_q(lv, 1, 0.4)))
 }
-cat("level=0.95 s_bar=1 s0=0.8 ->", exuber:::kurozumi_gsadf_q(0.95, 1, 0.8), "(expect 2.3330)\n")
-cat("level=0.95 s_bar=1 s0=0.6 (tie snap to 0.4) ->", exuber:::kurozumi_gsadf_q(0.95, 1, 0.6), "\n")
+cat("sig_lvl=95 s_bar=1 s0=0.8 ->", exuber:::kurozumi_gsadf_q(95, 1, 0.8), "(expect 2.3330)\n")
+cat("sig_lvl=95 s_bar=1 s0=0.6 (tie snap to 0.4) ->", exuber:::kurozumi_gsadf_q(95, 1, 0.6), "\n")
 
 cat("\n=== 5. Alarms never fire before T*+1 ===\n")
 set.seed(3)
 ok <- TRUE
 for (i in 1:30) {
   yy <- cumsum(rnorm(150))
-  oo <- monitor(yy, r_star = 0.5, boundary = "kurozumi", s0 = 0.4, level = 0.95)
+  oo <- monitor(yy, r_star = 0.5, boundary = "kurozumi", s0 = 0.4, sig_lvl = 95)
   if (!is.na(oo$alarm) && oo$alarm <= 75) ok <- FALSE
 }
 cat("all alarms strictly after T_star (30 reps):", ok, "\n")
@@ -66,9 +66,9 @@ T_star <- 75
 fa_sadf <- fa_gsadf04 <- fa_gsadf08 <- 0
 for (i in seq_len(nrep)) {
   yy <- cumsum(rnorm(n))
-  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
-  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
-  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
+  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, sig_lvl = 95)
+  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, sig_lvl = 95)
+  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, sig_lvl = 95)
   if (!is.na(o_sadf$alarm)) fa_sadf <- fa_sadf + 1
   if (!is.na(o_g04$alarm)) fa_gsadf04 <- fa_gsadf04 + 1
   if (!is.na(o_g08$alarm)) fa_gsadf08 <- fa_gsadf08 + 1
@@ -93,9 +93,9 @@ make_bubble_series <- function(n, T_star, bubble_start_frac = 0.65, rho = 1.03) 
 det_sadf <- det_g04 <- det_g08 <- 0
 for (i in seq_len(nrep)) {
   yy <- make_bubble_series(n, T_star)
-  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
-  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
-  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
+  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, sig_lvl = 95)
+  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, sig_lvl = 95)
+  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, sig_lvl = 95)
   if (!is.na(o_sadf$alarm)) det_sadf <- det_sadf + 1
   if (!is.na(o_g04$alarm)) det_g04 <- det_g04 + 1
   if (!is.na(o_g08$alarm)) det_g08 <- det_g08 + 1

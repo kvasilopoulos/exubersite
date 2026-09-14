@@ -50,11 +50,11 @@ for (hi_check in c(50, 80, 120, 149)) {
 }
 
 cat("\n=== 2. Table I lookup ===\n")
-for (lv in c(0.90, 0.95, 0.99)) {
-  cat(sprintf("level=%.2f -> crit=%.2f\n", lv, exuber:::ssu_q(lv)))
+for (lv in c(90, 95, 99)) {
+  cat(sprintf("sig_lvl=%g -> crit=%.2f\n", lv, exuber:::ssu_q(lv)))
 }
-res <- tryCatch(exuber:::ssu_q(0.80), error = function(e) "ERROR (expected)")
-cat("untabulated level=0.80:", res, "\n")
+res <- tryCatch(exuber:::ssu_q(80), error = function(e) "ERROR (expected)")
+cat("untabulated sig_lvl=80:", res, "\n")
 
 cat("\n=== 3. minw matches psy_minw() (SSU's own r0 formula) ===\n")
 set.seed(1)
@@ -69,16 +69,16 @@ n <- 200
 fa_10 <- fa_05 <- fa_01 <- 0
 for (i in seq_len(nrep)) {
   yy <- cumsum(rnorm(n))
-  out10 <- ssu_test(yy, level = 0.90)
-  out05 <- ssu_test(yy, level = 0.95)
-  out01 <- ssu_test(yy, level = 0.99)
+  out10 <- ssu_test(yy, sig_lvl = 90)
+  out05 <- ssu_test(yy, sig_lvl = 95)
+  out01 <- ssu_test(yy, sig_lvl = 99)
   if (out10$detected) fa_10 <- fa_10 + 1
   if (out05$detected) fa_05 <- fa_05 + 1
   if (out01$detected) fa_01 <- fa_01 + 1
 }
-cat(sprintf("level=90%%  FA rate: %.3f (nominal 0.10)\n", fa_10 / nrep))
-cat(sprintf("level=95%%  FA rate: %.3f (nominal 0.05)\n", fa_05 / nrep))
-cat(sprintf("level=99%%  FA rate: %.3f (nominal 0.01)\n", fa_01 / nrep))
+cat(sprintf("sig_lvl=90%%  FA rate: %.3f (nominal 0.10)\n", fa_10 / nrep))
+cat(sprintf("sig_lvl=95%%  FA rate: %.3f (nominal 0.05)\n", fa_05 / nrep))
+cat(sprintf("sig_lvl=99%%  FA rate: %.3f (nominal 0.01)\n", fa_01 / nrep))
 
 cat("\n=== 5. Detection power: stochastic-explosive-coefficient DGP (KN's own eq. 2 style) ===\n")
 set.seed(2)
@@ -101,7 +101,7 @@ make_stochastic_bubble <- function(n, te_frac = 0.5, c1 = 3, a = 4) {
 det_ssu <- 0
 for (i in seq_len(nrep)) {
   yy <- make_stochastic_bubble(n)
-  out <- ssu_test(yy, level = 0.95)
+  out <- ssu_test(yy, sig_lvl = 95)
   if (out$detected) det_ssu <- det_ssu + 1
 }
 cat(sprintf("SSU power on stochastic-coefficient bubble DGP: %.3f\n", det_ssu / nrep))
@@ -114,7 +114,7 @@ for (i in seq_len(nrep)) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.03^(1:100) + cumsum(rnorm(100, sd = 1))
   yy <- c(normal_part, expl_part)
-  out <- ssu_test(yy, level = 0.95)
+  out <- ssu_test(yy, sig_lvl = 95)
   r <- radf(yy)
   cv <- radf_mc_cv(length(yy))
   if (out$detected) det_ssu2 <- det_ssu2 + 1

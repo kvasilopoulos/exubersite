@@ -1,12 +1,12 @@
-﻿# Validation of ssu_test() -- Kurozumi & Nishi (2025)'s SSU stochastic
+# Validation of ssu_test() -- Kurozumi & Nishi (2025)'s SSU stochastic
 # -unit-root bubble test (minimum-viable subset: SSU only, not GSSU, not
 # CUSUM/CUSUM-SQ, not the union-of-rejections procedure).
 # See docs/enhancements/volatility-robustness.md, "Stochastic explosive
 # -coefficient test", for the full writeup.
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Formula-exact: t^{omega,c} vs. brute-force lm() + manual cross-moment ===\n")
 set.seed(2)

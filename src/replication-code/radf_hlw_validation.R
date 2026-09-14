@@ -1,9 +1,9 @@
-﻿# Validation script for dating_hlw() (Harvey, Leybourne & Whitehouse 2020,
+# Validation script for dating_hlw() (Harvey, Leybourne & Whitehouse 2020,
 # "Date-stamping multiple bubble regimes" -- the two-step wrapper around
 # dating_hls() that extends single-bubble SSR/BIC dating to series with
 # more than one explosive episode). See docs/enhancements/
 # dating-and-root-inference.md, "SSR/BIC dating vs. PSY recursive
-# dating", for the full write-up. Run from the exuber/ package root (or
+# dating", for the full write-up. Run from the exuber-project/ root (or
 # adjust the devtools::load_all() path below).
 
 Sys.setenv(NOT_CRAN = "true")

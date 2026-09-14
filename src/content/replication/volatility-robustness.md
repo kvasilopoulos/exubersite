@@ -1,10 +1,8 @@
 ---
-title: "...vs. per-window lm(dy[1:b] ~ ylag[1:b] - 1) for b in minw:n1"
+title: "Volatility-robustness tests"
 blurb: "Tests robust to time-varying innovation variance: time-transformed, kernel-purged, WLS, sign-based, and stochastic-coefficient routes."
 order: 1
 ---
-﻿# Volatility-robustness tests
-
 Right-tailed unit-root tests modified to stay correctly sized when the
 innovation variance is time-varying (deterministically or stochastically) —
 PWY/PSY's original GSADF assumes homoskedasticity, and all methods here are
@@ -22,7 +20,7 @@ but not yet cross-checked, `evaluated` = source read, not implemented,
 | [Skewness-corrected wild bootstrap](#hafner-skewness-corrected-wild-bootstrap) | Hafner (2020) | **done** |
 | [Sign-based sGSADF](#sign-based-sgsadf) | Harvey, Leybourne & Zu (2020); level-shift robustness + demeaned variant: Harvey, Leybourne, Tatlow & Zu (2025) | **done** |
 | [Stochastic explosive-coefficient test](#stochastic-explosive-coefficient-test) | Kurozumi & Nishi (2025) | **done** (2026-08-10, `ssu_test()`, minimum-viable subset — GSSU/CUSUM/CUSUM-SQ/union not implemented) |
-| [SV-ADF](#sv-adf) | Sarkar & Wells (2026, preprint) | **done** (2026-08-11, `radf_svadf()`; preprint, not peer-reviewed) |
+| [SV-ADF](#sv-adf) | Sarkar & Wells (2026, preprint) | **done** (2026-08-11, `datestamp(option = "svadf")`; preprint, not peer-reviewed) |
 
 All papers: [references.md](/replication/references#volatility-robustness).
 
@@ -169,6 +167,7 @@ on data/parameters the test suite doesn't use (`n=65`, `minw=15`,
 set.seed(4242)
 y <- cumsum(rnorm(65)); minw <- 15
 res <- exuber:::gls_dfstat_grid(y, minw)
+# ...vs. per-window lm(dy[1:b] ~ ylag[1:b] - 1) for b in minw:n1
 ```
 
 Result: `max|badf_formula - badf_lm| = 6.66e-16` — machine precision, i.e.
@@ -570,6 +569,13 @@ the fix, unchanged from before, since none of the existing tests happened
 to exercise this path with enough replications to notice a ~2-3x size
 distortion.
 
+**Re-run (2026-09-14)**: `radf_sbz_cv()` was split on 2026-08-22 and the
+p-values now come from `radf_sbz_union()`, whose bootstrap RNG draws are
+ordered differently, so the archived `radf_sbz_validation.R` (now calling
+`radf_sbz_union()`) gives supDF **0.033** / supBZ **0.060** / U **0.053**
+under the same seed — supDF unchanged, supBZ's 8% above confirmed as
+`nboot`/`nrep` noise, all three within Monte Carlo noise of nominal.
+
 **Status note (2026-08-09)**: bug found and fixed via independent
 validation (this section). Still uncommitted in the exuber repo, and still
 not verified against the paper's own Table 1 FTSE/S&P p-values specifically
@@ -616,7 +622,7 @@ selection.
 
 **Update (2026-08-09, Bundle 1): implemented.** `radf_sb_cv(type =
 "aic"/"bic", max_lag = ...)` now reuses the existing `lag_select()`
-machinery from `R/radf_wb.R` (already used by `radf_wb_cv2()`) — selects
+machinery from `R/radf_wb.R` (already used by `radf_wb_ps_cv()`) — selects
 the lag per series via AIC/BIC and takes the max across the panel (the
 rest of `radf_sb_()`'s pointer/matrix-dimension logic assumes one common
 lag for the whole panel, matching `radf()`'s own single-`lag` API, so this
@@ -699,8 +705,8 @@ statistic:
    distribution (negative log-chi-square(1), the exact distribution used
    in the paper's Monte Carlo, footnote 1): empirical rejection rate
    **3.3%** (60 reps, nominal 5%) with no added heteroskedasticity, and
-   **1.7%** (60 reps) with a deterministic volatility pattern added on
-   top — both mildly conservative, neither oversized, consistent with the
+   **0%** (80 reps) with a deterministic volatility pattern added on
+   top — both conservative, neither oversized, consistent with the
    paper's own reported finding that "the test is undersized in small
    samples, with the bias increasing with the degree of global
    heteroskedasticity."
@@ -1213,7 +1219,7 @@ critical-value simulation).
 
 ## SV-ADF
 
-**Status: done (2026-08-11), `radf_svadf()`** (preprint, not yet
+**Status: done (2026-08-11), `datestamp(option = "svadf")`** (preprint, not yet
 peer-reviewed — flagged explicitly, a different bar than every other
 source implemented in this project). Full PDF read through the SV-ADF
 statistic's definition, its asymptotic theorem (3.1), the proof appendix
@@ -1327,8 +1333,9 @@ after all:
 
 ### Implementation — done (2026-08-11)
 
-Shipped as `radf_svadf(data, minw = NULL, min_duration = NULL)` in
-`exuber/R/radf_svadf.R`. `min_duration` defaults to `psy_ds(n)` —
+Shipped as `datestamp(data, option = "svadf", min_duration = NULL)` (helper
+`datestamp_svadf()` in `exuber/R/svadf.R`; originally its own
+`datestamp(option = "svadf")` entry point, folded into `datestamp()` on 2026-08-18). `min_duration` defaults to `psy_ds(n)` —
 exuber's own existing `log(n)`-based minimum-episode-duration rule,
 reused directly rather than inventing a new one, standing in for the
 paper's own (data-frequency-specific) "at least two consecutive
@@ -1338,7 +1345,7 @@ with `badf` above `log(t)/10`; collapse is dated (searching only after
 the origination date) at the first run of at least `min_duration`
 consecutive points with `badf` below `log(t)/2`.
 
-**Validated**: `radf_svadf()`'s `badf` field matches a direct `radf()`
+**Validated**: `datestamp(option = "svadf")`'s `badf` field matches a direct `radf()`
 call bit-for-bit (confirming the point-statistic reuse is exact, not
 approximate); threshold formulas match `log(t)/10`/`log(t)/2` exactly;
 collapse is structurally guaranteed to never date before origination
@@ -1358,7 +1365,7 @@ counts *any* origination crossing anywhere in the series across a full
 150-period path, a much larger compound opportunity for a false alarm
 than a single-point 10% test, so a somewhat-inflated aggregate rate
 here is expected, not a sign of miscalibration at any individual point.
-New `test-svadf.R` (7 tests). Replication script:
+New `test-datestamp-svadf.R` (7 tests). Replication script:
 [replication/volatility-robustness/datestamp_svadf_validation.R](#script-datestamp_svadf_validation).
 
 The AI-equity empirical hook (2025-26 exuberance in Nvidia, Tesla,

@@ -1,4 +1,4 @@
-﻿# Validation of contagion_reg() -- Greenaway-McGrevy & Phillips (2016)'s
+# Validation of contagion_reg() -- Greenaway-McGrevy & Phillips (2016)'s
 # bubble contagion regression, minimum-viable subset (fixed-window AR(1)
 # sequence, single-delay Nadaraya-Watson regression, LOOCV bandwidth).
 # See docs/enhancements/multivariate.md, "Contagion regression",
@@ -12,9 +12,9 @@
 # instead via brute-force cross-checks of each closed-form piece, plus a
 # directional sensible-behavior check.
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Fixed-window AR(1) coefficient sequence (eq. 1) vs. brute-force lm() ===\n")
 set.seed(1)

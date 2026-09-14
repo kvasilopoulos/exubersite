@@ -1,11 +1,11 @@
-﻿# Validation of monitor_lbi() -- Breitung & Diegel (2025)'s sequential
+# Validation of monitor_lbi() -- Breitung & Diegel (2025)'s sequential
 # (constant-boundary mCUSUM/wCUSUM) monitoring extension of lbi_test().
 # See docs/enhancements/monitoring.md, "Breitung & Diegel (2025) -- static
 # LBI test AND sequential extension both done", for the full writeup.
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Weight normalization (eq. 12) ===\n")
 Tm <- 500

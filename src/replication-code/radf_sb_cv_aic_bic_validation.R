@@ -6,7 +6,7 @@
 # sizes from test-sb.R throughout.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. type = 'fixed' (pre-existing default) unaffected by the new arguments ===\n")
 set.seed(101)
@@ -38,6 +38,6 @@ cat("modal lag:", as.integer(names(sort(table(lags), decreasing = TRUE))[1]), "\
 
 cat("=== Full test-sb.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-sb.R",
+  "exuber/tests/testthat/test-sb.R",
   reporter = "summary"
 )

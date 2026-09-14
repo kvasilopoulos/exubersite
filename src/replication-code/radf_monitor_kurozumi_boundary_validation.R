@@ -1,6 +1,6 @@
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Table lookup sanity checks ===\n")
 cat("level=0.95, s_bar=1 (expect 1.0381):", exuber:::kurozumi_sadf_q(0.95, 1), "\n")
@@ -15,7 +15,7 @@ cat("\n")
 cat("=== 2. Basic run with boundary='kurozumi' ===\n")
 set.seed(1)
 y <- cumsum(rnorm(150))
-out <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", level = 0.95)
+out <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", level = 0.95)
 print(out)
 cat("\n")
 
@@ -23,7 +23,7 @@ cat("=== 3. Empirical false-alarm rate under H0, boundary='kurozumi' vs 'bootstr
 run_null <- function(seed, boundary) {
   set.seed(seed)
   y <- cumsum(rnorm(150))
-  out <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = boundary, nboot = 99, seed = 1)
+  out <- monitor(y, r_star = 0.5, minw = 20, boundary = boundary, nboot = 99, seed = 1)
   !is.na(out$alarm)
 }
 rate_kuro <- mean(sapply(1:100, function(s) run_null(s, "kurozumi")))
@@ -38,7 +38,7 @@ run_detect <- function(seed, boundary) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_monitor(y, r_star = n1 / length(y), minw = 20, boundary = boundary, nboot = 99, seed = 1)
+  out <- monitor(y, r_star = n1 / length(y), minw = 20, boundary = boundary, nboot = 99, seed = 1)
   c(alarm = unname(out$alarm), true_origination = n1)
 }
 res_kuro <- t(sapply(1:30, function(s) run_detect(s, "kurozumi")))
@@ -53,7 +53,7 @@ run_check <- function(seed) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_monitor(y, r_star = n1 / length(y), minw = 20, boundary = "kurozumi")
+  out <- monitor(y, r_star = n1 / length(y), minw = 20, boundary = "kurozumi")
   alarm <- unname(out$alarm)
   if (is.na(alarm)) NA else alarm > out$T_star
 }

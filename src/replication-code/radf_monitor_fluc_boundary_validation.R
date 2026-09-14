@@ -1,6 +1,6 @@
-# Validation script for radf_monitor(..., boundary = "fluc") (Homm &
+# Validation script for monitor(..., boundary = "fluc") (Homm &
 # Breitung 2012's FLUC monitoring detector). See docs/enhancements/
-# monitoring.md for the full write-up. Run from the exuber/ package root
+# monitoring.md for the full write-up. Run from the exuber-project/ root
 # (or adjust the devtools::load_all() path below).
 
 Sys.setenv(NOT_CRAN = "true")
@@ -19,14 +19,14 @@ tryCatch(exuber:::hb_fluc_q(0.93, 100, 2), error = function(e) cat("level=0.93 c
 cat("\n=== 2. Basic run with boundary='fluc' ===\n")
 set.seed(1)
 y <- cumsum(rnorm(150))
-out <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = "fluc", level = 0.95)
+out <- monitor(y, r_star = 0.5, minw = 20, boundary = "fluc", level = 0.95)
 print(out)
 
 cat("\n=== 3. False-alarm rate under H0: fluc vs kurozumi vs bootstrap ===\n")
 run_null <- function(seed, boundary) {
   set.seed(seed)
   y <- cumsum(rnorm(150))
-  out <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = boundary, nboot = 99, seed = 1)
+  out <- monitor(y, r_star = 0.5, minw = 20, boundary = boundary, nboot = 99, seed = 1)
   !is.na(out$alarm)
 }
 cat(sprintf("fluc:      %.3f\n", mean(sapply(1:100, function(s) run_null(s, "fluc")))))
@@ -43,7 +43,7 @@ run_detect <- function(seed, boundary) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_monitor(y, r_star = n1 / length(y), minw = 20, boundary = boundary, nboot = 99, seed = 1)
+  out <- monitor(y, r_star = n1 / length(y), minw = 20, boundary = boundary, nboot = 99, seed = 1)
   !is.na(out$alarm)
 }
 cat(sprintf("fluc:      %.3f\n", mean(sapply(1:30, function(s) run_detect(s, "fluc")))))
@@ -57,7 +57,7 @@ run_check <- function(seed) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_monitor(y, r_star = n1 / length(y), minw = 20, boundary = "fluc")
+  out <- monitor(y, r_star = n1 / length(y), minw = 20, boundary = "fluc")
   alarm <- unname(out$alarm)
   if (is.na(alarm)) NA else alarm > out$T_star
 }

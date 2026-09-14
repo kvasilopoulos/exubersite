@@ -1,19 +1,17 @@
 ---
-title: "monitoring"
+title: "Real-time monitoring for bubbles"
 blurb: "Sequential and real-time detection: training-vs-monitoring orchestration, CUSUM families, and closed-form boundaries."
 order: 3
 ---
-﻿# Real-time monitoring for bubbles
-
-**Status: Family A (Phillips & Shi 2020, `radf_monitor()`) done
+**Status: Family A (Phillips & Shi 2020, `monitor()`) done
 (2026-08-09); Family B's CUSUM procedure — both Homm & Breitung (2012)'s
 original statistic and Astill et al. (2023)'s volatility-robust "CUSUMV"
 kernel variant, `monitor_cusum(..., type = "standard"/"kernel")`, plus HB's
 own finite-sample boundary (`monitor_cusum(..., boundary = "finite")`) —
 done (2026-08-10); Kurozumi (2020)'s closed-form `SADF` boundary AND its
-`GSADF_{s0}` generalization (`radf_monitor(..., boundary = "kurozumi",
+`GSADF_{s0}` generalization (`monitor(..., boundary = "kurozumi",
 s0 = 0/0.4/0.8)`), plus HB's own second statistic FLUC
-(`radf_monitor(..., boundary = "fluc")`), all done (2026-08-10);
+(`monitor(..., boundary = "fluc")`), all done (2026-08-10);
 Breitung & Diegel (2025)'s static LBI test (`lbi_test()`) AND their own
 sequential/monitoring extension (`monitor_lbi()`, constant-boundary
 `mCUSUM`/`wCUSUM`), both done (2026-08-10). Horváth-Trapani's RCA
@@ -32,19 +30,19 @@ What changed: the *one* sub-item this file's own cost/feasibility note
 flagged as "the only sub-item where reuse of existing exuber machinery is
 actually true rather than aspirational" — Family A, specifically the
 Phillips & Shi (2020) wild-bootstrap training-critical-value construction
-`radf_wb_cv2()` already implemented — turned out to need only a thin
+`radf_wb_ps_cv()` already implemented — turned out to need only a thin
 orchestration wrapper, not new statistical theory, and has been built.
 
 ## Implementation
 
-Shipped as `radf_monitor(data, r_star = 0.5, minw, nboot, level, adflag,
-type, seed)` in a new `exuber/R/radf_monitor.R`. Confirms the
+Shipped as `monitor(data, r_star = 0.5, minw, nboot, level, adflag,
+type, seed)` in a new `exuber/R/monitor.R`. Confirms the
 cost/feasibility note's own prediction: "a loop and a stopping condition
 around machinery that already exists."
 
 **Two structural facts made this near-free once actually attempted:**
 
-1. `radf_wb_cv2(..., tb = T*)` already computes exactly the training-
+1. `radf_wb_ps_cv(..., tb = T*)` already computes exactly the training-
    window wild-bootstrap critical value this needs, and already
    broadcasts it as a **constant boundary** across the full monitoring
    horizon's row count (verified empirically: passing the full-length
@@ -59,8 +57,8 @@ around machinery that already exists."
    computation) rather than re-fitting at every monitoring point.
 
 **A design decision worth recording — avoiding look-ahead leakage**:
-`radf_monitor()` deliberately calls `radf_wb_cv2()` on `data[1:T*]` only,
-not the full series with `tb = T*`. The reason: `radf_wb_cv2()`'s
+`monitor()` deliberately calls `radf_wb_ps_cv()` on `data[1:T*]` only,
+not the full series with `tb = T*`. The reason: `radf_wb_ps_cv()`'s
 underlying null-model fit (`adf_res()`, in `radf_wb.R`) uses whatever data
 it is given *in full* to estimate the bootstrap DGP's residuals/
 coefficients — `tb` only truncates the *simulated* bootstrap sample
@@ -68,10 +66,10 @@ length, not which portion of the *real* data feeds the residual
 estimation. Passing the full series (including post-`T*`, possibly
 explosive, data) directly would leak future information into the
 training-window null calibration — a genuine correctness issue the
-"just call `radf_wb_cv2(full_data, tb=T*)`" reading of the cost note above
+"just call `radf_wb_ps_cv(full_data, tb=T*)`" reading of the cost note above
 would have introduced. Slicing to `data[1:T*]` before calling it avoids
 this entirely, at the cost of one extra step the caller (here,
-`radf_monitor()` itself) has to take.
+`monitor()` itself) has to take.
 
 **Independent validation**:
 
@@ -135,7 +133,7 @@ statistic itself [is] trivial, one `cumsum()` in R, no C++ needed."
 **What HB actually propose** (confirmed by reading the primary source,
 not the earlier restatement-only draft): *two* monitoring statistics,
 CUSUM and FLUC. Both are now implemented — CUSUM here as `monitor_cusum()`,
-FLUC (2026-08-10) as `radf_monitor(..., boundary = "fluc")`, since its
+FLUC (2026-08-10) as `monitor(..., boundary = "fluc")`, since its
 point statistic turns out to be `radf()`'s own `badf` sequence, not a
 new one — see "Implementation (FLUC)" below.
 
@@ -151,10 +149,10 @@ reject H0 (alarm) at the first t where S_t > boundary_t
 ```
 
 `b_alpha = 4.6` is HB's own quoted one-sided asymptotic calibration for a
-5% significance level. Unlike `radf_monitor()`'s wild-bootstrap boundary,
+5% significance level. Unlike `monitor()`'s wild-bootstrap boundary,
 `sigma_hat_t` is legitimately re-estimated using *all* data up to the
 current monitoring point `t` (not just the training window) — this is
-not a look-ahead problem the way it would have been for `radf_wb_cv2()`,
+not a look-ahead problem the way it would have been for `radf_wb_ps_cv()`,
 because at each real monitoring instant `t` only data up to `t` is ever
 used; there is no future information to leak.
 
@@ -180,7 +178,7 @@ recursive-ADF family at all, exactly matching the original cost note's
    nominal 5% is the expected signature of a genuinely conservative
    bound, not evidence of a miscalibration.
 3. **Detection power** under the *same* post-training bubble DGP already
-   used to validate `radf_monitor()` (30 reps): **30%** detection rate,
+   used to validate `monitor()` (30 reps): **30%** detection rate,
    median alarm delay 27 observations — genuinely, substantially lower
    than Family A's 86.7% detection rate / 19-observation median delay on
    the identical DGP. Reported honestly rather than only showing
@@ -272,7 +270,7 @@ matching their exact finite-sample procedure.
    innovations are homoskedastic... [both] lead to the same limiting null
    distribution."
 3. **Under heteroskedastic H0** (a volatility jump from 1 to 8 partway
-   through the monitoring region, 40 reps): `standard` CUSUM's false-alarm
+   through the monitoring region, 60 reps): `standard` CUSUM's false-alarm
    rate rises to **8.3%**, visibly inflated above its own homoskedastic-
    case rate — the exact failure mode AHLTZ's abstract describes. `kernel`
    CUSUMV stays at **0%**, fully controlled. This is the paper's central
@@ -293,14 +291,14 @@ Replication script:
 ### Implementation (FLUC)
 
 **Status: done (2026-08-10).** Shipped as
-`radf_monitor(..., boundary = "fluc")`.
+`monitor(..., boundary = "fluc")`.
 
 Homm & Breitung's own second monitoring statistic (their eq. 27,
 confirmed by rendering the PDF page): `Z_t = (rho_hat_t - 1) /
 sigma_hat_{rho_t} = DF_{t/n}`, the *ordinary recursive/expanding-window
 OLS ADF t-statistic* on the sample `{y_0, ..., y_t}` — exactly `radf()`'s
 existing `badf` sequence, the same statistic this file's Kurozumi
-subsection already confirmed `radf_monitor(..., boundary = "kurozumi")`
+subsection already confirmed `monitor(..., boundary = "kurozumi")`
 reuses. No new point statistic needed, matching that same reuse pattern.
 
 The rejection rule (eq. 29/31) has the same functional form as CUSUM's
@@ -324,7 +322,7 @@ rendered PDF page) + `hb_fluc_q(level, n_train, k)` (snaps `n_train` to
 the nearest of `{20, 50, 100}` and `k` to the nearest of `{2,...,10}`,
 requires `level` to exactly match one of the three tabulated
 significance levels) — the same lookup-and-snap pattern as
-`kurozumi_sadf_q()`, wired into `radf_monitor()` as a third `boundary`
+`kurozumi_sadf_q()`, wired into `monitor()` as a third `boundary`
 option alongside `"bootstrap"`/`"kurozumi"`.
 
 **Validation**: table lookups match Table 7 exactly (6 checked cells,
@@ -749,7 +747,7 @@ the whole thing from scratch.
 ### Kurozumi (2020, 2021) — SADF and GSADF cases both implemented (2026-08-10)
 
 **Status: `SADF`/`s0 = 0` AND `GSADF_{s0}`/`s0 = 0.4`/`0.8` cases both
-implemented as `radf_monitor(..., boundary = "kurozumi", s0 = ...)`.**
+implemented as `monitor(..., boundary = "kurozumi", s0 = ...)`.**
 Full PDF read for Kurozumi (2020)
 (through Theorem 1 and Table 1, rendered to PNG for accurate
 transcription); Kurozumi (2021) read at the abstract/intro level only (see
@@ -768,11 +766,11 @@ monitoring point `t` (`1` to `t - minw`), while Kurozumi's is capped at a
 different double recursions, not a notational match — but (see
 "`GSADF_{s0}` case — DONE" below) a fixed, small window-start band turned
 out to need only a bounded closed-form computation, not new recursion
-code, so both cases are now implemented via `radf_monitor(..., boundary
+code, so both cases are now implemented via `monitor(..., boundary
 = "kurozumi", s0 = ...)`: `s0 = 0` (default) reuses `radf()$badf`
 directly (no new statistic), `s0 = 0.4`/`0.8` uses the new
 `kurozumi_gsadf_stat()` — either way, a new (published, table-based)
-closed-form comparison threshold in place of `radf_monitor()`'s default
+closed-form comparison threshold in place of `monitor()`'s default
 wild-bootstrap-calibrated boundary, directly analogous to how
 `radf_tt_cv()` provides a bootstrap-free alternative to
 `radf_wb_cv()` for the static (non-monitoring) GSADF case.
@@ -816,7 +814,7 @@ normalized i.i.d. pseudo N(0,1) random variates with increments of
 is, but still a fixed published number, not something needing new
 simulation on exuber's end.)
 
-**What was implemented (`SADF`, `s0 = 0`)**: `radf_monitor()` gained a
+**What was implemented (`SADF`, `s0 = 0`)**: `monitor()` gained a
 `boundary = c("bootstrap", "kurozumi")` parameter. `boundary = "kurozumi"`
 looks up `q_0^df` from Table 1 (`kurozumi_sadf_q(level, s_bar)`, snapping
 `s_bar = (n - T*) / T*` to the nearest tabulated `{1, 3, 5}`, requiring
@@ -863,12 +861,12 @@ project (`dating_hls.R`'s `hls_segment_ssr()`, `radf_tt.R`'s
 cell via prefix sums, restricted to the bounded band instead of the full
 grid.
 
-**Implementation**: `kurozumi_gsadf_stat()` in `exuber/R/radf_monitor.R`
+**Implementation**: `kurozumi_gsadf_stat()` in `exuber/R/monitor.R`
 computes this band via `outer()`-vectorized cumulative-sum differences
 (intercept included, unlike `gls_dfstat_grid()`'s no-intercept
 GLS-demeaned version — verified to match `radf()$badf` exactly at
 `k1_max = 1`, confirming the intercept convention is right).
-`radf_monitor(..., boundary = "kurozumi", s0 = 0.4)` or `s0 = 0.8` (the
+`monitor(..., boundary = "kurozumi", s0 = 0.4)` or `s0 = 0.8` (the
 only two values his boundary's `a/b/c` scaling constants are tabulated
 for) switches from the flat `SADF` boundary to the `k`-varying
 `g_{s0}^df(k/m) := q_{s0}^df * (a_{s0} + b_{s0}*log(c_{s0} + k/m))`
@@ -903,13 +901,13 @@ delay (stopping time) for the same detector families as the 2020 paper,
 confirming the qualitative early/short-bubble-favors-CUSUM vs.
 middle/late-bubble-favors-ADF split already cited elsewhere in this file
 (and now empirically reproduced by this session's own `monitor_cusum()` vs.
-`radf_monitor()` comparison). A dating/inference layer on top of
+`monitor()` comparison). A dating/inference layer on top of
 detection, not a new detector — lower priority than validating the 2020
 paper's boundary functions.
 
 (Kurozumi (2020)'s formulas, Table 1 boundary constants, and the
 structural finding that his `SADF`/`GSADF`/`CS` detectors are literally
-`radf_monitor()`/`monitor_cusum()`'s existing statistics are now transcribed
+`monitor()`/`monitor_cusum()`'s existing statistics are now transcribed
 in full — see the dedicated subsection under "Exact numbers/formulas
 reproduced" above, not repeated here.)
 
@@ -1044,7 +1042,7 @@ its contribution, and explicitly shown to be *less* powerful than
 monitoring variant (a `badf`-based analogue using a different,
 sup-of-a-ratio boundary), which targets the same monitoring problem via
 a structurally different statistic already covered in spirit by
-`radf_monitor()`.
+`monitor()`.
 
 ## Cost/feasibility note for exuber
 
@@ -1052,15 +1050,15 @@ Concretely, three things are needed, of which exuber currently has
 meaningful partial infrastructure for exactly one:
 
 1. **Family-wise/size control via a training-sample critical value — DONE
-   (2026-08-09), via `radf_monitor()`.** `exuber/R/radf_wb.R`'s
-   `radf_wb_cv2()` already implemented the Phillips & Shi (2020) wild
+   (2026-08-09), via `monitor()`.** `exuber/R/radf_wb.R`'s
+   `radf_wb_ps_cv()` already implemented the Phillips & Shi (2020) wild
    bootstrap (its own roxygen docs cite "Phillips, P. C., & Shi, S.
    (2020). Real time monitoring of asset markets: Bubbles and crises")
    and already had a `tb` parameter that truncates the bootstrap DGP to a
    training sub-sample of length `tb`, computing `sadf_crit`/`gsadf_crit`
    on that sub-sample only and broadcasting those training-sample
    quantiles as a **constant boundary** across the full `bsadf_crit`
-   pointer range. `radf_monitor()` is exactly the missing orchestration
+   pointer range. `monitor()` is exactly the missing orchestration
    layer this note predicted: it (a) fixes "now" at `T*`, (b) reuses a
    single full-sample `radf()` call's own `bsadf` sequence rather than
    walking forward and re-fitting (cheap, since it's already an efficient
@@ -1068,23 +1066,23 @@ meaningful partial infrastructure for exactly one:
    on data up to `t`), (c) compares each monitoring-region value against
    the fixed training boundary, and (d) returns the first breach. See
    "Implementation" above for the full writeup, including a look-ahead-
-   leakage pitfall found and avoided (`radf_wb_cv2()`'s null-model fit
+   leakage pitfall found and avoided (`radf_wb_ps_cv()`'s null-model fit
    has no internal truncation to `tb`, so the training window must be
    sliced *before* calling it, not relied on `tb` alone to enforce).
    `radf_mc_cv()` could supply the same role for the non-bootstrap
-   (asymptotic/MC) case — not implemented, `radf_monitor()` only supports
+   (asymptotic/MC) case — not implemented, `monitor()` only supports
    the wild-bootstrap route for now.
 
 2. **FPR-vs-monitoring-horizon accounting — done for both the `SADF` and
    `GSADF_{s0}` ADF-family detectors via Kurozumi (2020), DONE
-   (2026-08-10).** exuber's `radf_wb_cv2(tb=...)` gives *one* bootstrap
+   (2026-08-10).** exuber's `radf_wb_ps_cv(tb=...)` gives *one* bootstrap
    critical value; Kurozumi's Table 1 supplies the published,
    simulation-calibrated closed-form analogue for both the `SADF`
    (`s0=0`) and `GSADF_{s0}` (`s0=0.4`/`0.8`) cases —
-   `radf_monitor(..., boundary = "kurozumi", s0 = ...)` — indexed by
+   `monitor(..., boundary = "kurozumi", s0 = ...)` — indexed by
    monitoring-horizon ratio `s̄ = k̄/m`, the same accounting
    AHLST/Whitehouse's eq. (4)–(6) provide for their own detector. Still
-   missing: an equivalent for `radf_monitor()`'s default wild-bootstrap
+   missing: an equivalent for `monitor()`'s default wild-bootstrap
    boundary path itself (that one still recalibrates via simulation
    rather than a closed form).
 
@@ -1096,7 +1094,7 @@ meaningful partial infrastructure for exactly one:
    so none of `exubercore/src`'s RLS machinery
    (`rls_gsadf.cpp`/`radf.hpp`, matrix-inversion-lemma recursive OLS)
    applies — confirmed empirically, not just predicted: `monitor_cusum()`
-   shares no code with `radf_monitor()`/`radf()` at all. What's now
+   shares no code with `monitor()`/`radf()` at all. What's now
    actually built vs. still missing: (a) **the CUSUM partial-sum
    statistic itself — done**, `monitor_cusum()`, closed-form, no C++, same
    "why not exubercore" logic as
@@ -1110,7 +1108,7 @@ meaningful partial infrastructure for exactly one:
    finite-sample-simulated boundary (their Table 7, transcribed directly,
    no new simulation needed) rather than one exuber would have to
    simulate itself — is now **done** too, via
-   `radf_monitor(..., boundary = "fluc")`. HB's *finite-sample* `b_{k,α}`
+   `monitor(..., boundary = "fluc")`. HB's *finite-sample* `b_{k,α}`
    values for CUSUM itself (their Table 8, a different table from FLUC's
    Table 7) are **now also done** (2026-08-10), via
    `monitor_cusum(..., boundary = "finite")`; (c) **the volatility-robust

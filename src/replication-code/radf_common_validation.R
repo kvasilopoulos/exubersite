@@ -11,7 +11,7 @@
 # N-dependent null rather than reusing radf_mc_cv().
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== radf_common()'s null quantiles grow with panel width N ===\n")
 cat("(sharpest possible null: N independent random walks, no true common factor)\n")
@@ -51,6 +51,6 @@ cat("N=30's null quantile is higher than N=4's:",
 
 cat("=== Full test-common.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-common.R",
+  "exuber/tests/testthat/test-common.R",
   reporter = "summary"
 )

@@ -1,4 +1,4 @@
-﻿# Replication script for dating_pdc()'s base OLS estimator (Pang, Du & Chong
+# Replication script for dating_pdc()'s base OLS estimator (Pang, Du & Chong
 # 2021 / Kurozumi & Skrobotov 2023 sequential sample-splitting dating).
 # Archived retroactively -- see docs/enhancements/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", "Implementation (PDC/KS route)"
@@ -10,7 +10,7 @@
 # independent check rather than a re-execution of the same numbers.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Formula check: pdc_find_break() vs brute-force lm() RSS scan ===\n")
 set.seed(9001)
@@ -127,6 +127,6 @@ cat(" figure on a different synthetic design.)\n\n")
 
 cat("=== Full test-pdc.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-pdc.R",
+  "exuber/tests/testthat/test-pdc.R",
   reporter = "summary"
 )

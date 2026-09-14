@@ -5,7 +5,7 @@
 # (2026-08-09)" for the narrative this reproduces.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Formula check: gls_dfstat_grid() vs brute-force lm() ===\n")
 set.seed(4242)
@@ -48,6 +48,6 @@ cat("gsadf =", round(res_bubble$gsadf, 3), "vs critical-value range ~2.0-3.3 abo
 
 cat("=== 4. Full test-tt.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-tt.R",
+  "exuber/tests/testthat/test-tt.R",
   reporter = "summary"
 )

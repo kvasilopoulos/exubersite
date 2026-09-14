@@ -1,12 +1,12 @@
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Basic run: no bubble anywhere -- should mostly not alarm ===\n")
 set.seed(1)
 n <- 150
 y_null <- cumsum(rnorm(n))
-out_null <- radf_monitor(y_null, r_star = 0.5, minw = 20, nboot = 199, seed = 1)
+out_null <- monitor(y_null, r_star = 0.5, minw = 20, nboot = 199, seed = 1)
 print(out_null)
 
 cat("\n=== 2. Empirical false-alarm rate under H0 (no bubble anywhere),",
@@ -15,7 +15,7 @@ run_null <- function(seed) {
   set.seed(seed)
   n <- 150
   y <- cumsum(rnorm(n))
-  out <- radf_monitor(y, r_star = 0.5, minw = 20, nboot = 199, seed = 1)
+  out <- monitor(y, r_star = 0.5, minw = 20, nboot = 199, seed = 1)
   !is.na(out$alarm)
 }
 false_alarm_rate <- mean(sapply(1:40, run_null))
@@ -35,7 +35,7 @@ run_detect <- function(seed) {
   normal_part <- cumsum(rnorm(n1))
   expl_part <- normal_part[n1] * 1.05^(1:n2) + cumsum(rnorm(n2, sd = 0.3))
   y <- c(normal_part, expl_part)
-  out <- radf_monitor(y, r_star = n1 / length(y), minw = 20, nboot = 199, seed = 1)
+  out <- monitor(y, r_star = n1 / length(y), minw = 20, nboot = 199, seed = 1)
   c(alarm = unname(out$alarm), true_origination = n1)
 }
 res <- t(sapply(1:15, run_detect))
@@ -49,5 +49,5 @@ cat("\n=== 4. No false alarm strictly WITHIN the training window",
 set.seed(5)
 n <- 150; T_star <- 75
 y <- cumsum(rnorm(n))
-out <- radf_monitor(y, r_star = T_star, minw = 20, nboot = 99, seed = 1)
-cat("T_star:", out$T_star, " n bsadf rows:", nrow(out$bsadf), "\n")
+out <- monitor(y, r_star = T_star, minw = 20, nboot = 99, seed = 1)
+cat("T_star:", out$T_star, " n monitoring rows:", nrow(out$stat), "\n")

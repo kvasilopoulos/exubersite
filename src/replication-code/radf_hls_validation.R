@@ -1,4 +1,4 @@
-﻿# Validation script for dating_hls() (Harvey, Leybourne & Sollis 2017,
+# Validation script for dating_hls() (Harvey, Leybourne & Sollis 2017,
 # "Improving the accuracy of asset price bubble start and end date
 # estimators"). See docs/enhancements/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", for the full write-up. Run

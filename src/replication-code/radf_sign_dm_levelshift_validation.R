@@ -10,7 +10,7 @@
 # values simulated under the null model with no shifts, eps_t ~ iid N(0,1).
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 set.seed(20260811)
 Tn <- 400

@@ -1,6 +1,6 @@
-﻿Sys.setenv(NOT_CRAN = "true")
+Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Formula check: cusum_stat_path() vs independent brute-force loop ===\n")
 set.seed(1)

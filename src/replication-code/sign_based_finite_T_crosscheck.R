@@ -1,6 +1,6 @@
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== Cross-check radf_sign_cv() at EXACT finite T=100, vs paper's own T=100 table row ===\n")
 cat("(avoids T->Inf convergence ambiguity -- paper documents sPSY converges slowly)\n")

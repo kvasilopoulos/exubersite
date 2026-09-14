@@ -1,6 +1,6 @@
-﻿# Validation script for lbi_test() (Breitung & Diegel 2025's static
+# Validation script for lbi_test() (Breitung & Diegel 2025's static
 # locally best invariant test). See docs/enhancements/monitoring.md for
-# the full write-up. Run from the exuber/ package root (or adjust the
+# the full write-up. Run from the exuber-project/ root (or adjust the
 # devtools::load_all() path below).
 
 Sys.setenv(NOT_CRAN = "true")

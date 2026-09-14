@@ -4,7 +4,7 @@
 # "Independent validation (2026-08-09)" for the narrative this reproduces.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== Critical-value replication vs Table I (T = 400, PSY_sigma) ===\n")
 cat("Published: 1.712 / 1.935 / 2.296 (10%/5%/1%)\n\n")
@@ -25,6 +25,6 @@ cat("radf_mc_cv(300) quantiles:       ", round(cv_mc_300$gsadf_cv, 3), "\n\n")
 
 cat("=== Full test-kp.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-kp.R",
+  "exuber/tests/testthat/test-kp.R",
   reporter = "summary"
 )

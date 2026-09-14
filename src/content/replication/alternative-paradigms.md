@@ -1,10 +1,8 @@
 ---
-title: "alternative-paradigms"
+title: "Alternative paradigms"
 blurb: "Non-ADF-family approaches, principally the quantile-based global test and its recursive monitoring extension."
 order: 5
 ---
-﻿# Alternative paradigms
-
 Methods that address the same problem (detecting explosive/bubble dynamics)
 from outside the ADF/SADF/GSADF/BSADF recursive-regression family exuber is
 built around.

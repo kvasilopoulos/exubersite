@@ -1,10 +1,8 @@
 ---
-title: "multivariate"
+title: "Multivariate bubble tests"
 blurb: "Panel and cross-series tests -- common bubbles, co-bubbles, and bubble contagion."
 order: 4
 ---
-﻿# Multivariate bubble tests
-
 **Status: common-bubble (Chen, Phillips & Shi), co-bubble (Evripidou,
 Harvey, Leybourne & Sollis), and contagion regression (Greenaway-McGrevy
 & Phillips) all done — every item in this file is now implemented in
@@ -180,17 +178,17 @@ for (N in c(6, 20, 50, 100)) {
 }
 ```
 
-| N | 90% | 95% | 99% | diff from `radf_mc_cv()`'s 95% (2.307) |
+| N | 90% | 95% | 99% | diff from `radf_mc_cv()`'s 95% (2.133) |
 |---|---|---|---|---|
-| 6 | 2.420 | 2.662 | 3.057 | +0.36 |
-| 20 | 3.225 | 3.451 | 4.144 | +1.14 |
-| 50 | 4.057 | 4.365 | 4.921 | +2.06 |
-| 100 | 4.880 | 5.203 | 5.836 | +2.90 |
+| 6 | 2.420 | 2.662 | 3.057 | +0.53 |
+| 20 | 3.239 | 3.484 | 3.960 | +1.35 |
+| 50 | 4.014 | 4.333 | 4.922 | +2.20 |
+| 100 | 4.890 | 5.201 | 5.714 | +3.07 |
 
 **This is the opposite of what the "converges as N grows" reading of the
 paper's Section 5 would predict**, and it isn't small: at `N=100`, the
 true 95% critical value (5.2) is more than *double* `radf_mc_cv()`'s
-(2.3). The mechanism is a known pitfall distinct from what the paper's own
+(2.1). The mechanism is a known pitfall distinct from what the paper's own
 Figure 1 documents: their finite-sample undersizing result is measured
 *under their own DGP*, which bakes in a genuine shared explosive factor —
 it says nothing about behavior when the "common factor" premise is false.

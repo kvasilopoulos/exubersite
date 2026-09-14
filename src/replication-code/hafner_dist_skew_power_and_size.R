@@ -1,6 +1,6 @@
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== Power check with dist_skew=TRUE bootstrap, ORDINARY normal innovations ===\n")
 run_power <- function(seed) {

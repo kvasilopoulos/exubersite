@@ -5,9 +5,9 @@
 # folded into datestamp() as an option (2026-08-18) -- see exuber/CLAUDE.md,
 # "Naming: not everything is radf_* anymore".
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Structural: badf reused bit-for-bit from radf() ===\n")
 set.seed(1)

@@ -1,7 +1,7 @@
-﻿# Validation script for monitor_cusum(..., boundary = "finite") (Homm &
+# Validation script for monitor_cusum(..., boundary = "finite") (Homm &
 # Breitung 2012's finite-sample CUSUM boundary, their Table 8). See
 # docs/enhancements/monitoring.md, "Implementation (CUSUM)", for the
-# full write-up. Run from the exuber/ package root (or adjust the
+# full write-up. Run from the exuber-project/ root (or adjust the
 # devtools::load_all() path below).
 
 Sys.setenv(NOT_CRAN = "true")

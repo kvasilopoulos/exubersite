@@ -1,18 +1,18 @@
-# Validation of radf_monitor(..., boundary = "kurozumi", s0 = 0.4/0.8) --
+# Validation of monitor(..., boundary = "kurozumi", s0 = 0.4/0.8) --
 # Kurozumi (2020)'s GSADF_{s0} monitoring detector, re-triaged and shipped
 # after initially being scoped out as needing new recursion code.
 # See docs/enhancements/monitoring.md, "Kurozumi (2020, 2021) -- SADF and
 # GSADF cases both implemented", for the full writeup.
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Backward compatibility: s0 = 0 (default) unchanged ===\n")
 set.seed(1)
 y <- cumsum(rnorm(150))
-o_default <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", level = 0.95)
-o_explicit <- radf_monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", s0 = 0, level = 0.95)
+o_default <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", level = 0.95)
+o_explicit <- monitor(y, r_star = 0.5, minw = 20, boundary = "kurozumi", s0 = 0, level = 0.95)
 cat("stat identical:", identical(o_default$stat, o_explicit$stat), "\n")
 cat("boundary identical:", identical(o_default$boundary, o_explicit$boundary), "\n")
 
@@ -53,7 +53,7 @@ set.seed(3)
 ok <- TRUE
 for (i in 1:30) {
   yy <- cumsum(rnorm(150))
-  oo <- radf_monitor(yy, r_star = 0.5, boundary = "kurozumi", s0 = 0.4, level = 0.95)
+  oo <- monitor(yy, r_star = 0.5, boundary = "kurozumi", s0 = 0.4, level = 0.95)
   if (!is.na(oo$alarm) && oo$alarm <= 75) ok <- FALSE
 }
 cat("all alarms strictly after T_star (30 reps):", ok, "\n")
@@ -66,9 +66,9 @@ T_star <- 75
 fa_sadf <- fa_gsadf04 <- fa_gsadf08 <- 0
 for (i in seq_len(nrep)) {
   yy <- cumsum(rnorm(n))
-  o_sadf <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
-  o_g04 <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
-  o_g08 <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
+  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
+  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
+  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
   if (!is.na(o_sadf$alarm)) fa_sadf <- fa_sadf + 1
   if (!is.na(o_g04$alarm)) fa_gsadf04 <- fa_gsadf04 + 1
   if (!is.na(o_g08$alarm)) fa_gsadf08 <- fa_gsadf08 + 1
@@ -93,9 +93,9 @@ make_bubble_series <- function(n, T_star, bubble_start_frac = 0.65, rho = 1.03) 
 det_sadf <- det_g04 <- det_g08 <- 0
 for (i in seq_len(nrep)) {
   yy <- make_bubble_series(n, T_star)
-  o_sadf <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
-  o_g04 <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
-  o_g08 <- radf_monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
+  o_sadf <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0, level = 0.95)
+  o_g04 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.4, level = 0.95)
+  o_g08 <- monitor(yy, r_star = T_star, boundary = "kurozumi", s0 = 0.8, level = 0.95)
   if (!is.na(o_sadf$alarm)) det_sadf <- det_sadf + 1
   if (!is.na(o_g04$alarm)) det_g04 <- det_g04 + 1
   if (!is.na(o_g08$alarm)) det_g08 <- det_g08 + 1

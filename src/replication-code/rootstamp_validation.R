@@ -7,7 +7,7 @@
 # see "Update (2026-08-18): consolidated into rootstamp()" in that doc.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Cauchy percentiles (Skrobotov 2023 review's footnote 17) ===\n")
 cat("Published: C_0.10=6.315, C_0.05=12.7, C_0.01=63.65674\n")
@@ -64,6 +64,6 @@ print(rc)
 
 cat("\n=== Full test-rootstamp.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-rootstamp.R",
+  "exuber/tests/testthat/test-rootstamp.R",
   reporter = "summary"
 )

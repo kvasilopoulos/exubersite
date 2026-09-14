@@ -1,10 +1,8 @@
 ---
-title: "dating-and-root-inference"
+title: "Dating and root inference"
 blurb: "Origination, collapse and recovery dates, plus confidence intervals on the explosive root itself."
 order: 2
 ---
-﻿# Dating and root inference
-
 Two related post-detection problems, both operating on an episode
 `radf()`/`datestamp()` has already flagged as explosive: **dating** (when
 exactly did it start/end/recover?) and **root inference** (how explosive —
@@ -580,9 +578,11 @@ test coverage, and was validated from scratch before being trusted):
    throughout the regime, cleanly distinguishable from the `ρ = 1` regimes
    on either side.
 4. **Honest finite-sample characterization, not a rosy one**: a separate
-   moderate-`T` test (`T ≈ 130` per series, 20 seeds) only asserts the
-   estimates are finite and vary with the data — it does **not** assert
-   tight recovery. This matches KS's own Monte Carlo (§5, quoted above):
+   moderate-`T` check (`T = 350`, 30 seeds, §4 of
+   `radf_pdc_validation.R`) reports the exact-date recovery rate
+   (origination 3.3%, collapse 0%) and mean absolute error (origination
+   5.5, collapse 1.0) without asserting tight recovery. This matches KS's
+   own Monte Carlo (§5, quoted above):
    they report only ~30% exact-date recovery at `T = 400`, rising to ~65%
    at `T = 800`. A synthetic test that demanded tight accuracy at small `T`
    would either be lucky/cherry-picked or silently contradict what the
@@ -1193,7 +1193,7 @@ peak, not part of the eqs. 8-9 `f_c`/`f_r` pair. **Not implemented here**;
 a natural, cheap follow-on given `radf_recovery()` already exists (it
 would be an outer loop expanding the sample and re-calling
 `radf_recovery()`-style logic each step, structurally similar to
-`radf_monitor()`), but explicitly out of scope for this pass.
+`monitor()`), but explicitly out of scope for this pass.
 
 **Concrete empirical numbers from the paper's own dot-com illustration**
 (Section 5, prose, NASDAQ price-dividend ratio): the eqs. 8-9 pair gives
@@ -1225,7 +1225,7 @@ length of the synthetic collapse window itself in some runs), and the
 empirical false-detection rate under a pure random-walk null (`n=100`,
 `minw=20`, 95% level, one stable reversal-calibrated cv reused across 200
 fresh draws) is around 29% — higher than comparable forward-test numbers
-found elsewhere in this project (e.g. `radf_monitor()`'s ~10% cumulative
+found elsewhere in this project (e.g. `monitor()`'s ~10% cumulative
 false-alarm rate over a 75-point horizon). One real synthetic-DGP
 artifact was found and fixed during this validation (an abrupt level-jump
 at the expansion-to-collapse regime boundary was producing a spurious,

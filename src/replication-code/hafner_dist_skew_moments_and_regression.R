@@ -1,4 +1,4 @@
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Moment check: w = u/sqrt(2) + (v^2-1)/2 should have E[w]=0, E[w^2]=1, E[w^3]=1 ===\n")
 set.seed(1)

@@ -1,4 +1,4 @@
-﻿devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 run_once <- function(seed) {
   set.seed(seed)

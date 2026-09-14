@@ -1,4 +1,4 @@
-﻿devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 # DGP: 3-regime bubble (unit root -> explosive -> stationary collapse), with
 # a volatility burst concentrated in the FIRST 20% of regime 1 (sd = high),

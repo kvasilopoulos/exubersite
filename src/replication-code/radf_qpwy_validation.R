@@ -1,4 +1,4 @@
-﻿# Validation of monitor_quantile() -- Wu, Shi & Wu (2025)'s QPWY recursive
+# Validation of monitor_quantile() -- Wu, Shi & Wu (2025)'s QPWY recursive
 # quantile monitoring strategy (single-recursion subset; QPSY's double
 # recursion is not implemented). See docs/enhancements/
 # alternative-paradigms.md, "Quantile-based detection", "Implementation
@@ -6,9 +6,9 @@
 # quantile used as boundary instead of a supremum-calibrated one) found
 # and fixed via the Monte Carlo false-alarm-rate check in this script.
 #
-# Run from the exuber/ package root.
+# Run from the exuber-project/ root.
 
-devtools::load_all(".")
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== 1. Point statistic: qpwy_stat_path at the full sample matches
 quantile_test()'s own per-window QR t-ratio formula exactly ===\n")

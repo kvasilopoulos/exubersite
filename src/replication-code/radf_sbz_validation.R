@@ -1,4 +1,4 @@
-# Replication script for radf_sbz_cv() (SBZ: WLS + kernel volatility,
+# Replication script for radf_sbz_union() (SBZ: WLS + kernel volatility,
 # Harvey, Leybourne & Zu 2019). Archived retroactively -- see
 # docs/enhancements/volatility-robustness.md, "SBZ (WLS + kernel
 # volatility)", "Independent validation (2026-08-09) -- found and fixed a
@@ -11,11 +11,11 @@
 # the original 0.640/0.573 broken numbers).
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
-devtools::load_all("c:/Users/User/Documents/05-R/exuber-project/exuber", quiet = TRUE)
+devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== Empirical size under H0 (pure random walk, no bubble) ===\n")
 cat("Target: ~0.05 nominal for each of supDF/supBZ/U\n")
-cat("After-fix numbers reported in the doc: supDF=0.033, supBZ=0.080, U=0.060\n\n")
+cat("After-fix numbers reported in the doc: supDF=0.033, supBZ=0.060, U=0.053\n\n")
 
 set.seed(13579)
 n <- 150
@@ -25,7 +25,7 @@ nboot <- 199
 p_supDF <- p_supBZ <- p_U <- numeric(nrep)
 for (i in seq_len(nrep)) {
   y <- cumsum(rnorm(n))
-  res <- radf_sbz_cv(y, minw = 20, nboot = nboot, seed = NULL)
+  res <- radf_sbz_union(y, minw = 20, nboot = nboot, seed = NULL)
   p_supDF[i] <- res$p_supDF
   p_supBZ[i] <- res$p_supBZ
   p_U[i] <- res$p_U
@@ -37,6 +37,6 @@ cat(sprintf("U     empirical rejection rate: %.3f\n", mean(p_U < 0.05)))
 
 cat("\n=== Full test-sbz.R suite ===\n")
 testthat::test_file(
-  "c:/Users/User/Documents/05-R/exuber-project/exuber/tests/testthat/test-sbz.R",
+  "exuber/tests/testthat/test-sbz.R",
   reporter = "summary"
 )

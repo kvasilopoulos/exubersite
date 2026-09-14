@@ -1,6 +1,6 @@
 # Replication script for radf_sbz_union() (SBZ: WLS + kernel volatility,
 # Harvey, Leybourne & Zu 2019). Archived retroactively -- see
-# docs/enhancements/volatility-robustness.md, "SBZ (WLS + kernel
+# docs/volatility-robustness.md, "SBZ (WLS + kernel
 # volatility)", "Independent validation (2026-08-09) -- found and fixed a
 # real bug" for the narrative this reproduces: an off-by-one bootstrap
 # -indexing bug (`pointer <- length(ystar) - 1L - minw`, missing the -1L)

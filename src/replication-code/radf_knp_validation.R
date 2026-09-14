@@ -1,6 +1,6 @@
 # Validation script for dating_knp() (Kejriwal, Nguyen & Perron 2025, "An
 # Improved Procedure for Retrospectively Dating the Emergence and
-# Collapse of Bubbles"). See docs/enhancements/dating-and-root-
+# Collapse of Bubbles"). See docs/dating-and-root-
 # inference.md, "SSR/BIC dating vs. PSY recursive dating", for the full
 # write-up. Run from the exuber-project/ root (or adjust the
 # devtools::load_all() path below).

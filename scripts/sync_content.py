@@ -2,15 +2,15 @@
 """Vendors curated content from the project root into website/.
 
 website/ is its own git repo and Netlify builds it from GitHub, but
-docs/enhancements/ and exuber/ live at the project root, outside it --
+docs/ and exuber/ live at the project root, outside it --
 nothing there exists at Netlify build time. So this runs manually and its
 output is committed. No submodule, no CI step, no Netlify build change.
 
     python website/scripts/sync_content.py
 
 Three jobs:
-  1. curated docs/enhancements/*.md  -> src/content/replication/*.md
-  2. docs/enhancements/replication/**/*.R -> src/replication-code/*.R
+  1. curated docs/*.md  -> src/content/replication/*.md
+  2. docs/replication/**/*.R -> src/replication-code/*.R
   3. exuber/_pkgdown.yml + man/*.Rd  -> src/data/reference.json,
      including a full parse of every Rd file (usage, arguments, value,
      examples, seealso, ...) so /reference/[topic] pages render natively
@@ -32,7 +32,7 @@ import yaml
 
 WEB = Path(__file__).resolve().parent.parent
 ROOT = WEB.parent
-ENH = ROOT / "docs" / "enhancements"
+ENH = ROOT / "docs"
 EXUBER = ROOT / "exuber"
 
 assert ENH.is_dir(), ENH
@@ -54,7 +54,7 @@ PAGES = [
 PUBLISHED = {slug for slug, _ in PAGES}
 
 # ============================================================================
-# 1. markdown link rewriting (docs/enhancements/*.md -> site content)
+# 1. markdown link rewriting (docs/*.md -> site content)
 # ============================================================================
 
 LINK_RE = re.compile(r"\[[^\]]*\]\([^)\s]+\)")
@@ -93,7 +93,7 @@ def rewrite_links(txt: str) -> str:
 
 # Bare prose references to withheld or project-root paths -- "Local copy:
 # papers/x/y.pdf.", "open (institutional access) -- papers/x/y.pdf",
-# "`docs/enhancements/replication/fam/script.R`". Internal bookkeeping about
+# "`docs/replication/fam/script.R`". Internal bookkeeping about
 # where a local file sits; means nothing to a visitor and points at files the
 # site does not ship.
 _LOCAL_PATH_RE = re.compile(
@@ -104,8 +104,8 @@ _LOCAL_PATH_RE = re.compile(
 
 def strip_local_paths(txt: str) -> str:
     txt = _LOCAL_PATH_RE.sub("", txt)
-    txt = re.sub(r"docs/enhancements/replication/[a-z-]+/([A-Za-z0-9_]+)\.R", r"\1.R", txt)
-    txt = re.sub(r"docs/enhancements/([a-z-]+)\.md", r"/replication/\1", txt)
+    txt = re.sub(r"docs/replication/[a-z-]+/([A-Za-z0-9_]+)\.R", r"\1.R", txt)
+    txt = re.sub(r"docs/([a-z-]+)\.md", r"/replication/\1", txt)
     txt = re.sub(r"\s*PDFs: `papers/`\.", "", txt)
     txt = txt.replace("`papers/`", "the paper library")
     return re.sub(r"[ \t]+\n", "\n", txt)
@@ -681,9 +681,9 @@ def build_reference() -> None:
     # one anonymous section so every group renders the same way.
     def clean_desc(g: dict) -> tuple[str, str | None]:
         desc = re.sub(r"\s+", " ", (g.get("desc") or "")).strip()
-        m = re.search(r"docs/enhancements/([a-z-]+)\.md", desc)
+        m = re.search(r"docs/([a-z-]+)\.md", desc)
         replication = m.group(1) if m and m.group(1) in PUBLISHED else None
-        desc = re.sub(r";?\s*see docs/enhancements/[a-z-]+\.md", "", desc).strip()
+        desc = re.sub(r";?\s*see docs/[a-z-]+\.md", "", desc).strip()
         return desc, replication
 
     groups: list[dict] = []

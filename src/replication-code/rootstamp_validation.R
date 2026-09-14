@@ -1,6 +1,6 @@
 # Replication script for rootstamp() (root inference: Guo, Sun & Wang 2019
 # normal-t CI + Phillips-Magdalinos 2007 Cauchy CI). Archived retroactively --
-# see docs/enhancements/dating-and-root-inference.md, "Root inference",
+# see docs/dating-and-root-inference.md, "Root inference",
 # "Independent validation (2026-08-09)" for the narrative this reproduces.
 # rootstamp() consolidates what were originally three functions
 # (explosive_root(), root_ci(), root_ci_datestamp()) into one S3 generic --

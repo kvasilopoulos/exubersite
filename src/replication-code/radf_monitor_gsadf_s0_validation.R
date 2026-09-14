@@ -1,7 +1,7 @@
 # Validation of monitor(..., boundary = "kurozumi", s0 = 0.4/0.8) --
 # Kurozumi (2020)'s GSADF_{s0} monitoring detector, re-triaged and shipped
 # after initially being scoped out as needing new recursion code.
-# See docs/enhancements/monitoring.md, "Kurozumi (2020, 2021) -- SADF and
+# See docs/monitoring.md, "Kurozumi (2020, 2021) -- SADF and
 # GSADF cases both implemented", for the full writeup.
 #
 # Run from the exuber-project/ root.

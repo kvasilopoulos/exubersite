@@ -1,5 +1,5 @@
 # Validation script for monitor(..., boundary = "fluc") (Homm &
-# Breitung 2012's FLUC monitoring detector). See docs/enhancements/
+# Breitung 2012's FLUC monitoring detector). See docs/
 # monitoring.md for the full write-up. Run from the exuber-project/ root
 # (or adjust the devtools::load_all() path below).
 

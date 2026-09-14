@@ -1,7 +1,7 @@
 # Validation of contagion_reg() -- Greenaway-McGrevy & Phillips (2016)'s
 # bubble contagion regression, minimum-viable subset (fixed-window AR(1)
 # sequence, single-delay Nadaraya-Watson regression, LOOCV bandwidth).
-# See docs/enhancements/multivariate.md, "Contagion regression",
+# See docs/multivariate.md, "Contagion regression",
 # "Implementation -- done (2026-08-10), minimum-viable subset", for the
 # full writeup, including two real bugs found and fixed here (a
 # window-width off-by-one and a matrix-orientation bug in the LOOCV SSE

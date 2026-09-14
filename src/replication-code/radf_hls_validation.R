@@ -1,6 +1,6 @@
 # Validation script for dating_hls() (Harvey, Leybourne & Sollis 2017,
 # "Improving the accuracy of asset price bubble start and end date
-# estimators"). See docs/enhancements/dating-and-root-inference.md,
+# estimators"). See docs/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", for the full write-up. Run
 # from the exuber/ package root (or adjust the devtools::load_all() path
 # below).

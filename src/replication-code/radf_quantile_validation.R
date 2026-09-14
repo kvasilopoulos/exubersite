@@ -1,6 +1,6 @@
 # Validation script for quantile_test() (Wu, Shi & Wu 2025, "Quantile
 # analysis for financial bubble detection and surveillance", the
-# "global test" of their Section 3.1). See docs/enhancements/
+# "global test" of their Section 3.1). See docs/
 # alternative-paradigms.md, "Quantile-based detection", for the full
 # write-up. Run from the exuber-project/ root (or adjust the
 # devtools::load_all() path below).

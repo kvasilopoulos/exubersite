@@ -1,6 +1,6 @@
 # Validation of monitor_quantile() -- Wu, Shi & Wu (2025)'s QPWY recursive
 # quantile monitoring strategy (single-recursion subset; QPSY's double
-# recursion is not implemented). See docs/enhancements/
+# recursion is not implemented). See docs/
 # alternative-paradigms.md, "Quantile-based detection", "Implementation
 # (QPWY)", for the full writeup -- including a real bug (per-r marginal
 # quantile used as boundary instead of a supremum-calibrated one) found

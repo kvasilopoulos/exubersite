@@ -20,15 +20,15 @@ This repo doesn't contain its own source content for two sections — it
 vendors it from the project root, which lives outside this git repo and
 outside Netlify's build (Netlify only checks out `website/`):
 
-- `docs/enhancements/*.md` (curated subset, the `PAGES` list at the top of
+- `docs/*.md` (curated subset, the `PAGES` list at the top of
   `scripts/sync_content.py`) → `src/content/replication/*.md`, plus every
-  `docs/enhancements/replication/**/*.R` → `src/replication-code/*.R`
+  `docs/replication/**/*.R` → `src/replication-code/*.R`
 - `exuber/_pkgdown.yml` + every `exuber/man/*.Rd` (hand-rolled Rd parser,
   not `tools::parse_Rd()`) → `src/data/reference.json` (usage, arguments,
   value, examples, seealso — full content, so `/reference/<topic>` renders
   natively instead of linking out to pkgdown)
 
-**Edit the source** (`docs/enhancements/*.md` or `exuber/R/*.R`'s roxygen
+**Edit the source** (`docs/*.md` or `exuber/R/*.R`'s roxygen
 comments), never `src/content/replication/*.md` or `src/data/reference.json`
 directly — re-run `npm run sync` (needs PyYAML: `pip install pyyaml`) and
 `npm run build && npm run check:links` after. Since the source lives

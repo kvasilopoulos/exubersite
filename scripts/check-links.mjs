@@ -1,6 +1,6 @@
 // Post-build check over dist/: every internal link resolves to a built page,
 // and every fragment resolves to an id on that page. The replication corpus is
-// vendored from docs/enhancements/ with its links rewritten, so this is what
+// vendored from docs/ with its links rewritten, so this is what
 // catches an anchor that drifted upstream.
 //
 //   npm run build && node scripts/check-links.mjs

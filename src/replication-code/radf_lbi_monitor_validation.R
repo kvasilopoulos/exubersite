@@ -1,6 +1,6 @@
 # Validation of monitor_lbi() -- Breitung & Diegel (2025)'s sequential
 # (constant-boundary mCUSUM/wCUSUM) monitoring extension of lbi_test().
-# See docs/enhancements/monitoring.md, "Breitung & Diegel (2025) -- static
+# See docs/monitoring.md, "Breitung & Diegel (2025) -- static
 # LBI test AND sequential extension both done", for the full writeup.
 #
 # Run from the exuber-project/ root.

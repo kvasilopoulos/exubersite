@@ -1,6 +1,6 @@
 # Replication script for dating_pdc()'s base OLS estimator (Pang, Du & Chong
 # 2021 / Kurozumi & Skrobotov 2023 sequential sample-splitting dating).
-# Archived retroactively -- see docs/enhancements/dating-and-root-inference.md,
+# Archived retroactively -- see docs/dating-and-root-inference.md,
 # "SSR/BIC dating vs. PSY recursive dating", "Implementation (PDC/KS route)"
 # for the narrative this reproduces. The WLS variant (Kurozumi & Skrobotov
 # 2023's volatility correction) already has its own replication scripts

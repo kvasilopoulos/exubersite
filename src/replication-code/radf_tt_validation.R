@@ -1,6 +1,6 @@
 # Replication script for radf_tt()/radf_tt_cv() (STADF/GSTADF, Kurozumi,
 # Skrobotov & Tsarev 2024). Archived retroactively -- this item predates the
-# replication/ convention; see docs/enhancements/volatility-robustness.md,
+# replication/ convention; see docs/volatility-robustness.md,
 # "Time-transformed test (STADF / GSTADF)", "Independent validation
 # (2026-08-09)" for the narrative this reproduces.
 Sys.setenv(NOT_CRAN = "true")

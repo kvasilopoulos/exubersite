@@ -9511,7 +9511,7 @@
                     "body": [
                       {
                         "t": "text",
-                        "v": " Should lengthy operations use parallel computation? Default: TRUE.\nHonored by the "
+                        "v": " Should lengthy operations use parallel computation? Default: TRUE in an\ninteractive session, FALSE otherwise (scripts, knitr, R CMD check), since\nstarting workers costs a few seconds; set it to TRUE in a script to opt in.\nThe worker cluster is started once per session and reused.\nHonored by the "
                       },
                       {
                         "t": "code",
@@ -19268,7 +19268,7 @@
               },
               {
                 "t": "text",
-                "v": " and the overall detection rate as exploratory pending further validation; see docs/enhancements/dating-and-root-inference.md for the full numbers. The same short pointer is emitted as a message when this function is called (see "
+                "v": " and the overall detection rate as exploratory pending further validation; see docs/dating-and-root-inference.md for the full numbers. The same short pointer is emitted as a message when this function is called (see "
               },
               {
                 "t": "code",

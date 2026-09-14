@@ -1,6 +1,6 @@
 # Replication script for radf_common()/radf_common_cv() (common-bubble
 # detection via PCA + PSY, Chen, Phillips & Shi 2023). Archived
-# retroactively -- see docs/enhancements/multivariate.md, "Common-bubble
+# retroactively -- see docs/multivariate.md, "Common-bubble
 # detection via PCA + PSY", "Independent validation (2026-08-09)" for the
 # narrative this reproduces: Theorem 4.3 claims the PSY-on-PC1 statistic's
 # null is asymptotically identical to the plain univariate GSADF null

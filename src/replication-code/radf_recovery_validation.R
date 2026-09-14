@@ -4,7 +4,7 @@
 # Reports both what validates cleanly (f_r, the structural f_c<=f_r
 # invariant, the reversal-calibrated CV genuinely differing from the
 # forward one) and what doesn't (f_c's bias, the H0 false-detection
-# rate) -- see docs/enhancements/dating-and-root-inference.md,
+# rate) -- see docs/dating-and-root-inference.md,
 # "Reverse-regression recovery dating", for the full write-up and honest
 # accounting of these results. Run from the exuber-project/ root (or
 # adjust the devtools::load_all() path below).

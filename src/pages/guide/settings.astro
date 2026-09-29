@@ -11,7 +11,7 @@ const params = [
   {
     name: "lag",
     default: "0",
-    body: "The number of lagged Δy terms in the ADF regression — the same augmentation as ordinary ADF, here applied inside every recursive window. Fixed at 0 by default. A fixed lag is simplest and what the asymptotic critical values assume; AIC/BIC selection re-picks it per window instead, at the cost of no longer matching the tabulated thresholds (simulate critical values to match if you use it).",
+    body: "The number of lagged Δy terms in the ADF regression — the same augmentation as ordinary ADF, applied inside every recursive window. Fixed, 0 by default. The precomputed critical values cover lag 0 to 4, so a lagged run needs no simulation of its own; for the sieve bootstrap, radf_sb_cv(type = \"aic\" / \"bic\") can pick the lag automatically, once per series.",
   },
 ];
 
@@ -55,20 +55,20 @@ const headings = [
 
     <div class="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
       <div class="flex flex-col gap-2 bg-panel p-6">
-        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Asymptotic</span>
-        <p class="text-sm leading-relaxed text-muted">Tabulated once, in the original paper. Free, but only valid at the default <code class="text-ink">minw</code> and lag = 0.</p>
+        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Precomputed (default)</span>
+        <p class="text-sm leading-relaxed text-muted">Monte Carlo tables simulated once for every T up to 4,000 and lag 0–4, fetched on first use and cached. What you get when you pass no <code class="text-ink">cv</code>.</p>
       </div>
       <div class="flex flex-col gap-2 bg-panel p-6">
         <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Monte Carlo</span>
         <p class="text-sm leading-relaxed text-muted">Simulated under the null (a random walk) for your exact T and <code class="text-ink">minw</code>. Assumes homoskedastic Gaussian innovations. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.</p>
       </div>
       <div class="flex flex-col gap-2 bg-panel p-6">
-        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Wild bootstrap</span>
-        <p class="text-sm leading-relaxed text-muted">Resamples the residuals of your own data with random sign weights, so it inherits whatever heteroskedasticity is actually there. See <a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>.</p>
+        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Bootstrap</span>
+        <p class="text-sm leading-relaxed text-muted">Built from your own data, so it inherits the heteroskedasticity or autocorrelation actually there: wild (<a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>, <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>) or sieve (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>, panel).</p>
       </div>
     </div>
     <p class="mt-6 text-sm leading-relaxed text-muted">
-      More on how those first two are actually derived on the
+      More on how each is derived on the
       <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">critical values</a> page.
     </p>
   </section>
@@ -81,10 +81,11 @@ const headings = [
       data frame with more than one column and it computes the univariate statistics for every
       series in one pass, plus <code class="text-ink">bsadf_panel</code> and
       <code class="text-ink">gsadf_panel</code> — the cross-sectional average and its supremum —
-      as a by-product, at close to no extra cost.
+      as a by-product, at close to no extra cost. The panel statistic is tested against the
+      sieve bootstrap's panel critical values (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>).
     </p>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Next: <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">how Monte Carlo and wild-bootstrap thresholds are actually derived</a>.
+      Next: <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">how the thresholds are actually derived</a>.
     </p>
   </section>
 </DocsLayout>

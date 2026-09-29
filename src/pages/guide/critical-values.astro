@@ -5,6 +5,7 @@ import { guideSection } from "../../sidebars";
 const headings = [
   { depth: 2, slug: "monte-carlo", text: "Simulate the null directly" },
   { depth: 2, slug: "wild-bootstrap", text: "Simulate the null from your data" },
+  { depth: 2, slug: "other-bootstraps", text: "Other bootstraps" },
   { depth: 2, slug: "shared-store", text: "Shared store" },
 ];
 ---
@@ -27,8 +28,8 @@ const headings = [
       which real series rarely have. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      The default tables were built exactly this way: 2,000 replications per lag, seeded, every
-      sample size up to 4,000 — then served as a lookup so a typical
+      The default tables were built exactly this way: 2,000 seeded replications for every
+      lag from 0 to 4 and every sample size up to 4,000 — then served as a lookup so a typical
       <code class="text-ink">radf()</code> call doesn't re-simulate anything (see the shared store below).
     </p>
   </section>
@@ -44,6 +45,16 @@ const headings = [
       Correspondingly more expensive: it's specific to one dataset, not reusable across series.
       See <a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>.
     </p>
+  </section>
+
+  <section id="other-bootstraps" class="scroll-mt-24 border-t border-border pt-14 mt-14">
+    <p class="font-mono text-xs uppercase tracking-widest text-muted">Variants</p>
+    <h2 class="mt-4 font-display text-2xl text-ink">Other bootstraps, for other problems.</h2>
+    <ul class="mt-6 max-w-xl space-y-4 text-sm leading-relaxed text-muted">
+      <li><strong class="font-medium text-ink">Skewed innovations.</strong> <code class="text-ink">radf_wb_cv(dist_skew = TRUE)</code> draws Hafner's (2020) right-skewed multiplier weights, for series whose returns are themselves strongly right-skewed — cryptocurrencies, in the paper's own application.</li>
+      <li><strong class="font-medium text-ink">Phillips–Shi wild bootstrap.</strong> Fits a null autoregression (lag fixed or chosen by AIC/BIC), resamples its residuals, and simulates a sample of chosen length — robust to non-stationary volatility, and the bootstrap real-time <code class="text-ink">monitor()</code> uses for its training window. See <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>.</li>
+      <li><strong class="font-medium text-ink">Sieve bootstrap.</strong> Fits an autoregression to each series and resamples its residuals, preserving serial correlation; gives critical values for the panel statistic. Lag fixed or chosen by AIC/BIC (Pedersen &amp; Schütte, 2020). See <a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>.</li>
+    </ul>
   </section>
 
   <section id="shared-store" class="scroll-mt-24 border-t border-border pt-14 mt-14">

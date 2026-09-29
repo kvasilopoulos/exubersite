@@ -10,7 +10,7 @@ const tests = [
     window: "Full sample, once.",
     tex: String.raw`\Delta y_t = \mu + \delta y_{t-1} + \sum_{i=1}^{k} \phi_i \Delta y_{t-i} + \varepsilon_t
       \qquad H_0\!:\ \delta = 0 \quad\text{vs}\quad H_1\!:\ \delta > 0`,
-    body: "The regression is the ordinary ADF test, but the alternative is right-tailed instead of left: a standard unit-root test asks whether δ < 0 (the series is stationary), bubble testing asks whether δ > 0 — whether the series is mildly explosive. Run once over the whole sample, ADF has no way to localize *when* that explosiveness happened, and its power collapses once a bubble has collapsed back to trend by the end of the sample.",
+    body: "The regression is the ordinary ADF test, but the alternative is right-tailed instead of left: a standard unit-root test asks whether δ < 0 (the series is stationary), bubble testing asks whether δ > 0 — whether the series is mildly explosive. Run once over the whole sample, ADF has no way to localize when that explosiveness happened, and its power collapses once a bubble has collapsed back to trend by the end of the sample.",
   },
   {
     code: "SADF",
@@ -24,7 +24,7 @@ const tests = [
     name: "Generalized SADF",
     window: "Both r₁ and r₂ float: r₂ ∈ [r₀,1], r₁ ∈ [0, r₂−r₀].",
     tex: String.raw`\mathrm{GSADF} = \sup_{\substack{r_2 \in [r_0,\,1] \\ r_1 \in [0,\,r_2 - r_0]}} \mathrm{ADF}_{r_1}^{\,r_2}`,
-    body: "Phillips, Shi & Yu (2015). Letting the window's start float too, not just its end, is the whole fix: the supremum is now taken over every window that could plausibly contain a bubble, so an early bubble no longer contaminates the test for a later, separate one. This is the headline test in exuber, and the one almost everything else in the suite is built to compute or calibrate.",
+    body: "Phillips, Shi & Yu (2015). Letting the window's start float too, not just its end, is the whole fix: the supremum is now taken over every window that could plausibly contain a bubble, so an early bubble no longer contaminates the test for a later, separate one. It is the foundation the rest of exuber builds on.",
   },
   {
     code: "BSADF",
@@ -111,6 +111,13 @@ const headings = [
       above the threshold, termination is the first later r₂ where it falls back below. Phillips,
       Shi &amp; Yu require the excursion to last at least <Math tex={String.raw`\delta \log(T)/T`} /> of
       the sample before it counts, so a one-period spike above the line isn't mistaken for a bubble.
+    </p>
+    <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
+      Threshold crossings are one way to date an episode, not the only one. exuber also ships
+      break-point estimators that date origination and collapse more precisely (Harvey,
+      Leybourne &amp; Sollis; Harvey, Leybourne &amp; Whitehouse; Pang, Du &amp; Chong;
+      Kejriwal, Nguyen &amp; Perron), confidence intervals on the explosive root itself, and
+      recovery dating — see <a href="/replication/dating-and-root-inference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">dating and root inference</a>.
     </p>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
       Next: <a href="/guide/settings" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">what <code class="text-ink">minw</code> and <code class="text-ink">lag</code> actually control</a>.

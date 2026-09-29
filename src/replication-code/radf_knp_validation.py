@@ -25,7 +25,7 @@ import math
 
 import numpy as np
 
-from exuber.dating_knp import _knp_find_break, dating_knp
+from exuber.dating_knp import _knp_dp, _knp_find_break, dating_knp
 
 
 def _ols_ssr(xseg: np.ndarray, zseg: np.ndarray) -> float:
@@ -120,10 +120,43 @@ def check_delta_accuracy() -> None:
     assert np.mean(np.abs(deltas - 1.05)) < 0.3
 
 
+# set.seed(7); y <- round(cumsum(rnorm(40)), 8) -- shared with the SSU script
+Y_VEC = np.array(
+    [
+        2.28724716, 1.09047548, 0.39618297, -0.01610998, -0.98678332, -1.93406327,
+        -1.18592393, -1.30287915, -1.15022153, 1.03975658, 1.39674281, 4.11349459,
+        6.39494652, 6.71896706, 8.61503413, 9.08271464, 8.18891391, 7.88158561,
+        7.87676319, 8.86492734, 9.7046777, 10.41001953, 11.71598425, 10.32798804,
+        11.6009049, 11.78509767, 12.53737757, 13.12912262, 12.14607002, 11.87000607,
+        10.99915505, 11.7178656, 11.82851848, 11.75005171, 11.32956125, 10.76743537,
+        11.76494882, 10.65981876, 10.51753093, 10.83252583,
+    ]
+)
+
+
+def check_multi_bubble_dp() -> None:
+    """Section 3.2 DP: breaks=2 reproduces the single-bubble search; 3 and 4
+    breaks reproduce R's dates and coefficients (Rscript: dating_knp(y,
+    trim = 0.1, breaks = b) on Y_VEC)."""
+    print("\n=== Multi-bubble dynamic programme ===")
+    y = np.cumsum(np.random.default_rng(11).normal(size=80))
+    tau, ssr = _knp_dp(y, 2, 0.05, True)
+    t1, t2, fssr = _knp_find_break(y, 0.05, True)
+    assert tau == [t1, t2] and abs(ssr - fssr) < 1e-10
+    print(f"  breaks=2: DP {tau} = single-bubble search ({t1}, {t2})")
+    r3 = dating_knp(Y_VEC, trim=0.1, breaks=3)
+    r4 = dating_knp(Y_VEC, trim=0.1, breaks=4)
+    assert list(r3.origination[:, 0]) == [9, 19] and np.isnan(r3.collapse[1, 0])
+    assert list(r4.collapse[:, 0]) == [14, 23]
+    np.testing.assert_allclose(r4.delta[:, 0], [0.8410590945, 1.0818531838], atol=1e-8)
+    print(f"  breaks=4: origination {r4.origination[:, 0]}, collapse {r4.collapse[:, 0]} (R: 9 19 / 14 23)")
+
+
 def main() -> None:
     check_formula_exact()
     check_theorem_1_and_2()
     check_delta_accuracy()
+    check_multi_bubble_dp()
     print("\nAll dating_knp() checks passed.")
 
 

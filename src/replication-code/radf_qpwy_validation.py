@@ -10,11 +10,11 @@ docs/replication/alternative-paradigms/radf_qpwy_validation.py
 
 _qpwy_stat_path() needs no RNG and no radf()/C++ extension, so its check
 runs fully offline and matches R bit-for-bit (within the IRLS-vs-simplex
-QR-solver tolerance documented in monitor.py's module docstring); the
-full monitor_quantile() call needs the compiled `_core` extension (via
-radf(), for the boundary simulation) -- not buildable on this dev
-machine (see pyexuber/CLAUDE.md), so its checks are structural only here
-(shape/invariant), not a Monte Carlo size/power reproduction.
+QR-solver tolerance documented in monitor.py's module docstring). Since
+2026-09-29 the boundary simulation needs no radf() either (Q and Z from
+prefix sums), so sections 4-5 check it directly: the independent-BM term
+Z must be a process over windows (the single-z bug), and QPSY's grid
+contains QPWY's path.
 
 Reference values: a direct R run from the exuber-project/ root,
 2026-09-16:
@@ -33,7 +33,11 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "pyexuber" / "src"))
 
-from exuber.monitor_quantile import _qpwy_stat_path  # noqa: E402
+from exuber.monitor_quantile import (  # noqa: E402
+    _qpsy_stat_path,
+    _qpwy_stat_path,
+    _quantile_boundary_sim,
+)
 from exuber.quantile_test import quantile_test  # noqa: E402
 
 # set.seed(42); y <- cumsum(rnorm(80))
@@ -85,8 +89,7 @@ def main() -> None:
     # Reproduce the shape of the bug from docs/alternative-paradigms.md: a
     # per-r MARGINAL quantile of simulated paths badly inflates the
     # false-alarm rate relative to a SUPREMUM-calibrated one. Demonstrated
-    # here directly on simulated standard-normal paths (no radf() needed),
-    # since monitor_quantile() itself needs the compiled _core extension.
+    # here directly on simulated standard-normal paths.
     rng = np.random.default_rng(0)
     nrep, n_mon = 500, 40
     paths = rng.normal(size=(nrep, n_mon))  # stand-in for the Q_{0,r} paths
@@ -99,6 +102,23 @@ def main() -> None:
     print(f"supremum-calibrated boundary false-alarm rate: {fpr_sup:.3f} (~nominal 0.05)")
     assert fpr_marginal > 3 * fpr_sup
     assert abs(fpr_sup - 0.05) < 0.03
+
+    print("\n=== 4. The 2026-09-29 bug: Z is a process over windows, not one z per path ===")
+    # delta = 0 leaves only Z: one shared z per path would make sup_r Z
+    # exactly N(0,1), 95% quantile 1.645
+    sim = _quantile_boundary_sim(150, 20, 400, np.array([0.0]), False, np.random.default_rng(3))
+    q95 = np.quantile(sim[:, 0], 0.95)
+    print(f"95% quantile of sup_r Z_r: {q95:.3f} (single-z construction: 1.645)")
+    assert q95 > 2
+
+    print("\n=== 5. QPSY: its grid contains QPWY's path ===")
+    sy = _qpsy_stat_path(Y42, 0.5, r_idx, minw)
+    assert np.all(sy >= stat - 1e-12) and abs(sy[0] - stat[0]) < 1e-12
+    d = np.array([0.2, 0.8])
+    wy = _quantile_boundary_sim(60, 12, 20, d, False, np.random.default_rng(5))
+    sb = _quantile_boundary_sim(60, 12, 20, d, True, np.random.default_rng(5))
+    assert np.all(sb >= wy - 1e-12)
+    print(f"QPSY path >= QPWY path everywhere; max QPSY = {sy.max():.4f}")
 
     print("\nAll checks passed.")
 

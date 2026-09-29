@@ -1,6 +1,6 @@
 """Python counterpart of radf_ssu_validation.R -- cross-checks pyexuber's
-port of ssu_test() (stochastic explosive-coefficient SSU test, Kurozumi &
-Nishi 2025, minimum-viable subset, R/ssu_test.R) in exuber.volatility.
+ports of ssu_test() (Kurozumi & Nishi 2025's SSU/GSSU, R/ssu_test.R) and
+cusum_test() (their CS/GCS/CSSQ/GCSSQ, R/cusum_test.R).
 
 Run standalone: uv run --project pyexuber python
 docs/replication/volatility-robustness/radf_ssu_validation.py
@@ -14,6 +14,8 @@ involved at the formula level):
     set.seed(7); y <- round(cumsum(rnorm(40)), 8)
     ps <- exuber:::ssu_prefix_sums(y)
     exuber:::ssu_stat_path(ps, 10:39)
+    exuber:::gssu_stat_path(ps, 10:39, 10)
+    sapply(c("cs", "gcs", "cssq", "gcssq"), function(t) cusum_test(y, type = t)$sup)
 
 Part 2 also cross-checks ssu_stat_path()'s bilinear cross-moment
 expansion against a from-scratch brute-force computation (two separately
@@ -28,7 +30,8 @@ on Kurozumi & Nishi's own eq. 2 style stochastic-explosive-coefficient DGP
 
 import numpy as np
 
-from exuber.ssu_test import ssu_prefix_sums, ssu_q, ssu_stat_path, ssu_test
+from exuber.cusum_test import cusum_test
+from exuber.ssu_test import gssu_stat_path, ssu_prefix_sums, ssu_q, ssu_stat_path, ssu_test
 
 MINW = 10
 
@@ -46,14 +49,27 @@ Y_VEC = np.array(
 
 R_SSU_STAT = np.array(
     [
-        0.3507221612, 0.3706956340, 0.8058323864, -0.6875656648, -0.5776884647,
-        -1.2064421069, -0.5760735436, -0.7290714153, -0.9597233521, -1.2301899913,
-        -1.5466598868, -1.8660594834, -2.0114222483, -0.6075219402, -0.7668093101,
-        -1.0384324273, -1.3022337320, -1.5645114773, -1.1043525912, -1.1980506482,
-        -1.0578407671, -1.2097931568, -1.3608122755, -1.4783438471, -1.5161782631,
-        -1.5230627989, -1.6201706488, -1.4294408532, -1.4956945921, -1.5827171047,
+        0.3833518443, 0.4403276581, 0.7473456123, -0.8456697733, -0.7600438094,
+        -1.4430830294, -0.6408326735, -0.7920469795, -1.0376584345, -1.3367638315,
+        -1.6830472945, -2.0283393484, -2.2007969446, -0.6169301776, -0.7930989796,
+        -1.0713490608, -1.3478299468, -1.6197853915, -1.1205521906, -1.2116954558,
+        -1.0588494530, -1.2158651418, -1.3690602636, -1.4871311323, -1.5224013406,
+        -1.5261706384, -1.6270001876, -1.4260822913, -1.4925456402, -1.5806977666,
     ]
 )
+
+R_GSSU_STAT = np.array(
+    [
+        0.3833518443, 0.4403276581, 0.7473456123, -0.8393593797, -0.7600438094,
+        -0.9952568858, 0.6193076072, 0.6941608385, 0.6196343917, 0.2487737184,
+        -0.1345189093, -0.4991489099, -0.2622429334, 1.3058362526, 5.0869003395,
+        1.7989985737, 1.3466144707, 0.7934786227, 0.9397520677, 0.6317869290,
+        0.6806068074, 0.6455130002, 0.4240810063, 0.2383198599, 1.0852937648,
+        1.1420563060, 0.2393356038, 0.2603072375, 0.3044020047, 0.5839649062,
+    ]
+)
+
+R_CUSUM_SUP = {"cs": 1.7059972635, "gcs": 2.3702314238, "cssq": 1.1433215401, "gcssq": 1.5264986415}
 
 
 def check_ssu_stat_path_matches_r() -> None:
@@ -68,6 +84,15 @@ def check_ssu_test_matches_r() -> None:
     res = ssu_test(Y_VEC, minw=MINW, sig_lvl=95)
     np.testing.assert_allclose(res.sadf[0], R_SSU_STAT.max(), atol=1e-6)
     print(f"ssu_test(): sadf={res.sadf[0]:.10f} matches max(R_SSU_STAT)={R_SSU_STAT.max():.10f}.")
+
+
+def check_gssu_and_cusum_match_r() -> None:
+    ps = ssu_prefix_sums(Y_VEC)
+    stat = gssu_stat_path(ps, np.arange(MINW, len(Y_VEC)), MINW)
+    np.testing.assert_allclose(stat, R_GSSU_STAT, atol=1e-6)
+    for t, sup in R_CUSUM_SUP.items():
+        assert abs(cusum_test(Y_VEC, type=t).sup[0] - sup) < 1e-8, t
+    print("gssu_stat_path() and cusum_test() sup: match R to 1e-6 / 1e-8.")
 
 
 def check_formula_vs_brute_force() -> None:
@@ -95,7 +120,7 @@ def check_formula_vs_brute_force() -> None:
 
         sigma2_eps = np.sum(eps_hat**2) / (hi - 2)
         sigma2_eta = np.sum(eta_hat**2) / (hi - 2)
-        sigma2_epseta = np.sum(eps_hat * eta_hat) / (hi - 1)
+        sigma2_epseta = np.sum(eps_hat * eta_hat) / (hi - 2)
         sigma_eps, sigma_eta = np.sqrt(sigma2_eps), np.sqrt(sigma2_eta)
         psi_hat = sigma2_epseta / (sigma_eps * sigma_eta)
 
@@ -155,6 +180,7 @@ def check_power_on_stochastic_coefficient_dgp() -> None:
 if __name__ == "__main__":
     check_ssu_stat_path_matches_r()
     check_ssu_test_matches_r()
+    check_gssu_and_cusum_match_r()
     check_formula_vs_brute_force()
     check_table_lookup()
     check_power_on_stochastic_coefficient_dgp()

@@ -9,7 +9,7 @@ built around.
 
 | Method | Paper | Fit with exuber |
 |---|---|---|
-| [Quantile-based detection](#quantile-based-detection) | Pavlidis (2025); Wu, Shi & Wu (2025) | **global test AND `QPWY` monitoring done (2026-08-11)**; `QPSY` (double recursion) not implemented; Pavlidis's `Un`/`QKS` attempted then withdrawn — failed its own bootstrap-calibration validation, see below |
+| [Quantile-based detection](#quantile-based-detection) | Pavlidis (2025); Wu, Shi & Wu (2025) | **global test, `QPWY` and `QPSY` monitoring done** (QPWY boundary bug fixed and QPSY added 2026-09-29; QPSY ships with a small-sample caveat away from the median); Pavlidis's `Un`/`QKS` attempted then withdrawn — failed its own bootstrap-calibration validation, see below |
 | [Noncausal / local explosive dynamics](#noncausal--local-explosive-dynamics) | Blasques, Koopman, Mingoli & Telg (2025) | evaluated, not implemented — different paradigm, no ADF machinery |
 | [Spectral fragility](#spectral-fragility-out-of-scope) | Bhandari (arXiv) | out of scope |
 | [Stochastic tree asset pricing](#stochastic-tree-asset-pricing-out-of-scope) | Gourieroux & Jasiak (2025) | out of scope (pricing, not testing) |
@@ -20,11 +20,12 @@ All from the *JTSA* 46(5) special issue except Bhandari (arXiv). Papers:
 ## Quantile-based detection
 
 **Status: Wu/Shi/Wu's "global test" done (2026-08-10); their `QPWY`
-recursive monitoring extension also done (2026-08-11, `monitor_quantile()`),
-re-triaged from "genuinely more expensive" — that verdict held for
-`QPSY` (their double recursion, still not implemented) but not for
-`QPWY` specifically, which was originally bundled with `QPSY` under the
-same cost verdict without separating their very different profiles.
+recursive monitoring extension done (2026-08-11, `monitor_quantile()`;
+a second boundary bug found and fixed 2026-09-29) and `QPSY` done
+(2026-09-29, `monitor_quantile(type = "qpsy")`, shipped with a
+small-sample caveat away from the median). Both were first bundled
+under one "genuinely more expensive" verdict, which turned out wrong for
+QPWY and then, on a second look, for QPSY's critical values too.
 Pavlidis's quantile-autoregressive `Un`/`QKS` tests attempted
 (2026-08-10) then withdrawn — implemented, found and fixed one real bug,
 but still failed its own bootstrap-calibration validation against the
@@ -189,9 +190,85 @@ marginal quantile — the structural signature of the fix). Replication
 script:
 [replication/alternative-paradigms/radf_qpwy_validation.R](#script-radf_qpwy_validation).
 
-**Still not implemented**: `QPSY` (the double recursion) — needs
-`O(T^2)` genuine QR fits, a materially different computational cost
-class, before any critical-value simulation multiplies it further.
+**A second genuine bug, found 2026-09-29 by re-deriving the limit, not
+by the original Monte Carlo** (whose `6.7%` above was read as noise; it
+was this bug). The boundary drew one `z ~ N(0,1)` per replicate and
+reused it for every `r`. In Theorem 1 the limit is `int W~ dB_psi / sqrt(int
+W~^2)` with `B_psi` a Brownian motion correlated `delta` with `W`.
+Writing `B_psi = delta W + sqrt(1 - delta^2) V` with `V` independent of
+`W` gives `delta Q_{r1,r2} + sqrt(1 - delta^2) Z_{r1,r2}`, with `Z = int W~
+dV / sqrt(int W~^2)`. Corollary 1's `z` is `Z` for *one* window, where it
+is exactly `N(0,1)` (all `quantile_test()` needs). But `Z` varies across
+windows, and a monitoring boundary is a quantile of path *suprema*, so a
+constant `z` understates it. At `n = 200` (4000 reps), the single-`z`
+95% boundary vs the correct one, and the single-`z` boundary's true
+size: `delta = 0.8` (Gaussian, `tau = 0.5`): `1.534` vs `1.665`, size
+**`0.066`**; `delta = 0.5`: `1.657` vs `2.060`, **`0.108`**; `delta = 0.2`:
+`1.704` vs `2.405`, **`0.196`**. The distortion is worst exactly where
+QPWY is meant to help (heavy tails, non-central quantiles, where `delta`
+is small).
+
+**Fix**: `quantile_boundary_sim()` simulates `Q` and `Z` jointly for
+every window from prefix sums of `(e_t, v_t)` (`O(1)` per window, no
+`radf()` call any more), and takes each path's supremum per
+data-estimated `delta`. It matches a per-window brute force to
+`2e-15`. H0 false-alarm rate after the fix, nominal 5%, `n = 150`, 200
+reps: **`0.035`** Gaussian and `t3` at `tau = 0.5`; `t3` at `tau =
+0.2`/`0.8`/`0.9`: `0.075`/`0.085`/`0.125`. That the last is well above
+nominal agrees with the paper's own advice to avoid extreme quantiles
+in small samples (their Table II: `0.07` for the global test at `tau =
+0.9` under `t3`).
+
+### Implementation (QPSY) — done (2026-09-29)
+
+**Re-triaged: the cost that stays is the statistic, not the critical
+value.** `QPSY_r(tau, r0) = sup_{r1} t^{r1,r}(tau)` (eq. 26) needs
+`O(T^2)` genuine QR fits, `~T^2/2` per series: 2.7 s at `n = 100` and
+12 s at `n = 200` in R (`rq.fit(method = "br")`). But the asymptotic
+boundary needs none. Corollary 2's `sup_{r1} [delta Q_{r1,r} + sqrt(1 -
+delta^2) Z_{r1,r}]` is the same `Q`/`Z` simulation as QPWY's, over the
+full `(r1, r)` grid instead of the `r1 = 0` row. So the original worry
+("before any critical-value simulation multiplies it further") does not
+apply.
+
+Shipped as `monitor_quantile(..., type = "qpsy")`: windows `[r1, r]`
+with at least `minw` regression observations (QPWY's own first-window
+floor), and the same flat, supremum-calibrated boundary as QPWY.
+
+**Validated**: `qpsy_stat_path()` matches a `quantreg::rq()` brute force
+over every window exactly (`0`); the grid simulation matches a per-window
+brute force (`2e-15`); the QPSY grid's suprema dominate QPWY's on shared
+draws (structural). **Size at a nominal 5%** (`n = 100`, 100 or 80 reps):
+**`0.040`** Gaussian and **`0.037`** `t3` at `tau = 0.5`, but **`0.350`**
+Gaussian at `tau = 0.9`, and with `t3` innovations **`0.212`** at `tau =
+0.8` and **`0.440`** at `tau = 0.9`. The asymptotic boundary does not
+hold in the small early windows (~20 observations) away from the
+median. A double sup over thousands of them amplifies the finite-sample
+error, which QPWY's single sup mostly avoids. **Power** (`n = 100`,
+explosive from `t = 71`, `rho = 1.04`, Gaussian, 60 reps): QPWY `0.400`,
+QPSY `0.433`, SADF `0.483`. The OLS test wins with Gaussian errors, as
+in the paper's own Table V.
+
+**Shipped with a caveat, not withheld**: the implementation is exact and
+the asymptotic boundary is right (well sized at the median); the failure
+is the known small-sample weakness of asymptotic critical values that
+the paper itself sidesteps with bootstrap critical values for monitoring
+(its Algorithm 1, used for Table V) and by advising against extreme
+quantiles. `type = "qpsy"` with `tau` away from 0.5 emits a call-time
+caveat (message + `attr(x, "caveat")`, printed), and `?monitor_quantile`
+gives the numbers. **Not implemented**: Algorithm 1's bootstrap, which
+resamples centred `Delta y` and recomputes the whole statistic path per
+replicate, i.e. QPSY's full `O(T^2)` QR sweep each time (~9 min per
+series at `n = 100` with 199 replicates). Validating its size by Monte
+Carlo would take hours of compute, so it is left out rather than
+shipped unvalidated.
+
+Tests in `test-qpwy.R`; replication script
+[replication/alternative-paradigms/radf_qpwy_validation.R](#script-radf_qpwy_validation)
+(sections 1-5 reproduce every number above; sizes are Monte Carlo
+estimates from 80-200 reps, so +-2-3 points).
+Ported to pyexuber (`monitor_quantile(type="qpsy")`, `UserWarning` for
+the caveat); its boundary no longer needs the `_core` extension.
 
 **Pavlidis's quantile-autoregressive framing — attempted (2026-08-10),
 withdrawn after failing its own validation, not shipped.** Re-triaged on

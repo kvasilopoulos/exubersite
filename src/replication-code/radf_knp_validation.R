@@ -73,3 +73,46 @@ run_delta <- function(seed) {
 }
 deltas <- sapply(1:30, run_delta)
 cat(sprintf("mean delta_hat = %.3f (true = 1.05), mean|bias| = %.3f\n", mean(deltas), mean(abs(deltas - 1.05))))
+
+cat("\n=== 4. Multi-bubble DP (Section 3.2): exact vs the single-bubble search and brute force ===\n")
+set.seed(11)
+y <- cumsum(rnorm(80))
+dp <- exuber:::knp_dp(y, 2, trim = 0.05)
+fb <- exuber:::knp_find_break(y, trim = 0.05)
+cat(sprintf("breaks = 2: DP taus (%d, %d) vs search (%d, %d), |dSSR| = %.2e\n",
+            dp$tau[1], dp$tau[2], fb$tau1, fb$tau2, abs(dp$ssr - fb$ssr)))
+set.seed(12)
+y <- cumsum(rnorm(28))
+n1 <- 27
+xx <- y[1:n1]
+zz <- diff(y)
+k_min <- 3
+brute4 <- Inf
+for (a in k_min:(n1 - 4 * k_min)) for (b in (a + k_min):(n1 - 3 * k_min)) for (c in (b + k_min):(n1 - 2 * k_min)) for (d in (c + k_min):(n1 - k_min)) {
+  ssr <- sum(zz[1:a]^2) + sum(resid(lm(zz[(a + 1):b] ~ xx[(a + 1):b]))^2) +
+    sum(zz[(b + 2):c]^2) + sum(resid(lm(zz[(c + 1):d] ~ xx[(c + 1):d]))^2) + sum(zz[(d + 2):n1]^2)
+  if (ssr < brute4) {
+    brute4 <- ssr
+    arg4 <- c(a, b, c, d)
+  }
+}
+dp4 <- exuber:::knp_dp(y, 4, trim = 0.1)
+cat(sprintf("breaks = 4, n = 28: DP taus %s vs brute force %s, |dSSR| = %.2e\n",
+            paste(dp4$tau, collapse = ","), paste(arg4, collapse = ","), abs(dp4$ssr - brute4)))
+
+cat("\n=== 5. Two-bubble Monte Carlo (T = 200; bubbles 41-70 and 121-150, delta = 1.05) ===\n")
+sim_knp2 <- function(seed, T = 200, delta = 1.05) {
+  set.seed(seed)
+  y <- numeric(T)
+  for (t in 2:T) {
+    y[t] <- if ((t > 40 && t <= 70) || (t > 120 && t <= 150)) delta * y[t - 1] + rnorm(1) else y[t - 1] + rnorm(1)
+    if (t == 71) y[t] <- y[40] + rnorm(1)
+    if (t == 151) y[t] <- y[120] + rnorm(1)
+  }
+  y
+}
+truth <- c(40, 70, 120, 150)
+for (omit in c(TRUE, FALSE)) {
+  err <- t(sapply(1:50, function(s) abs(exuber:::knp_dp(sim_knp2(s), 4, trim = 0.05, omit = omit)$tau - truth)))
+  cat(sprintf("omit = %-5s mean|tau - true| per break: %s\n", omit, paste(sprintf("%.1f", colMeans(err)), collapse = "  ")))
+}

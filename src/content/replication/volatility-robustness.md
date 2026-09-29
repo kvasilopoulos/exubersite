@@ -19,7 +19,7 @@ but not yet cross-checked, `evaluated` = source read, not implemented,
 | [Sieve bootstrap (autocorrelated innovations)](#pedersen--schütte-sieve-bootstrap) | Pedersen & Montes Schütte (2020) | **done** |
 | [Skewness-corrected wild bootstrap](#hafner-skewness-corrected-wild-bootstrap) | Hafner (2020) | **done** |
 | [Sign-based sGSADF](#sign-based-sgsadf) | Harvey, Leybourne & Zu (2020); level-shift robustness + demeaned variant: Harvey, Leybourne, Tatlow & Zu (2025) | **done** |
-| [Stochastic explosive-coefficient test](#stochastic-explosive-coefficient-test) | Kurozumi & Nishi (2025) | **done** (2026-08-10, `ssu_test()`, minimum-viable subset — GSSU/CUSUM/CUSUM-SQ/union not implemented) |
+| [Stochastic explosive-coefficient test](#stochastic-explosive-coefficient-test) | Kurozumi & Nishi (2025) | **done** (SSU 2026-08-10; GSSU, UR/GUR union and CS/GCS/CSSQ/GCSSQ 2026-09-29 — `ssu_test(type =, union =)`, `cusum_test()`) |
 | [SV-ADF](#sv-adf) | Sarkar & Wells (2026, preprint) | **done** (2026-08-11, `datestamp(option = "svadf")`; preprint, not peer-reviewed) |
 
 All papers: [references.md](/replication/references#volatility-robustness).
@@ -1039,9 +1039,9 @@ up from 700 before this `badf_cv`/`bsadf_cv` pass).
 
 ## Stochastic explosive-coefficient test
 
-**Status: SSU done (2026-08-10, `ssu_test()`), the minimum-viable
-subset this file's own earlier triage identified — GSSU, CUSUM/
-CUSUM-SQ, and the union-of-rejections procedure not implemented.** Full
+**Status: done. SSU (2026-08-10, `ssu_test()`); GSSU, the UR/GUR
+union-of-rejections procedure and the four CUSUM-type statistics
+(2026-09-29, `ssu_test(type = "gssu", union = TRUE)`, `cusum_test()`).** Full
 PDF read (model, Section 3's test statistics through the union-of
 -rejections and CUSUM/CUSUM-SQ proposals), re-verified against rendered
 PDF pages 5-6 and 9 for the implemented item.
@@ -1166,8 +1166,14 @@ specifically:
   `psy_minw()`'s existing formula, reused directly with no adjustment.
 
 Points 3 and 4 (CUSUM/CUSUM-SQ, and the union-of-rejections procedure)
-remain accurate — those are still separate, unimplemented statistic
-families, deliberately scoped out of this pass as originally planned.
+were left out of the SSU pass. **They turned out to be wrong too
+(re-triaged 2026-09-29, rendered pages 6-9).** Table I publishes
+critical values for *every* statistic in the paper (GSSU, CS, GCS, both
+tails of CSSQ and GCSSQ) *and* the union scaling constants `ur`/`gur`,
+so the union needs no joint simulation. And every CUSUM-type statistic
+is a sup/inf of a partial-sum process, `O(T)` via a running max/min. See
+[the 2026-09-29 implementation](#implementation--gssu-union-cusum-done-2026-09-29)
+below.
 
 ### Implementation — SSU done (2026-08-10)
 
@@ -1189,7 +1195,7 @@ separate window sizes; Table I lookups exact, with a clean error for an
 untabulated level; `ssu_test()`'s default `minw` matches `psy_minw()`
 exactly, confirming `SSU`'s own `r0` formula needed no adaptation.
 Empirical false-alarm rate under `H0` (300 reps, `n=200`) is
-`12.0%`/`8.7%`/`2.7%` against nominal `10%`/`5%`/`1%` — mildly
+`12.0%`/`9.0%`/`2.7%` (after the 2026-09-29 cross-moment denominator fix below) against nominal `10%`/`5%`/`1%` — mildly
 oversized, in the same range as several other finite-sample-vs
 -asymptotic critical values validated in this project, not a
 red flag on its own. Detection power on a genuine stochastic
@@ -1204,16 +1210,69 @@ stochasticity, exactly the tradeoff the paper's own Theorem 2 describes
 universally). New `test-ssu.R` (7 tests). Replication script:
 [replication/volatility-robustness/radf_ssu_validation.R](#script-radf_ssu_validation).
 
-Not implemented: `GSSU` (the double-recursion generalization,
-`r1`/`r2` both varying — the same "fixed vs. growing start range"
-distinction that separated Kurozumi (2020)'s `SADF`/`GSADF_{s0}` cases
-elsewhere in this project, here compounded by needing the bias
--correction's twelve window sums recomputed over a full `(r1, r2)` grid
-rather than a single-recursion path); `CUSUM`/`CUSUM-SQ` (a separate
-statistic pair investigated in the same paper); and the union
--of-rejections procedure combining `SSU`/`GSSU` with `SADF`/`GSADF`
-(the paper's own recommended practical procedure, needing its own joint
-critical-value simulation).
+### Implementation — GSSU, union, CUSUM (done 2026-09-29)
+
+**GSSU** (`ssu_test(type = "gssu")`): `ssu_stat_path()` now takes a
+window start as well, so the same twelve prefix sums give any window
+`(lo, hi]` in `O(1)`. GSSU's path is the sup over starts at each end
+point (`bsadf`'s shape), and its maximum is the statistic. The minimum
+window is the paper's own `r0 = -0.004 + 2.24/sqrt(T)` (Table I note:
+`psy_minw()`'s formula oversizes GSSU). Critical values from Table I:
+`4.83`/`5.37`/`6.81`.
+
+**Union of rejections** (`ssu_test(union = TRUE)`): `UR = max(SADF /
+cv_sadf, SSU / cv_ssu)` against `ur` = `1.16`/`1.13`/`1.09`, or GUR with
+GSADF/GSSU against `gur` = `1.11`/`1.10`/`1.08`. The constant is only
+valid at the level the statistic was built for. The SADF/GSADF side is
+`radf(x, lag = 0)` against `cv` (default: the precomputed store at the
+data's `n`, i.e. finite-sample critical values at `psy_minw(n)`, which
+approach the asymptotic ones Table I's `ur`/`gur` were calibrated with).
+
+**CUSUM-type** (`cusum_test(type = "cs" | "gcs" | "cssq" | "gcssq")`),
+page 7: `S_k = sum_{t<=k} Delta y_t / (sigma sqrt(T))` with `sigma^2 =
+mean((Delta y)^2)` (not demeaned). CS is `max_k S_k`; GCS is
+`max_{j<k} (S_k - S_j)`, a running-minimum drawup. For CSSQ, `D_k =
+(sum_{t<=k} (Delta y)^2 - k/T sum (Delta y)^2) / (sigma_eta sqrt(T))`
+with `sigma_eta^2 = mean((Delta y)^4) - sigma^4`. CSSQ is `max_k D_k`
+and `min_k D_k`, and GCSSQ the drawup/drawdown of `D`. The CUSUM-SQ
+tests are two-sided, each tail at `alpha/2`. Table I's CSSQ columns sit
+at the Brownian-bridge sup quantiles for `alpha/2` (e.g. `1.32` at 5%
+vs. `sqrt(-log(0.025)/2) = 1.36` before discretization), confirming a
+"level alpha" row already *is* the two-sided test at alpha.
+
+**One correction to the shipped SSU**: page 6 divides all three moments
+(`sigma_eps^2`, `sigma_eta^2`, and the cross-moment `sigma_{eps eta}`) by
+the same `floor(T r2) - floor(T r1) - 1` (window count minus 2), but
+`ssu_stat_path()` used count minus 1 for the cross-moment. The
+brute-force check had copied the same choice, so it could not catch it.
+Fixed to count minus 2 in both. The effect is `O(1/T)` (e.g. SSU's 5%
+size below moved from 8.7% to 9.0%).
+
+**Validated** (replication script sections 7-10):
+
+- **Exact**: windows with `lo > 0` match brute-force `lm()` +
+  manual cross-moment (`2.4e-15`), and so does the GSSU sup path
+  (`6.1e-15`). All four CUSUM-type statistics, sup and inf, match a
+  brute-force double loop over every window (`8.9e-16`). Every Table I
+  column is checked value by value in `test-ssu.R`.
+- **Size** at 5%, `n = 200`, 300 reps: SSU `0.067`, GSSU `0.060`, UR
+  `0.050`, GUR `0.057`, CS `0.043`, GCS `0.047`, CSSQ `0.023`, GCSSQ
+  `0.037`. (Section 4's separate SSU run gives `12.0%`/`9.0%`/`2.7%` at
+  10/5/1%: SSU is mildly oversized, as recorded above.)
+- **Power** at 5%, `n = 200`, 100 reps, bubble over the second half.
+  With a stochastic coefficient (`c1 = 3`, `a = 4`): SSU `0.90`, GSSU
+  `0.97`, UR `0.87`, GUR `0.96`, CS `0.01`, GCS `0.01`, CSSQ `0.85`,
+  GCSSQ `0.78`. This reproduces the paper's headline qualitative finding
+  (Theorem 2 / Figure 2): CUSUM-type tests lose essentially all power
+  once `a != 0`, while the SSU and CUSUM-SQ types keep it, and the union
+  stays near the best of its two parts. With a deterministic coefficient
+  (`c1 = 10`, `a = 0`), every SSU/union/CUSUM-SQ statistic reaches `1.00`
+  and CS/GCS `0.53`.
+
+Tests in `test-ssu.R`/`test-cusum-test.R`; replication script
+[replication/volatility-robustness/radf_ssu_validation.R](#script-radf_ssu_validation).
+Ported to pyexuber (`ssu_test(type=, union=)`, `cusum_test()`),
+cross-checked against R values on a shared input.
 
 ---
 

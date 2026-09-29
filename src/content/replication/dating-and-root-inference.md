@@ -18,7 +18,7 @@ share statistical machinery. Status legend as in
 | [SSR/BIC dating — HLS/HLW route](#ssrbic-dating-vs-psy-recursive-dating) | Harvey/Leybourne/Sollis (2017), Harvey/Leybourne/Whitehouse (2020) | **done** (both HLS single-bubble and HLW multi-bubble routes) |
 | [Root inference (Cauchy CI + normal-t CI)](#root-inference) | Phillips & Magdalinos (2007), Guo, Sun & Wang (2019) | **done** |
 | [Confidence sets for bubble dates](#confidence-sets-for-bubble-dates) | Kurozumi & Skrobotov (2025) | re-triaged 2026-08-10 — critical values cheap (closed-form/published response surface), statistic construction still multi-step, not implemented |
-| [Improved retrospective dating](#improved-retrospective-dating) | Kejriwal, Nguyen & Perron (2025) | **single-bubble omission fix done**; multi-bubble Bai-Perron/PQ algorithm not implemented |
+| [Improved retrospective dating](#improved-retrospective-dating) | Kejriwal, Nguyen & Perron (2025) | **done** (single-bubble omission fix 2026-08-10; multi-bubble dynamic programme `dating_knp(breaks = )` 2026-09-29) |
 | [WLS dating under time-varying volatility](#wls-dating-under-time-varying-volatility) | Kurozumi & Skrobotov (2023) | **done** |
 | [Reverse-regression recovery dating](#reverse-regression-recovery-dating) | Phillips & Shi (2014/2019) | **done, shipped with caveats** |
 
@@ -506,7 +506,7 @@ Monte Carlo on a synthetic two-bubble DGP (20 reps): PSY step-1
 detection found exactly 2 windows in 13/20 reps (the rest fragmented
 into 3 or more spurious sub-windows — HLW's own paper explicitly
 discusses this exact failure mode and proposes a run-joining heuristic
-for it, not implemented here, see "Not implemented" below); among the
+for it, since implemented, see "Run-joining" below); among the
 13 clean reps, origination and collapse date bias for *both* bubbles
 was exactly 0 in every replication. Windows were always correctly
 ordered/non-overlapping across all 20 reps. Under a pure `H0` null (no
@@ -520,18 +520,17 @@ HLW's own paper states the two-step procedure should reduce to plain
 HLS when there is only one episode. Replication script:
 [replication/dating-and-root-inference/radf_hlw_validation.R](#script-radf_hlw_validation).
 
-**Not implemented**: HLW's own run-joining heuristic for step-1
-fragmentation ("if up to 3 non-rejections are surrounded on either side
-by an explosive regime of length `ln(T)`, treat them as a single
-episode") — `dating_hlw()` uses `datestamp()`'s regimes as detected,
-un-joined, so a single true bubble can occasionally surface as multiple
-windows in `dating_hlw()`'s output when PSY's own step-1 detection
-fragments it (quantified above: 13/20 clean vs. 7/20 fragmented on the
-two-bubble DGP, 12/15 vs. 3/15 on the single-bubble DGP). This is a
-property of PSY's own step-1 detection noise, not of the window-
-construction or per-window fitting logic (both validated exactly
-correct above) — scoped out as its own small, well-defined follow-on
-rather than folded into this pass.
+**Run-joining** (implemented 2026-09-30, `dating_hlw(join = 3L)` in both
+exuber and pyexuber): HLW's own rule for step-1 fragmentation — "if up to 3
+non-rejections are surrounded on either side by an explosive regime of
+length `ln(T)`, treat them as a single episode" — applied to `datestamp()`'s
+regimes before the date windows are built (`hlw_join_runs()` /
+`_join_runs()`, unit-tested on identical cases in both languages; `join = 0`
+restores the un-joined behaviour). Measured effect on the replication
+script's DGPs: two-bubble 13/20 → 14/20 clean, single-bubble unchanged at
+12/15. The residual fragmentation is split by gaps wider than 3
+non-rejections, which HLW's rule by design does not join — a limit of the
+heuristic, not of the implementation.
 
 ### Implementation (PDC/KS route)
 
@@ -923,9 +922,8 @@ Table 1's meaning from scratch.
 
 ## Improved retrospective dating
 
-**Status: single-bubble omission fix done (2026-08-10); the
-multi-bubble Bai-Perron/Perron-Qu dynamic-programming algorithm not
-implemented.** Full PDF read (abstract, intro, model, Theorems 1-2 —
+**Status: done. Single-bubble omission fix (2026-08-10); Section 3's
+multi-bubble dynamic programme (2026-09-29, `dating_knp(breaks = )`).** Full PDF read (abstract, intro, model, Theorems 1-2 —
 re-verified against rendered PDF pages 3-4 for eq. 1-8 — the
 HLS-equivalence footnote, and Section 3's DP algorithm description).
 
@@ -1013,13 +1011,51 @@ pre-bubble level, fresh unit root; 30 reps, `T1=50`, `T2=90`, `T=200`,
 Replication script:
 [replication/dating-and-root-inference/radf_knp_validation.R](#script-radf_knp_validation).
 
-**Not implemented**: Section 3's Bai-Perron/Perron-Qu-style dynamic
-programming algorithm for the multi-bubble case. This is genuinely new
-algorithmic machinery exuber has no analogue of (PDC/KS's sequential
-`O(T)` scan and HLS's own per-episode grid search are both much simpler
-than a DP over an unknown number of breaks) — scoped out as its own
-follow-on, the same decision already made for HLW's multi-bubble
-fragmentation-joining heuristic elsewhere in this file.
+### Implementation — multi-bubble dynamic programme (2026-09-29)
+
+**Re-triaged from "genuinely new algorithmic machinery".** The original
+verdict overstated it. Section 3.2's algorithm is textbook Bai-Perron
+segment DP. What makes it cheap is exactly what KNP emphasise: the
+unit-root regimes are *restricted* (`mu = 0`, `rho = 1`), so each
+segment's restricted SSR is known in closed form and Perron-Qu's
+iteration over initial values is unnecessary. Every segment cost here is
+one of two things `dating_knp()` already computed through
+`hls_prefix_sums()`: `sum z^2` over the segment (minus its first term
+when it follows a collapse and `omit = TRUE`), or the intercept+slope OLS
+SSR (`hls_segment_ssr(..., fit = TRUE)`). The objective is their eq. 11:
+regimes alternate unit root / explosive starting with a unit root, and
+every unit-root regime after the first omits its first residual. The DP is
+`O(m T^2)` with `O(1)` segment costs and returns the exact global
+minimiser of the grid search.
+
+Shipped as `dating_knp(data, trim, omit, breaks = 2L)` (`knp_dp()` in
+`exuber/R/dating_knp.R`). `breaks` is the paper's `m`: two per bubble, an
+odd number letting the last bubble run to the sample end (its collapse is
+`NA`). As in the paper, `m` is taken as given; KNP leave its selection
+open (their Section 4 conditions on the correct number). `breaks = 2`
+keeps the original exhaustive single-bubble search. With more breaks,
+`origination`/`collapse`/`delta` become one-row-per-bubble matrices.
+
+**Validated**:
+
+- **Exact**: `knp_dp(y, 2)` returns the same break dates and SSR as the
+  single-bubble exhaustive search (`|dSSR| = 0`). With 3 and 4 breaks it
+  matches a brute-force search over every admissible partition, with
+  segment SSRs from `lm()`, both with and without omission (`n = 28`,
+  `|dSSR| = 2.7e-14`).
+- **Monte Carlo** on a two-bubble version of KNP's DGP (`T = 200`,
+  bubbles over 41-70 and 121-150, `delta = 1.05`, instantaneous collapse
+  back near the pre-bubble level, 50 reps). Mean absolute date error per
+  break (origination 1, collapse 1, origination 2, collapse 2):
+  **11.9 / 5.9 / 10.3 / 3.8** observations with the omission correction
+  vs. **33.4 / 18.5 / 29.6 / 13.2** without it. Theorem 1's
+  inconsistency carries over to the multi-bubble case, and so does the
+  fix.
+
+Tests in `exuber/tests/testthat/test-knp.R`; replication script
+[replication/dating-and-root-inference/radf_knp_validation.R](#script-radf_knp_validation)
+sections 4-5. Ported to pyexuber (`_knp_dp()`), cross-checked against R
+and the same brute force.
 
 ---
 

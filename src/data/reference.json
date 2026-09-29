@@ -438,6 +438,22 @@
           ]
         },
         {
+          "subtitle": "cusum_test()",
+          "desc": "",
+          "entries": [
+            {
+              "name": "cusum_test",
+              "topic": "cusum_test",
+              "title": "CUSUM and CUSUM-of-Squares Bubble Tests (Kurozumi & Nishi 2025)"
+            },
+            {
+              "name": "autoplot.cusum_test_obj",
+              "topic": "autoplot.cusum_test_obj",
+              "title": "Plot method for cusum_test() output"
+            }
+          ]
+        },
+        {
           "subtitle": "radf_kp()",
           "desc": "",
           "entries": [
@@ -499,6 +515,16 @@
           "name": "autoplot.ssu_test_obj",
           "topic": "autoplot.ssu_test_obj",
           "title": "Plot method for ssu_test() output"
+        },
+        {
+          "name": "cusum_test",
+          "topic": "cusum_test",
+          "title": "CUSUM and CUSUM-of-Squares Bubble Tests (Kurozumi & Nishi 2025)"
+        },
+        {
+          "name": "autoplot.cusum_test_obj",
+          "topic": "autoplot.cusum_test_obj",
+          "title": "Plot method for cusum_test() output"
         },
         {
           "name": "radf_kp",
@@ -567,7 +593,7 @@
             {
               "name": "dating_knp",
               "topic": "dating_knp",
-              "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
+              "title": "Bias-Corrected Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
             },
             {
               "name": "autoplot.dating_knp_obj",
@@ -632,7 +658,7 @@
         {
           "name": "dating_knp",
           "topic": "dating_knp",
-          "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
+          "title": "Bias-Corrected Bubble Dating (Kejriwal, Nguyen & Perron 2025)"
         },
         {
           "name": "autoplot.dating_knp_obj",
@@ -726,7 +752,7 @@
             {
               "name": "monitor_quantile",
               "topic": "monitor_quantile",
-              "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
+              "title": "QPWY/QPSY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
             },
             {
               "name": "autoplot.monitor_quantile_obj",
@@ -790,7 +816,7 @@
         {
           "name": "monitor_quantile",
           "topic": "monitor_quantile",
-          "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
+          "title": "QPWY/QPSY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)"
         },
         {
           "name": "autoplot.monitor_quantile_obj",
@@ -2033,6 +2059,127 @@
                   {
                     "t": "text",
                     "v": "contagion_reg"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "autoplot.cusum_test_obj": {
+      "topic": "autoplot.cusum_test_obj",
+      "aliases": [
+        "autoplot.cusum_test_obj"
+      ],
+      "title": "Plot method for cusum_test() output",
+      "usage": "autoplot(object, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Plots the CUSUM-type statistic path against its critical value(s), one panel per series; the two-sided CUSUM-of-squares tests show the sup path against the upper and the inf path against the lower critical value."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "object",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cusum_test_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", the output of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "cusum_test",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "cusum_test"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods. Not used."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "link",
+              "topic": null,
+              "external": true,
+              "href": null,
+              "c": [
+                {
+                  "t": "text",
+                  "v": "ggplot"
+                }
+              ]
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
+      "references": null,
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test"
                   }
                 ]
               }
@@ -5877,6 +6024,721 @@
       "author": null,
       "sections": []
     },
+    "cusum_test": {
+      "topic": "cusum_test",
+      "aliases": [
+        "cusum_test"
+      ],
+      "title": "CUSUM and CUSUM-of-Squares Bubble Tests (Kurozumi & Nishi 2025)",
+      "usage": "cusum_test(data, sig_lvl = 95, type = c(\"cs\", \"gcs\", \"cssq\", \"gcssq\"))",
+      "description": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "cusum_test"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " implements the retrospective CUSUM ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "\"cs\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "), generalized CUSUM ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "\"gcs\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "), CUSUM-of-squares ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "\"cssq\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ") and generalized CUSUM-of-squares ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "\"gcssq\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ") tests of Kurozumi & Nishi (2025), Brown et al.'s (1975) parameter-constancy statistics applied to the first differences. The generalized versions take the supremum over every window start as well as every end point."
+          }
+        ]
+      ],
+      "details": [
+        [
+          {
+            "t": "text",
+            "v": "CS/GCS reject when the cumulated increments get too large (right tail). CSSQ/GCSSQ are two-sided: they reject when the cumulated squared increments drift too far above "
+          },
+          {
+            "t": "em",
+            "c": [
+              {
+                "t": "text",
+                "v": "or"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " below their full-sample average, each tail at half the level. The paper finds the CUSUM-type tests lose almost all power once the explosive coefficient is genuinely stochastic, while the CUSUM-SQ type keeps it -- see "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for the paper's more powerful statistics."
+          }
+        ]
+      ],
+      "arguments": [
+        {
+          "name": "data",
+          "desc": [
+            {
+              "t": "text",
+              "v": "A univariate or multivariate numeric time series object, a numeric\nvector or matrix, or a data.frame. A column may have leading and/or trailing\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " values (an uneven/unbalanced panel where series enter or exit the\nsample at different times) -- those periods are filled with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " in\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "badf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and excluded from that series' "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ". Interior "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " values (a gap in the middle of a series) are\nnot supported. When any series is padded this way, the panel statistic\n("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "bsadf_panel"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "/"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "gsadf_panel"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") is not available and is returned as\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", with a warning."
+            }
+          ]
+        },
+        {
+          "name": "sig_lvl",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Significance level on the package-wide 0-100 scale, one\nof "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "90"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "95"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "99"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "desc": [
+            {
+              "t": "text",
+              "v": "One of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"cs\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"gcs\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"cssq\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ",\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"gcssq\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cusum_test_obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ": a list with the statistic path "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "stat"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (one value per end point; for the generalized versions the sup over window starts), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "stat_inf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (the inf path, CSSQ/GCSSQ only), the statistic "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "sup"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "inf"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "), the critical value(s) "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "crit"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "detected"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "y <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\ncusum_test(y, type = \"cssq\")\nautoplot(cusum_test(y, type = \"gcssq\"))",
+      "references": [
+        [
+          {
+            "t": "text",
+            "v": "Kurozumi, E., & Nishi, M. (2025). Bubble testing with stochastically varying explosive coefficient. Journal of Time Series Analysis, 46(5), 945-965."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Brown, R. L., Durbin, J., & Evans, J. M. (1975). Techniques for testing the constancy of regression relationships over time. Journal of the Royal Statistical Society B, 37(2), 149-192."
+          }
+        ]
+      ],
+      "seealso": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "; "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "monitor_cusum",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "monitor_cusum"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for real-time CUSUM monitoring."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_kp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_kp()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sbz_union",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sbz_union()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_sign_dm",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_sign_dm()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_tt",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_tt()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "ssu_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "ssu_test()"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      ],
+      "source": null,
+      "author": null,
+      "sections": [
+        {
+          "title": "Status",
+          "body": [
+            [
+              {
+                "t": "strong",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "[Experimental]"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
     "datestamp": {
       "topic": "datestamp",
       "aliases": [
@@ -6914,7 +7776,7 @@
         "dating_hlw"
       ],
       "title": "Multi-Bubble SSR/BIC Dating (Harvey, Leybourne & Whitehouse 2020)",
-      "usage": "dating_hlw(\n  data,\n  cv = NULL,\n  minw = NULL,\n  trim = 0.1,\n  min_duration = NULL,\n  nboot = 199L,\n  seed = NULL\n)",
+      "usage": "dating_hlw(\n  data,\n  cv = NULL,\n  minw = NULL,\n  trim = 0.1,\n  min_duration = NULL,\n  nboot = 199L,\n  seed = NULL,\n  join = 3L\n)",
       "description": [
         [
           {
@@ -7416,6 +8278,50 @@
               "v": "\nis not supplied."
             }
           ]
+        },
+        {
+          "name": "join",
+          "desc": [
+            {
+              "t": "text",
+              "v": "HLW's run-joining rule for fragmented step-1 detections: two\nexplosive runs separated by at most "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "join"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " non-rejections, each at\nleast "
+            },
+            {
+              "t": "eqn",
+              "tex": "\\ln(T)",
+              "display": false
+            },
+            {
+              "t": "text",
+              "v": " long, are treated as one episode. Default 3, the\npaper's value; "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " disables joining."
+            }
+          ]
         }
       ],
       "value": {
@@ -7683,8 +8589,8 @@
       "aliases": [
         "dating_knp"
       ],
-      "title": "Bias-Corrected Single-Bubble Dating (Kejriwal, Nguyen & Perron 2025)",
-      "usage": "dating_knp(data, trim = 0.05, omit = TRUE)",
+      "title": "Bias-Corrected Bubble Dating (Kejriwal, Nguyen & Perron 2025)",
+      "usage": "dating_knp(data, trim = 0.05, omit = TRUE, breaks = 2L)",
       "description": [
         [
           {
@@ -7698,7 +8604,7 @@
           },
           {
             "t": "text",
-            "v": " dates a single bubble episode (origination, collapse) by minimising a residual-omission-corrected sum of squared residuals over a three-regime model (unit root, explosive, unit root resuming from a shifted level after an instantaneous collapse). Plain OLS over this model is provably inconsistent -- the origination-date estimate converges to the true "
+            "v": " dates bubble episodes (origination, collapse) by minimising a residual-omission-corrected sum of squared residuals over a model of alternating regimes: unit root, explosive, unit root resuming from a shifted level after an instantaneous collapse, and so on. Plain OLS over this model is provably inconsistent -- the origination-date estimate converges to the true "
           },
           {
             "t": "em",
@@ -7724,11 +8630,61 @@
           },
           {
             "t": "text",
-            "v": " (the default) fixes by dropping the single squared residual at the candidate collapse date from the objective before minimising."
+            "v": " (the default) fixes by dropping the squared residual at each candidate collapse date from the objective before minimising."
           }
         ]
       ],
-      "details": null,
+      "details": [
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "breaks = 2"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (the default) is the single-bubble model. More breaks use Kejriwal, Nguyen & Perron's dynamic-programming algorithm, which returns the exact global minimiser of the objective in "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "O(breaks * n^2)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ". The number of breaks is taken as given, as in the paper: e.g. two per episode "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "datestamp",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "datestamp"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " finds."
+          }
+        ]
+      ],
       "arguments": [
         {
           "name": "data",
@@ -7925,6 +8881,41 @@
               "v": " gives the plain,\nprovably inconsistent OLS estimator (their Theorem 1) -- kept mainly\nto demonstrate the correction's effect, not for practical dating."
             }
           ]
+        },
+        {
+          "name": "breaks",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Number of break dates (the paper's "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "m"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "): two per\nbubble; an odd number lets the last bubble run to the end of the sample\n(its collapse is then "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "NA"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ")."
+            }
+          ]
         }
       ],
       "value": {
@@ -7985,13 +8976,13 @@
             },
             {
               "t": "text",
-              "v": " (the fitted explosive AR coefficient)."
+              "v": " (the fitted explosive AR coefficient) -- named vectors (one value per series) for a single bubble, matrices (one row per bubble, one column per series) for more."
             }
           ]
         ]
       },
       "format": null,
-      "examples": "res <- dating_knp(sim_data$psy1, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# Compare the bias-corrected estimate against the plain (inconsistent) OLS\n# one, layering an extra reference line onto the internal autoplot() output\nres_plain <- dating_knp(sim_data$psy1, trim = 0.05, omit = FALSE)\nautoplot(res) +\n  ggplot2::geom_vline(xintercept = as.numeric(res_plain$origination), linetype = 3)",
+      "examples": "res <- dating_knp(sim_data$psy1, trim = 0.05)\nprint(res)\nautoplot(res)\n\n# Compare the bias-corrected estimate against the plain (inconsistent) OLS\n# one, layering an extra reference line onto the internal autoplot() output\nres_plain <- dating_knp(sim_data$psy1, trim = 0.05, omit = FALSE)\nautoplot(res) +\n  ggplot2::geom_vline(xintercept = as.numeric(res_plain$origination), linetype = 3)\n\n# Two bubbles\ndating_knp(sim_data$psy2, breaks = 4)",
       "references": [
         [
           {
@@ -13623,8 +14614,8 @@
       "aliases": [
         "monitor_quantile"
       ],
-      "title": "QPWY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)",
-      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  sig_lvl = 95,\n  seed = NULL\n)",
+      "title": "QPWY/QPSY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)",
+      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  sig_lvl = 95,\n  seed = NULL,\n  type = c(\"qpwy\", \"qpsy\")\n)",
       "description": [
         [
           {
@@ -13638,7 +14629,7 @@
           },
           {
             "t": "text",
-            "v": " implements the QPWY real-time monitoring strategy of Wu, Shi & Wu (2025): a quantile-regression (QR) analogue of PWY's own recursive ADF t-statistic, testing at a chosen conditional quantile "
+            "v": " implements the QPWY and QPSY real-time monitoring strategies of Wu, Shi & Wu (2025): quantile-regression (QR) analogues of PWY's and PSY's recursive ADF t-statistics, testing at a chosen conditional quantile "
           },
           {
             "t": "code",
@@ -13651,7 +14642,41 @@
           },
           {
             "t": "text",
-            "v": " over an expanding window "
+            "v": " rather than "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "quantile_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "quantile_test"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s single full-sample test. "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "type = \"qpwy\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " uses the expanding window "
           },
           {
             "t": "code",
@@ -13664,7 +14689,7 @@
           },
           {
             "t": "text",
-            "v": " (start fixed at the beginning of the sample, exactly "
+            "v": " ("
           },
           {
             "t": "code",
@@ -13698,28 +14723,33 @@
           },
           {
             "t": "text",
-            "v": " convention) rather than "
+            "v": " shape); "
           },
           {
             "t": "code",
             "c": [
               {
-                "t": "link",
-                "topic": "quantile_test",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "quantile_test"
-                  }
-                ]
+                "t": "text",
+                "v": "type = \"qpsy\""
               }
             ]
           },
           {
             "t": "text",
-            "v": "'s single full-sample test."
+            "v": " takes the supremum over every window start as well ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "bsadf"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s shape)."
           }
         ]
       ],
@@ -13727,46 +14757,7 @@
         [
           {
             "t": "text",
-            "v": "Only "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "QPWY"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " (single recursion) is implemented, not the paper's own "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "QPSY"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " (double recursion, additionally optimizing over the window start): "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "QPWY_r(tau)"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " needs "
+            "v": "The point statistic needs genuine QR fits (no closed-form recursive update the way OLS has): "
           },
           {
             "t": "code",
@@ -13779,46 +14770,7 @@
           },
           {
             "t": "text",
-            "v": " actual quantile -regression fits (no closed-form recursive update the way OLS has), tractable at the same cost order as "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s own "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "badf"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "; "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "QPSY"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " needs "
+            "v": " of them for QPWY, "
           },
           {
             "t": "code",
@@ -13831,65 +14783,39 @@
           },
           {
             "t": "text",
-            "v": " such fits, a substantially larger undertaking left unimplemented."
+            "v": " for QPSY, so QPSY takes seconds per series at "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "n = 200"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " and grows quadratically."
           }
         ],
         [
           {
             "t": "text",
-            "v": "The critical value is simulated per call: "
+            "v": "The critical value is simulated per call from the limiting null distribution "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "QPWY_r(tau)"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": "'s limiting null distribution at each "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "r"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " is "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "sqrt(1 - delta^2)\n* z + delta * Q_{0,r}"
+                "v": "delta * Q_{r1,r2} + sqrt(1 - delta^2) * Z_{r1,r2}"
               }
             ]
           },
           {
             "t": "text",
             "v": ", with "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "z ~ N(0, 1)"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": ", "
           },
           {
             "t": "code",
@@ -13923,59 +14849,33 @@
           },
           {
             "t": "text",
-            "v": "), and "
+            "v": "), "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "Q_{0,r}"
+                "v": "Q"
               }
             ]
           },
           {
             "t": "text",
-            "v": " exactly "
+            "v": " the Dickey-Fuller t functional and "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "radf()"
+                "v": "Z"
               }
             ]
           },
           {
             "t": "text",
-            "v": "'s own "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "badf"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " sequence under a simulated null path -- reusing "
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "radf()"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " directly for the simulation rather than new theory. A single "
+            "v": " its counterpart driven by an independent Brownian motion, both simulated for every window (no QR fits needed). A single "
           },
           {
             "t": "strong",
@@ -14001,7 +14901,7 @@
           },
           {
             "t": "text",
-            "v": "): controlling the first-crossing false-alarm rate requires calibrating against each simulated path's own supremum, exactly how "
+            "v": "): the quantile of each simulated path's own supremum, exactly how "
           },
           {
             "t": "code",
@@ -14035,20 +14935,7 @@
           },
           {
             "t": "text",
-            "v": " is constructed, not a per-"
-          },
-          {
-            "t": "code",
-            "c": [
-              {
-                "t": "text",
-                "v": "r"
-              }
-            ]
-          },
-          {
-            "t": "text",
-            "v": " marginal quantile (which would badly inflate the false-alarm rate)."
+            "v": " is constructed, which controls the first-crossing false-alarm rate."
           }
         ]
       ],
@@ -14357,6 +15244,37 @@
               "v": "Optional seed for the Monte Carlo draws."
             }
           ]
+        },
+        {
+          "name": "type",
+          "desc": [
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"qpwy\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (expanding window) or "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"qpsy\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\n(supremum over window starts too)."
+            }
+          ]
         }
       ],
       "value": {
@@ -14462,7 +15380,7 @@
         ]
       },
       "format": null,
-      "examples": "# Heavy-tailed (t3) innovations, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_innov(199, dist = \"t\", df = 3))\nres <- monitor_quantile(y, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Upper-quantile monitoring is typically more powerful for right-tailed bubbles\nautoplot(monitor_quantile(y, tau = 0.9, nrep = 100, seed = 1))",
+      "examples": "# Heavy-tailed (t3) innovations, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_innov(199, dist = \"t\", df = 3))\nres <- monitor_quantile(y, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Upper-quantile monitoring is typically more powerful for right-tailed\n# bubbles, but see the Caveats section on extreme quantiles\nautoplot(monitor_quantile(y, tau = 0.8, nrep = 100, seed = 1))\n\n# QPSY: supremum over window starts too (O(n^2) QR fits, slower)\nmonitor_quantile(y[101:200], tau = 0.5, nrep = 100, seed = 1, type = \"qpsy\")",
       "references": [
         [
           {
@@ -14585,6 +15503,221 @@
       "source": null,
       "author": null,
       "sections": [
+        {
+          "title": "Caveats",
+          "body": [
+            [
+              {
+                "t": "text",
+                "v": "The boundary is the asymptotic one. Near the median it is well sized in finite samples (false-alarm rate 3.5-4.0\\% at a nominal 5\\%, Gaussian and "
+              },
+              {
+                "t": "eqn",
+                "tex": "t_3",
+                "display": false
+              },
+              {
+                "t": "text",
+                "v": " innovations, "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.5"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": "). Away from the median the small early windows make both statistics oversized, QPSY badly so, even with Gaussian innovations: QPSY's false-alarm rate is 35\\% at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.9"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " (Gaussian) and, with "
+              },
+              {
+                "t": "eqn",
+                "tex": "t_3",
+                "display": false
+              },
+              {
+                "t": "text",
+                "v": " innovations, 21\\% at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.8"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " and 44\\% at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.9"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " ("
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "n = 100"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": "). QPWY's, with "
+              },
+              {
+                "t": "eqn",
+                "tex": "t_3",
+                "display": false
+              },
+              {
+                "t": "text",
+                "v": " innovations, is 7.5-8.5\\% at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.2"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": "/"
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "0.8"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " and 12.5\\% at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.9"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " ("
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "n = 150"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": "). Wu, Shi & Wu advise against extreme quantiles in small samples and use bootstrap critical values for monitoring; that bootstrap is not implemented here. For "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "type = \"qpsy\""
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " with "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " away from 0.5 a short pointer is emitted as a message (see "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "link",
+                    "topic": null,
+                    "external": true,
+                    "href": null,
+                    "c": [
+                      {
+                        "t": "text",
+                        "v": "suppressMessages"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": ") and stored as "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "attr(x, \"caveat\")"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": ". Numbers: docs/alternative-paradigms.md."
+              }
+            ]
+          ]
+        },
         {
           "title": "Status",
           "body": [
@@ -17923,6 +19056,27 @@
           {
             "t": "text",
             "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
           },
           {
             "t": "code",
@@ -21278,6 +22432,27 @@
             "c": [
               {
                 "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
                 "topic": "radf_kp",
                 "external": false,
                 "href": null,
@@ -23024,6 +24199,27 @@
             "c": [
               {
                 "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
                 "topic": "radf_kp",
                 "external": false,
                 "href": null,
@@ -23756,6 +24952,27 @@
           {
             "t": "text",
             "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
           },
           {
             "t": "code",
@@ -25057,6 +26274,27 @@
             "c": [
               {
                 "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
                 "topic": "radf_kp",
                 "external": false,
                 "href": null,
@@ -26210,6 +27448,27 @@
           {
             "t": "text",
             "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
           },
           {
             "t": "code",
@@ -37542,7 +38801,7 @@
         "ssu_test"
       ],
       "title": "Stochastic Unit Root Bubble Test (Kurozumi & Nishi 2025)",
-      "usage": "ssu_test(data, minw = NULL, sig_lvl = 95)",
+      "usage": "ssu_test(\n  data,\n  minw = NULL,\n  sig_lvl = 95,\n  type = c(\"ssu\", \"gssu\"),\n  union = FALSE,\n  cv = NULL\n)",
       "description": [
         [
           {
@@ -37556,7 +38815,7 @@
           },
           {
             "t": "text",
-            "v": " implements the SSU statistic of Kurozumi & Nishi (2025): a sup-type test for a bubble based on testing for a stochastic (rather than deterministic) unit root in the "
+            "v": " implements the SSU and GSSU statistics of Kurozumi & Nishi (2025): sup-type tests for a bubble based on testing for a stochastic (rather than deterministic) unit root in the "
           },
           {
             "t": "em",
@@ -37621,34 +38880,183 @@
         ],
         [
           {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "type = \"ssu\""
+              }
+            ]
+          },
+          {
             "t": "text",
-            "v": "Only the single-recursion "
+            "v": " is the single recursion (start fixed at the beginning of the sample, "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "SSU"
+                "v": "SADF"
               }
             ]
           },
           {
             "t": "text",
-            "v": " statistic (sup over the end point, start fixed at the beginning of the sample) is implemented -- not "
+            "v": "'s shape); "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "GSSU"
+                "v": "type = \"gssu\""
               }
             ]
           },
           {
             "t": "text",
-            "v": " (the double-recursion generalization), the paper's separate CUSUM/CUSUM-SQ statistics, or the union-of-rejections procedure combining SSU/GSSU with SADF/GSADF."
+            "v": " also takes the supremum over window starts ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "GSADF"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "'s shape), with the paper's own minimum window "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "r0 = -0.004 + 2.24/sqrt(n)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ". The paper finds GSSU no more powerful than SSU."
+          }
+        ],
+        [
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "union = TRUE"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " adds the paper's recommended union-of-rejections procedure: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "UR = max(SADF / cv_sadf, SSU / cv_ssu)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (or "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "GUR"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " with GSADF/GSSU), compared with the published scaling constant "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "ur"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " ("
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "gur"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": "). Neither SADF nor SSU dominates: SSU wins when the explosive coefficient is genuinely stochastic, SADF when it is deterministic, and the union stays close to the better of the two. The SADF/GSADF side is "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " with its default minimum window and "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "lag = 0"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", against "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "cv"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (default: the precomputed critical values)."
           }
         ]
       ],
@@ -37810,16 +39218,67 @@
           "desc": [
             {
               "t": "text",
-              "v": "A positive integer. The minimum window size (default =\n"
+              "v": "Minimum window; defaults to "
             },
             {
-              "t": "eqn",
-              "tex": "(0.01 + 1.8/\\sqrt{T})T",
-              "display": false
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "psy_minw",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "psy_minw"
+                    }
+                  ]
+                }
+              ]
             },
             {
               "t": "text",
-              "v": ", where T denotes the sample size)."
+              "v": " for\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"ssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and the paper's "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "floor(n * (-0.004 + 2.24/sqrt(n)))"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "\nfor "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"gssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (the values Table I is computed at)."
             }
           ]
         },
@@ -37868,6 +39327,115 @@
             {
               "t": "text",
               "v": " (the levels Kurozumi & Nishi's Table I\ntabulates)."
+            }
+          ]
+        },
+        {
+          "name": "type",
+          "desc": [
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"ssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " or "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"gssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "union",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Logical; also run the union-of-rejections procedure with\nSADF ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"ssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ") or GSADF ("
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"gssu\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ")."
+            }
+          ]
+        },
+        {
+          "name": "cv",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Critical values for the SADF/GSADF side of the union, as from\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "link",
+                  "topic": "radf_mc_cv",
+                  "external": false,
+                  "href": null,
+                  "c": [
+                    {
+                      "t": "text",
+                      "v": "radf_mc_cv"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " for "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "lag = 0"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; defaults to the precomputed\nones (fetched on first use)."
             }
           ]
         }
@@ -37930,7 +39498,7 @@
             },
             {
               "t": "text",
-              "v": "), the constant "
+              "v": "; for GSSU the sup over window starts at each end point), the constant "
             },
             {
               "t": "code",
@@ -37943,7 +39511,7 @@
             },
             {
               "t": "text",
-              "v": " from Table I, and "
+              "v": " from Table I, "
             },
             {
               "t": "code",
@@ -37982,13 +39550,78 @@
             },
             {
               "t": "text",
+              "v": ". With "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "union = TRUE"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " also "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "adf_stat"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (SADF or GSADF), "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "union_stat"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "union_crit"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " and "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "union_detected"
+                }
+              ]
+            },
+            {
+              "t": "text",
               "v": "."
             }
           ]
         ]
       },
       "format": null,
-      "examples": "# A stochastically varying explosive root, rho_t = 1 + 3/n + 4 * u_t / sqrt(n):\n# the alternative ssu_test() is built for (a fixed-root DGP is lbi_test()'s)\ny <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\nres <- ssu_test(y, sig_lvl = 95)\nprint(res)\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
+      "examples": "# A stochastically varying explosive root, rho_t = 1 + 3/n + 4 * u_t / sqrt(n):\n# the alternative ssu_test() is built for (a fixed-root DGP is lbi_test()'s)\ny <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,\n  coef_noise = rnorm(149), coef_a = 4)\nres <- ssu_test(y, sig_lvl = 95)\nprint(res)\n\n# The double-recursion version\nssu_test(y, type = \"gssu\")\n\n# Plot the recursive SSU statistic path against its critical value\nautoplot(res)",
       "references": [
         [
           {
@@ -38025,6 +39658,27 @@
           {
             "t": "text",
             "v": "Other volatility-robust tests: "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "cusum_test",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "cusum_test()"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", "
           },
           {
             "t": "code",

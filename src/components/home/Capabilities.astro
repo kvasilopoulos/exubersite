@@ -3,37 +3,37 @@ import Section from "./Section.astro";
 
 const capabilities = [
   {
-    title: "Detect",
+    q: "Is there a bubble at all?",
     body: "ADF, SADF, GSADF and the BSADF sequence from one recursive least-squares pass — per series, with a summary that says reject or not.",
     fns: ["radf()", "summary()", "autoplot()"],
     href: "/guide/methodology",
   },
   {
-    title: "Calibrate",
+    q: "Is my threshold right for my sample?",
     body: "No closed-form null distribution exists, so thresholds are simulated: Monte Carlo, wild bootstrap, sieve bootstrap — or fetched precomputed for lag 0–4, n ≤ 4000.",
     fns: ["radf_mc_cv()", "radf_wb_cv()", "radf_sb_cv()"],
     href: "/guide/critical-values",
   },
   {
-    title: "Date-stamp",
+    q: "When did it start, and when did it end?",
     body: "Origination, collapse and recovery dates, alternative dating estimators, and confidence intervals on the explosive root itself.",
     fns: ["datestamp()", "rootstamp()", "dating_hlw()", "radf_recovery()"],
     href: "/replication/dating-and-root-inference",
   },
   {
-    title: "Stay robust to volatility",
+    q: "Is it a bubble, or just volatility?",
     body: "Time-varying volatility produces spurious bubbles. Time-transformed, weighted, sign-based and kernel-purged tests guard against it.",
     fns: ["radf_tt()", "radf_sbz()", "radf_sign()", "radf_kp()"],
     href: "/replication/volatility-robustness",
   },
   {
-    title: "Monitor in real time",
+    q: "Is it happening right now?",
     body: "Train on a stable window, then watch new observations arrive — CUSUM, LBI and quantile detectors with controlled false-alarm rates.",
     fns: ["monitor()", "monitor_cusum()", "monitor_lbi()", "monitor_quantile()"],
     href: "/replication/monitoring",
   },
   {
-    title: "Look across markets",
+    q: "Is it one market, or many?",
     body: "Common bubbles in large panels, co-explosive pairs, and contagion from one market to another.",
     fns: ["radf_common()", "cobubble_test()", "contagion_reg()"],
     href: "/replication/multivariate",
@@ -43,14 +43,14 @@ const capabilities = [
 
 <Section
   id="capabilities"
-  eyebrow="02 — what it does"
-  title="From a single test to a full empirical workflow."
-  lead="The original PSY test is the entry point, not the whole surface. Each capability below links to the method notes behind it; bubble-generating processes for simulation studies are documented under simulation DGPs."
+  eyebrow="02 — what it answers"
+  title="Six questions every bubble study runs into."
+  lead="The original PSY test answers the first. The rest come from the literature that followed, and each has its own family of methods in exuber — linked below to the notes and replications behind them."
 >
   <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
     {capabilities.map((c) => (
       <a href={c.href} class="group flex flex-col gap-3 bg-panel p-6 transition-colors hover:bg-panel-hi">
-        <h3 class="font-display text-xl text-ink">{c.title}</h3>
+        <h3 class="font-display text-xl text-ink">{c.q}</h3>
         <p class="text-sm leading-relaxed text-muted">{c.body}</p>
         <p class="mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-2 font-mono text-[11px] text-stable">
           {c.fns.map((f) => <span>{f}</span>)}

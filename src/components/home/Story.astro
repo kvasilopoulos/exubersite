@@ -16,21 +16,13 @@ const beats = [
   },
 ];
 
-const timeline = [
-  { when: "2011", what: "Phillips, Wu & Yu", body: "The sup-ADF test dates exuberance in the 1990s Nasdaq (International Economic Review)." },
-  { when: "2015", what: "Phillips, Shi & Yu", body: "GSADF and BSADF: multiple bubbles, consistently date-stamped, in the S&P 500 since 1871." },
-  { when: "2018", what: "exuber on CRAN", body: "The PSY procedure packaged for R — statistic, simulated critical values, date-stamping, plots." },
-  { when: "2022", what: "Journal of Statistical Software", body: "Vasilopoulos, Pavlidis & Martínez-García, “exuber: Recursive Right-Tailed Unit Root Testing with R”, JSS 103(10)." },
-  { when: "2026", what: "One core, three languages", body: "The statistic moves into a standalone C++ core (exubercore), Python bindings follow (pyexuber), and precomputed critical values move to a shared store." },
-  { when: "Next", what: "exuber 2.0", body: "Around thirty methods from the post-2015 literature — volatility-robust tests, alternative dating, real-time monitoring, multivariate bubbles — each independently replicated." },
-];
 ---
 
 <Section
   id="story"
   eyebrow="01 — the story"
-  title="Why testing for bubbles needed a new kind of test."
-  lead="Asset-price bubbles are rare, short, and end abruptly — exactly the features that standard time-series tests are built to ignore. The recursive right-tailed approach was developed to catch them, and exuber exists to make it routine."
+  title="Bubbles break the assumptions of standard tests."
+  lead="Asset-price bubbles are rare, short, and end abruptly — exactly the features that standard time-series tests are built to ignore. The recursive right-tailed approach of Phillips, Wu, Shi and Yu was the breakthrough that made them testable."
 >
   <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
     {beats.map((b, i) => (
@@ -42,15 +34,10 @@ const timeline = [
     ))}
   </div>
 
-  <h3 class="mt-16 font-mono text-xs uppercase tracking-widest text-muted">From paper to software</h3>
-  <ol class="mt-6 border-l border-border">
-    {timeline.map((t) => (
-      <li class="relative pb-8 pl-8 last:pb-0">
-        <span class="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full border border-explosive bg-void"></span>
-        <p class="font-mono text-[11px] uppercase tracking-wide text-explosive">{t.when}</p>
-        <p class="mt-1 font-display text-lg text-ink">{t.what}</p>
-        <p class="mt-1 max-w-2xl text-sm leading-relaxed text-muted">{t.body}</p>
-      </li>
-    ))}
-  </ol>
+  <p class="mt-10 max-w-2xl text-base leading-relaxed text-ink">
+    That was the 2015 answer. Since then the literature has asked harder questions —
+    whether a rejection is a bubble or just volatility, how precisely the dates are
+    pinned down, whether it can be caught as it happens, and whether it is one market
+    or many. exuber follows that literature, method by method.
+  </p>
 </Section>

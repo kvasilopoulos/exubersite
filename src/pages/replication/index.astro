@@ -48,6 +48,11 @@ const cards = await Promise.all(
       call at its top:
     </p>
     <pre class="astro-code"><code>Rscript docs/replication/monitoring/radf_cusum_validation.R</code></pre>
+    <p>
+      Most families also carry a Python twin of each script, which checks that
+      <code>pyexuber</code> reproduces the same numbers as the R implementation. They run
+      from the project root and are wired into pyexuber's test suite.
+    </p>
   </section>
 
   <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">

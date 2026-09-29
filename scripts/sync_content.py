@@ -10,7 +10,8 @@ output is committed. No submodule, no CI step, no Netlify build change.
 
 Three jobs:
   1. curated docs/*.md  -> src/content/replication/*.md
-  2. docs/replication/**/*.R -> src/replication-code/*.R
+  2. docs/replication/**/*.{R,py} -> src/replication-code/ (R validation +
+     pyexuber's Python cross-checks)
   3. exuber/_pkgdown.yml + man/*.Rd  -> src/data/reference.json,
      including a full parse of every Rd file (usage, arguments, value,
      examples, seealso, ...) so /reference/[topic] pages render natively
@@ -173,19 +174,21 @@ def sync_markdown() -> None:
 def sync_replication_scripts() -> list[dict]:
     out_dir = WEB / "src" / "replication-code"
     if out_dir.exists():
-        for f in out_dir.glob("*.R"):
-            f.unlink()
+        for pattern in ("*.R", "*.py"):
+            for f in out_dir.glob(pattern):
+                f.unlink()
     out_dir.mkdir(parents=True, exist_ok=True)
 
     manifest = []
     seen = set()
-    for f in sorted((ENH / "replication").rglob("*.R")):
+    files = [*(ENH / "replication").rglob("*.R"), *(ENH / "replication").rglob("*.py")]
+    for f in sorted(files, key=lambda f: (f.stem, f.suffix)):
         family = f.parent.name
-        name = f.stem
-        assert name not in seen, f"duplicate script name: {name}"
-        seen.add(name)
+        assert f.name not in seen, f"duplicate script name: {f.name}"
+        seen.add(f.name)
         (out_dir / f.name).write_text(f.read_text(encoding="utf-8"), encoding="utf-8")
-        manifest.append({"family": family, "name": name, "file": f.name})
+        lang = "r" if f.suffix == ".R" else "python"
+        manifest.append({"family": family, "name": f.stem, "file": f.name, "lang": lang})
 
     data_dir = WEB / "src" / "data"
     data_dir.mkdir(parents=True, exist_ok=True)

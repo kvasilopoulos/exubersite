@@ -1,0 +1,110 @@
+---
+import { Code } from "astro:components";
+import Section from "./Section.astro";
+import scripts from "../../data/replication-scripts.json";
+
+const stats = [
+  { value: "52", label: "papers read from the primary source" },
+  { value: String(scripts.length), label: "standalone replication scripts" },
+  { value: "~30", label: "methods implemented beyond PSY" },
+  { value: "2,000", label: "replications behind every precomputed threshold" },
+];
+
+const principles = [
+  {
+    title: "Primary source first.",
+    body: "Every method is implemented from the paper that introduced it — formulas, tables and theorems — not from a secondary restatement.",
+  },
+  {
+    title: "Independent re-derivation.",
+    body: "Each statistic is re-computed by a separate script: brute-force regressions, hand-derived identities, Monte Carlo size and power against the paper's own tables.",
+  },
+  {
+    title: "Failures on the record.",
+    body: "Where a published number was not reproduced, or a script found a bug, the replication record says so rather than quietly fixing it.",
+  },
+];
+
+const foundations = [
+  {
+    cite: "Phillips, P.C.B., Wu, Y. & Yu, J. (2011). Explosive behavior in the 1990s Nasdaq: when did exuberance escalate asset values? International Economic Review, 52(1), 201–226.",
+    doi: "10.1111/j.1468-2354.2010.00625.x",
+  },
+  {
+    cite: "Phillips, P.C.B., Shi, S. & Yu, J. (2015). Testing for multiple bubbles: historical episodes of exuberance and collapse in the S&P 500. International Economic Review, 56(4), 1043–1078.",
+    doi: "10.1111/iere.12132",
+  },
+  {
+    cite: "Phillips, P.C.B., Shi, S. & Yu, J. (2015). Testing for multiple bubbles: limit theory of real-time detectors. International Economic Review, 56(4), 1079–1134.",
+    doi: "10.1111/iere.12131",
+  },
+];
+
+const bibtex = `@Article{exuber,
+  title   = {{exuber}: Recursive Right-Tailed Unit Root Testing with {R}},
+  author  = {Kostas Vasilopoulos and Efthymios Pavlidis and Enrique Mart{\'i}nez-Garc{\'i}a},
+  journal = {Journal of Statistical Software},
+  year    = {2022},
+  volume  = {103},
+  number  = {10},
+  pages   = {1--26},
+  doi     = {10.18637/jss.v103.i10},
+}`;
+---
+
+<Section
+  id="evidence"
+  eyebrow="03 — academic grounding"
+  title="Every method traced to its paper, and checked against it."
+  lead="Econometric software is only as credible as its agreement with the literature. exuber is peer-reviewed in the Journal of Statistical Software, and every method added since is backed by a public replication record."
+>
+  <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border lg:grid-cols-4">
+    {stats.map((s) => (
+      <div class="bg-panel p-6">
+        <dt class="sr-only">{s.label}</dt>
+        <dd class="font-display text-3xl text-ink">{s.value}</dd>
+        <dd class="mt-2 text-sm leading-snug text-muted">{s.label}</dd>
+      </div>
+    ))}
+  </dl>
+
+  <div class="mt-12 grid gap-8 sm:grid-cols-3">
+    {principles.map((p) => (
+      <div>
+        <h3 class="font-display text-lg text-ink">{p.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-muted">{p.body}</p>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-14 grid gap-10 lg:grid-cols-2">
+    <div>
+      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Foundations</h3>
+      <ul class="mt-4 space-y-4">
+        {foundations.map((f) => (
+          <li class="text-sm leading-relaxed text-muted">
+            {f.cite}{" "}
+            <a href={`https://doi.org/${f.doi}`} class="font-mono text-[12px] text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">doi:{f.doi}</a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-6 text-sm text-muted">
+        The full bibliography, by methodological family, is in
+        <a href="/replication/references" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">references</a>;
+        what was reproduced and how is in the
+        <a href="/replication" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">replication record</a>.
+      </p>
+    </div>
+    <div>
+      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Cite exuber</h3>
+      <p class="mt-4 text-sm leading-relaxed text-muted">
+        Vasilopoulos, K., Pavlidis, E. & Martínez-García, E. (2022). exuber: Recursive right-tailed
+        unit root testing with R. <em>Journal of Statistical Software</em>, 103(10), 1–26.
+        <a href="https://doi.org/10.18637/jss.v103.i10" class="font-mono text-[12px] text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">doi:10.18637/jss.v103.i10</a>
+      </p>
+      <div class="mt-4 text-[12px]">
+        <Code code={bibtex} lang="bibtex" />
+      </div>
+    </div>
+  </div>
+</Section>

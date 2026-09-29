@@ -1,0 +1,95 @@
+---
+import Section from "./Section.astro";
+
+// Family-level summary of docs/parity.md -- update alongside it.
+type Status = "done" | "partial" | "n/a";
+const rows: { family: string; core: Status; r: Status; py: Status; note?: string }[] = [
+  { family: "Recursive ADF / SADF / GSADF / BSADF", core: "done", r: "done", py: "done" },
+  { family: "Critical values: MC, wild & sieve bootstrap, shared store", core: "n/a", r: "done", py: "done" },
+  { family: "Date-stamping and root inference", core: "n/a", r: "done", py: "done" },
+  { family: "Volatility-robust tests", core: "n/a", r: "done", py: "done" },
+  { family: "Real-time monitoring", core: "n/a", r: "done", py: "partial", note: "bootstrap monitoring boundary" },
+  { family: "Multivariate: common, co-, contagion", core: "n/a", r: "done", py: "done" },
+  { family: "Bubble simulation DGPs", core: "n/a", r: "done", py: "partial", note: "8 extension DGPs" },
+  { family: "Summary and tidy layer", core: "n/a", r: "done", py: "partial", note: "summary(), diagnostics()" },
+];
+
+const chip: Record<Status, string> = {
+  done: "text-stable border-stable/40",
+  partial: "text-threshold border-threshold/40",
+  "n/a": "text-muted border-border border-dashed",
+};
+
+const releases = [
+  { name: "exubercore", state: "v0.3.1", body: "Tagged; pinned by both bindings." },
+  { name: "exuber", state: "1.1.0 on CRAN", body: "2.0.0 — every method above — in preparation for CRAN." },
+  { name: "pyexuber", state: "0.1.0 in preparation", body: "Installable from source today; PyPI release to follow." },
+];
+
+const open = [
+  "Multi-bubble dynamic-programming variant of the KNP dating procedure",
+  "QPSY — the generalised quantile monitoring counterpart",
+  "GSSU and CUSUM extensions of the stochastic-root test",
+  "Critical values beyond n = 4000 in the shared store",
+];
+---
+
+<Section
+  id="progress"
+  eyebrow="04 — progress"
+  title="What is implemented, where, and what is next."
+  lead="exuber is actively developed. The matrix below summarises the method-by-implementation parity record the project keeps by hand; the C++ core deliberately stops at the statistic, so everything simulation-driven lives in R and Python."
+>
+  <div class="overflow-x-auto rounded-lg border border-border">
+    <table class="w-full min-w-[36rem] text-left text-sm">
+      <thead class="bg-panel-hi font-mono text-[11px] uppercase tracking-wide text-muted">
+        <tr>
+          <th class="px-4 py-3 font-normal">Method family</th>
+          <th class="px-4 py-3 font-normal">C++</th>
+          <th class="px-4 py-3 font-normal">R</th>
+          <th class="px-4 py-3 font-normal">Python</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-border">
+        {rows.map((r) => (
+          <tr class="bg-void">
+            <td class="px-4 py-3 text-ink">
+              {r.family}
+              {r.note && <span class="block text-xs text-muted">Python pending: {r.note}</span>}
+            </td>
+            {[r.core, r.r, r.py].map((s) => (
+              <td class="px-4 py-3">
+                <span class={`rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide ${chip[s]}`}>{s}</span>
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-14 grid gap-10 lg:grid-cols-2">
+    <div>
+      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Release status</h3>
+      <ul class="mt-4 divide-y divide-border border-y border-border">
+        {releases.map((r) => (
+          <li class="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:gap-4">
+            <span class="w-28 shrink-0 font-display text-lg text-ink">{r.name}</span>
+            <span class="shrink-0 font-mono text-[11px] uppercase tracking-wide text-stable">{r.state}</span>
+            <span class="text-sm text-muted">{r.body}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Open, and documented as such</h3>
+      <ul class="mt-4 space-y-3">
+        {open.map((o) => (
+          <li class="flex gap-3 text-sm leading-relaxed text-muted">
+            <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-threshold"></span>{o}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</Section>

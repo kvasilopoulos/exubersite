@@ -1,0 +1,19 @@
+---
+// Shared frame for every homepage section: anchor, eyebrow, heading, lead.
+interface Props {
+  id: string;
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+const { id, eyebrow, title, lead } = Astro.props;
+---
+
+<section id={id} class="scroll-mt-24 border-t border-border py-16 sm:py-20">
+  <p class="font-mono text-xs uppercase tracking-widest text-explosive">{eyebrow}</p>
+  <h2 class="mt-4 max-w-3xl font-display text-3xl text-ink">{title}</h2>
+  {lead && <p class="mt-6 max-w-2xl text-sm leading-relaxed text-muted">{lead}</p>}
+  <div class="mt-10">
+    <slot />
+  </div>
+</section>

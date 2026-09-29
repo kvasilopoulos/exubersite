@@ -5,6 +5,11 @@ import Footer from "../components/Footer.astro";
 import BubbleInstrument from "../components/BubbleInstrument.astro";
 import SuiteCard from "../components/SuiteCard.astro";
 import CodeTabs from "../components/CodeTabs.astro";
+import Section from "../components/home/Section.astro";
+import Story from "../components/home/Story.astro";
+import Capabilities from "../components/home/Capabilities.astro";
+import Grounding from "../components/home/Grounding.astro";
+import Progress from "../components/home/Progress.astro";
 
 const suite = [
   {
@@ -26,7 +31,7 @@ const suite = [
     name: "pyexuber",
     lang: "Python · pybind11",
     status: "early" as const,
-    description: "Bindings onto the same core, imported as exuber. Nearly every R method is ported � tests, all three bootstraps, dating, monitoring, multivariate. A few simulators and summary() remain; see progress below.",
+    description: "Bindings onto the same core, imported as exuber. Nearly every R method is ported — tests, all three bootstraps, dating, monitoring, multivariate. A few simulators and summary() remain; see progress below.",
     install: "git clone …exuber/pyexuber && uv sync --dev",
     href: "https://github.com/kvasilopoulos/pyexuber",
   },
@@ -73,22 +78,30 @@ auto result = exubercore::radf(y, /* min_win = */ 20);
 const teasers = [
   {
     href: "/guide",
-    eyebrow: "01 — the method",
+    eyebrow: "The method",
     title: "Four tests, one recursion.",
     body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, what minw and lag control, and how thresholds get simulated rather than looked up.",
   },
   {
     href: "/reference",
-    eyebrow: "02 — the reference",
+    eyebrow: "The reference",
     title: "Every function, natively.",
     body: "Arguments, return values, and worked examples for the full R surface, plus Python and C++ — rendered directly from the package's own documentation.",
   },
   {
     href: "/replication",
-    eyebrow: "03 — the replication record",
+    eyebrow: "The replication record",
     title: "What was reproduced, and how.",
     body: "Every method beyond the original PSY test, independently re-derived by a standalone script — including the bugs those scripts found.",
   },
+];
+
+const sections = [
+  { href: "#story", label: "Story" },
+  { href: "#capabilities", label: "Capabilities" },
+  { href: "#evidence", label: "Academic grounding" },
+  { href: "#progress", label: "Progress" },
+  { href: "#suite", label: "Get started" },
 ];
 ---
 
@@ -105,24 +118,39 @@ const teasers = [
       </h1>
       <p class="mt-6 max-w-xl text-base leading-relaxed text-muted">
         Recursive right-tailed unit root tests — ADF, SADF, GSADF, and BSADF — for identifying
-        and date-stamping bubbles in time series. One statistical core, three languages.
+        and date-stamping bubbles in time series. Peer-reviewed, independently replicated,
+        and available in R, Python, and C++.
       </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#suite" class="rounded-md bg-ink px-4 py-2 text-sm text-void transition-opacity hover:opacity-85">Get started</a>
+        <a href="/guide" class="rounded-md border border-border px-4 py-2 text-sm text-ink transition-colors hover:border-muted">Read the method</a>
+        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">JSS 2022 · on CRAN · PSY 2015</span>
+      </div>
 
       <div class="mt-14 rounded-xl border border-border bg-panel/60 p-6 sm:p-8">
         <BubbleInstrument />
       </div>
+
+      <nav aria-label="On this page" class="mt-10 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-wide text-muted">
+        {sections.map((l, i) => (
+          <a href={l.href} class="transition-colors hover:text-ink">{`0${i + 1} ${l.label}`}</a>
+        ))}
+      </nav>
     </section>
 
-    <section id="suite" class="scroll-mt-24 border-t border-border py-16 sm:py-20">
-      <p class="font-mono text-xs uppercase tracking-widest text-explosive">The calculation suite</p>
-      <h2 class="mt-4 font-display text-3xl text-ink">One core. Three ways in.</h2>
-      <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-        The expensive part of a GSADF run — a Sherman-Morrison-updated recursive least squares,
-        repeated across O(T²) windows — lives once, in C++. Each language binding wraps that core
-        and adds whatever that ecosystem's users actually need on top of it.
-      </p>
+    <Story />
+    <Capabilities />
+    <Grounding />
+    <Progress />
 
-      <div class="mt-10 grid gap-4 sm:grid-cols-3">
+    <Section
+      id="suite"
+      eyebrow="05 — get started"
+      title="One core. Three ways in."
+      lead="The expensive part of a GSADF run — a Sherman-Morrison-updated recursive least squares, repeated across O(T²) windows — lives once, in C++. Each language binding wraps that core and adds whatever that ecosystem's users actually need on top of it."
+    >
+      <div class="grid gap-4 sm:grid-cols-3">
         {suite.map((s) => <SuiteCard {...s} />)}
       </div>
 
@@ -142,22 +170,23 @@ const teasers = [
           The full surface of each is in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
         </p>
       </div>
-    </section>
+    </Section>
 
-    <section class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
+    <section class="border-t border-border py-16 sm:py-20">
+      <p class="font-mono text-xs uppercase tracking-widest text-explosive">06 — go deeper</p>
+      <div class="mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
       {teasers.map((t) => (
         <a href={t.href} class="group flex flex-col gap-3 bg-panel p-7 transition-colors hover:bg-panel-hi">
           <span class="font-mono text-[11px] uppercase tracking-wide text-muted">{t.eyebrow}</span>
-          <h2 class="font-display text-xl text-ink">{t.title}</h2>
+          <h3 class="font-display text-xl text-ink">{t.title}</h3>
           <p class="text-sm leading-relaxed text-muted">{t.body}</p>
           <span class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink opacity-0 transition-opacity group-hover:opacity-100">
             Read more →
           </span>
         </a>
       ))}
+      </div>
     </section>
-
-    <div class="py-16 sm:py-24"></div>
   </main>
   <Footer />
 </Base>

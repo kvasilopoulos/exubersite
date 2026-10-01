@@ -16,7 +16,10 @@ const path = Astro.url.pathname;
       wide ? "max-w-7xl" : "max-w-5xl",
     ]}
   >
-    <a href="/" class="shrink-0 text-ink">exuber</a>
+    <a href="/" class="flex shrink-0 items-center gap-2.5 font-display text-lg normal-case tracking-normal text-ink">
+      <img src="/logo.png" alt="" width="240" height="255" class="h-8 w-auto" />
+      exuber
+    </a>
     <nav class="flex flex-wrap items-center gap-x-5 gap-y-2">
       {
         links.map((l) => (

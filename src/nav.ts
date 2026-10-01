@@ -1,7 +1,7 @@
 // Single source of truth for the header. Active state is derived from the
 // pathname, so adding a page here is the only edit needed.
 export const links = [
-  { href: "/guide", label: "Guide" },
+  { href: "/guide", label: "Docs" },
   { href: "/replication", label: "Replication" },
   { href: "/reference", label: "Reference" },
 ];

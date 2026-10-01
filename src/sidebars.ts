@@ -3,9 +3,9 @@ import type { SidebarSection } from "./layouts/DocsLayout.astro";
 import reference from "./data/reference.json";
 
 export const GUIDE_PAGES = [
+  { href: "/guide", label: "Getting started" },
   { href: "/guide/methodology", label: "Methodology" },
-  { href: "/guide/settings", label: "Settings" },
-  { href: "/guide/critical-values", label: "Critical values" },
+  { href: "/guide/critical-values", label: "Settings and critical values" },
 ];
 
 export async function replicationSection(): Promise<SidebarSection> {
@@ -35,7 +35,16 @@ export function referenceSection(): SidebarSection {
 }
 
 export function guideSection(): SidebarSection {
-  return { title: "Guide", items: [{ href: "/guide", label: "Overview" }, ...GUIDE_PAGES] };
+  return { title: "Guide", items: GUIDE_PAGES };
+}
+
+// The method families past PSY -- the replication notes are where they live.
+export async function beyondPsySection(): Promise<SidebarSection> {
+  const { items } = await replicationSection();
+  return {
+    title: "Beyond PSY",
+    items: items.filter((i) => i.href !== "/replication" && i.href !== "/replication/references"),
+  };
 }
 
 export function slugify(s: string): string {

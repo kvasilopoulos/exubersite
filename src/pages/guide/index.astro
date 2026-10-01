@@ -1,51 +1,93 @@
 ---
+import { Code } from "astro:components";
 import DocsLayout from "../../layouts/DocsLayout.astro";
-import { guideSection } from "../../sidebars";
+import CodeTabs from "../../components/CodeTabs.astro";
+import { examples } from "../../data/suite";
+import { guideSection, beyondPsySection } from "../../sidebars";
 
-const cards = [
+const install = [
   {
-    href: "/guide/methodology",
-    eyebrow: "1 of 3 — the method",
-    title: "Four tests, one recursion.",
-    body: "ADF, SADF, GSADF, and BSADF — how a floating window catches bubbles a fixed one misses, and how the resulting statistic becomes a calendar date.",
+    id: "r",
+    label: "R — exuber",
+    lang: "r",
+    code: `install.packages("exuber")                       # CRAN release
+devtools::install_github("kvasilopoulos/exuber") # development version`,
+    note: "Methods beyond the original PSY test (dating, volatility-robust, monitoring, multivariate) arrive on CRAN with exuber 2.0.0; until then they're in the development version.",
   },
   {
-    href: "/guide/settings",
-    eyebrow: "2 of 3 — the settings",
-    title: "Two numbers, one choice.",
-    body: "What minw and lag actually control, and the real tradeoff: which critical-value method to test your statistic against.",
+    id: "python",
+    label: "Python — pyexuber",
+    lang: "sh",
+    code: `git clone https://github.com/kvasilopoulos/pyexuber
+cd pyexuber
+uv sync --dev`,
+    note: "Not on PyPI yet, so build from source: a C++17 compiler, CMake ≥ 3.16 and a system Armadillo (apt install libarmadillo-dev, brew install armadillo, or vcpkg). Imported as exuber.",
   },
   {
-    href: "/guide/critical-values",
-    eyebrow: "3 of 3 — the thresholds",
-    title: "Simulated, not looked up.",
-    body: "There's no closed-form distribution for GSADF. How thresholds are simulated instead: Monte Carlo, four bootstrap variants, and the precomputed store behind the defaults.",
+    id: "cpp",
+    label: "C++ — exubercore",
+    lang: "sh",
+    code: `git clone https://github.com/kvasilopoulos/exubercore
+cd exubercore
+cmake -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build`,
+    note: "Needs a system Armadillo with BLAS/LAPACK. Ships the statistic only; critical values, dating and simulation live in the R and Python packages.",
   },
 ];
+
+const outputs = [
+  { fn: "summary()", topic: "summary.radf_obj", body: "for each series and statistic (ADF, SADF, GSADF), whether H₀ of a unit root is rejected at 90/95/99%." },
+  { fn: "autoplot()", topic: "autoplot.radf_obj", body: "the BSADF sequence against its critical value, with explosive spans shaded." },
+  { fn: "datestamp()", topic: "datestamp", body: "one Start / Peak / End / Duration row per detected episode." },
+];
+
+const headings = [
+  { depth: 2, slug: "install", text: "Install" },
+  { depth: 2, slug: "first-run", text: "A first run" },
+  { depth: 2, slug: "reading-the-output", text: "Reading the output" },
+];
+const link = "text-ink underline decoration-border underline-offset-4 hover:decoration-explosive";
 ---
 
 <DocsLayout
-  eyebrow="The method, end to end"
-  title="Guide"
-  description="Everything behind a single radf() call, in the order it's usually needed: what the four tests actually do, which two parameters change a run, and where the threshold you compare against comes from."
-  sidebar={[guideSection()]}
+  eyebrow="Guide · 1 of 3"
+  title="Getting started"
+  description="Install exuber in R, Python or C++, run a bubble test on simulated data, and read the result. The next two pages explain what the test does and which settings change it."
+  headings={headings}
+  sidebar={[guideSection(), await beyondPsySection()]}
 >
-  <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-1">
-    {cards.map((c) => (
-      <a href={c.href} class="group flex flex-col gap-2 bg-panel p-6 transition-colors hover:bg-panel-hi">
-        <span class="font-mono text-[11px] uppercase tracking-wide text-muted">{c.eyebrow}</span>
-        <h2 class="font-display text-xl text-ink">{c.title}</h2>
-        <p class="text-sm leading-relaxed text-muted">{c.body}</p>
-        <span class="mt-1 font-mono text-[11px] uppercase tracking-wide text-ink opacity-0 transition-opacity group-hover:opacity-100">
-          Read →
-        </span>
-      </a>
-    ))}
-  </div>
+  <section id="install" class="scroll-mt-24">
+    <h2 class="font-display text-2xl text-ink">Install</h2>
+    <div class="mt-6 space-y-8">
+      {install.map((i) => (
+        <div>
+          <p class="font-mono text-[11px] uppercase tracking-wide text-muted">{i.label}</p>
+          <div class="mt-2 text-[13px]"><Code code={i.code} lang={i.lang as "r" | "sh"} /></div>
+          <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{i.note}</p>
+        </div>
+      ))}
+    </div>
+  </section>
 
-  <p class="mt-10 text-sm leading-relaxed text-muted">
-    Ready to run it? See <a href="/#suite" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">the calculation suite</a> for
-    install instructions and worked examples in R, Python, and C++, or jump straight to the
-    <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
-  </p>
+  <section id="first-run" class="scroll-mt-24 mt-14 border-t border-border pt-14">
+    <h2 class="font-display text-2xl text-ink">A first run</h2>
+    <p class="mt-4 mb-6 max-w-2xl text-sm leading-relaxed text-muted">
+      Test, calibrate, date-stamp. The R and Python paths differ only in spelling. Python
+      accepts a numpy array, a 1-D sequence, or anything with <code class="text-ink">.to_numpy()</code>
+      (pandas/polars).
+    </p>
+    <CodeTabs tabs={examples} />
+  </section>
+
+  <section id="reading-the-output" class="scroll-mt-24 mt-14 border-t border-border pt-14">
+    <h2 class="font-display text-2xl text-ink">Reading the output</h2>
+    <ul class="mt-6 max-w-2xl space-y-3 text-sm leading-relaxed text-muted">
+      {outputs.map((o) => (
+        <li><a href={`/reference/${o.topic}`} class={link}><code class="text-ink">{o.fn}</code></a>: {o.body}</li>
+      ))}
+    </ul>
+    <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted">
+      Next: <a href="/guide/methodology" class={link}>what ADF, SADF, GSADF and BSADF actually test</a>.
+    </p>
+  </section>
 </DocsLayout>

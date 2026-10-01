@@ -8,7 +8,8 @@ export default defineConfig({
   // links to the old paths working.
   redirects: {
     "/methodology": "/guide/methodology",
-    "/settings": "/guide/settings",
+    "/settings": "/guide/critical-values",
+    "/guide/settings": "/guide/critical-values",
     "/critical-values": "/guide/critical-values",
     // The suite section moved onto the landing page itself.
     "/suite": "/#suite",

@@ -1,7 +1,7 @@
 ---
 import DocsLayout from "../../layouts/DocsLayout.astro";
 import Math from "../../components/Math.astro";
-import { guideSection, slugify } from "../../sidebars";
+import { guideSection, beyondPsySection, slugify } from "../../sidebars";
 
 const tests = [
   {
@@ -43,11 +43,11 @@ const headings = [
 ---
 
 <DocsLayout
-  eyebrow="Guide · 1 of 3"
-  title="Four tests, one recursion"
+  eyebrow="Guide · 2 of 3"
+  title="Methodology"
   description="An asset price is explosive when it grows faster than a random walk can explain — the autoregressive root of the series exceeds one. That's the signature of a bubble while it's inflating, and it's directly testable: run the same right-tailed unit-root regression over the right window, repeatedly, and read off where the statistic crosses its threshold."
   headings={headings}
-  sidebar={[guideSection()]}
+  sidebar={[guideSection(), await beyondPsySection()]}
 >
   <section class="flex flex-col gap-14">
     {tests.map((t, i) => (
@@ -120,7 +120,7 @@ const headings = [
       recovery dating — see <a href="/replication/dating-and-root-inference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">dating and root inference</a>.
     </p>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Next: <a href="/guide/settings" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">what <code class="text-ink">minw</code> and <code class="text-ink">lag</code> actually control</a>.
+      Next: <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">the two settings, and where the thresholds come from</a>.
     </p>
   </section>
 </DocsLayout>

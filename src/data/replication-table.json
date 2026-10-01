@@ -1,0 +1,272 @@
+[
+  {
+    "item": "STADF/GSTADF (time-transformed)",
+    "family": "volatility-robustness",
+    "fn": "radf_tt",
+    "check": "vs. Whitehouse (2019) published critical values",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "SBZ (WLS + kernel volatility)",
+    "family": "volatility-robustness",
+    "fn": "radf_sbz",
+    "check": "vs. paper's Table 1 bootstrap p-values",
+    "kind": "fixed",
+    "verdict": "bug found + fixed",
+    "detail": ""
+  },
+  {
+    "item": "Kernel-purge heteroskedasticity test",
+    "family": "volatility-robustness",
+    "fn": "radf_kp",
+    "check": "",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Root inference \u2014 Guo/Sun/Wang normal-t CI",
+    "family": "dating-and-root-inference",
+    "fn": "rootstamp",
+    "check": "",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Common-bubble PCA+PSY",
+    "family": "multivariate",
+    "fn": "radf_common",
+    "check": "vs. paper's Theorem 4.3",
+    "kind": "fixed",
+    "verdict": "critical-value gap found, fixed (Bundle 1)",
+    "detail": ""
+  },
+  {
+    "item": "PDC/KS sequential dating (+ WLS variant)",
+    "family": "dating-and-root-inference",
+    "fn": "dating_pdc",
+    "check": "formula-exact vs. brute force + Monte Carlo consistency",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": "found already written, uncommitted, untested \u2014 validated from scratch"
+  },
+  {
+    "item": "Co-bubble (KPSS-type + wild bootstrap)",
+    "family": "multivariate",
+    "fn": "cobubble_test",
+    "check": "formula-exact vs. brute force + Monte Carlo size/power",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Contagion regression, minimum-viable subset (Greenaway-McGrevy & Phillips 2016)",
+    "family": "multivariate",
+    "fn": "contagion_reg",
+    "check": "formula-exact vs. brute force (fixed-window AR1, NW ratio, LOOCV SSE) + directional sensible-behavior check",
+    "kind": "fixed",
+    "verdict": "2 bugs found + fixed",
+    "detail": "window-width off-by-one + LOOCV matrix-orientation bug (K %*% v vs. crossprod(K, v))"
+  },
+  {
+    "item": "Pedersen & Sch\u00fctte sieve-bootstrap lag selection (radf_sb_cv(type = \"aic\"/\"bic\"))",
+    "family": "volatility-robustness",
+    "fn": "radf_sb",
+    "check": "lag-order recovery on AR(2)/AR(5) DGPs + modal lag 0 under a pure random walk (radf_sb_cv_aic_bic_validation.R)",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Hafner skewness-corrected wild bootstrap",
+    "family": "volatility-robustness",
+    "fn": "radf_wb",
+    "check": "moments + Monte Carlo size/power",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Sign-based sGSADF",
+    "family": "volatility-robustness",
+    "fn": "radf_sign",
+    "check": "exact heteroskedasticity invariance + published-value cross-check",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Sign-based level-shift robustness + demeaned variant (Harvey, Leybourne, Tatlow & Zu 2025)",
+    "family": "volatility-robustness",
+    "fn": "radf_sign",
+    "check": "formula-exact vs. brute-force recursive-mean loop + heteroskedasticity invariance + power + reproduction of the paper's own Table 1 Case-1 empirical size",
+    "kind": "fixed",
+    "verdict": "bug found + fixed",
+    "detail": "pre-existing, not introduced by this item: print() crashed on radf_sign_cv()/radf_tt_cv() objects \u2014 missing mc_cv class tag"
+  },
+  {
+    "item": "Stochastic explosive-coefficient SSU/GSSU + UR/GUR union (Kurozumi & Nishi 2025)",
+    "family": "volatility-robustness",
+    "fn": "ssu_test",
+    "check": "formula-exact vs. brute-force lm() + manual cross-moment (any window start, GSSU sup) + every Table I column + Monte Carlo size/power",
+    "kind": "fixed",
+    "verdict": "bug found + fixed",
+    "detail": "2026-09-29: residual cross-moment divided by window count minus 1 instead of the paper's minus 2 (the brute force had copied it; O(1/T))"
+  },
+  {
+    "item": "CUSUM-type tests CS/GCS/CSSQ/GCSSQ (Kurozumi & Nishi 2025)",
+    "family": "volatility-robustness",
+    "fn": "cusum_test",
+    "check": "running max/min vs. a double loop over every window + Table I + Monte Carlo size",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "SV-ADF asymmetric-threshold dating (Sarkar & Wells 2026, preprint)",
+    "family": "volatility-robustness",
+    "fn": "svadf",
+    "check": "badf reuse bit-for-bit + threshold-formula exact match + Monte Carlo dating accuracy/false-alarm rate",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Real-time monitoring, Family A (Phillips & Shi 2020)",
+    "family": "monitoring",
+    "fn": "monitor",
+    "check": "training/monitoring separation + Monte Carlo false-alarm/detection rates",
+    "kind": "fixed",
+    "verdict": "bug found + fixed",
+    "detail": "boundary names dropped for single-series input"
+  },
+  {
+    "item": "Real-time monitoring, CUSUM + CUSUMV (Homm & Breitung 2012; Astill et al. 2023)",
+    "family": "monitoring",
+    "fn": "monitor_cusum",
+    "check": "formula-exact vs. brute force + Monte Carlo false-alarm/detection rates under homo-/heteroskedasticity",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Real-time monitoring, Kurozumi (2020) closed-form SADF boundary",
+    "family": "monitoring",
+    "fn": "monitor",
+    "check": "table-lookup exact match + Monte Carlo false-alarm/detection rates",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Real-time monitoring, Kurozumi (2020) closed-form GSADF_{s0} boundary",
+    "family": "monitoring",
+    "fn": "monitor",
+    "check": "closed-form band vs. brute-force lm() search + table-lookup exact match + Monte Carlo false-alarm/detection rates",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Reverse-regression recovery dating (Phillips & Shi 2014)",
+    "family": "dating-and-root-inference",
+    "fn": "radf_recovery",
+    "check": "structural invariant + Monte Carlo bias/false-detection rate",
+    "kind": "caveat",
+    "verdict": "shipped with caveats",
+    "detail": "f_r clean, f_c/false-detection rate noisier than hoped, not fully resolved"
+  },
+  {
+    "item": "Quantile-based global test (Wu, Shi & Wu 2025)",
+    "family": "alternative-paradigms",
+    "fn": "quantile_test",
+    "check": "structural check (Q matches radf()$adf bit-for-bit) + Monte Carlo size/power vs. standard SADF",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Quantile monitoring, QPWY route (Wu, Shi & Wu 2025)",
+    "family": "alternative-paradigms",
+    "fn": "monitor_quantile",
+    "check": "formula-exact vs. brute-force QR + badf-reuse structural check + Monte Carlo false-alarm/detection rates vs. standard SADF",
+    "kind": "fixed",
+    "verdict": "two bugs found + fixed",
+    "detail": "per-r marginal quantile used as boundary instead of a supremum-calibrated one (gave 50% false-alarm rate against nominal 5%); and (2026-09-29) the limit's independent-BM term simulated as one z per path instead of a process over windows (true size 6.6-19.6% at a nominal 5%)"
+  },
+  {
+    "item": "Quantile monitoring, QPSY route (Wu, Shi & Wu 2025)",
+    "family": "alternative-paradigms",
+    "fn": "monitor_quantile",
+    "check": "formula-exact vs. brute-force QR over every window + grid-simulation brute force + Monte Carlo size across quantiles/innovations + power vs. SADF",
+    "kind": "caveat",
+    "verdict": "shipped with caveat",
+    "detail": "asymptotic boundary well sized at the median (4%) but oversized away from it in small samples (35-44% at tau = 0.9, n = 100); the paper's bootstrap not implemented"
+  },
+  {
+    "item": "SSR/BIC dating, HLS route (Harvey, Leybourne & Sollis 2017)",
+    "family": "dating-and-root-inference",
+    "fn": "dating_hls",
+    "check": "formula-exact incl. full joint 3-breakpoint search vs. brute force + Monte Carlo model-selection accuracy",
+    "kind": "fixed",
+    "verdict": "2 bugs found + fixed",
+    "detail": "DGP-construction pitfall in validation (not a package bug) + a real incomplete sign-constraint gap in Models 1/3/4"
+  },
+  {
+    "item": "SSR/BIC dating, HLW multi-bubble route (Harvey, Leybourne & Whitehouse 2020)",
+    "family": "dating-and-root-inference",
+    "fn": "dating_hlw",
+    "check": "window-arithmetic check + Monte Carlo breakpoint accuracy + exact-match check vs. standalone dating_hls()",
+    "kind": "fixed",
+    "verdict": "bug found + fixed",
+    "detail": "datestamp()'s hard error on a no-bubble series wasn't caught"
+  },
+  {
+    "item": "SSR/BIC dating, KNP bias-corrected route (Kejriwal, Nguyen & Perron 2025)",
+    "family": "dating-and-root-inference",
+    "fn": "dating_knp",
+    "check": "formula-exact vs. brute force + direct Monte Carlo reproduction of the paper's own Theorem 1 (naive inconsistency) and Theorem 2 (fix); multi-bubble DP exact vs. a brute-force partition search + two-bubble Monte Carlo",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Real-time monitoring, HB (2012) FLUC statistic",
+    "family": "monitoring",
+    "fn": "monitor",
+    "check": "table-lookup exact match + Monte Carlo false-alarm/detection rates",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Real-time monitoring, HB (2012) CUSUM finite-sample boundary",
+    "family": "monitoring",
+    "fn": "monitor_cusum",
+    "check": "table-lookup exact match + Monte Carlo false-alarm/detection rate vs. asymptotic default",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Static LBI test (Breitung & Diegel 2025)",
+    "family": "monitoring",
+    "fn": "lbi_test",
+    "check": "eq. 4 telescoping identity + Monte Carlo N(0,1)-calibration check (mean/sd/KS-test) + power vs. standard SADF",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  },
+  {
+    "item": "Sequential LBI monitoring, mCUSUM/wCUSUM (Breitung & Diegel 2025)",
+    "family": "monitoring",
+    "fn": "lbi_test",
+    "check": "weight-normalization + telescoped-final-point formula check + table-lookup exact match + Monte Carlo false-alarm/detection rate vs. monitor_cusum()",
+    "kind": "clean",
+    "verdict": "clean",
+    "detail": ""
+  }
+]

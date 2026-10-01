@@ -199,6 +199,42 @@ def sync_replication_scripts() -> list[dict]:
     return manifest
 
 
+def sync_replication_table() -> None:
+    """docs/README.md's "What's actually implemented" table -> replication-table.json.
+
+    One row per shipped method: the flat index on /replication. The verdict cell
+    is split into a kind (clean / fixed / caveat) and the free-text detail.
+    """
+    lines = (ENH / "README.md").read_text(encoding="utf-8").splitlines()
+    start = lines.index("| Item | Family | File | Cross-check | Independent validation |")
+    plain = lambda s: s.replace("**", "").replace("`", "").strip()
+    rows = []
+    for line in lines[start + 2 :]:
+        if not line.startswith("| "):
+            break
+        item, family, file, check, verdict = (c.strip() for c in line.strip("| ").split(" | "))
+        assert family in PUBLISHED, f"unknown family {family!r} in docs/README.md"
+        m = re.match(r"\*\*(.+?)\*\*[:\s]*(.*)", verdict)
+        head, detail = (m.group(1), m.group(2)) if m else (verdict.split(" (")[0], verdict[len(verdict.split(" (")[0]):])
+        kind = "caveat" if "caveat" in head else "fixed" if "fixed" in head else "clean"
+        # "(x)" -> "x"; "(x): y" -> "x: y"
+        detail = re.sub(r"^\(([^()]*)\):\s*|^\((.*)\)$", lambda d: f"{d[1]}: " if d[1] else d[2], detail.strip())
+        rows.append({
+            "item": plain(item),
+            "family": family,
+            "fn": re.match(r"`(\w+)\.R`", file).group(1),
+            # the testthat file name is internal; keep only what it is checked against
+            "check": plain(re.sub(r"^`test-[\w-]+\.R`,?\s*", "", check)),
+            "kind": kind,
+            "verdict": plain(head),
+            "detail": plain(detail),
+        })
+    (WEB / "src" / "data" / "replication-table.json").write_text(
+        json.dumps(rows, indent=2), encoding="utf-8"
+    )
+    print(f"table   : {len(rows)} methods -> src/data/replication-table.json")
+
+
 # ============================================================================
 # 3. Rd parsing -- native reference pages, no pkgdown redirect
 # ============================================================================
@@ -742,6 +778,7 @@ def build_reference() -> None:
 def main() -> None:
     sync_markdown()
     sync_replication_scripts()
+    sync_replication_table()
     build_reference()
 
 

@@ -2,21 +2,11 @@
 import DocsLayout from "../../layouts/DocsLayout.astro";
 import reference from "../../data/reference.json";
 import extra from "../../data/reference-extra.json";
-import { replicationSection, referenceSection, slugify } from "../../sidebars";
+import { referenceSection, slugify } from "../../sidebars";
 
-const headings = [
-  ...reference.r.flatMap((g) => [
-    { depth: 2, slug: slugify(g.title), text: g.title },
-    ...g.sections
-      .filter((s) => s.subtitle)
-      .map((s) => ({ depth: 3, slug: slugify(`${g.title} ${s.subtitle}`), text: s.subtitle! })),
-  ]),
-  { depth: 2, slug: "python", text: "Python — pyexuber" },
-  { depth: 2, slug: "cpp", text: "C++ — exubercore" },
-];
-
+// No right-hand TOC: the sidebar already lists every group.
 const total = reference.r.reduce((n, g) => n + g.entries.length, 0);
-const sidebar = [referenceSection(), await replicationSection()];
+const sidebar = [referenceSection()];
 const topicPages: Record<string, unknown> = reference.topics;
 ---
 
@@ -24,7 +14,6 @@ const topicPages: Record<string, unknown> = reference.topics;
   eyebrow="Packages"
   title="Reference index"
   description={`Every documented entry point across the three implementations — ${total} R topics grouped as in the package's own reference index — each function next to the methods that consume its output — plus the Python and C++ surfaces.`}
-  headings={headings}
   sidebar={sidebar}
 >
   <section class="prose">
@@ -36,6 +25,10 @@ const topicPages: Record<string, unknown> = reference.topics;
       Groups that came out of the replication research link back to the family page that
       motivated them.
     </p>
+    <details class="mt-4">
+    <summary class="cursor-pointer font-mono text-[11px] uppercase tracking-wide text-muted hover:text-ink">
+      Naming conventions, and which generics work where
+    </summary>
     <p class="mt-4">
       Naming follows what a function actually computes, not just which paper it came from.
       <code>radf_</code> is reserved for functions genuinely built on the recursive-ADF core —
@@ -81,6 +74,7 @@ const topicPages: Record<string, unknown> = reference.topics;
       <code>autoplot()</code> require, a known gap. See <code>vignette("naming-and-analysis",
       package = "exuber")</code> for the full picture with worked examples.
     </p>
+    </details>
   </section>
 
   <div class="mt-10 space-y-12">

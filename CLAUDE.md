@@ -23,6 +23,9 @@ outside Netlify's build (Netlify only checks out `website/`):
 - `docs/*.md` (curated subset, the `PAGES` list at the top of
   `scripts/sync_content.py`) → `src/content/replication/*.md`, plus every
   `docs/replication/**/*.R` → `src/replication-code/*.R`
+- `docs/README.md`'s "What's actually implemented" table (its `Family`
+  column must be a published page slug) → `src/data/replication-table.json`,
+  the flat per-method index on `/replication`
 - `exuber/_pkgdown.yml` + every `exuber/man/*.Rd` (hand-rolled Rd parser,
   not `tools::parse_Rd()`) → `src/data/reference.json` (usage, arguments,
   value, examples, seealso — full content, so `/reference/<topic>` renders

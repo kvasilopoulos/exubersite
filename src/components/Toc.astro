@@ -4,7 +4,7 @@ import type { MarkdownHeading } from "astro";
 interface Props {
   headings: MarkdownHeading[];
 }
-const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+const headings = Astro.props.headings.filter((h) => h.depth === 2);
 ---
 
 {
@@ -22,8 +22,7 @@ const headings = Astro.props.headings.filter((h) => h.depth === 2 || h.depth ===
               href={`#${h.slug}`}
               data-toc-link={h.slug}
               class:list={[
-                "-ml-px block border-l border-transparent py-0.5 leading-snug text-muted transition-colors hover:text-ink",
-                h.depth === 2 ? "pl-3" : "pl-6",
+                "-ml-px block border-l border-transparent py-0.5 pl-3 leading-snug text-muted transition-colors hover:text-ink",
               ]}
             >
               {h.text}

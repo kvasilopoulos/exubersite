@@ -1,24 +1,31 @@
 ---
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import DocsLayout from "../../layouts/DocsLayout.astro";
 import scripts from "../../data/replication-scripts.json";
-import { replicationSection, referenceSection } from "../../sidebars";
+import table from "../../data/replication-table.json";
+import reference from "../../data/reference.json";
+import { replicationSection } from "../../sidebars";
 
 const pages = (await getCollection("replication")).sort((a, b) => a.data.order - b.data.order);
-const sidebar = [await replicationSection(), referenceSection()];
+const sidebar = [await replicationSection()];
+const topics: Record<string, unknown> = reference.topics;
 
-const cards = await Promise.all(
-  pages.map(async (p) => {
-    const { headings } = await render(p);
-    return {
-      id: p.id,
-      title: p.data.title,
-      blurb: p.data.blurb,
-      methods: headings.filter((h) => h.depth === 2).length,
-      scripts: scripts.filter((s) => s.family === p.id).length,
-    };
-  }),
-);
+const families = pages
+  .map((p) => ({ id: p.id, title: p.data.title, rows: table.filter((r) => r.family === p.id) }))
+  .filter((f) => f.rows.length > 0);
+
+const counts = {
+  clean: table.filter((r) => r.kind === "clean").length,
+  fixed: table.filter((r) => r.kind === "fixed").length,
+  caveat: table.filter((r) => r.kind === "caveat").length,
+};
+
+const chip: Record<string, string> = {
+  clean: "text-stable border-stable/40",
+  fixed: "text-explosive border-explosive/40",
+  caveat: "text-threshold border-threshold/40",
+};
+const link = "text-ink underline decoration-border underline-offset-4 hover:decoration-explosive";
 ---
 
 <DocsLayout
@@ -27,61 +34,72 @@ const cards = await Promise.all(
   description="Every method exuber implements beyond the original PSY test was read from its primary source, implemented, and then independently re-derived by a standalone script. This is that record — what was reproduced, how, and where it fell short."
   sidebar={sidebar}
 >
-  <section class="prose">
+  <section class="max-w-2xl space-y-4 text-sm leading-relaxed text-muted">
     <p>
-      The pages below are the working research behind <code>exuber</code>'s post-PSY
-      surface, organised by methodological family. Each one states the primary source,
-      what the method actually does, which published numbers were reproduced exactly,
-      what was deliberately simplified relative to the paper, and what remains open.
+      The package's own tests guard against regression. The {scripts.length} scripts behind this
+      page re-derive each statistic from scratch (brute-force regressions, hand-derived
+      identities, Monte Carlo size and power against the paper's tables), so agreement means
+      something independent of the code being checked. Where a script found a bug, it is
+      recorded rather than quietly fixed.
     </p>
     <p>
-      Validation is kept separate from the test suite on purpose. The package's own
-      <code>testthat</code> tests guard against regression; the scripts collected here
-      re-derive each statistic from scratch — brute-force <code>lm()</code> fits,
-      hand-telescoped identities, Monte Carlo size and power — so that agreement means
-      something independent of the implementation being checked. Several of them found
-      real bugs, and those are recorded rather than quietly fixed.
-    </p>
-    <p>
-      Every script is self-contained and depends on none of the others. Run one from the
-      <code>exuber/</code> package root, or adjust the <code>devtools::load_all()</code>
-      call at its top:
-    </p>
-    <pre class="astro-code"><code>Rscript docs/replication/monitoring/radf_cusum_validation.R</code></pre>
-    <p>
-      Most families also carry a Python twin of each script, which checks that
-      <code>pyexuber</code> reproduces the same numbers as the R implementation. They run
-      from the project root and are wired into pyexuber's test suite.
+      Of {table.length} methods: <span class="text-stable">{counts.clean} clean</span>,
+      <span class="text-explosive">{counts.fixed} with a bug found and fixed</span>,
+      <span class="text-threshold">{counts.caveat} shipped with a caveat</span>. Every script is
+      self-contained; the R ones run from the <code class="font-mono text-ink">exuber/</code>
+      package root, and the Python twins check that pyexuber reproduces the same numbers.
     </p>
   </section>
 
-  <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2">
-    {
-      cards.map((c) => (
-        <a
-          href={`/replication/${c.id}`}
-          class="group flex flex-col gap-3 bg-panel p-6 transition-colors hover:bg-panel-hi"
-        >
-          <div class="flex items-baseline justify-between gap-3">
-            <h2 class="font-display text-lg text-ink">{c.title}</h2>
-            <span class="shrink-0 font-mono text-[11px] uppercase tracking-wide text-muted">
-              {c.methods} {c.methods === 1 ? "section" : "sections"}
-            </span>
-          </div>
-          <p class="text-sm leading-relaxed text-muted">{c.blurb}</p>
-          {c.scripts > 0 && (
-            <span class="mt-auto font-mono text-[11px] uppercase tracking-wide text-stable">
-              {c.scripts} replication {c.scripts === 1 ? "script" : "scripts"}
-            </span>
-          )}
-        </a>
-      ))
-    }
+  <div class="mt-12 space-y-12">
+    {families.map((f) => (
+      <section>
+        <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-border pb-3">
+          <h2 id={f.id} class="scroll-mt-24 font-display text-xl text-ink">{f.title}</h2>
+          <a href={`/replication/${f.id}`} class="font-mono text-[11px] uppercase tracking-wide text-muted transition-colors hover:text-ink">
+            Full notes &amp; scripts →
+          </a>
+        </div>
+        <ul class="divide-y divide-border">
+          {f.rows.map((r) => (
+            <li class="grid gap-x-6 gap-y-1.5 py-3.5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,0.9fr)]">
+              <div>
+                <p class="text-sm leading-snug text-ink">{r.item}</p>
+                {topics[r.fn] && (
+                  <a href={`/reference/${r.fn}`} class="font-mono text-[12px] text-stable hover:underline">{r.fn}()</a>
+                )}
+              </div>
+              <p class="text-[13px] leading-snug text-muted">{r.check || "Unit tests"}</p>
+              <div>
+                <span class={`inline-block rounded-full border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide ${chip[r.kind]}`}>{r.verdict}</span>
+                {r.kind !== "clean" && r.detail && <p class="mt-1.5 text-xs leading-snug text-muted">{r.detail}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </div>
 
-  <p class="mt-10 text-xs leading-relaxed text-muted">
-    Cited PDFs are not redistributed here — the bibliography carries DOIs and working-paper
-    links instead. Every shipped item has an archived script; the earliest ones (STADF,
-    kernel-purge, SBZ, common-bubble, root inference, PDC) were archived retroactively.
-  </p>
+  <section class="mt-16 border-t border-border pt-10">
+    <h2 id="notes" class="scroll-mt-24 font-display text-xl text-ink">Full research notes</h2>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
+      The working notes behind the table, one page per family: sources, the exact numbers
+      reproduced, what was simplified, what remains open, and every script in full.
+    </p>
+    <ul class="mt-6 divide-y divide-border border-y border-border">
+      {pages.map((p) => (
+        <li>
+          <a href={`/replication/${p.id}`} class="grid gap-1 py-3 transition-colors hover:bg-panel sm:grid-cols-[16rem_minmax(0,1fr)] sm:gap-4">
+            <span class="text-sm text-ink">{p.data.title}</span>
+            <span class="text-sm leading-snug text-muted">{p.data.blurb}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-6 text-xs leading-relaxed text-muted">
+      Cited PDFs are not redistributed here; the <a href="/replication/references" class={link}>bibliography</a>
+      carries DOIs and working-paper links instead.
+    </p>
+  </section>
 </DocsLayout>

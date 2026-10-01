@@ -59,6 +59,17 @@ body {
   font-family: var(--font-sans);
 }
 
+/* A `grid` with no grid-cols-* at the current breakpoint gets one implicit
+   `auto` column, which grows to its widest unbreakable child (a code line, a
+   KaTeX block) and scrolls the page sideways on phones. Default it to a
+   shrinkable single column; it sits in the base layer, so any grid-cols-*
+   utility still wins. */
+@layer base {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 /* ---- long-form markdown ---------------------------------------------------
    Hand-written rather than @tailwindcss/typography: with a fixed nine-token
    palette, theming the plugin is more work than the CSS it would replace. */
@@ -67,6 +78,8 @@ body {
   font-size: 0.9375rem;
   line-height: 1.75;
   color: var(--color-muted);
+  /* long `code` spans and URLs in the notes would otherwise push phones sideways */
+  overflow-wrap: anywhere;
 }
 
 .prose > * + * {

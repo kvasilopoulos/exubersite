@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from "astro:content";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { guideSection, beyondPsySection } from "../../sidebars";
+
+export async function getStaticPaths() {
+  const pages = await getCollection("guide");
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const { Content, headings } = await render(page);
+const family = page.data.family;
+---
+
+<DocsLayout
+  eyebrow={page.data.group === "Guide" ? "Guide" : "Beyond PSY"}
+  title={page.data.title}
+  description={page.data.blurb}
+  headings={headings}
+  sidebar={[guideSection(), await beyondPsySection()]}
+>
+  <article class="prose">
+    <Content />
+  </article>
+
+  <aside class="mt-16 rounded-lg border border-border bg-panel p-5 text-sm leading-relaxed text-muted">
+    <p class="font-mono text-[11px] uppercase tracking-wide">Going further</p>
+    <ul class="mt-3 space-y-2">
+      <li>
+        Every function on this page is documented in the <a class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive" href="/reference">reference index</a>.
+      </li>
+      {
+        family && (
+          <li>
+            To see how these methods were validated, with the formulas, published numbers and
+            re-runnable scripts, read the <a class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive" href={`/replication/${family}`}>replication note</a>.
+          </li>
+        )
+      }
+    </ul>
+  </aside>
+</DocsLayout>

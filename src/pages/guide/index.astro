@@ -45,12 +45,22 @@ const headings = [
   { depth: 2, slug: "install", text: "Install" },
   { depth: 2, slug: "first-run", text: "A first run" },
   { depth: 2, slug: "reading-the-output", text: "Reading the output" },
+  { depth: 2, slug: "which-method", text: "Which method do I need?" },
+];
+
+const choices = [
+  { q: "Is the variance of my series changing over time?", a: "Volatility-robustness tests", href: "/guide/volatility-robustness" },
+  { q: "I already believe there is a bubble. When did it start and end, and how fast did it grow?", a: "Dating and root inference", href: "/guide/dating" },
+  { q: "I want to be alerted as new data arrive.", a: "Real-time monitoring", href: "/guide/monitoring" },
+  { q: "Do two series bubble together, or does one spill into the other?", a: "Multivariate bubble tests", href: "/guide/multivariate" },
+  { q: "I want a test that does not rely on the recursive ADF.", a: "Alternative paradigms", href: "/guide/alternatives" },
+  { q: "I want to study the size or power of a test, or generate example data.", a: "Simulating bubbles", href: "/guide/simulation" },
 ];
 const link = "text-ink underline decoration-border underline-offset-4 hover:decoration-explosive";
 ---
 
 <DocsLayout
-  eyebrow="Guide · 1 of 3"
+  eyebrow="Guide"
   title="Getting started"
   description="Install exuber in R, Python or C++, run a bubble test on simulated data, and read the result. The next two pages explain what the test does and which settings change it."
   headings={headings}
@@ -89,6 +99,25 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
     </ul>
     <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted">
       Next, read about <a href="/guide/methodology" class={link}>what ADF, SADF, GSADF and BSADF test</a>.
+    </p>
+  </section>
+
+  <section id="which-method" class="scroll-mt-24 mt-14 border-t border-border pt-14">
+    <h2 class="font-display text-2xl text-ink">Which method do I need?</h2>
+    <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+      The test above is the right starting point for most series. The packages also cover a
+      number of situations it was not designed for. Each guide page below runs a short example
+      and says when to prefer one function over another.
+    </p>
+    <ul class="mt-6 max-w-2xl space-y-3 text-sm leading-relaxed text-muted">
+      {choices.map((c) => (
+        <li>{c.q} <a href={c.href} class={link}>{c.a}</a>.</li>
+      ))}
+    </ul>
+    <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted">
+      Validation notes, the formulas behind each method and the scripts that reproduce the
+      published numbers are kept in the <a href="/replication" class={link}>replication record</a>
+      for readers who want to check the work.
     </p>
   </section>
 </DocsLayout>

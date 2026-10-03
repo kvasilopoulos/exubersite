@@ -13,6 +13,7 @@ export async function getStaticPaths() {
 const { page } = Astro.props;
 const { Content, headings } = await render(page);
 const sidebar = [await replicationSection()];
+const guidePage = (await getCollection("guide")).find((g) => g.data.family === page.id);
 
 // Vite reads the vendored .R/.py files at build time. The markdown links to
 // the R scripts as #script-<name> anchors (Python: #script-<name>-py), so the
@@ -37,6 +38,17 @@ const nPy = scripts.filter((s) => s.lang === "python").length;
   headings={headings}
   sidebar={sidebar}
 >
+  {
+    guidePage && (
+      <p class="mb-8 rounded-lg border border-border bg-panel px-4 py-3 text-sm leading-relaxed text-muted">
+        This page is the technical record behind the methods. To learn how to run them, start with{" "}
+        <a class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive" href={`/guide/${guidePage.id}`}>
+          {guidePage.data.title}
+        </a>{" "}
+        in the guide.
+      </p>
+    )
+  }
   <article class="prose">
     <Content />
   </article>

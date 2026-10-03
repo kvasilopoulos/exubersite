@@ -6,6 +6,8 @@ export const GUIDE_PAGES = [
   { href: "/guide", label: "Getting started" },
   { href: "/guide/methodology", label: "Methodology" },
   { href: "/guide/critical-values", label: "Settings and critical values" },
+  { href: "/guide/pipeline", label: "Results, tidying and plotting" },
+  
 ];
 
 export async function replicationSection(): Promise<SidebarSection> {
@@ -38,12 +40,14 @@ export function guideSection(): SidebarSection {
   return { title: "Guide", items: GUIDE_PAGES };
 }
 
-// The method families beyond PSY, which are documented in the replication notes.
+// The method families beyond PSY: user guides built from the exuber vignettes.
 export async function beyondPsySection(): Promise<SidebarSection> {
-  const { items } = await replicationSection();
+  const pages = (await getCollection("guide"))
+    .filter((p) => p.data.group === "Beyond PSY")
+    .sort((a, b) => a.data.order - b.data.order);
   return {
     title: "Beyond PSY",
-    items: items.filter((i) => i.href !== "/replication" && i.href !== "/replication/references"),
+    items: pages.map((p) => ({ href: `/guide/${p.id}`, label: p.data.title })),
   };
 }
 

@@ -60,7 +60,7 @@ const nPy = scripts.filter((s) => s.lang === "python").length;
                 </span>
               </summary>
               <div class="code-block border-t border-border">
-                <Code code={s.code} lang={s.lang as "r" | "python"} />
+                <Code theme="github-light" code={s.code} lang={s.lang as "r" | "python"} />
               </div>
             </details>
           ))}

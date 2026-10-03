@@ -62,7 +62,7 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
       {install.map((i) => (
         <div>
           <p class="font-mono text-[11px] uppercase tracking-wide text-muted">{i.label}</p>
-          <div class="mt-2 text-[13px]"><Code code={i.code} lang={i.lang as "r" | "sh"} /></div>
+          <div class="mt-2 text-[13px]"><Code theme="github-light" code={i.code} lang={i.lang as "r" | "sh"} /></div>
           <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{i.note}</p>
         </div>
       ))}

@@ -15,7 +15,8 @@ export default defineConfig({
     "/suite": "/#suite",
   },
   markdown: {
-    // Astro ships Shiki; a light theme to sit on the white ground. The panel
+    // Astro ships Shiki; a light theme to sit on the white ground (<Code> in
+    // .astro files defaults to github-dark, so each passes theme too). The panel
     // background is overridden in global.css so it matches the palette.
     shikiConfig: { theme: "github-light", wrap: false },
   },

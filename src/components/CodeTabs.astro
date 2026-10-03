@@ -26,7 +26,7 @@ const { tabs } = Astro.props;
   {
     tabs.map((t, i) => (
       <div data-panel={i} hidden={i !== 0} class="code-block">
-        <Code code={t.code} lang={t.lang as any} />
+        <Code theme="github-light" code={t.code} lang={t.lang as any} />
       </div>
     ))
   }

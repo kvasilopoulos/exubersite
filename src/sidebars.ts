@@ -28,8 +28,8 @@ export function referenceSection(): SidebarSection {
         href: `/reference#${slugify(g.title)}`,
         label: g.title,
       })),
-      { href: "/reference#python", label: "Python — pyexuber" },
-      { href: "/reference#cpp", label: "C++ — exubercore" },
+      { href: "/reference#python", label: "Python (pyexuber)" },
+      { href: "/reference#cpp", label: "C++ (exubercore)" },
     ],
   };
 }
@@ -38,7 +38,7 @@ export function guideSection(): SidebarSection {
   return { title: "Guide", items: GUIDE_PAGES };
 }
 
-// The method families past PSY -- the replication notes are where they live.
+// The method families beyond PSY, which are documented in the replication notes.
 export async function beyondPsySection(): Promise<SidebarSection> {
   const { items } = await replicationSection();
   return {

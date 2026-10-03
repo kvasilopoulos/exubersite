@@ -4,15 +4,15 @@ import Section from "./Section.astro";
 const beats = [
   {
     title: "A bubble is a root above one.",
-    body: "Conventional unit-root tests are left-tailed: they ask whether a series is stationary. A bubble is the opposite alternative — prices growing faster than fundamentals can justify, an autoregressive root greater than one. Right-tailed tests ask that question directly.",
+    body: "Conventional unit-root tests are left-tailed, which means they ask whether a series is stationary. A bubble is the opposite alternative: prices grow faster than fundamentals can justify, and the autoregressive root is greater than one. Right-tailed tests put that question directly.",
   },
   {
     title: "Full-sample tests miss the ones that burst.",
-    body: "A bubble that inflates and collapses averages out over a long sample and looks like an ordinary random walk (Evans, 1991). Running the test recursively — over expanding windows (SADF), then over every feasible start and end point (GSADF) — restores the power to see it.",
+    body: "A bubble that inflates and then collapses averages out over a long sample and looks like an ordinary random walk (Evans, 1991). Running the test recursively restores its power. The SADF test uses expanding windows, and the GSADF test uses every feasible start and end point.",
   },
   {
     title: "The statistic becomes a calendar.",
-    body: "Compared date by date against its threshold, the backward sup-ADF sequence (BSADF) marks when an episode started and when it ended. That is the answer an analyst or a central bank actually needs: not just whether, but when — and whether it is still running.",
+    body: "The backward sup-ADF sequence (BSADF) is compared with its critical value date by date, and the dates where it exceeds the critical value mark when an episode started and ended. An analyst or a central bank needs to know when a bubble occurred and whether it is still running, as well as whether one exists.",
   },
 ];
 
@@ -20,9 +20,9 @@ const beats = [
 
 <Section
   id="story"
-  eyebrow="02 — the story"
+  eyebrow="02 · the idea"
   title="Bubbles break the assumptions of standard tests."
-  lead="Asset-price bubbles are rare, short, and end abruptly — exactly the features that standard time-series tests are built to ignore. The recursive right-tailed approach of Phillips, Wu, Shi and Yu was the breakthrough that made them testable."
+  lead="Asset-price bubbles are rare, short and end abruptly, which are the features that standard time-series tests are built to ignore. The recursive right-tailed approach of Phillips, Wu, Shi and Yu made them testable."
 >
   <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
     {beats.map((b, i) => (
@@ -35,9 +35,9 @@ const beats = [
   </div>
 
   <p class="mt-10 max-w-2xl text-base leading-relaxed text-ink">
-    That was the 2015 answer. Since then the literature has asked harder questions —
-    whether a rejection is a bubble or just volatility, how precisely the dates are
-    pinned down, whether it can be caught as it happens, and whether it is one market
-    or many. exuber follows that literature, method by method.
+    That was the 2015 answer. Later work has asked harder questions. Is a rejection a
+    bubble or only volatility? How precisely are the dates pinned down? Can a bubble be
+    caught as it happens? Is it confined to one market or spread across many? exuber
+    follows that literature method by method.
   </p>
 </Section>

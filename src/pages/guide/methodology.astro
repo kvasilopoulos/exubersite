@@ -10,28 +10,28 @@ const tests = [
     window: "Full sample, once.",
     tex: String.raw`\Delta y_t = \mu + \delta y_{t-1} + \sum_{i=1}^{k} \phi_i \Delta y_{t-i} + \varepsilon_t
       \qquad H_0\!:\ \delta = 0 \quad\text{vs}\quad H_1\!:\ \delta > 0`,
-    body: "The regression is the ordinary ADF test, but the alternative is right-tailed instead of left: a standard unit-root test asks whether δ < 0 (the series is stationary), bubble testing asks whether δ > 0 — whether the series is mildly explosive. Run once over the whole sample, ADF has no way to localize when that explosiveness happened, and its power collapses once a bubble has collapsed back to trend by the end of the sample.",
+    body: "The regression is the ordinary ADF regression, but the alternative is right-tailed instead of left-tailed. A standard unit-root test asks whether δ < 0, meaning the series is stationary. Bubble testing asks whether δ > 0, meaning the series is mildly explosive. Run once over the whole sample, ADF cannot say when the explosiveness occurred. Its power also collapses if the bubble has burst and the series has returned to trend by the end of the sample.",
   },
   {
     code: "SADF",
     name: "Supremum ADF",
     window: "Origin fixed at 0. End r₂ grows from r₀ to 1.",
     tex: String.raw`\mathrm{SADF} = \sup_{r_2 \in [r_0,\,1]} \mathrm{ADF}_{0}^{\,r_2}`,
-    body: "Phillips, Wu & Yu (2011). Re-runs the ADF regression on an expanding window that always starts at the beginning of the sample, and takes the largest statistic across all window endpoints. This localizes a single bubble reasonably well — but because the origin never moves, a second, later bubble gets diluted by all the stable pre-bubble data still sitting in every window, and SADF loses power.",
+    body: "Phillips, Wu & Yu (2011) repeat the ADF regression on an expanding window that always starts at the beginning of the sample, and take the largest statistic over all window endpoints. This locates a single bubble reasonably well. Because the starting point never moves, however, a second and later bubble is diluted by the stable pre-bubble data that remain in every window, and SADF loses power.",
   },
   {
     code: "GSADF",
     name: "Generalized SADF",
     window: "Both r₁ and r₂ float: r₂ ∈ [r₀,1], r₁ ∈ [0, r₂−r₀].",
     tex: String.raw`\mathrm{GSADF} = \sup_{\substack{r_2 \in [r_0,\,1] \\ r_1 \in [0,\,r_2 - r_0]}} \mathrm{ADF}_{r_1}^{\,r_2}`,
-    body: "Phillips, Shi & Yu (2015). Letting the window's start float too, not just its end, is the whole fix: the supremum is now taken over every window that could plausibly contain a bubble, so an early bubble no longer contaminates the test for a later, separate one. It is the foundation the rest of exuber builds on.",
+    body: "Phillips, Shi & Yu (2015) let the start of the window vary as well as its end. The supremum is then taken over every window that could contain a bubble, so an early bubble no longer contaminates the test for a later, separate one. The rest of exuber builds on this statistic.",
   },
   {
     code: "BSADF",
     name: "Backward SADF",
     window: "r₂ fixed at each point in time. r₁ ∈ [0, r₂−r₀].",
     tex: String.raw`\mathrm{BSADF}_{r_2} = \sup_{r_1 \in [0,\,r_2 - r_0]} \mathrm{ADF}_{r_1}^{\,r_2}`,
-    body: "GSADF's supremum, but stopped one step early: instead of also taking the sup over r₂, BSADF reports one statistic per time point r₂. That gives a full time series — the thing exuber actually plots — and GSADF is simply the maximum of this series. It's also what makes date-stamping possible.",
+    body: "BSADF takes the same supremum as GSADF but stops one step earlier. It does not take the supremum over r₂ and instead reports one statistic for each time point r₂. The result is a full time series, which is what exuber plots, and GSADF is the maximum of that series. Date-stamping also relies on this sequence.",
   },
 ];
 
@@ -45,7 +45,7 @@ const headings = [
 <DocsLayout
   eyebrow="Guide · 2 of 3"
   title="Methodology"
-  description="An asset price is explosive when it grows faster than a random walk can explain — the autoregressive root of the series exceeds one. That's the signature of a bubble while it's inflating, and it's directly testable: run the same right-tailed unit-root regression over the right window, repeatedly, and read off where the statistic crosses its threshold."
+  description="An asset price is explosive when it grows faster than a random walk can explain, which means the autoregressive root of the series exceeds one. This is the signature of an inflating bubble and it can be tested directly. Run the same right-tailed unit-root regression over many windows and note where the statistic crosses its critical value."
   headings={headings}
   sidebar={[guideSection(), await beyondPsySection()]}
 >
@@ -72,10 +72,10 @@ const headings = [
     <p class="font-mono text-xs uppercase tracking-widest text-muted">The recursive window</p>
     <h2 class="mt-4 font-display text-3xl text-ink">Where r₁ and r₂ live.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      r₀ is the minimum window fraction — too short a window and the ADF regression has no power.
-      Every valid GSADF window is a point in the shaded region below: an end r₂ no earlier than
-      r₀, and a start r₁ no later than r₂ − r₀. The dashed slice is the window BSADF uses to
-      produce a single reading at r₂*.
+      r₀ is the minimum window fraction. If the window is shorter than this, the ADF regression has
+      little power. Every valid GSADF window is a point in the shaded region below, with an end r₂ no
+      earlier than r₀ and a start r₁ no later than r₂ − r₀. The dashed slice contains the windows
+      BSADF uses to produce a single reading at r₂*.
     </p>
 
     <svg viewBox="0 0 320 240" class="mt-10 w-full max-w-md" role="img" aria-label="Diagram of the feasible (r1, r2) window region: a right triangle from r0 to 1, with a vertical slice at r2* showing the BSADF window">
@@ -106,21 +106,22 @@ const headings = [
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Date-stamping</p>
     <h2 class="mt-4 font-display text-3xl text-ink">From a statistic to a calendar date.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Plot BSADF(r₂) against its (r₂-specific) critical value across the whole sample and the
-      crossings are the bubble dates: origination is the first r₂ where the statistic climbs
-      above the threshold, termination is the first later r₂ where it falls back below. Phillips,
-      Shi &amp; Yu require the excursion to last at least <Math tex={String.raw`\delta \log(T)/T`} /> of
-      the sample before it counts, so a one-period spike above the line isn't mistaken for a bubble.
+      Plot BSADF(r₂) against its critical value (which is specific to each r₂) over the whole
+      sample, and the crossings give the bubble dates. Origination is the first r₂ at which the
+      statistic rises above the critical value, and termination is the first later r₂ at which it
+      falls back below. Phillips, Shi &amp; Yu require the excursion to last at least
+      <Math tex={String.raw`\delta \log(T)/T`} /> of the sample before it counts, so a one-period
+      spike above the line is not mistaken for a bubble.
     </p>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Threshold crossings are one way to date an episode, not the only one. exuber also ships
-      break-point estimators that date origination and collapse more precisely (Harvey,
-      Leybourne &amp; Sollis; Harvey, Leybourne &amp; Whitehouse; Pang, Du &amp; Chong;
-      Kejriwal, Nguyen &amp; Perron), confidence intervals on the explosive root itself, and
-      recovery dating — see <a href="/replication/dating-and-root-inference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">dating and root inference</a>.
+      Threshold crossings are only one way to date an episode. exuber also provides break-point
+      estimators that date origination and collapse more precisely (Harvey, Leybourne &amp; Sollis;
+      Harvey, Leybourne &amp; Whitehouse; Pang, Du &amp; Chong; Kejriwal, Nguyen &amp; Perron),
+      confidence intervals for the explosive root itself, and recovery dating. These are described
+      under <a href="/replication/dating-and-root-inference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">dating and root inference</a>.
     </p>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Next: <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">the two settings, and where the thresholds come from</a>.
+      Next, read about <a href="/guide/critical-values" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">the two settings and where the critical values come from</a>.
     </p>
   </section>
 </DocsLayout>

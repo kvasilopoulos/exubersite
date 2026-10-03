@@ -2,9 +2,9 @@
 import { getCollection, render } from "astro:content";
 import { links } from "../nav";
 
-// Build-time index: every page title plus every h2/h3 in the replication
-// corpus. ponytail: headings only, not full text — 58k words of body copy
-// wants Pagefind, add it if heading-level search proves too coarse.
+// Build-time index of every page title plus every h2/h3 in the replication
+// corpus. It covers headings only, not full text. The body copy runs to about
+// 58k words, so switch to Pagefind if heading-level search proves too coarse.
 const pages = await getCollection("replication");
 
 const index: { t: string; s: string; u: string }[] = links.map((l) => ({

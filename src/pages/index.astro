@@ -17,8 +17,8 @@ const badges = ["On CRAN", "JSS 2022", "30+ methods", "R · Python · C++"];
 ---
 
 <Base
-  title="exuber — testing for explosive dynamics"
-  description="The toolkit for explosive time series: bubble tests, date-stamping, real-time monitoring, volatility-robust and multivariate methods — each replicated against its source paper, in R, Python and C++."
+  title="exuber: testing for explosive dynamics"
+  description="Tests for explosive time series in R, Python and C++. Detect bubbles, date them, monitor in real time, and allow for changing volatility or several markets. Each method is replicated against its source paper."
 >
   <Nav />
   <main id="main" class="mx-auto max-w-5xl px-6">
@@ -29,8 +29,9 @@ const badges = ["On CRAN", "JSS 2022", "30+ methods", "R · Python · C++"];
           Detecting exuberance <em class="text-muted not-italic">before</em> the collapse.
         </h1>
         <p class="mt-6 text-base leading-relaxed text-muted">
-          Test for bubbles, date them, and monitor them as they form, with results that
-          hold up under changing volatility. Works on one series, a panel, or a whole market.
+          Test a series for a bubble, date the episode, and monitor it as it forms. The
+          tests allow for changing volatility and work on a single series, a panel, or a
+          whole market.
         </p>
 
         <div class="mt-8 rounded-lg border border-border bg-panel px-4 py-3 font-mono text-[13px] text-ink">
@@ -59,9 +60,9 @@ const badges = ["On CRAN", "JSS 2022", "30+ methods", "R · Python · C++"];
 
     <Section
       id="suite"
-      eyebrow="01 — get started"
-      title="One core. Three ways in."
-      lead="The expensive part of a GSADF run — a Sherman-Morrison-updated recursive least squares, repeated across O(T²) windows — lives once, in C++. Each language binding wraps that core and adds whatever that ecosystem's users actually need on top of it."
+      eyebrow="01 · get started"
+      title="One core, three ways in."
+      lead="The costly part of a GSADF run is a recursive least-squares fit, updated with the Sherman-Morrison formula and repeated over O(T²) windows. It is written once, in C++. Each language binding wraps that core and adds the tools that users of that language expect."
     >
       <div class="grid gap-4 sm:grid-cols-3">
         {suite.map((s) => <SuiteCard {...s} />)}
@@ -71,15 +72,16 @@ const badges = ["On CRAN", "JSS 2022", "30+ methods", "R · Python · C++"];
         <p class="font-mono text-xs uppercase tracking-widest text-muted">The same run</p>
         <h3 class="mt-4 font-display text-xl text-ink">Three languages, one statistic.</h3>
         <p class="mt-4 mb-6 text-sm leading-relaxed text-muted">
-          Simulate, test, calibrate, date-stamp. The R and Python paths differ only in
-          spelling; the C++ core stops at the statistic, because everything RNG-driven
+          The example simulates a series, tests it, calibrates the critical values and
+          date-stamps the result. The R and Python versions differ only in spelling. The
+          C++ core stops at the statistic, because anything that needs random numbers
           stays in the host language.
         </p>
         <CodeTabs tabs={examples} />
         <p class="mt-6 text-sm leading-relaxed text-muted">
           Install steps for each language are in the
-          <a href="/guide" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">getting-started guide</a>; the full
-          surface of each is in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
+          <a href="/guide" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">getting-started guide</a>.
+          Every function is listed in the <a href="/reference" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">reference index</a>.
         </p>
       </div>
     </Section>

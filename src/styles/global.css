@@ -11,8 +11,8 @@
 @theme {
   /* White ground, cool hairlines, ink-navy text. The three signal colors are
      tied to the regime classification the test statistic produces (stable vs
-     explosive) and to the critical-value threshold itself — they carry
-     meaning, so they survive the palette change unaltered. */
+     explosive) and to the critical-value threshold itself. They carry
+     meaning, so they stay the same when the palette changes. */
   --color-void: #ffffff;
   --color-panel: #fafafa;
   --color-panel-hi: #f4f4f5;
@@ -194,8 +194,8 @@ body {
   padding: 0.1em 0.35em;
 }
 
-/* Wide tables scroll inside themselves rather than pushing the page sideways —
-   the bibliography runs 67 rows of long citations. */
+/* Wide tables scroll inside themselves instead of pushing the page sideways.
+   The bibliography has 67 rows of long citations. */
 .prose table {
   display: block;
   overflow-x: auto;

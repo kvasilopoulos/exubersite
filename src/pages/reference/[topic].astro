@@ -13,8 +13,8 @@ export function getStaticPaths() {
 const { topic } = Astro.params;
 const doc = (reference.topics as Record<string, any>)[topic!];
 
-// Which pkgdown group(s) this topic belongs to -- drives both the "siblings"
-// sidebar and the breadcrumb back to the group's own description.
+// The pkgdown group or groups this topic belongs to. They drive both the
+// "siblings" sidebar and the link back to the group's own description.
 const groups = reference.r.filter((g) => g.entries.some((e) => e.topic === topic));
 const primaryGroup = groups[0];
 
@@ -31,7 +31,7 @@ function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-// One flat list: the topic's whole group, not the group index on top of it.
+// One flat list of the topic's whole group, without the group index above it.
 const sidebar = primaryGroup
   ? [
       {
@@ -46,7 +46,7 @@ const sidebar = primaryGroup
 ---
 
 <DocsLayout
-  eyebrow={primaryGroup ? primaryGroup.title : "R — exuber"}
+  eyebrow={primaryGroup ? primaryGroup.title : "R (exuber)"}
   title={doc.title}
   description={doc.aliases.length > 1 ? `Also: ${doc.aliases.filter((a: string) => a !== topic).join(", ")}` : ""}
   headings={headings}
@@ -132,8 +132,8 @@ const sidebar = primaryGroup
     <section class="mt-10">
       <h2 id="examples" class="scroll-mt-24 font-display text-xl text-ink">Examples</h2>
       <p class="mt-2 text-sm leading-relaxed text-muted">
-        Verbatim from the package's own documentation -- run as part of <code>R CMD check</code>{" "}
-        on every release.
+        These examples are copied from the package's own documentation and are run by{" "}
+        <code>R CMD check</code> on every release.
       </p>
       <div class="code-block mt-4">
         <Code theme="github-light" code={doc.examples} lang="r" />
@@ -160,9 +160,9 @@ const sidebar = primaryGroup
 </DocsLayout>
 
 <style>
-  /* Rd \section{}{} -- almost always a lifecycle/caveat note (see the
-     cat_caveat() pattern in exuber/CLAUDE.md) -- gets the same amber marker
-     as the replication corpus's caveat headings. */
+  /* An Rd \section{}{} is almost always a lifecycle or caveat note (see the
+     cat_caveat() pattern in exuber/CLAUDE.md). It gets the same amber marker
+     as the caveat headings in the replication corpus. */
   .rd-section {
     border-left: 2px solid var(--color-threshold);
     padding-left: 0.9rem;

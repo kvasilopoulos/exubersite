@@ -13,16 +13,16 @@ const topicPages: Record<string, unknown> = reference.topics;
 <DocsLayout
   eyebrow="Packages"
   title="Reference index"
-  description={`Every documented entry point across the three implementations — ${total} R topics grouped as in the package's own reference index — each function next to the methods that consume its output — plus the Python and C++ surfaces.`}
+  description={`Every documented entry point across the three implementations. The ${total} R topics are grouped as in the package's own reference index, with each function listed next to the methods that use its output. The Python and C++ interfaces follow.`}
   sidebar={sidebar}
 >
   <section class="prose">
     <p>
-      Grouping and descriptions come straight from <code>exuber</code>'s
-      <code>_pkgdown.yml</code>, so this index cannot drift from the package's own. Each row
-      opens its full documentation — arguments, return value, worked examples — rendered
-      natively on this site, parsed directly from the package's own <code>.Rd</code> files.
-      Groups that came out of the replication research link back to the family page that
+      The grouping and descriptions are taken from <code>exuber</code>'s
+      <code>_pkgdown.yml</code>, so this index matches the package's own. Each row
+      opens the full documentation for the function, with its arguments, return value and
+      worked examples. The pages are generated from the package's <code>.Rd</code> files.
+      Groups that came out of the replication research link to the family page that
       motivated them.
     </p>
     <details class="mt-4">
@@ -30,49 +30,50 @@ const topicPages: Record<string, unknown> = reference.topics;
       Naming conventions, and which generics work where
     </summary>
     <p class="mt-4">
-      Naming follows what a function actually computes, not just which paper it came from.
-      <code>radf_</code> is reserved for functions genuinely built on the recursive-ADF core —
-      they call <code>radf()</code> directly or reuse its <code>badf</code>/<code>bsadf</code>
-      output (<code>radf_tt()</code>, <code>radf_sign()</code>, and the <code>_cv</code>/
-      <code>_mc</code> critical-value engines). Everything else is named for what it does instead
-      of borrowed prefix: a <code>_test</code> suffix is a hypothesis test with its own null
-      distribution (<code>lbi_test()</code>, <code>ssu_test()</code>, <code>quantile_test()</code>,
-      <code>cobubble_test()</code>); a <code>dating_</code> prefix is a point-estimation /
-      model-selection procedure with no formal test at all (<code>dating_hls()</code>,
-      <code>dating_hlw()</code>, <code>dating_knp()</code>, <code>dating_pdc()</code>); a
-      <code>monitor_</code> prefix is real-time/sequential detection (<code>monitor_cusum()</code>,
-      <code>monitor_lbi()</code>, <code>monitor_quantile()</code>, and <code>monitor_radf()</code>
-      — grouped with its fellow monitors deliberately, even though it reuses <code>radf()</code>'s
-      own <code>badf</code>/<code>bsadf</code> internals, since "what monitors in real time" is
-      what a reader searching that prefix actually wants); a <code>root_</code> prefix is
-      confidence-interval inference on the <em>magnitude</em> of the explosive autoregressive root
-      itself, not a test for its presence (<code>rootstamp()</code>, via two S3 methods — default
-      for a single sub-sample, <code>radf_obj</code> to run every <code>datestamp()</code> episode
-      at once); and <code>contagion_reg()</code> stands on its own as a
-      point-estimation tool that performs no formal inference at all. Naming is a guide, not a
-      contract — for anything programmatic, call <code>exuber_functions(family = ...)</code>
-      instead of parsing names.
+      Function names follow what the function computes, not the paper it came from.
+      The prefix <code>radf_</code> is reserved for functions built on the recursive ADF core.
+      They either call <code>radf()</code> directly or reuse its <code>badf</code> and
+      <code>bsadf</code> output (<code>radf_tt()</code>, <code>radf_sign()</code>, and the
+      <code>_cv</code> and <code>_mc</code> critical-value functions). All other functions are
+      named for what they do. A <code>_test</code> suffix marks a hypothesis test with its own
+      null distribution (<code>lbi_test()</code>, <code>ssu_test()</code>,
+      <code>quantile_test()</code>, <code>cobubble_test()</code>). A <code>dating_</code> prefix
+      marks a point-estimation or model-selection procedure with no formal test
+      (<code>dating_hls()</code>, <code>dating_hlw()</code>, <code>dating_knp()</code>,
+      <code>dating_pdc()</code>). A <code>monitor_</code> prefix marks real-time or sequential
+      detection (<code>monitor_cusum()</code>, <code>monitor_lbi()</code>,
+      <code>monitor_quantile()</code> and <code>monitor_radf()</code>). We list
+      <code>monitor_radf()</code> with the other monitors even though it reuses the
+      <code>badf</code> and <code>bsadf</code> output of <code>radf()</code>, because a reader
+      looking for that prefix wants the functions that monitor in real time. A
+      <code>root_</code> prefix marks confidence-interval inference on the <em>magnitude</em> of
+      the explosive autoregressive root, which is a different question from whether it is present
+      (<code>rootstamp()</code> has two S3 methods: the default method handles a single sub-sample,
+      and the <code>radf_obj</code> method runs every <code>datestamp()</code> episode at once).
+      Finally, <code>contagion_reg()</code> stands on its own as a point-estimation tool that
+      performs no formal inference. The names are a guide and not a contract. For programmatic
+      use, call <code>exuber_functions(family = ...)</code> instead of parsing names.
     </p>
     <p class="mt-4">
-      Don't confuse the standalone <code>dating_</code> family above with
-      <a href="/reference/datestamp"><code>datestamp()</code></a> in the Analysis group below —
-      <code>datestamp()</code> is PSY's own threshold-crossing rule, a generic dispatched on any
-      <code>radf_obj</code> + <code>radf_cv</code> pair; the <code>dating_</code> functions are
-      unrelated SSR/BIC dating procedures called directly on raw data, with no critical value
-      involved at all.
+      The <code>dating_</code> family above is separate from
+      <a href="/reference/datestamp"><code>datestamp()</code></a> in the Analysis group below.
+      <code>datestamp()</code> applies the PSY threshold-crossing rule and is a generic that
+      works on any <code>radf_obj</code> and <code>radf_cv</code> pair. The <code>dating_</code>
+      functions are unrelated SSR/BIC dating procedures that take raw data directly and use no
+      critical value.
     </p>
     <p class="mt-4">
-      Only results that carry the <code>radf_obj</code> class can be passed to the shared
-      Analysis/Tidying/Plotting generics below (<code>summary()</code>, <code>datestamp()</code>,
-      <code>tidy()</code>, <code>autoplot()</code>) — everything else prints its own way, in a
-      shape that generic table doesn't fit. <code>radf_common()</code> and <code>radf_kp()</code>
-      return <code>radf()</code>'s own output unmodified and so support the full set.
-      <code>radf_sign()</code>/<code>radf_sign_dm()</code>/<code>radf_tt()</code> carry the class
-      too, but only <code>summary()</code>/<code>tidy()</code> currently work — their own
-      <code>_cv()</code> functions compute just the three scalar critical values
-      <code>summary()</code> needs, not the time-varying boundary <code>datestamp()</code>/
-      <code>autoplot()</code> require, a known gap. See <code>vignette("naming-and-analysis",
-      package = "exuber")</code> for the full picture with worked examples.
+      Only results of class <code>radf_obj</code> can be passed to the shared Analysis, Tidying
+      and Plotting generics below (<code>summary()</code>, <code>datestamp()</code>,
+      <code>tidy()</code>, <code>autoplot()</code>). Other results print in their own format,
+      which those generics do not fit. <code>radf_common()</code> and <code>radf_kp()</code>
+      return the output of <code>radf()</code> unchanged, so all four generics work on them.
+      <code>radf_sign()</code>, <code>radf_sign_dm()</code> and <code>radf_tt()</code> also carry
+      the class, but only <code>summary()</code> and <code>tidy()</code> work on them at present.
+      Their <code>_cv()</code> functions compute only the three scalar critical values that
+      <code>summary()</code> needs, not the time-varying boundary that <code>datestamp()</code>
+      and <code>autoplot()</code> require. This is a known gap. For the full picture with worked
+      examples, see <code>vignette("naming-and-analysis", package = "exuber")</code>.
     </p>
     </details>
   </section>
@@ -140,7 +141,7 @@ const topicPages: Record<string, unknown> = reference.topics;
         <section>
           <div class="border-b border-border pb-3">
             <h2 id={id} class="scroll-mt-24 font-display text-xl text-ink">
-              {label} — {data.package}
+              {label}: {data.package}
             </h2>
             <p class="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">{data.note}</p>
             <a
@@ -171,8 +172,8 @@ const topicPages: Record<string, unknown> = reference.topics;
   {
     reference.ungrouped.length > 0 && (
       <p class="mt-14 border-t border-border pt-6 text-xs leading-relaxed text-muted">
-        <span class="font-mono uppercase tracking-wide">Not indexed</span> — {reference.ungrouped.length}{" "}
-        exports are documented under an aliased topic and so carry no row of their own:{" "}
+        <span class="font-mono uppercase tracking-wide">Not indexed.</span> {reference.ungrouped.length}{" "}
+        exports are documented under an aliased topic and so have no row of their own:{" "}
         {reference.ungrouped.map((n) => (
           <code class="font-mono">{n} </code>
         ))}

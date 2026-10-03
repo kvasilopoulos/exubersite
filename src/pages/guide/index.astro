@@ -8,37 +8,37 @@ import { guideSection, beyondPsySection } from "../../sidebars";
 const install = [
   {
     id: "r",
-    label: "R — exuber",
+    label: "R (exuber)",
     lang: "r",
     code: `install.packages("exuber")                       # CRAN release
 devtools::install_github("kvasilopoulos/exuber") # development version`,
-    note: "Methods beyond the original PSY test (dating, volatility-robust, monitoring, multivariate) arrive on CRAN with exuber 2.0.0; until then they're in the development version.",
+    note: "The methods beyond the original PSY test (dating, volatility-robust tests, monitoring and multivariate methods) will reach CRAN with exuber 2.0.0. Until then they are in the development version.",
   },
   {
     id: "python",
-    label: "Python — pyexuber",
+    label: "Python (pyexuber)",
     lang: "sh",
     code: `git clone https://github.com/kvasilopoulos/pyexuber
 cd pyexuber
 uv sync --dev`,
-    note: "Not on PyPI yet, so build from source: a C++17 compiler, CMake ≥ 3.16 and a system Armadillo (apt install libarmadillo-dev, brew install armadillo, or vcpkg). Imported as exuber.",
+    note: "The package is not on PyPI yet, so it must be built from source. You need a C++17 compiler, CMake ≥ 3.16 and a system Armadillo (apt install libarmadillo-dev, brew install armadillo, or vcpkg). It is imported as exuber.",
   },
   {
     id: "cpp",
-    label: "C++ — exubercore",
+    label: "C++ (exubercore)",
     lang: "sh",
     code: `git clone https://github.com/kvasilopoulos/exubercore
 cd exubercore
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build`,
-    note: "Needs a system Armadillo with BLAS/LAPACK. Ships the statistic only; critical values, dating and simulation live in the R and Python packages.",
+    note: "This needs a system Armadillo with BLAS/LAPACK. The library provides the statistic only. Critical values, dating and simulation are in the R and Python packages.",
   },
 ];
 
 const outputs = [
-  { fn: "summary()", topic: "summary.radf_obj", body: "for each series and statistic (ADF, SADF, GSADF), whether H₀ of a unit root is rejected at 90/95/99%." },
-  { fn: "autoplot()", topic: "autoplot.radf_obj", body: "the BSADF sequence against its critical value, with explosive spans shaded." },
-  { fn: "datestamp()", topic: "datestamp", body: "one Start / Peak / End / Duration row per detected episode." },
+  { fn: "summary()", topic: "summary.radf_obj", body: "reports, for each series and statistic (ADF, SADF, GSADF), whether the null hypothesis of a unit root is rejected at 90, 95 and 99%." },
+  { fn: "autoplot()", topic: "autoplot.radf_obj", body: "plots the BSADF sequence against its critical value and shades the explosive spans." },
+  { fn: "datestamp()", topic: "datestamp", body: "returns one Start / Peak / End / Duration row for each detected episode." },
 ];
 
 const headings = [
@@ -72,9 +72,10 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
   <section id="first-run" class="scroll-mt-24 mt-14 border-t border-border pt-14">
     <h2 class="font-display text-2xl text-ink">A first run</h2>
     <p class="mt-4 mb-6 max-w-2xl text-sm leading-relaxed text-muted">
-      Test, calibrate, date-stamp. The R and Python paths differ only in spelling. Python
-      accepts a numpy array, a 1-D sequence, or anything with <code class="text-ink">.to_numpy()</code>
-      (pandas/polars).
+      The example tests a series, calibrates the critical values and date-stamps the result. The
+      R and Python versions differ only in spelling. In Python the data can be a numpy array, a
+      one-dimensional sequence, or anything with a <code class="text-ink">.to_numpy()</code> method
+      (such as a pandas or polars column).
     </p>
     <CodeTabs tabs={examples} />
   </section>
@@ -87,7 +88,7 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
       ))}
     </ul>
     <p class="mt-8 max-w-2xl text-sm leading-relaxed text-muted">
-      Next: <a href="/guide/methodology" class={link}>what ADF, SADF, GSADF and BSADF actually test</a>.
+      Next, read about <a href="/guide/methodology" class={link}>what ADF, SADF, GSADF and BSADF test</a>.
     </p>
   </section>
 </DocsLayout>

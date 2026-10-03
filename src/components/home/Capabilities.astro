@@ -4,37 +4,37 @@ import Section from "./Section.astro";
 const capabilities = [
   {
     q: "Is there a bubble at all?",
-    body: "ADF, SADF, GSADF and the BSADF sequence from one recursive least-squares pass — per series, with a summary that says reject or not.",
+    body: "ADF, SADF, GSADF and the BSADF sequence all come from one recursive least-squares pass. Each series gets a summary that says whether the null is rejected.",
     fns: ["radf()", "summary()", "autoplot()"],
     href: "/guide/methodology",
   },
   {
     q: "Is my threshold right for my sample?",
-    body: "No closed-form null distribution exists, so thresholds are simulated: Monte Carlo, wild bootstrap, sieve bootstrap — or fetched precomputed for lag 0–4, n ≤ 4000.",
+    body: "The null distribution has no closed form, so the critical values are simulated by Monte Carlo, wild bootstrap or sieve bootstrap. For lags 0–4 and n ≤ 4000 they can also be fetched precomputed.",
     fns: ["radf_mc_cv()", "radf_wb_cv()", "radf_sb_cv()"],
     href: "/guide/critical-values",
   },
   {
     q: "When did it start, and when did it end?",
-    body: "Origination, collapse and recovery dates, alternative dating estimators, and confidence intervals on the explosive root itself.",
+    body: "These functions give origination, collapse and recovery dates, alternative dating estimators, and confidence intervals for the explosive root itself.",
     fns: ["datestamp()", "rootstamp()", "dating_hlw()", "radf_recovery()"],
     href: "/replication/dating-and-root-inference",
   },
   {
     q: "Is it a bubble, or just volatility?",
-    body: "Time-varying volatility produces spurious bubbles. Time-transformed, weighted, sign-based and kernel-purged tests guard against it.",
+    body: "Time-varying volatility can produce spurious bubbles. Time-transformed, weighted, sign-based and kernel-purged tests are designed to guard against this.",
     fns: ["radf_tt()", "radf_sbz()", "radf_sign()", "radf_kp()"],
     href: "/replication/volatility-robustness",
   },
   {
     q: "Is it happening right now?",
-    body: "Train on a stable window, then watch new observations arrive — CUSUM, LBI and quantile detectors with controlled false-alarm rates.",
+    body: "Train on a stable window, then check each new observation as it arrives. The CUSUM, LBI and quantile detectors control the false-alarm rate.",
     fns: ["monitor()", "monitor_cusum()", "monitor_lbi()", "monitor_quantile()"],
     href: "/replication/monitoring",
   },
   {
     q: "Is it one market, or many?",
-    body: "Common bubbles in large panels, co-explosive pairs, and contagion from one market to another.",
+    body: "These tools look for common bubbles in large panels, co-explosive pairs, and contagion from one market to another.",
     fns: ["radf_common()", "cobubble_test()", "contagion_reg()"],
     href: "/replication/multivariate",
   },
@@ -43,9 +43,9 @@ const capabilities = [
 
 <Section
   id="capabilities"
-  eyebrow="03 — what it answers"
-  title="Six questions every bubble study runs into."
-  lead="The original PSY test answers the first. The rest come from the literature that followed, and each has its own family of methods in exuber — linked below to the notes and replications behind them."
+  eyebrow="03 · what it answers"
+  title="Six questions that every bubble study meets."
+  lead="The original PSY test answers the first question. The rest come from later literature, and exuber has a family of methods for each. Every card links to the notes and replications behind it."
 >
   <div class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
     {capabilities.map((c) => (
@@ -59,7 +59,7 @@ const capabilities = [
     ))}
   </div>
   <p class="mt-6 text-sm text-muted">
-    Simulating your own bubbles? See the
+    To simulate your own bubbles, see the
     <a href="/replication/simulation-dgps" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">simulation DGPs</a>.
   </p>
 </Section>

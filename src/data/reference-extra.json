@@ -1,10 +1,10 @@
 {
-  "_comment": "Hand-maintained. The Python and C++ surfaces are small and change rarely, so they are not machine-derived the way the R index is (scripts/sync-content.R). Keep in step with pyexuber/src/exuber/__init__.py and exubercore/include/exubercore/radf.hpp.",
+  "_comment": "Maintained by hand. The Python and C++ interfaces are small and change rarely, so they are not generated the way the R index is (scripts/sync_content.py). Keep this file in step with pyexuber/src/exuber/__init__.py and exubercore/include/exubercore/radf.hpp.",
   "python": {
     "package": "pyexuber",
     "import": "import exuber",
     "repo": "https://github.com/kvasilopoulos/pyexuber",
-    "note": "Bindings over exubercore. Monte Carlo and wild-bootstrap critical values are ported; the sieve bootstrap (radf_sb_cv), the second wild-bootstrap variant (radf_wb_cv2), and the summary/tidy/diagnostics layer are not yet.",
+    "note": "Python bindings to exubercore. The Monte Carlo and wild-bootstrap critical values are ported. The sieve bootstrap (radf_sb_cv), the second wild-bootstrap variant (radf_wb_cv2) and the summary, tidy and diagnostics functions are not yet available.",
     "groups": [
       {
         "title": "Test",
@@ -50,7 +50,7 @@
   "cpp": {
     "package": "exubercore",
     "repo": "https://github.com/kvasilopoulos/exubercore",
-    "note": "The statistic itself, and nothing else — Armadillo only, no R or Python dependency. Both bindings call this one function. The lag == 0 closed form is bit-reproducible across toolchains; the lag > 0 Sherman-Morrison path agrees to ~1e-12 but is not bit-identical.",
+    "note": "This library computes the statistic and nothing else. It depends only on Armadillo, with no R or Python dependency, and both bindings call this one function. The lag == 0 closed form is bit-reproducible across toolchains. The lag > 0 Sherman-Morrison path agrees to about 1e-12 but is not bit-identical.",
     "groups": [
       {
         "title": "namespace exubercore",

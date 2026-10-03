@@ -33,8 +33,8 @@ const { title, description } = Astro.props;
     <slot />
 
     <script>
-      // One copy button per highlighted block, added after render so every
-      // page — markdown or hand-authored — gets it without opting in.
+      // Adds one copy button per highlighted block after render, so every
+      // page, whether markdown or hand-authored, gets it without opting in.
       for (const pre of document.querySelectorAll<HTMLElement>("pre.astro-code")) {
         let host = pre.parentElement!;
         if (!host.classList.contains("code-block")) {

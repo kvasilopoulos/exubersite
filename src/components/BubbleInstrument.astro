@@ -1,9 +1,9 @@
 ---
-// Deterministic synthetic reading: a periodically-collapsing bubble path
-// (in the spirit of exuber's simulated DGPs) on top, and a simplified
-// recursive t-statistic reading underneath, crossing a critical-value
-// threshold exactly where the price path turns explosive. Illustrative,
-// not a real computed BSADF series -- labelled as such in the caption.
+// A deterministic synthetic example. The top panel is a periodically
+// collapsing bubble path, in the spirit of exuber's simulated DGPs. The
+// bottom panel is a simplified recursive t-statistic that crosses a critical
+// value where the price path turns explosive. It is illustrative and not a
+// real BSADF series, and the caption says so.
 
 function mulberry32(seed: number) {
   return function () {
@@ -125,7 +125,7 @@ const explosiveSegments = runs.map((r) => {
   </svg>
 
   <figcaption class="mt-4 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-wide text-muted">
-    <span>Simulated series — illustrative BSADF reading</span>
+    <span>Simulated series, illustrative BSADF reading</span>
     <span class="flex items-center gap-4">
       <span class="flex items-center gap-1.5"><i class="inline-block h-1.5 w-1.5 rounded-full bg-stable"></i>stable</span>
       <span class="flex items-center gap-1.5"><i class="inline-block h-1.5 w-1.5 rounded-full bg-explosive"></i>explosive</span>

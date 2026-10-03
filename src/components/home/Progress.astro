@@ -21,9 +21,9 @@ const chip: Record<Status, string> = {
 };
 
 const releases = [
-  { name: "exubercore", state: "v0.3.1", body: "Tagged; pinned by both bindings." },
-  { name: "exuber", state: "1.1.0 on CRAN", body: "2.0.0 — every method above — in preparation for CRAN." },
-  { name: "pyexuber", state: "0.1.0 in preparation", body: "Installable from source today; PyPI release to follow." },
+  { name: "exubercore", state: "v0.3.1", body: "Tagged, and both bindings pin this version." },
+  { name: "exuber", state: "1.1.0 on CRAN", body: "Version 2.0.0, which includes every method above, is being prepared for CRAN." },
+  { name: "pyexuber", state: "0.1.0 in preparation", body: "It can be installed from source today. A PyPI release will follow." },
 ];
 
 const open = [
@@ -34,9 +34,9 @@ const open = [
 
 <Section
   id="progress"
-  eyebrow="05 — progress"
-  title="What is implemented, where, and what is next."
-  lead="exuber is actively developed. The matrix below summarises the method-by-implementation parity record the project keeps by hand; the C++ core deliberately stops at the statistic, so everything simulation-driven lives in R and Python."
+  eyebrow="05 · progress"
+  title="What is implemented, where, and what comes next."
+  lead="The table below summarises the parity record, which lists each method against each implementation and is maintained by hand. The C++ core stops at the statistic, so everything that needs simulation lives in R and Python."
 >
   <div class="overflow-x-auto rounded-lg border border-border">
     <table class="w-full min-w-[36rem] text-left text-sm">
@@ -80,7 +80,7 @@ const open = [
       </ul>
     </div>
     <div>
-      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Open, and documented as such</h3>
+      <h3 class="font-mono text-xs uppercase tracking-widest text-muted">Still open</h3>
       <ul class="mt-4 space-y-3">
         {open.map((o) => (
           <li class="flex gap-3 text-sm leading-relaxed text-muted">

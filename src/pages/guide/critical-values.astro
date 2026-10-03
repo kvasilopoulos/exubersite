@@ -6,12 +6,12 @@ const params = [
   {
     name: "minw",
     default: "(0.01 + 1.8/√T)·T",
-    body: "The minimum window size, in observations. Too short and the ADF regression inside it has no power; too long and early, short-lived bubbles fall below the floor and can't be tested at all. The default is Phillips, Shi & Yu's rule of thumb, a function of the sample size T alone — pass an integer to override it.",
+    body: "The minimum window size, in observations. If it is too short, the ADF regression inside the window has little power. If it is too long, early and short-lived bubbles fall below the floor and cannot be tested at all. The default is the rule of thumb of Phillips, Shi & Yu, which depends only on the sample size T. Pass an integer to override it.",
   },
   {
     name: "lag",
     default: "0",
-    body: "The number of lagged Δy terms in the ADF regression — the same augmentation as ordinary ADF, applied inside every recursive window. Fixed, 0 by default. The precomputed critical values cover lag 0 to 4, so a lagged run needs no simulation of its own; for the sieve bootstrap, radf_sb_cv(type = \"aic\" / \"bic\") can pick the lag automatically, once per series.",
+    body: "The number of lagged Δy terms in the ADF regression. This is the same augmentation as in an ordinary ADF test, applied inside every recursive window. It is fixed and defaults to 0. The precomputed critical values cover lags 0 to 4, so a run with lags needs no simulation of its own. For the sieve bootstrap, radf_sb_cv(type = \"aic\" / \"bic\") can choose the lag automatically, once per series.",
   },
 ];
 
@@ -29,7 +29,7 @@ const headings = [
 <DocsLayout
   eyebrow="Guide · 3 of 3"
   title="Settings and critical values"
-  description="radf() takes only two parameters, window size and lag length. Everything else about a test's sensitivity comes from the critical values you read the statistic against, and GSADF has no closed-form distribution: every threshold is simulated, either once for a lookup table or from your own data."
+  description="radf() takes only two parameters, the window size and the lag length. The rest of a test's behaviour depends on the critical values you compare the statistic with. The GSADF statistic has no closed-form distribution, so every critical value is simulated, either once for a lookup table or from your own data."
   headings={headings}
   sidebar={[guideSection(), await beyondPsySection()]}
 >
@@ -48,8 +48,8 @@ const headings = [
       </article>
     ))}
     <p class="text-sm leading-relaxed text-muted">
-      Both are arguments to <a href="/reference/radf" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf()</code></a> —
-      see its full reference entry for the return value and worked examples.
+      Both are arguments to <a href="/reference/radf" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf()</code></a>.
+      Its reference entry describes the return value and gives worked examples.
     </p>
   </section>
 
@@ -57,23 +57,23 @@ const headings = [
     <p class="font-mono text-xs uppercase tracking-widest text-muted">The other choice</p>
     <h2 class="mt-4 font-display text-2xl text-ink">Which critical values to read against.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      The statistic from <code class="text-ink">radf()</code> means nothing without a threshold.
-      Three ways to get one, in increasing order of how much they cost to compute — and of how
-      well they match your actual data:
+      The statistic from <code class="text-ink">radf()</code> needs a critical value before it
+      can be interpreted. There are three ways to get one. They are listed in order of
+      increasing computing cost, and each matches your data more closely than the last:
     </p>
 
     <div class="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-3">
       <div class="flex flex-col gap-2 bg-panel p-6">
         <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Precomputed (default)</span>
-        <p class="text-sm leading-relaxed text-muted">Monte Carlo tables simulated once for every T up to 4,000 and lag 0–4, fetched on first use and cached. What you get when you pass no <code class="text-ink">cv</code>.</p>
+        <p class="text-sm leading-relaxed text-muted">Monte Carlo tables simulated once for every T up to 4,000 and lags 0–4. They are fetched on first use and cached. You get these when you pass no <code class="text-ink">cv</code>.</p>
       </div>
       <div class="flex flex-col gap-2 bg-panel p-6">
         <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Monte Carlo</span>
-        <p class="text-sm leading-relaxed text-muted">Simulated under the null (a random walk) for your exact T and <code class="text-ink">minw</code>. Assumes homoskedastic Gaussian innovations. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.</p>
+        <p class="text-sm leading-relaxed text-muted">Simulated under the null (a random walk) for your exact T and <code class="text-ink">minw</code>. This assumes homoskedastic Gaussian innovations. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.</p>
       </div>
       <div class="flex flex-col gap-2 bg-panel p-6">
         <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Bootstrap</span>
-        <p class="text-sm leading-relaxed text-muted">Built from your own data, so it inherits the heteroskedasticity or autocorrelation actually there: wild (<a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>, <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>) or sieve (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>, panel).</p>
+        <p class="text-sm leading-relaxed text-muted">Built from your own data, so it reproduces any heteroskedasticity or autocorrelation the data contain. The wild bootstrap (<a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>, <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>) and the sieve bootstrap (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>, for panels) are both available.</p>
       </div>
     </div>
   </section>
@@ -82,16 +82,16 @@ const headings = [
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Monte Carlo</p>
     <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null directly.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      Draw a pure random walk — <code class="text-ink">cumsum(rnorm(n))</code>, nothing else — run
-      GSADF on it, and repeat. A few thousand replications later, the 90th/95th/99th percentile
-      of that empirical distribution is the critical value at that sample size. Exact for that T
-      and <code class="text-ink">minw</code>, but assumes homoskedastic Gaussian innovations,
-      which real series rarely have. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.
+      Draw a pure random walk, <code class="text-ink">cumsum(rnorm(n))</code>, run GSADF on it,
+      and repeat. After a few thousand replications, the 90th, 95th and 99th percentiles of the
+      simulated distribution are the critical values for that sample size. They are exact for
+      that T and <code class="text-ink">minw</code>, but they assume homoskedastic Gaussian
+      innovations, which real series rarely have. See <a href="/reference/radf_mc_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_mc_cv()</code></a>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      The default tables were built exactly this way: 2,000 seeded replications for every
-      lag from 0 to 4 and every sample size up to 4,000 — then served as a lookup so a typical
-      <code class="text-ink">radf()</code> call doesn't re-simulate anything (see the shared store below).
+      The default tables were built in this way, with 2,000 seeded replications for every lag
+      from 0 to 4 and every sample size up to 4,000. They are served as a lookup, so a typical
+      <code class="text-ink">radf()</code> call does not need to simulate anything (see the shared store below).
     </p>
   </section>
 
@@ -100,11 +100,11 @@ const headings = [
     <h2 class="mt-4 font-display text-2xl text-ink">Simulate the null from your data.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
       Instead of drawing fresh Gaussian noise, fit the null model to the actual series, take its
-      residuals, and resample them with random ± sign weights each replication. Whatever
-      heteroskedasticity is really in the data — volatility clustering, a variance break, fat
-      tails — survives into the simulated critical value instead of being assumed away.
-      Correspondingly more expensive: it's specific to one dataset, not reusable across series.
-      See <a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>.
+      residuals, and resample them with random ± sign weights in each replication. Any
+      heteroskedasticity in the data, such as volatility clustering, a variance break or fat
+      tails, carries over into the simulated critical value instead of being assumed away.
+      The method costs more, and its critical values apply to one dataset and cannot be reused
+      for other series. See <a href="/reference/radf_wb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_cv()</code></a>.
     </p>
   </section>
 
@@ -112,45 +112,45 @@ const headings = [
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Variants</p>
     <h2 class="mt-4 font-display text-2xl text-ink">Other bootstraps, for other problems.</h2>
     <ul class="mt-6 max-w-xl space-y-4 text-sm leading-relaxed text-muted">
-      <li><strong class="font-medium text-ink">Skewed innovations.</strong> <code class="text-ink">radf_wb_cv(dist_skew = TRUE)</code> draws Hafner's (2020) right-skewed multiplier weights, for series whose returns are themselves strongly right-skewed — cryptocurrencies, in the paper's own application.</li>
-      <li><strong class="font-medium text-ink">Phillips–Shi wild bootstrap.</strong> Fits a null autoregression (lag fixed or chosen by AIC/BIC), resamples its residuals, and simulates a sample of chosen length — robust to non-stationary volatility, and the bootstrap real-time <code class="text-ink">monitor()</code> uses for its training window. See <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>.</li>
-      <li><strong class="font-medium text-ink">Sieve bootstrap.</strong> Fits an autoregression to each series and resamples its residuals, preserving serial correlation; gives critical values for the panel statistic. Lag fixed or chosen by AIC/BIC (Pedersen &amp; Schütte, 2020). See <a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>.</li>
+      <li><strong class="font-medium text-ink">Skewed innovations.</strong> <code class="text-ink">radf_wb_cv(dist_skew = TRUE)</code> draws Hafner's (2020) right-skewed multiplier weights. Use it for series whose returns are strongly right-skewed, such as the cryptocurrencies in the paper's own application.</li>
+      <li><strong class="font-medium text-ink">Phillips–Shi wild bootstrap.</strong> Fits a null autoregression (lag fixed or chosen by AIC/BIC), resamples its residuals, and simulates a sample of the chosen length. It allows for non-stationary volatility, and real-time <code class="text-ink">monitor()</code> uses it for the training window. See <a href="/reference/radf_wb_ps_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_wb_ps_cv()</code></a>.</li>
+      <li><strong class="font-medium text-ink">Sieve bootstrap.</strong> Fits an autoregression to each series and resamples its residuals, which preserves serial correlation. It gives critical values for the panel statistic. The lag is fixed or chosen by AIC/BIC (Pedersen &amp; Schütte, 2020). See <a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>.</li>
     </ul>
   </section>
 
   <section id="shared-store" class="scroll-mt-24 border-t border-border pt-14 mt-14">
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Shared store</p>
-    <h2 class="mt-4 font-display text-2xl text-ink">One table, served, not bundled.</h2>
+    <h2 class="mt-4 font-display text-2xl text-ink">One table, served rather than bundled.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
       <code class="text-ink">exuber</code> and <code class="text-ink">pyexuber</code>
-      read the same precomputed tables from a small read-only store: one object per
-      (<code class="text-ink">lag</code>, <code class="text-ink">n</code>), simulated once with
-      2,000 replications, fetched on first use and cached on disk. In R this is automatic —
-      any <code class="text-ink">summary()</code>, <code class="text-ink">datestamp()</code> or
-      <code class="text-ink">autoplot()</code> without an explicit <code class="text-ink">cv</code> uses it. In Python it's
-      <code class="text-ink">exuber.radf_crit(n, lag)</code>.
+      read the same precomputed tables from a small read-only store. It holds one object for
+      each (<code class="text-ink">lag</code>, <code class="text-ink">n</code>) pair, simulated
+      once with 2,000 replications, fetched on first use and cached on disk. In R this happens
+      automatically whenever <code class="text-ink">summary()</code>, <code class="text-ink">datestamp()</code> or
+      <code class="text-ink">autoplot()</code> is called without an explicit <code class="text-ink">cv</code>. In Python
+      the call is <code class="text-ink">exuber.radf_crit(n, lag)</code>.
     </p>
     <p class="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-      Coverage: <code class="text-ink">lag</code> 0 through 4, every sample size from the smallest
-      the PSY window allows up to <code class="text-ink">n = 4,000</code>. Beyond that,
-      <code class="text-ink">radf_mc_cv()</code> / <code class="text-ink">radf_wb_cv()</code>
-      remain the way to compute your own.
+      The store covers <code class="text-ink">lag</code> 0 through 4 and every sample size from the
+      smallest the PSY window allows up to <code class="text-ink">n = 4,000</code>. For larger
+      samples, compute your own with <code class="text-ink">radf_mc_cv()</code> or
+      <code class="text-ink">radf_wb_cv()</code>.
     </p>
     <span class="mt-6 inline-block rounded-full border border-border px-3 py-1 font-mono text-[11px] uppercase tracking-wide text-muted">
-      shared critical-value store — live
+      shared critical-value store, live
     </span>
   </section>
 
   <section id="panel-statistics" class="scroll-mt-24 border-t border-border pt-14 mt-14">
     <p class="font-mono text-xs uppercase tracking-widest text-muted">Multiple series</p>
-    <h2 class="mt-4 font-display text-2xl text-ink">Panel statistics come free.</h2>
+    <h2 class="mt-4 font-display text-2xl text-ink">Panel statistics come at no extra cost.</h2>
     <p class="mt-6 max-w-xl text-sm leading-relaxed text-muted">
-      There's no separate panel setting. Pass <code class="text-ink">radf()</code> a matrix or
-      data frame with more than one column and it computes the univariate statistics for every
-      series in one pass, plus <code class="text-ink">bsadf_panel</code> and
-      <code class="text-ink">gsadf_panel</code> — the cross-sectional average and its supremum —
-      as a by-product, at close to no extra cost. The panel statistic is tested against the
-      sieve bootstrap's panel critical values (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>).
+      There is no separate panel setting. If you pass <code class="text-ink">radf()</code> a matrix or
+      data frame with more than one column, it computes the univariate statistics for every
+      series in one pass. It also returns <code class="text-ink">bsadf_panel</code> and
+      <code class="text-ink">gsadf_panel</code>, the cross-sectional average and its supremum,
+      at almost no extra cost. The panel statistic is tested against the panel critical values
+      from the sieve bootstrap (<a href="/reference/radf_sb_cv" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive"><code class="text-ink">radf_sb_cv()</code></a>).
     </p>
   </section>
 </DocsLayout>

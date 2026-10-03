@@ -1,19 +1,19 @@
-// The three implementations and the same run in each language -- shared by the
-// homepage's "get started" section and /guide (Getting started).
+// The three implementations and the same run in each language. The homepage's
+// "get started" section and /guide (Getting started) both use this.
 
 export const suite = [
   {
     name: "exubercore",
     lang: "C++ / Armadillo",
     status: "core" as const,
-    description: "The recursive least-squares statistic itself. No R or Python dependency — plain matrices in, a statistic out. Everything RNG-driven (simulation, bootstrap, date-stamping) stays in the host language for now.",
+    description: "The recursive least-squares statistic itself. It has no R or Python dependency: it takes plain matrices and returns a statistic. Anything that needs random numbers (simulation, bootstrap, date-stamping) stays in the host language for now.",
     href: "https://github.com/kvasilopoulos/exubercore",
   },
   {
     name: "exuber",
     lang: "R · on CRAN",
     status: "stable" as const,
-    description: "The full surface: the statistic, Monte Carlo and wild-bootstrap critical values, date-stamping, plotting, and panel methods.",
+    description: "The complete package: the statistic, Monte Carlo and wild-bootstrap critical values, date-stamping, plotting and panel methods.",
     install: 'install.packages("exuber")',
     href: "https://github.com/kvasilopoulos/exuber",
   },
@@ -21,7 +21,7 @@ export const suite = [
     name: "pyexuber",
     lang: "Python · pybind11",
     status: "early" as const,
-    description: "Bindings onto the same core, imported as exuber, with the R surface ported method by method — tests, bootstraps, dating, monitoring, multivariate, simulation — and cross-checked against R.",
+    description: "Bindings to the same core, imported as exuber. The R functions are ported method by method (tests, bootstraps, dating, monitoring, multivariate methods and simulation) and cross-checked against R.",
     install: "git clone …exuber/pyexuber && uv sync --dev",
     href: "https://github.com/kvasilopoulos/pyexuber",
   },

@@ -13,15 +13,15 @@ const stats = [
 const principles = [
   {
     title: "Primary source first.",
-    body: "Every method is implemented from the paper that introduced it — formulas, tables and theorems — not from a secondary restatement.",
+    body: "Every method is implemented from the paper that introduced it, using its formulas, tables and theorems rather than a later restatement.",
   },
   {
     title: "Independent re-derivation.",
-    body: "Each statistic is re-computed by a separate script: brute-force regressions, hand-derived identities, Monte Carlo size and power against the paper's own tables.",
+    body: "A separate script recomputes each statistic using brute-force regressions and hand-derived identities. Monte Carlo size and power are compared with the paper's own tables.",
   },
   {
     title: "Failures on the record.",
-    body: "Where a published number was not reproduced, or a script found a bug, the replication record says so rather than quietly fixing it.",
+    body: "Where a published number could not be reproduced, or a script exposed a bug, the replication record says so.",
   },
 ];
 
@@ -54,9 +54,9 @@ const bibtex = `@Article{exuber,
 
 <Section
   id="evidence"
-  eyebrow="04 — academic grounding"
-  title="Every method traced to its paper, and checked against it."
-  lead="Econometric software is only as credible as its agreement with the literature. exuber is peer-reviewed in the Journal of Statistical Software, and every method added since is backed by a public replication record."
+  eyebrow="04 · academic grounding"
+  title="Every method is traced to its paper and checked against it."
+  lead="Econometric software is only as credible as its agreement with the literature. The exuber package was peer-reviewed in the Journal of Statistical Software, and each method added since has a public replication record."
 >
   <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-border bg-border lg:grid-cols-4">
     {stats.map((s) => (
@@ -89,10 +89,11 @@ const bibtex = `@Article{exuber,
         ))}
       </ul>
       <p class="mt-6 text-sm text-muted">
-        The full bibliography, by methodological family, is in
-        <a href="/replication/references" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">references</a>;
-        what was reproduced and how is in the
-        <a href="/replication" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">replication record</a>.
+        The full bibliography, grouped by methodological family, is in
+        <a href="/replication/references" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">references</a>.
+        The
+        <a href="/replication" class="text-ink underline decoration-border underline-offset-4 hover:decoration-explosive">replication record</a>
+        shows what was reproduced and how.
       </p>
     </div>
     <div>

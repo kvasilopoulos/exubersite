@@ -1,5 +1,7 @@
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 export default defineConfig({
   site: "https://exuber.kvasilopoulos.com",
@@ -15,6 +17,8 @@ export default defineConfig({
     "/suite": "/#suite",
   },
   markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
     // Astro ships Shiki; a light theme to sit on the white ground (<Code> in
     // .astro files defaults to github-dark, so each passes theme too). The panel
     // background is overridden in global.css so it matches the palette.

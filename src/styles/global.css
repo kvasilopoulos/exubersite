@@ -258,3 +258,8 @@ pre.astro-code code {
 .code-block > button:focus-visible {
   opacity: 1;
 }
+
+/* Math from remark-math/rehype-katex in markdown pages: scroll a wide display
+   equation inside its own box and use the ink colour, not the muted body text. */
+.prose .katex { color: var(--color-ink); overflow-wrap: normal; }
+.prose .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.25rem 0; }

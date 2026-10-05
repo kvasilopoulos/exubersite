@@ -16,13 +16,11 @@ const families = pages
 
 const counts = {
   clean: table.filter((r) => r.kind === "clean").length,
-  fixed: table.filter((r) => r.kind === "fixed").length,
   caveat: table.filter((r) => r.kind === "caveat").length,
 };
 
 const chip: Record<string, string> = {
   clean: "text-stable border-stable/40",
-  fixed: "text-explosive border-explosive/40",
   caveat: "text-threshold border-threshold/40",
 };
 const link = "text-ink underline decoration-border underline-offset-4 hover:decoration-explosive";
@@ -31,7 +29,7 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
 <DocsLayout
   eyebrow="The replication record"
   title="Replication"
-  description="Every method that exuber implements beyond the original PSY test was taken from its primary source, implemented, and then re-derived independently by a standalone script. This page records what was reproduced, how, and where the result fell short."
+  description="Every method that exuber implements beyond the original PSY test comes from a published source and is checked by a standalone script. This page records what was reproduced and where the result falls short."
   sidebar={sidebar}
 >
   <section class="max-w-2xl space-y-4 text-sm leading-relaxed text-muted">
@@ -42,15 +40,13 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
     </p>
     <p>
       The package's own tests guard against regressions. The {scripts.length} scripts behind this
-      page re-derive each statistic from scratch, using brute-force regressions, hand-derived
+      page recompute each statistic from scratch with brute-force regressions, hand-derived
       identities, and Monte Carlo size and power compared with the paper's tables. Agreement
-      therefore means something independent of the code being checked. Where a script found a
-      bug, the bug is recorded on this page.
+      therefore says something independent of the code being checked.
     </p>
     <p>
-      Of the {table.length} methods, <span class="text-stable">{counts.clean} are clean</span>,
-      <span class="text-explosive">{counts.fixed} had a bug that was found and fixed</span>, and
-      <span class="text-threshold">{counts.caveat} shipped with a caveat</span>. Every script is
+      Of the {table.length} methods, <span class="text-stable">{counts.clean} reproduce their source</span>
+      and <span class="text-threshold">{counts.caveat} carry a caveat</span>. Every script is
       self-contained. The R scripts run from the <code class="font-mono text-ink">exuber/</code>
       package root, and the Python versions check that pyexuber reproduces the same numbers.
     </p>
@@ -89,9 +85,8 @@ const link = "text-ink underline decoration-border underline-offset-4 hover:deco
   <section class="mt-16 border-t border-border pt-10">
     <h2 id="notes" class="scroll-mt-24 font-display text-xl text-ink">Full research notes</h2>
     <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-      These are the working notes behind the table, with one page for each family. Each page lists
-      the sources, the exact numbers reproduced, what was simplified, what remains open, and every
-      script in full.
+      Each family has one page. It lists the sources, the exact numbers reproduced, what differs
+      from the paper, what remains open, and every script in full.
     </p>
     <ul class="mt-6 divide-y divide-border border-y border-border">
       {pages.map((p) => (

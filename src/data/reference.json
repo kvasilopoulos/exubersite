@@ -1674,7 +1674,7 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# Join the statistic path and the critical-value path. This is the table autoplot() is built on\naj <- augment_join(rsim_data, cv)\naj\n\n# Reproduce (a simplified version of) autoplot()'s own bsadf-vs-crit line plot\nlibrary(ggplot2)\naj \\%>\\%\n  dplyr::filter(sig == 95, stat == \"bsadf\") \\%>\\%\n  tidyr::pivot_longer(c(tstat, crit), names_to = \"series\") \\%>\\%\n  ggplot(aes(index, value, col = series)) +\n  geom_line() +\n  facet_wrap(~id, scales = \"free\")",
+      "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# Join the statistic path and the critical-value path. This is the table autoplot() is built on\naj <- augment_join(rsim_data, cv)\naj\n\n# Reproduce (a simplified version of) autoplot()'s own bsadf-vs-crit line plot\nlibrary(ggplot2)\naj %>%\n  dplyr::filter(sig == 95, stat == \"bsadf\") %>%\n  tidyr::pivot_longer(c(tstat, crit), names_to = \"series\") %>%\n  ggplot(aes(index, value, col = series)) +\n  geom_line() +\n  facet_wrap(~id, scales = \"free\")",
       "references": null,
       "seealso": null,
       "source": null,
@@ -2799,7 +2799,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_data_wdate \\%>\\%\n  radf() \\%>\\%\n  datestamp() \\%>\\%\n  autoplot()\n\n# Change the colour manually\nsim_data_wdate \\%>\\%\n  radf() \\%>\\%\n  datestamp() \\%>\\%\n  autoplot() +\n  ggplot2::scale_colour_manual(values = rep(\"black\", 4))",
+      "examples": "sim_data_wdate %>%\n  radf() %>%\n  datestamp() %>%\n  autoplot()\n\n# Change the colour manually\nsim_data_wdate %>%\n  radf() %>%\n  datestamp() %>%\n  autoplot() +\n  ggplot2::scale_colour_manual(values = rep(\"black\", 4))",
       "references": null,
       "seealso": null,
       "source": null,
@@ -4931,7 +4931,7 @@
         ]
       },
       "format": null,
-      "examples": "radf_psy1 <- radf(sim_psy1(100))\n\n# Default: p-values against a Monte Carlo null distribution\npv <- calc_pvalue(radf_psy1)\npv\n\n# Using the Wild-Bootstrapped null instead\nwb_psy1 <- radf_wb_distr(sim_psy1(100))\n\ncalc_pvalue(radf_psy1, wb_psy1)\n\nsb_psy1 <- radf_sb_distr(sim_data, nboot = 500)\n\ncalc_pvalue(radf(sim_data), sb_psy1)\n\n# Plot the three p-values for this series\nbarplot(unlist(pv[, c(\"adf\", \"sadf\", \"gsadf\")]), ylab = \"p-value\",\n  main = \"calc_pvalue(): rejects at the usual 5\\% level if the bar is short\")\nabline(h = 0.05, col = \"red\", lty = 2)",
+      "examples": "radf_psy1 <- radf(sim_psy1(100))\n\n# Default: p-values against a Monte Carlo null distribution\npv <- calc_pvalue(radf_psy1)\npv\n\n# Using the Wild-Bootstrapped null instead\nwb_psy1 <- radf_wb_distr(sim_psy1(100))\n\ncalc_pvalue(radf_psy1, wb_psy1)\n\nsb_psy1 <- radf_sb_distr(sim_data, nboot = 500)\n\ncalc_pvalue(radf(sim_data), sb_psy1)\n\n# Plot the three p-values for this series\nbarplot(unlist(pv[, c(\"adf\", \"sadf\", \"gsadf\")]), ylab = \"p-value\",\n  main = \"calc_pvalue(): rejects at the usual 5% level if the bar is short\")\nabline(h = 0.05, col = \"red\", lty = 2)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -7082,7 +7082,7 @@
         ]
       },
       "format": null,
-      "examples": "rsim_data <- radf(sim_data)\n\n# SV-ADF asymmetric-threshold dating (no critical values needed)\ndatestamp(rsim_data, option = \"svadf\")\n\n\\donttest{\n# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nds_data <- datestamp(rsim_data)\nds_data\n\n# Choose minimum window\ndatestamp(rsim_data, min_duration = psy_ds(nrow(sim_data)))\n\nautoplot(ds_data)\n}",
+      "examples": "rsim_data <- radf(sim_data)\n\n# SV-ADF asymmetric-threshold dating (no critical values needed)\ndatestamp(rsim_data, option = \"svadf\")\n\n# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nds_data <- datestamp(rsim_data)\nds_data\n\n# Choose minimum window\ndatestamp(rsim_data, min_duration = psy_ds(nrow(sim_data)))\n\nautoplot(ds_data)",
       "references": [
         [
           {
@@ -10027,7 +10027,7 @@
         ]
       },
       "format": null,
-      "examples": "# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nrsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")\n\n# Gate on the 90\\% critical value instead of the 95\\% default\ndiagnostics(rsim_data, sig_lvl = 90)",
+      "examples": "# The default `cv` is fetched from the shared critical-value store\n# (network on first use); pass `cv = radf_mc_cv(nrow(sim_data))` to stay offline\nrsim_data <- radf(sim_data)\ndiagnostics(rsim_data)\n\ndiagnostics(rsim_data, option = \"sadf\")\n\n# Gate on the 90% critical value instead of the 95% default\ndiagnostics(rsim_data, sig_lvl = 90)",
       "references": null,
       "seealso": null,
       "source": null,
@@ -15846,7 +15846,7 @@
         ]
       },
       "format": null,
-      "examples": "# Training window that controls size over a 2-year span of monthly data\ntb <- ps_tb(100, freq = \"monthly\", size = 2)\ntb\n\n\\donttest{\n# Use it directly as the training window of monitor()\nmonitor(sim_data, r_star = tb, boundary = \"kurozumi\")\n}",
+      "examples": "# Training window that controls size over a 2-year span of monthly data\ntb <- ps_tb(100, freq = \"monthly\", size = 2)\ntb\n\n# Use it directly as the training window of monitor()\nmonitor(sim_data, r_star = tb, boundary = \"kurozumi\")",
       "references": [
         [
           {
@@ -31216,7 +31216,7 @@
         ]
       },
       "format": null,
-      "examples": "\\donttest{\nrfd <- radf(sim_data)\nseries_names(rfd)\n\n# Rename the series, which carries through to the facet labels of tidy() and autoplot()\nseries_names(rfd) <- c(\"Bubble A\", \"Bubble B\", \"Bubble C\", \"Bubble D\", \"Bubble E\")\nseries_names(rfd)\ntidy(rfd)\nautoplot(rfd)\n}\n\n# Simulate bubble processes\ndta <- data.frame(psy1 = sim_psy1(n = 100), psy2 = sim_psy2(n = 100))\n\nrfd <- radf(dta)\n\nseries_names(rfd) <- c(\"OneBubble\", \"TwoBubbles\")",
+      "examples": "rfd <- radf(sim_data)\nseries_names(rfd)\n\n# Rename the series, which carries through to the facet labels of tidy() and autoplot()\nseries_names(rfd) <- c(\"Bubble A\", \"Bubble B\", \"Bubble C\", \"Bubble D\", \"Bubble E\")\nseries_names(rfd)\ntidy(rfd)\nautoplot(rfd)\n\n# Simulate bubble processes\ndta <- data.frame(psy1 = sim_psy1(n = 100), psy2 = sim_psy2(n = 100))\n\nrfd <- radf(dta)\n\nseries_names(rfd) <- c(\"OneBubble\", \"TwoBubbles\")",
       "references": null,
       "seealso": null,
       "source": null,
@@ -31672,7 +31672,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_blan(n = 100, seed = 123) \\%>\\%\n  autoplot()\n\nsim_blan(n = 250, type = \"rotermann_wilfling\", delta = 0.984, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_blan(n = 100, seed = 123) %>%\n  autoplot()\n\nsim_blan(n = 250, type = \"rotermann_wilfling\", delta = 0.984, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -32799,7 +32799,7 @@
           ]
         ]
       },
-      "examples": "# Explore the five bundled series before running any test\nmatplot(sim_data, type = \"l\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_data: the five bundled example series\")\nlegend(\"topleft\", legend = colnames(sim_data), col = 1:5, lty = 1, bty = \"n\")\n\n\\donttest{\n# The usual next step: run radf() and plot with the default critical values\nautoplot(radf(sim_data))\n}",
+      "examples": "# Explore the five bundled series before running any test\nmatplot(sim_data, type = \"l\", lty = 1, xlab = \"t\", ylab = \"value\",\n  main = \"sim_data: the five bundled example series\")\nlegend(\"topleft\", legend = colnames(sim_data), col = 1:5, lty = 1, bty = \"n\")\n\n# The usual next step: run radf() and plot with the default critical values\nautoplot(radf(sim_data))",
       "references": null,
       "seealso": [
         [
@@ -33565,7 +33565,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_evans(100, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_evans(100, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -34060,7 +34060,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_falsebubble(200, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_falsebubble(200, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -34292,7 +34292,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_fi(199, d = 0.2, seed = 1) \\%>\\%\n  autoplot()",
+      "examples": "sim_fi(199, d = 0.2, seed = 1) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -34754,7 +34754,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1) \\%>\\%\n  autoplot()\n\n# Feed skew-t innovations into sim_psy1() in place of i.i.d. Gaussian ones\nsim_psy1(n = 200, seed = 123, e = sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1)) \\%>\\%\n  autoplot()",
+      "examples": "sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1) %>%\n  autoplot()\n\n# Feed skew-t innovations into sim_psy1() in place of i.i.d. Gaussian ones\nsim_psy1(n = 200, seed = 123, e = sim_innov(199, dist = \"skew_t\", df = 3, xi = -0.75, seed = 1)) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -35090,7 +35090,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_mar(200, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_mar(200, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -35467,7 +35467,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_msbubble(200, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_msbubble(200, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -36741,7 +36741,7 @@
         ]
       },
       "format": null,
-      "examples": "# 100 periods with bubble origination date 40 and termination date 55\nsim_psy1(n = 100, seed = 123) \\%>\\%\n  autoplot()\n\n# 200 periods with bubble origination date 80 and termination date 110\nsim_psy1(n = 200, seed = 123) \\%>\\%\n  autoplot()\n\n# 200 periods with bubble origination date 100 and termination date 150\nsim_psy1(n = 200, te = 100, tf = 150, seed = 123) \\%>\\%\n  autoplot()\n\n# Same DGP, driven by GARCH(1,1) innovations instead of i.i.d. Gaussian\nsim_psy1(n = 200, seed = 123, e = sim_vol_garch(199, seed = 123)) \\%>\\%\n  autoplot()\n\n# Same DGP, with two deterministic level shifts\nsim_psy1(n = 200, seed = 123, shifts = list(date = c(50, 150), size = c(20, -20))) \\%>\\%\n  autoplot()",
+      "examples": "# 100 periods with bubble origination date 40 and termination date 55\nsim_psy1(n = 100, seed = 123) %>%\n  autoplot()\n\n# 200 periods with bubble origination date 80 and termination date 110\nsim_psy1(n = 200, seed = 123) %>%\n  autoplot()\n\n# 200 periods with bubble origination date 100 and termination date 150\nsim_psy1(n = 200, te = 100, tf = 150, seed = 123) %>%\n  autoplot()\n\n# Same DGP, driven by GARCH(1,1) innovations instead of i.i.d. Gaussian\nsim_psy1(n = 200, seed = 123, e = sim_vol_garch(199, seed = 123)) %>%\n  autoplot()\n\n# Same DGP, with two deterministic level shifts\nsim_psy1(n = 200, seed = 123, shifts = list(date = c(50, 150), size = c(20, -20))) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -37228,7 +37228,7 @@
         ]
       },
       "format": null,
-      "examples": "# 100 periods with bubble origination dates 20/60 and termination dates 40/70\nsim_psy2(n = 100, seed = 123) \\%>\\%\n autoplot()\n\n# 200 periods with bubble origination dates 40/120 and termination dates 80/140\nsim_psy2(n = 200, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "# 100 periods with bubble origination dates 20/60 and termination dates 40/70\nsim_psy2(n = 100, seed = 123) %>%\n autoplot()\n\n# 200 periods with bubble origination dates 40/120 and termination dates 80/140\nsim_psy2(n = 200, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -37664,7 +37664,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_tree(100, seed = 123) \\%>\\%\n  autoplot()",
+      "examples": "sim_tree(100, seed = 123) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -38063,7 +38063,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_break(199, seed = 1) \\%>\\%\n  autoplot()\n# Volatility triples half-way through a PSY bubble series\nsim_psy1(n = 200, seed = 123, e = sim_vol_break(199, seed = 123)) \\%>\\%\n  autoplot()",
+      "examples": "sim_vol_break(199, seed = 1) %>%\n  autoplot()\n# Volatility triples half-way through a PSY bubble series\nsim_psy1(n = 200, seed = 123, e = sim_vol_break(199, seed = 123)) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -38312,7 +38312,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_cir(199, seed = 1) \\%>\\%\n  autoplot()",
+      "examples": "sim_vol_cir(199, seed = 1) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -38569,7 +38569,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_garch(199, seed = 1) \\%>\\%\n  autoplot()\n# NASDAQ-calibrated TGARCH (Monschang & Wilfling 2021)\nsim_vol_garch(199, omega = 0.4387, alpha = 0, beta = 0.9319, gamma = 0.1306, seed = 1) \\%>\\%\n  autoplot()",
+      "examples": "sim_vol_garch(199, seed = 1) %>%\n  autoplot()\n# NASDAQ-calibrated TGARCH (Monschang & Wilfling 2021)\nsim_vol_garch(199, omega = 0.4387, alpha = 0, beta = 0.9319, gamma = 0.1306, seed = 1) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -38770,7 +38770,7 @@
         ]
       },
       "format": null,
-      "examples": "sim_vol_sv(199, seed = 1) \\%>\\%\n  autoplot()",
+      "examples": "sim_vol_sv(199, seed = 1) %>%\n  autoplot()",
       "references": [
         [
           {
@@ -40128,7 +40128,7 @@
       ],
       "value": null,
       "format": null,
-      "examples": "rsim_data <- radf(sim_data)\nds_data <- datestamp(rsim_data)\n\n# One row per detected explosive episode, across all series\ntidy(ds_data)\n\n# Pass the table to ggplot2 if the default layout of autoplot() does not suit you\nlibrary(ggplot2)\ntidy(ds_data) \\%>\\%\n  ggplot(aes(y = id)) +\n  geom_segment(aes(x = Start, xend = End, yend = id), linewidth = 3)",
+      "examples": "rsim_data <- radf(sim_data)\nds_data <- datestamp(rsim_data)\n\n# One row per detected explosive episode, across all series\ntidy(ds_data)\n\n# Pass the table to ggplot2 if the default layout of autoplot() does not suit you\nlibrary(ggplot2)\ntidy(ds_data) %>%\n  ggplot(aes(y = id)) +\n  geom_segment(aes(x = Start, xend = End, yend = id), linewidth = 3)",
       "references": null,
       "seealso": null,
       "source": null,

@@ -492,8 +492,8 @@ check). We checked `hlw_local_to_global()`'s index arithmetic directly. On a
 synthetic two-bubble DGP (20 reps), PSY step-1 detection found exactly 2
 windows in 13 of 20 reps. In the rest it fragmented into 3 or more spurious
 sub-windows. HLW's paper discusses this failure mode and proposes a
-run-joining heuristic for it, which we did not implement; see "Not
-implemented" below. Among the 13 clean reps, origination and collapse date
+run-joining heuristic for it, which we implemented later; see
+"Run-joining" below. Among the 13 clean reps, origination and collapse date
 bias for *both* bubbles was exactly 0 in every replication. Windows were
 correctly ordered and non-overlapping in all 20 reps. Under a pure `H0` null
 (no bubble), `dating_hlw()` never errors and returned 0 detected windows in
@@ -505,17 +505,20 @@ structural check, since HLW's paper states that the two-step procedure
 reduces to plain HLS when there is only one episode. Replication script:
 [replication/dating-and-root-inference/radf_hlw_validation.R](#script-radf_hlw_validation).
 
-**Not implemented.** HLW's run-joining heuristic for step-1 fragmentation
-("if up to 3 non-rejections are surrounded on either side by an explosive
-regime of length `ln(T)`, treat them as a single episode"). `dating_hlw()`
-uses `datestamp()`'s regimes as detected, un-joined, so a single true bubble
-can occasionally surface as several windows when PSY's step-1 detection
-fragments it. We quantified this above: 13/20 clean vs. 7/20 fragmented on
-the two-bubble DGP, and 12/15 vs. 3/15 on the single-bubble DGP. The
-fragmentation comes from noise in PSY's step-1 detection, and not from the
-window construction or the per-window fitting, both of which validated
-exactly. We scoped the heuristic out as its own small, well-defined
-follow-on.
+**Run-joining** (implemented 2026-09-30 as `dating_hlw(join = 3L)` in both
+exuber and pyexuber). This is HLW's own rule for step-1 fragmentation: if up
+to 3 non-rejections are surrounded on either side by an explosive regime of
+length `ln(T)`, treat them as a single episode. We apply it to the regimes
+from `datestamp()` before building the date windows. The helpers are
+`hlw_join_runs()` in R and `_join_runs()` in Python, and both are unit-tested
+on identical cases. Setting `join = 0` restores the un-joined behaviour.
+Before the rule, fragmentation from PSY's step-1 detection split a true
+bubble into several windows in 7/20 replications on the two-bubble DGP and in
+3/15 on the single-bubble DGP. On the replication script's DGPs the rule
+raises the two-bubble result from 13/20 to 14/20 clean replications, and
+leaves the single-bubble result at 12/15. The remaining fragmentation is
+split by gaps wider than 3 non-rejections. HLW's rule does not join those by
+design, so this is a limit of the heuristic and not of our implementation.
 
 ### Implementation (PDC/KS route)
 

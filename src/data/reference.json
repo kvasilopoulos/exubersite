@@ -1518,135 +1518,6 @@
       "author": null,
       "sections": []
     },
-    "augment_join": {
-      "topic": "augment_join",
-      "aliases": [
-        "augment_join"
-      ],
-      "title": "Augment into a joint model",
-      "usage": "augment_join(x, y, ...)",
-      "description": [
-        [
-          {
-            "t": "text",
-            "v": "Augment and then join objects."
-          }
-        ]
-      ],
-      "details": null,
-      "arguments": [
-        {
-          "name": "x",
-          "desc": [
-            {
-              "t": "text",
-              "v": "An object of class "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "obj"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "y",
-          "desc": [
-            {
-              "t": "text",
-              "v": "An object of class "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "cv"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "...",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Further arguments passed to methods."
-            }
-          ]
-        }
-      ],
-      "value": {
-        "kind": "prose",
-        "paragraphs": [
-          [
-            {
-              "t": "text",
-              "v": "A "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "tibble"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " joining the augmented statistics of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "x"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " with the augmented critical values of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "y"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "; see the methods for the exact columns."
-            }
-          ]
-        ]
-      },
-      "format": null,
-      "examples": null,
-      "references": null,
-      "seealso": null,
-      "source": null,
-      "author": null,
-      "sections": []
-    },
     "augment_join.radf_obj": {
       "topic": "augment_join.radf_obj",
       "aliases": [
@@ -1804,6 +1675,135 @@
       },
       "format": null,
       "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# Join the statistic path and the critical-value path. This is the table autoplot() is built on\naj <- augment_join(rsim_data, cv)\naj\n\n# Reproduce (a simplified version of) autoplot()'s own bsadf-vs-crit line plot\nlibrary(ggplot2)\naj \\%>\\%\n  dplyr::filter(sig == 95, stat == \"bsadf\") \\%>\\%\n  tidyr::pivot_longer(c(tstat, crit), names_to = \"series\") \\%>\\%\n  ggplot(aes(index, value, col = series)) +\n  geom_line() +\n  facet_wrap(~id, scales = \"free\")",
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "augment_join": {
+      "topic": "augment_join",
+      "aliases": [
+        "augment_join"
+      ],
+      "title": "Augment into a joint model",
+      "usage": "augment_join(x, y, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Augment and then join objects."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "y",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tibble"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " joining the augmented statistics of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "x"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the augmented critical values of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "y"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; see the methods for the exact columns."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": null,
       "references": null,
       "seealso": null,
       "source": null,
@@ -40500,135 +40500,6 @@
       "author": null,
       "sections": []
     },
-    "tidy_join": {
-      "topic": "tidy_join",
-      "aliases": [
-        "tidy_join"
-      ],
-      "title": "Tidy into a joint model",
-      "usage": "tidy_join(x, y, ...)",
-      "description": [
-        [
-          {
-            "t": "text",
-            "v": "Tidy or augment and then join objects."
-          }
-        ]
-      ],
-      "details": null,
-      "arguments": [
-        {
-          "name": "x",
-          "desc": [
-            {
-              "t": "text",
-              "v": "An object of class "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "obj"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "y",
-          "desc": [
-            {
-              "t": "text",
-              "v": "An object of class "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "cv"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "."
-            }
-          ]
-        },
-        {
-          "name": "...",
-          "desc": [
-            {
-              "t": "text",
-              "v": "Further arguments passed to methods."
-            }
-          ]
-        }
-      ],
-      "value": {
-        "kind": "prose",
-        "paragraphs": [
-          [
-            {
-              "t": "text",
-              "v": "A "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "tibble"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " joining the tidied statistics of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "x"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": " with the tidied critical values of "
-            },
-            {
-              "t": "code",
-              "c": [
-                {
-                  "t": "text",
-                  "v": "y"
-                }
-              ]
-            },
-            {
-              "t": "text",
-              "v": "; see the methods for the exact columns."
-            }
-          ]
-        ]
-      },
-      "format": null,
-      "examples": "rsim <- radf(sim_data)\nmc <- radf_mc_cv(nrow(sim_data), nrep = 200)\ntidy_join(rsim, mc)\naugment_join(rsim, mc)",
-      "references": null,
-      "seealso": null,
-      "source": null,
-      "author": null,
-      "sections": []
-    },
     "tidy_join.radf_obj": {
       "topic": "tidy_join.radf_obj",
       "aliases": [
@@ -40797,6 +40668,135 @@
       "value": null,
       "format": null,
       "examples": "rsim_data <- radf(sim_data, minw = 20)\ncv <- radf_wb_cv(sim_data, minw = 20)\n\n# One row per series/statistic, statistic and critical value side by side\ntidy_join(rsim_data, cv)\n\n# summary() and diagnostics() are themselves built on top of tidy_join()\nsummary(rsim_data, cv = cv)",
+      "references": null,
+      "seealso": null,
+      "source": null,
+      "author": null,
+      "sections": []
+    },
+    "tidy_join": {
+      "topic": "tidy_join",
+      "aliases": [
+        "tidy_join"
+      ],
+      "title": "Tidy into a joint model",
+      "usage": "tidy_join(x, y, ...)",
+      "description": [
+        [
+          {
+            "t": "text",
+            "v": "Tidy or augment and then join objects."
+          }
+        ]
+      ],
+      "details": null,
+      "arguments": [
+        {
+          "name": "x",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "obj"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "y",
+          "desc": [
+            {
+              "t": "text",
+              "v": "An object of class "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "cv"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
+            }
+          ]
+        },
+        {
+          "name": "...",
+          "desc": [
+            {
+              "t": "text",
+              "v": "Further arguments passed to methods."
+            }
+          ]
+        }
+      ],
+      "value": {
+        "kind": "prose",
+        "paragraphs": [
+          [
+            {
+              "t": "text",
+              "v": "A "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "tibble"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " joining the tidied statistics of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "x"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " with the tidied critical values of "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "y"
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "; see the methods for the exact columns."
+            }
+          ]
+        ]
+      },
+      "format": null,
+      "examples": "rsim <- radf(sim_data)\nmc <- radf_mc_cv(nrow(sim_data), nrep = 200)\ntidy_join(rsim, mc)\naugment_join(rsim, mc)",
       "references": null,
       "seealso": null,
       "source": null,

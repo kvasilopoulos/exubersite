@@ -14,7 +14,7 @@
     "fn": "radf_sbz",
     "check": "vs. paper's Table 1 bootstrap p-values",
     "kind": "fixed",
-    "verdict": "bug found + fixed",
+    "verdict": "bug found and fixed",
     "detail": ""
   },
   {
@@ -27,7 +27,7 @@
     "detail": ""
   },
   {
-    "item": "Root inference \u2014 Guo/Sun/Wang normal-t CI",
+    "item": "Root inference, Guo/Sun/Wang normal-t CI",
     "family": "dating-and-root-inference",
     "fn": "rootstamp",
     "check": "",
@@ -41,8 +41,8 @@
     "fn": "radf_common",
     "check": "vs. paper's Theorem 4.3",
     "kind": "fixed",
-    "verdict": "critical-value gap found, fixed (Bundle 1)",
-    "detail": ""
+    "verdict": "critical-value gap found and fixed",
+    "detail": "Bundle 1"
   },
   {
     "item": "PDC/KS sequential dating (+ WLS variant)",
@@ -51,7 +51,7 @@
     "check": "formula-exact vs. brute force + Monte Carlo consistency",
     "kind": "clean",
     "verdict": "clean",
-    "detail": "found already written, uncommitted, untested \u2014 validated from scratch"
+    "detail": "the code was already written but uncommitted and untested, and we validated it from scratch"
   },
   {
     "item": "Co-bubble (KPSS-type + wild bootstrap)",
@@ -68,7 +68,7 @@
     "fn": "contagion_reg",
     "check": "formula-exact vs. brute force (fixed-window AR1, NW ratio, LOOCV SSE) + directional sensible-behavior check",
     "kind": "fixed",
-    "verdict": "2 bugs found + fixed",
+    "verdict": "2 bugs found and fixed",
     "detail": "window-width off-by-one + LOOCV matrix-orientation bug (K %*% v vs. crossprod(K, v))"
   },
   {
@@ -104,8 +104,8 @@
     "fn": "radf_sign",
     "check": "formula-exact vs. brute-force recursive-mean loop + heteroskedasticity invariance + power + reproduction of the paper's own Table 1 Case-1 empirical size",
     "kind": "fixed",
-    "verdict": "bug found + fixed",
-    "detail": "pre-existing, not introduced by this item: print() crashed on radf_sign_cv()/radf_tt_cv() objects \u2014 missing mc_cv class tag"
+    "verdict": "bug found and fixed",
+    "detail": "pre-existing, not introduced by this item: print() crashed on radf_sign_cv()/radf_tt_cv() objects, missing mc_cv class tag"
   },
   {
     "item": "Stochastic explosive-coefficient SSU/GSSU + UR/GUR union (Kurozumi & Nishi 2025)",
@@ -113,8 +113,8 @@
     "fn": "ssu_test",
     "check": "formula-exact vs. brute-force lm() + manual cross-moment (any window start, GSSU sup) + every Table I column + Monte Carlo size/power",
     "kind": "fixed",
-    "verdict": "bug found + fixed",
-    "detail": "2026-09-29: residual cross-moment divided by window count minus 1 instead of the paper's minus 2 (the brute force had copied it; O(1/T))"
+    "verdict": "bug found and fixed",
+    "detail": "2026-09-29: residual cross-moment divided by window count minus 1 instead of the paper's minus 2 (the brute force had copied it; O(1/T)"
   },
   {
     "item": "CUSUM-type tests CS/GCS/CSSQ/GCSSQ (Kurozumi & Nishi 2025)",
@@ -140,7 +140,7 @@
     "fn": "monitor",
     "check": "training/monitoring separation + Monte Carlo false-alarm/detection rates",
     "kind": "fixed",
-    "verdict": "bug found + fixed",
+    "verdict": "bug found and fixed",
     "detail": "boundary names dropped for single-series input"
   },
   {
@@ -194,17 +194,17 @@
     "fn": "monitor_quantile",
     "check": "formula-exact vs. brute-force QR + badf-reuse structural check + Monte Carlo false-alarm/detection rates vs. standard SADF",
     "kind": "fixed",
-    "verdict": "two bugs found + fixed",
-    "detail": "per-r marginal quantile used as boundary instead of a supremum-calibrated one (gave 50% false-alarm rate against nominal 5%); and (2026-09-29) the limit's independent-BM term simulated as one z per path instead of a process over windows (true size 6.6-19.6% at a nominal 5%)"
+    "verdict": "2 bugs found and fixed",
+    "detail": "a per-r marginal quantile was used as the boundary instead of a supremum-calibrated one (a 50% false-alarm rate against a nominal 5%), and (2026-09-29) the independent Brownian-motion term of the limit was drawn once per path instead of as a process over windows (true size 6.6% to 19.6% at a nominal 5%)"
   },
   {
     "item": "Quantile monitoring, QPSY route (Wu, Shi & Wu 2025)",
     "family": "alternative-paradigms",
     "fn": "monitor_quantile",
-    "check": "formula-exact vs. brute-force QR over every window + grid-simulation brute force + Monte Carlo size across quantiles/innovations + power vs. SADF",
+    "check": "formula-exact vs. brute-force QR over every window + grid-simulation brute force + Monte Carlo size across quantiles and innovations + power vs. SADF",
     "kind": "caveat",
     "verdict": "shipped with caveat",
-    "detail": "asymptotic boundary well sized at the median (4%) but oversized away from it in small samples (35-44% at tau = 0.9, n = 100); the paper's bootstrap not implemented"
+    "detail": "the asymptotic boundary is well sized at the median (4%) but oversized away from it in small samples (35% to 44% at tau = 0.9, n = 100), and the paper's bootstrap is not implemented"
   },
   {
     "item": "SSR/BIC dating, HLS route (Harvey, Leybourne & Sollis 2017)",
@@ -212,7 +212,7 @@
     "fn": "dating_hls",
     "check": "formula-exact incl. full joint 3-breakpoint search vs. brute force + Monte Carlo model-selection accuracy",
     "kind": "fixed",
-    "verdict": "2 bugs found + fixed",
+    "verdict": "2 bugs found and fixed",
     "detail": "DGP-construction pitfall in validation (not a package bug) + a real incomplete sign-constraint gap in Models 1/3/4"
   },
   {
@@ -221,7 +221,7 @@
     "fn": "dating_hlw",
     "check": "window-arithmetic check + Monte Carlo breakpoint accuracy + exact-match check vs. standalone dating_hls()",
     "kind": "fixed",
-    "verdict": "bug found + fixed",
+    "verdict": "bug found and fixed",
     "detail": "datestamp()'s hard error on a no-bubble series wasn't caught"
   },
   {

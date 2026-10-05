@@ -214,11 +214,14 @@ def sync_replication_table() -> None:
             break
         item, family, file, check, verdict = (c.strip() for c in line.strip("| ").split(" | "))
         assert family in PUBLISHED, f"unknown family {family!r} in docs/README.md"
-        m = re.match(r"\*\*(.+?)\*\*[:\s]*(.*)", verdict)
-        head, detail = (m.group(1), m.group(2)) if m else (verdict.split(" (")[0], verdict[len(verdict.split(" (")[0]):])
+        # "bug found and fixed: why" or "clean (why)" -> head, detail
+        v = plain(verdict)
+        m = re.match(r"([^:(]+?)\s*(:\s+|\()(.*)$", v)
+        head, detail = (m.group(1), m.group(3)) if m else (v, "")
+        if m and m.group(2) == "(":
+            # "(note): rest" -> "note: rest"; "(note)" -> "note"
+            detail = re.sub(r"^([^()]*)\):\s*", r"\1: ", detail).removesuffix(")")
         kind = "caveat" if "caveat" in head else "fixed" if "fixed" in head else "clean"
-        # "(x)" -> "x"; "(x): y" -> "x: y"
-        detail = re.sub(r"^\(([^()]*)\):\s*|^\((.*)\)$", lambda d: f"{d[1]}: " if d[1] else d[2], detail.strip())
         rows.append({
             "item": plain(item),
             "family": family,

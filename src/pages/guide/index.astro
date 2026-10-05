@@ -18,10 +18,12 @@ devtools::install_github("kvasilopoulos/exuber") # development version`,
     id: "python",
     label: "Python (pyexuber)",
     lang: "sh",
-    code: `git clone https://github.com/kvasilopoulos/pyexuber
+    code: `pip install pyexuber
+# or, to build from source:
+git clone https://github.com/kvasilopoulos/pyexuber
 cd pyexuber
 uv sync --dev`,
-    note: "The package is not on PyPI yet, so it must be built from source. You need a C++17 compiler, CMake ≥ 3.16 and a system Armadillo (apt install libarmadillo-dev, brew install armadillo, or vcpkg). It is imported as exuber.",
+    note: "Version 0.1.0 is on PyPI with prebuilt wheels for Linux, macOS and Windows (Python 3.10 or later), so pip needs no compiler. A source build needs a C++17 compiler, CMake ≥ 3.16 and a system Armadillo (apt install libarmadillo-dev, brew install armadillo, or vcpkg). The package is imported as exuber.",
   },
   {
     id: "cpp",

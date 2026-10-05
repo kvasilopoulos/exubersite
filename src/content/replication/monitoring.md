@@ -3,34 +3,36 @@ title: "Real-time monitoring for bubbles"
 blurb: "Sequential and real-time detection: training-vs-monitoring orchestration, CUSUM families, and closed-form boundaries."
 order: 3
 ---
-Status: the Phillips & Shi (2020) procedure (Family A, `monitor()`) was
-implemented on 2026-08-09. On 2026-08-10 we added the CUSUM procedure of
-Family B: Homm & Breitung (2012)'s original statistic and the
-volatility-robust "CUSUMV" kernel variant of Astill et al. (2023),
-`monitor_cusum(..., type = "standard"/"kernel")`, together with HB's own
-finite-sample boundary (`monitor_cusum(..., boundary = "finite")`). The
-same day we added Kurozumi (2020)'s closed-form `SADF` boundary and its
-`GSADF_{s0}` generalization (`monitor(..., boundary = "kurozumi",
-s0 = 0/0.4/0.8)`), HB's second statistic FLUC (`monitor(...,
-boundary = "fluc")`), and Breitung & Diegel (2025)'s static LBI test
-(`lbi_test()`) with their sequential extension (`monitor_lbi()`, constant
-boundary `mCUSUM`/`wCUSUM`). Two items were read but not implemented:
-Horváth and Trapani's RCA framework, which still lacks a feasible
-nuisance-parameter estimator (see below), and Kurozumi's 2021 delay-time
-paper. "Implementation" below describes what shipped, and "Cost/feasibility
-note" describes what did not and why.
+Monitoring asks a different question from the retrospective tests. Instead of
+testing a complete sample, it fixes a training window that is assumed to be
+free of bubbles, and then checks each new observation as it arrives, so that
+the first alarm comes as soon as the series turns explosive. The methods differ
+in the detector they use and in how they control the false-alarm rate. Two
+families appear here. The first is the recursive training-maximum detector of
+Phillips & Shi (2020), which reuses the BSADF sequence of `radf()`. The second
+is the CUSUM family of Homm & Breitung (2012), together with its relatives.
 
-Monitoring is the largest item in this research programme. It spans two
-structurally different detector families (recursive training-maximum
-detectors and CUSUM/Page-CUSUM detectors), and building both with their own
-S3 infrastructure and size-control theory is still estimated at three to
-five times the cost of the [SBZ item](/replication/volatility-robustness#sbz-wls--kernel-volatility).
-The one sub-item that changed the estimate was Family A. The earlier
-cost note had marked it as the only place where reuse of existing exuber
-machinery was real and not hoped for: the Phillips & Shi (2020)
-wild-bootstrap training critical value, already implemented as
-`radf_wb_ps_cv()`. It needed only a thin orchestration wrapper and no new
-statistical theory, and it is now built.
+The status legend is the one in
+[volatility-robustness.md](/replication/volatility-robustness).
+
+| Method | Paper | Status |
+|---|---|---|
+| [Recursive monitoring, Family A: `monitor()`](#implementation) | Phillips & Shi (2020) | done (2026-08-09) |
+| [CUSUM and CUSUMV: `monitor_cusum()`](#implementation-cusum) | Homm & Breitung (2012); Astill et al. (2023) | done (2026-08-10), including HB's finite-sample boundary |
+| [FLUC statistic: `monitor(boundary = "fluc")`](#implementation-fluc) | Homm & Breitung (2012) | done (2026-08-10) |
+| [Closed-form `SADF` and `GSADF_{s0}` boundaries](#kurozumi-2020-2021-sadf-and-gsadf-cases-both-implemented-2026-08-10) | Kurozumi (2020) | done (2026-08-10): `monitor(boundary = "kurozumi", s0 = 0/0.4/0.8)` |
+| [LBI test and sequential monitoring](#breitung--diegel-2025-static-lbi-test-and-sequential-extension) | Breitung & Diegel (2025) | done (2026-08-10): `lbi_test()`, `monitor_lbi()` with constant boundary `mCUSUM`/`wCUSUM` |
+| [Robust Chebyshev-type monitoring (RCA)](#horvath--trapani-20232026-rca-monitoring-evaluated-not-implemented-2026-08-10) | Horváth & Trapani (2023/2026) | evaluated, not implemented: there is still no feasible nuisance-parameter estimator |
+| Delay-time paper | Kurozumi (2021) | evaluated, not implemented |
+
+All papers: [references.md](/replication/references#monitoring).
+
+The "Implementation" sections describe what shipped, and the "Cost/feasibility
+note" at the end describes what did not and why. Family A turned out to be the
+cheapest part. An earlier cost estimate had rated the whole file at three to
+five times the cost of the [SBZ item](/replication/volatility-robustness#sbz-wls--kernel-volatility),
+but Family A needed only a thin wrapper around the wild-bootstrap training
+critical value that `radf_wb_ps_cv()` already computed.
 
 ## Implementation
 

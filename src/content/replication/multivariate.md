@@ -3,30 +3,30 @@ title: "Multivariate bubble tests"
 blurb: "Panel and cross-series tests -- common bubbles, co-bubbles, and bubble contagion."
 order: 4
 ---
-Status: all four items in this file are implemented in some form. The three
-that needed code are common-bubble detection (Chen, Phillips & Shi), the
-co-bubble test (Evripidou, Harvey, Leybourne & Sollis) and the contagion
-regression (Greenaway-McGrevy & Phillips). The fourth, bubble migration,
-needs no new code.
+This file covers tests for many series at once. They ask whether a bubble is
+shared across series, whether series explode together or one after another, and
+whether an explosive episode in one market passes into another. Three of the
+four methods needed new code: common-bubble detection (Chen, Phillips & Shi),
+the co-bubble test (Evripidou, Harvey, Leybourne & Sollis) and the contagion
+regression (Greenaway-McGrevy & Phillips). The fourth, bubble migration, needs
+no new code.
 
-`radf_common()` is implemented in `exuber/R/radf_common.R` and cross-checked
-in `exuber/tests/testthat/test-common.R`. The research below found the
-detection statistic nearly free to implement. Independent validation
-(2026-08-09, below) then showed that the critical value we had first
-recommended pairing it with, `radf_mc_cv(n, minw)`, is not valid at realistic
-panel sizes. The correct, `N`-dependent critical value now ships as
-`radf_common_cv()` (Bundle 1). See the "Independent validation" and "Update"
-subsections under Common-bubble detection for the numbers.
-
-`cobubble_test()` (Bundle 4, 2026-08-09) is implemented in
-`exuber/R/cobubble_test.R` and cross-checked in
-`exuber/tests/testthat/test-cobubble.R`. See "Implementation" under
-Co-bubble test below. `contagion_reg()` (2026-08-10, minimum-viable subset) is
-implemented in `exuber/R/contagion_reg.R` and cross-checked in
-`exuber/tests/testthat/test-contagion.R`. See "Implementation" under
-Contagion regression below. Re-triaging that item showed that our earlier
-assessment, "most expensive, no reuse", was wrong on two of its three cost
-drivers.
+- `radf_common()` is in `exuber/R/radf_common.R` and is tested in
+  `exuber/tests/testthat/test-common.R`. The detection statistic was nearly free
+  to implement. Independent validation (2026-08-09, below) showed that the
+  critical value we had first recommended, `radf_mc_cv(n, minw)`, is not valid
+  at realistic panel sizes. The correct, `N`-dependent critical value ships as
+  `radf_common_cv()`. The "Independent validation" and "Update" subsections
+  under Common-bubble detection give the numbers.
+- `cobubble_test()` (2026-08-09) is in `exuber/R/cobubble_test.R` and is tested
+  in `exuber/tests/testthat/test-cobubble.R`. See "Implementation" under
+  Co-bubble test.
+- `contagion_reg()` (2026-08-10, minimum-viable subset) is in
+  `exuber/R/contagion_reg.R` and is tested in
+  `exuber/tests/testthat/test-contagion.R`. See "Implementation" under
+  Contagion regression. Re-triaging this item showed that our earlier
+  assessment, "most expensive, no reuse", was wrong on two of its three cost
+  drivers.
 
 Before these additions exuber had no proper multivariate bubble test.
 `radf()` returns `bsadf_panel` and `gsadf_panel` (`exuber/R/radf_.R`, lines

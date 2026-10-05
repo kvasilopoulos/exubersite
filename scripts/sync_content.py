@@ -556,13 +556,15 @@ def parse_list_or_prose(nodes: list[dict]) -> dict:
 
 
 def unwrap_donttest(raw: str) -> str:
+    """Drop donttest, dontrun and dontshow wrappers anywhere, and undo Rd's percent escape."""
     t = raw.strip("\n")
-    m = re.match(r"^\s*\\(donttest|dontrun|dontshow)\{", t)
-    if m:
+    while True:
+        m = re.search(r"\\(donttest|dontrun|dontshow)\{", t)
+        if not m:
+            break
         inner, end = read_group(t, m.end() - 1)
-        if t[end:].strip() == "":
-            return inner.strip("\n")
-    return t.strip()
+        t = t[: m.start()] + inner.strip("\n") + t[end:]
+    return t.replace("\\%", "%").strip()
 
 
 def clean_usage(raw: str) -> str:

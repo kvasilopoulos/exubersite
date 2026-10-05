@@ -4,6 +4,7 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
 import RdNodes from "../../components/RdNodes.astro";
 import RdProse from "../../components/RdProse.astro";
 import reference from "../../data/reference.json";
+import output from "../../data/reference-output.json";
 import { referenceSection } from "../../sidebars";
 
 export function getStaticPaths() {
@@ -12,6 +13,8 @@ export function getStaticPaths() {
 
 const { topic } = Astro.params;
 const doc = (reference.topics as Record<string, any>)[topic!];
+// Knitted example output (scripts/sync_examples.py); absent for topics that failed to run.
+const blocks = (output as Record<string, any[]>)[topic!];
 
 // The pkgdown group or groups this topic belongs to. They drive both the
 // "siblings" sidebar and the link back to the group's own description.
@@ -134,10 +137,23 @@ const sidebar = primaryGroup
       <p class="mt-2 text-sm leading-relaxed text-muted">
         These examples are copied from the package's own documentation and are run by{" "}
         <code>R CMD check</code> on every release.
+        {blocks && " The printed output (after #>) and the plots were produced by running them against the current package source."}
       </p>
-      <div class="code-block mt-4">
-        <Code theme="github-light" code={doc.examples} lang="r" />
-      </div>
+      {blocks ? (
+        blocks.map((b: any) =>
+          b.img ? (
+            <img src={b.img} alt={`Plot from the ${topic} example`} class="my-4 w-full max-w-3xl rounded border border-border bg-white" loading="lazy" />
+          ) : (
+            <div class="code-block mt-4">
+              <Code theme="github-light" code={b.code} lang="r" />
+            </div>
+          ),
+        )
+      ) : (
+        <div class="code-block mt-4">
+          <Code theme="github-light" code={doc.examples} lang="r" />
+        </div>
+      )}
     </section>
   )}
 

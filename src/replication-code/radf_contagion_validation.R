@@ -1,16 +1,12 @@
-# Validation of contagion_reg() -- Greenaway-McGrevy & Phillips (2016)'s
-# bubble contagion regression, minimum-viable subset (fixed-window AR(1)
-# sequence, single-delay Nadaraya-Watson regression, LOOCV bandwidth).
-# See docs/multivariate.md, "Contagion regression",
-# "Implementation -- done (2026-08-10), minimum-viable subset", for the
-# full writeup, including two real bugs found and fixed here (a
-# window-width off-by-one and a matrix-orientation bug in the LOOCV SSE
-# helper).
+# Validation of contagion_reg(), the bubble contagion regression of
+# Greenaway-McGrevy & Phillips (2016): the fixed-window AR(1) sequence, the
+# single-delay Nadaraya-Watson regression and the leave-one-out bandwidth.
+# See docs/multivariate.md, "Contagion regression".
 #
-# No published numeric table exists to validate against -- the source
-# paper's own results are Figures 7-8, not tabulated numbers. Validated
-# instead via brute-force cross-checks of each closed-form piece, plus a
-# directional sensible-behavior check.
+# No published numeric table exists to validate against, because the source
+# paper reports its results as Figures 7-8. Each closed-form piece is checked
+# against a brute-force computation instead, followed by a directional check
+# of the estimator.
 #
 # Run from the exuber-project/ root.
 

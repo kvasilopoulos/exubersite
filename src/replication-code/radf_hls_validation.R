@@ -61,11 +61,9 @@ for (n in c(100, 200, 400)) {
 
 cat("\n=== 4. Monte Carlo: model-selection accuracy and breakpoint bias by DGP ===\n")
 cat("(bubble/collapse regimes built on a large positive base (100) so the\n")
-cat("explosive signal is a genuinely large absolute-scale departure from\n")
-cat("noise -- an early attempt using a small mean-zero random-walk base\n")
-cat("gave a systematic Model-1 selection bias not because of a code bug\n")
-cat("but because that DGP's signal-to-noise ratio was too weak; this was\n")
-cat("found and fixed during this validation.)\n\n")
+cat("explosive signal is a large departure from noise on the absolute scale;\n")
+cat("a small mean-zero random-walk base gives too weak a signal and BIC then\n")
+cat("favours Model 1)\n\n")
 
 sim_model4 <- function(seed, n1 = 60, n2 = 25, n3 = 25, n4 = 40, base = 100, c_bubble = 1.05) {
   set.seed(seed)

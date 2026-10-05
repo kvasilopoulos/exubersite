@@ -1,23 +1,21 @@
-"""Python cross-check of exuber's monitor_quantile() (Wu, Shi & Wu 2025's
-QPWY recursive quantile monitoring extension), mirroring
+"""Python cross-check of exuber's monitor_quantile() (the QPWY recursive
+quantile monitoring of Wu, Shi & Wu 2025), mirroring
 radf_qpwy_validation.R's formula-exact check of the per-window QR
-t-ratio and the boundary-vs-marginal-quantile structural check that
-caught a real bug in the R implementation (see docs/alternative-
-paradigms.md, "Implementation (QPWY)").
+t-ratio and the boundary-vs-marginal-quantile structural check (see
+docs/alternative-paradigms.md, "Implementation: QPWY").
 
 Run standalone: uv run --project pyexuber python
 docs/replication/alternative-paradigms/radf_qpwy_validation.py
 
 _qpwy_stat_path() needs no RNG and no radf()/C++ extension, so its check
 runs fully offline and matches R bit-for-bit (within the IRLS-vs-simplex
-QR-solver tolerance documented in monitor.py's module docstring). Since
-2026-09-29 the boundary simulation needs no radf() either (Q and Z from
-prefix sums), so sections 4-5 check it directly: the independent-BM term
-Z must be a process over windows (the single-z bug), and QPSY's grid
-contains QPWY's path.
+QR-solver tolerance documented in monitor.py's module docstring). The
+boundary simulation needs no radf() either (Q and Z come from prefix sums),
+so sections 4-5 check it directly: the independent-BM term Z must be a
+process over windows and not a single draw per path, and the QPSY grid
+contains the QPWY path.
 
-Reference values: a direct R run from the exuber-project/ root,
-2026-09-16:
+Reference values: a direct R run from the exuber-project/ root:
     Rscript -e 'Sys.setenv(NOT_CRAN="true");
     devtools::load_all("exuber", quiet=TRUE); set.seed(42);
     y <- cumsum(rnorm(80)); minw <- 15;
@@ -83,13 +81,12 @@ def main() -> None:
     print(f"stat[-1]={stat[-1]}, quantile_test tstat={qt.tstat[0]}: match")
 
     print(
-        "\n=== 3. Boundary-vs-marginal-quantile sanity (the bug the R port found "
-        "and fixed) ==="
+        "\n=== 3. Boundary-vs-marginal-quantile sanity ==="
     )
-    # Reproduce the shape of the bug from docs/alternative-paradigms.md: a
-    # per-r MARGINAL quantile of simulated paths badly inflates the
-    # false-alarm rate relative to a SUPREMUM-calibrated one. Demonstrated
-    # here directly on simulated standard-normal paths.
+    # A per-r MARGINAL quantile of simulated paths badly inflates the
+    # false-alarm rate relative to a SUPREMUM-calibrated one (see
+    # docs/alternative-paradigms.md). Demonstrated here directly on
+    # simulated standard-normal paths.
     rng = np.random.default_rng(0)
     nrep, n_mon = 500, 40
     paths = rng.normal(size=(nrep, n_mon))  # stand-in for the Q_{0,r} paths
@@ -103,7 +100,7 @@ def main() -> None:
     assert fpr_marginal > 3 * fpr_sup
     assert abs(fpr_sup - 0.05) < 0.03
 
-    print("\n=== 4. The 2026-09-29 bug: Z is a process over windows, not one z per path ===")
+    print("\n=== 4. Z is a process over windows, not one z per path ===")
     # delta = 0 leaves only Z: one shared z per path would make sup_r Z
     # exactly N(0,1), 95% quantile 1.645
     sim = _quantile_boundary_sim(150, 20, 400, np.array([0.0]), False, np.random.default_rng(3))

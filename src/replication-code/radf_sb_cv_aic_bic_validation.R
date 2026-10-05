@@ -1,9 +1,6 @@
-# Replication script for radf_sb_cv(type = "aic"/"bic") (Pedersen &
-# Schuette 2020's automatic lag-order selection for the sieve bootstrap,
-# Bundle 1, 2026-08-09). Archived retroactively -- see
-# docs/volatility-robustness.md, "Pedersen & Schuette sieve
-# bootstrap" for the narrative this reproduces. Different seeds/sample
-# sizes from test-sb.R throughout.
+# Replication script for radf_sb_cv(type = "aic"/"bic"), the automatic
+# lag-order selection of Pedersen & Schuette (2020) for the sieve bootstrap.
+# See docs/volatility-robustness.md, "Pedersen & Schütte sieve bootstrap".
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

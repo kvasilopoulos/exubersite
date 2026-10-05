@@ -17,10 +17,9 @@ cat("local_tau=5, s=21 -> i_index=", g$i_index, " position=", g$position,
     " (expect 25, 26)\n\n")
 
 cat("=== 2. Two genuine bubbles: window count + breakpoint accuracy (20 reps) ===\n")
-cat("(datestamp()'s own step-1 PSY detection can fragment a true episode\n")
-cat("into extra spurious windows under noise -- this is expected and is\n")
-cat("HLW's own documented issue, not a dating_hlw() bug; we report the full\n")
-cat("window-count distribution rather than hiding the fragmentation)\n\n")
+cat("(the PSY detection of step 1 can split a true episode into extra windows\n")
+cat("under noise, which HLW discuss; the full window-count distribution is\n")
+cat("reported)\n\n")
 sim_two_bubbles <- function(seed, n1a = 50, n2a = 20, n3a = 30, n1b = 50, n2b = 20, n3b = 30) {
   set.seed(seed)
   e1 <- 100 + cumsum(rnorm(n1a))

@@ -1,10 +1,7 @@
-# Replication script for rootstamp() (root inference: Guo, Sun & Wang 2019
-# normal-t CI + Phillips-Magdalinos 2007 Cauchy CI). Archived retroactively --
-# see docs/dating-and-root-inference.md, "Root inference",
-# "Independent validation (2026-08-09)" for the narrative this reproduces.
-# rootstamp() consolidates what were originally three functions
-# (explosive_root(), root_ci(), root_ci_datestamp()) into one S3 generic --
-# see "Update (2026-08-18): consolidated into rootstamp()" in that doc.
+# Replication script for rootstamp() (root inference: the Guo, Sun & Wang (2019)
+# normal-t interval and the Phillips-Magdalinos (2007) Cauchy interval).
+# See docs/dating-and-root-inference.md, "Root inference". The script checks
+# the Cauchy percentiles, the point estimate and the empirical coverage.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

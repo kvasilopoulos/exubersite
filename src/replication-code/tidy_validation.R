@@ -1,9 +1,7 @@
-# Replication script for tidy()/augment() radf_obj accessors
-# (R/radf-tidiers.R's tidy.radf_obj()/augment.radf_obj()). No prior
-# validation script existed for these; written from scratch alongside
-# the pyexuber port (2026-09-16). Only the radf_obj methods are ported
-# (not radf_cv/radf_distr tidiers, tidy_join/augment_join, or
-# summary()/diagnostics()) -- see pyexuber's tidy.py module docstring.
+# Replication script for the radf_obj methods of tidy() and augment()
+# (R/radf-tidiers.R). Only the radf_obj methods are ported to pyexuber, not
+# the radf_cv and radf_distr tidiers, tidy_join/augment_join or
+# summary()/diagnostics(). See the tidy.py module docstring in pyexuber.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

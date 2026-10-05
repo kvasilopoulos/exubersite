@@ -10,7 +10,7 @@ R-derived reference numbers hardcoded below come from:
 
     cd exuber-project && Rscript docs/replication/dating-and-root-inference/rootstamp_validation.R
 
-run 2026-09-16, R 4.6.1:
+R 4.6.1:
   - qt(0.95,1)=6.313752, qt(0.975,1)=12.7062, qt(0.995,1)=63.65674
   - coverage (rho=1.05, n=200, 800 reps, seed=24601): 0.94625
 

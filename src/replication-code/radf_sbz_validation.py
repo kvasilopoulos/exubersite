@@ -17,9 +17,8 @@ involved at the formula level):
     exuber:::wls_dfstat_grid(y, vol$sigma2, 10)
     radf_sbz(y, minw = 10)
 
-Part 2 reproduces R's own H0 empirical-size check (the one that caught a
-real off-by-one bootstrap-indexing bug in radf_sbz_union() -- see
-docs/volatility-robustness.md, "SBZ", "found and fixed a real bug"): a
+Part 2 reproduces R's own H0 empirical-size check (see
+docs/volatility-robustness.md, "SBZ"): a
 pure random walk should reject at roughly the nominal rate, not grossly
 more. Unlike radf_wb_cv(), radf_sbz()/radf_sbz_cv()'s own wild-bootstrap
 DGP is pure Python (no exuber._core call), so this part runs everywhere.
@@ -70,9 +69,8 @@ def check_radf_sbz_matches_r() -> None:
 
 
 def check_empirical_size_under_h0() -> None:
-    """Reproduces the check that caught R's off-by-one bootstrap-indexing
-    bug (fixed in radf_sbz.R): empirical rejection rate under H0 (pure
-    random walk) should be close to nominal 0.05, not grossly oversized."""
+    """Empirical rejection rate under H0 (pure random walk) should be close
+    to nominal 0.05, not grossly oversized."""
     rng = np.random.default_rng(13579)
     n, nrep, nboot = 100, 60, 150
     rej_sbz = 0
@@ -84,8 +82,8 @@ def check_empirical_size_under_h0() -> None:
             rej_sbz += 1
     rate = rej_sbz / nrep
     print(f"supBZ empirical rejection rate under H0 (n={n}, nrep={nrep}, nboot={nboot}): {rate:.3f}")
-    print("Target ~0.05 nominal; a grossly oversized rate here is what the R off-by-one bug produced.")
-    assert rate < 0.25, f"rate={rate} looks like the kind of oversizing the R bug caused"
+    print("Target ~0.05 nominal.")
+    assert rate < 0.25, f"rate={rate} is grossly oversized"
 
 
 def check_radf_sbz_union_runs() -> None:

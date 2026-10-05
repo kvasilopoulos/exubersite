@@ -8,7 +8,6 @@ Run standalone: uv run --project pyexuber python
 docs/replication/alternative-paradigms/radf_quantile_validation.py
 
 Reference values: a direct R run from the exuber-project/ root,
-2026-09-16:
     Rscript -e 'Sys.setenv(NOT_CRAN="true");
     devtools::load_all("exuber", quiet=TRUE); set.seed(42);
     y <- cumsum(rnorm(80));

@@ -2,7 +2,7 @@
 (2023)'s common-bubble detection via PCA + PSY. Same folder/base name as
 the R script it cross-checks: radf_common_validation.R. See
 docs/multivariate.md, "Common-bubble detection via PCA + PSY", for the
-full narrative, especially "Independent validation (2026-08-09)": Theorem
+full narrative: Theorem
 4.3's claim that the PSY-on-PC1 statistic's null is asymptotically
 identical to plain univariate GSADF's does NOT hold at practical panel
 widths N -- the true null quantile *grows* with N. That is why
@@ -25,7 +25,7 @@ project) were produced by:
     cat("N=4  gsadf_cv:", cv4$gsadf_cv, "\n")
     cat("N=20 gsadf_cv:", cv20$gsadf_cv, "\n")
   '
-  (run from exuber-project/ root, 2026-09-16)
+  (run from exuber-project/ root)
 
   N=4  gsadf_cv: 2.184956 2.393796 3.348111   (90/95/99%)
   N=20 gsadf_cv: 3.281803 3.478511 3.968891   (90/95/99%)

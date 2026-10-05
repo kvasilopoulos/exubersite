@@ -3,10 +3,8 @@ bubble contagion regression, minimum-viable subset (fixed-window AR(1)
 sequence, single-delay Nadaraya-Watson regression, LOOCV bandwidth). Same
 folder/base name as the R script it cross-checks: radf_contagion_validation.R.
 See docs/multivariate.md, "Contagion regression", for the full write-up
-(including two real bugs the R implementation found and fixed: a
-window-width off-by-one, and a matrix-orientation bug in the LOOCV SSE
-helper -- both are checked directly here, not just inherited by copying
-the fixed formulas).
+(the window-width convention and the matrix orientation of the LOOCV SSE
+helper are both checked directly here).
 
 No published numeric table exists to validate against -- the source
 paper's own results are Figures 7-8, not tabulated numbers (same
@@ -83,9 +81,9 @@ def check_nw_ratio(seed: int = 1) -> None:
 
 
 def check_loocv_sse(t_core, beta_core, t_j, beta_j, bjc, csh, s2, n, d, h_test) -> None:
-    """eq. 7 vs. a manual leave-one-out double loop (catches the exact
-    matrix-orientation bug the R implementation found: K.T @ v, not K @ v,
-    since the kernel weight matrix isn't symmetric)."""
+    """eq. 7 vs. a manual leave-one-out double loop (the correct
+    orientation is K.T @ v, not K @ v, since the kernel weight matrix isn't
+    symmetric)."""
     fast_sse = _contagion_loocv_sse(h_test, t_core, beta_core, t_j, beta_j, n, d)
 
     m = len(s2)

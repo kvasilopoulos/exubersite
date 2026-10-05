@@ -1,7 +1,5 @@
-# Replication script for sim_psy1()'s optional e/shifts/coef_noise/coef_a
-# axes and sim_blan(type = "rotermann_wilfling") -- R/sim.R. No prior
-# validation script existed for these; written from scratch alongside the
-# pyexuber port (2026-09-17).
+# Replication script for the optional e, shifts, coef_noise and coef_a axes of
+# sim_psy1() and for sim_blan(type = "rotermann_wilfling") in R/sim.R.
 devtools::load_all("exuber", quiet = TRUE)
 
 cat("=== sim_psy1(e = ...): custom innovations replace rnorm(n-1, sd=sigma) ===\n")

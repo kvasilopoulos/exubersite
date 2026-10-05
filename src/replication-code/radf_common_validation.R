@@ -1,14 +1,11 @@
-# Replication script for radf_common()/radf_common_cv() (common-bubble
-# detection via PCA + PSY, Chen, Phillips & Shi 2023). Archived
-# retroactively -- see docs/multivariate.md, "Common-bubble
-# detection via PCA + PSY", "Independent validation (2026-08-09)" for the
-# narrative this reproduces: Theorem 4.3 claims the PSY-on-PC1 statistic's
-# null is asymptotically identical to the plain univariate GSADF null
-# (independent of panel width N), but this doesn't hold at practical N --
-# the true null quantile *grows* with N (opposite of what a naive
-# "converges as N grows" reading of the paper's own finite-sample section
-# would suggest), which is why radf_common_cv() simulates its own,
-# N-dependent null rather than reusing radf_mc_cv().
+# Replication script for radf_common() and radf_common_cv() (common-bubble
+# detection via PCA + PSY, Chen, Phillips & Shi 2023). See
+# docs/multivariate.md, "Common-bubble detection via PCA + PSY".
+#
+# Theorem 4.3 states that the null limit of the PSY statistic on the first
+# principal component equals the univariate GSADF null, whatever the panel
+# width N. At practical N the null quantile grows with N instead. This is why
+# radf_common_cv() simulates an N-dependent null and radf_mc_cv() is not used.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

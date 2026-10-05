@@ -1,13 +1,13 @@
-# Validation of monitor_quantile() -- Wu, Shi & Wu (2025)'s QPWY and QPSY
-# recursive quantile monitoring strategies. See docs/
-# alternative-paradigms.md, "Quantile-based detection", for the full
-# writeup -- including two real bugs found via Monte Carlo size checks:
-# (a) a per-r marginal quantile used as boundary instead of a
-# supremum-calibrated one (2026-08-11), and (b) the limiting process's
-# independent-BM component Z simulated as ONE z per replicate instead of a
-# process over windows (2026-09-29).
+# Validation of monitor_quantile(), the QPWY and QPSY recursive quantile
+# monitoring of Wu, Shi & Wu (2025). See docs/alternative-paradigms.md,
+# "Quantile-based detection".
 #
-# Run from the exuber-project/ root. Sections 4-5 take ~30 minutes.
+# The size checks show why the boundary is the quantile of each path's
+# supremum and not a pointwise quantile, and why the independent Brownian
+# component Z of the limit is simulated as a process over windows and not as
+# one draw per replicate.
+#
+# Run from the exuber-project/ root. Sections 4-5 take about 30 minutes.
 
 devtools::load_all("exuber", quiet = TRUE)
 
@@ -54,7 +54,7 @@ for (type in c("qpwy", "qpsy")) {
 }
 cat(sprintf("max|diff| over qpwy/qpsy, 3 reps, 2 deltas = %.2e\n", worst))
 
-cat("\n=== 3. THE 2026-09-29 BUG: one z per replicate vs Z as a process ===\n")
+cat("\n=== 3. One z per replicate vs Z as a process over windows ===\n")
 # QPWY slice (lo = 0), n = 200, psy_minw, 4000 reps: 95% boundary under the
 # old single-z construction, and that boundary's true size under the
 # correct limiting process

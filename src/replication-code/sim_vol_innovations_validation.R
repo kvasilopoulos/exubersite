@@ -1,15 +1,11 @@
-# Replication script for the 2026-08 innovation-generator DGP extensions:
-# sim_vol_break(), sim_vol_garch() (+ TGARCH via gamma > 0), sim_vol_cir(),
-# sim_vol_sv(), sim_fi(), sim_innov() -- R/sim.R. No prior validation
-# script existed for these; written from scratch alongside the pyexuber
-# port (2026-09-17).
+# Replication script for the innovation generators in R/sim.R: sim_vol_break(),
+# sim_vol_garch() (TGARCH through gamma > 0), sim_vol_cir(), sim_vol_sv(),
+# sim_fi() and sim_innov().
 #
-# All of these are otherwise-deterministic transformations of Gaussian
-# noise, so each is checked by fixing the underlying rnorm() draws (one
-# call: set.seed(1); rnorm(10)) and hand-tracing the recursion -- exactly
-# the technique pyexuber/tests/test_sim.py already uses for sim_psy1's
-# regime-switching branches (a _FakeRNG feeding the same fixed pool to
-# np.random.default_rng()'s call sites, in the same order R draws them).
+# All of them are deterministic transformations of Gaussian noise, so each is
+# checked by fixing the underlying rnorm() draws (set.seed(1); rnorm(10)) and
+# tracing the recursion by hand. pyexuber/tests/test_sim.py uses the same
+# technique for the regime-switching branches of sim_psy1().
 devtools::load_all("exuber", quiet = TRUE)
 
 set.seed(1)

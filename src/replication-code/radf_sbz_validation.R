@@ -1,14 +1,8 @@
 # Replication script for radf_sbz_union() (SBZ: WLS + kernel volatility,
-# Harvey, Leybourne & Zu 2019). Archived retroactively -- see
-# docs/volatility-robustness.md, "SBZ (WLS + kernel
-# volatility)", "Independent validation (2026-08-09) -- found and fixed a
-# real bug" for the narrative this reproduces: an off-by-one bootstrap
-# -indexing bug (`pointer <- length(ystar) - 1L - minw`, missing the -1L)
-# that silently extracted `adf` instead of `sadf` from rls_gsadf()'s flat
-# result vector, badly oversizing supDF/U. Fixed in radf_sbz.R; this script
-# reproduces the empirical-size-under-H0 check that caught it, on the
-# already-fixed code (so it should reproduce the "after fix" column, not
-# the original 0.640/0.573 broken numbers).
+# Harvey, Leybourne & Zu 2019). See docs/volatility-robustness.md,
+# "SBZ (WLS + kernel volatility)". The script checks the empirical size under
+# a pure random walk, where supDF, supBZ and U should reject at about the
+# nominal 5% rate.
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

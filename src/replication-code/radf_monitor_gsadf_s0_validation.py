@@ -19,7 +19,7 @@ Reference values:
     (`monitor(y, r_star=0.5, minw=15, boundary="kurozumi", s0=0.4,
     sig_lvl=95)`), same series/command family as
     radf_monitor_kurozumi_boundary_validation.py, run from the
-    exuber-project/ root on 2026-09-16.
+    exuber-project/ root.
 """
 
 import sys

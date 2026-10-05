@@ -1,7 +1,5 @@
 # Replication script for radf_kp() (kernel-purge test, Harvey, Leybourne,
-# Taylor & Zu 2024). Archived retroactively -- see
-# docs/volatility-robustness.md, "Kernel-purge test",
-# "Independent validation (2026-08-09)" for the narrative this reproduces.
+# Taylor & Zu 2024). See docs/volatility-robustness.md, "Kernel-purge test".
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

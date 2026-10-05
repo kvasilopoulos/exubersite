@@ -203,10 +203,10 @@ def sync_replication_table() -> None:
     """docs/README.md's "What's actually implemented" table -> replication-table.json.
 
     One row per shipped method: the flat index on /replication. The verdict cell
-    is split into a kind (clean / fixed / caveat) and the free-text detail.
+    is split into a kind (clean / caveat) and the free-text detail.
     """
     lines = (ENH / "README.md").read_text(encoding="utf-8").splitlines()
-    start = lines.index("| Item | Family | File | Cross-check | Independent validation |")
+    start = lines.index("| Item | Family | File | Cross-check | Result |")
     plain = lambda s: s.replace("**", "").replace("`", "").strip()
     rows = []
     for line in lines[start + 2 :]:
@@ -214,14 +214,14 @@ def sync_replication_table() -> None:
             break
         item, family, file, check, verdict = (c.strip() for c in line.strip("| ").split(" | "))
         assert family in PUBLISHED, f"unknown family {family!r} in docs/README.md"
-        # "bug found and fixed: why" or "clean (why)" -> head, detail
+        # "caveat: why" or "clean" -> head, detail
         v = plain(verdict)
         m = re.match(r"([^:(]+?)\s*(:\s+|\()(.*)$", v)
         head, detail = (m.group(1), m.group(3)) if m else (v, "")
         if m and m.group(2) == "(":
             # "(note): rest" -> "note: rest"; "(note)" -> "note"
             detail = re.sub(r"^([^()]*)\):\s*", r"\1: ", detail).removesuffix(")")
-        kind = "caveat" if "caveat" in head else "fixed" if "fixed" in head else "clean"
+        kind = "caveat" if "caveat" in head else "clean"
         rows.append({
             "item": plain(item),
             "family": family,

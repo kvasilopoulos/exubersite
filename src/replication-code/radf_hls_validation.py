@@ -5,12 +5,11 @@ radf_hls_validation.R in this same folder.
 RNG note: numpy's Generator, not R's RNG -- independent seeds, same
 qualitative checks (see rootstamp_validation.py's module docstring for
 the same convention elsewhere in this port). dating_hls() is pure numpy
-(no C++ extension needed), so -- unlike radf_recovery_validation.py --
-this script WAS run directly on the dev machine that wrote the port; all
-numbers below are real local runs, not placeholders.
+(no C++ extension needed), so this script runs anywhere, unlike
+radf_recovery_validation.py.
 
 R's own script (docs/dating-and-root-inference.md, "Implementation (HLS
-route)"), run 2026-08-10, reports for context (not asserted bit-for-bit,
+route)"), reports for context (not asserted bit-for-bit,
 different RNG): Model 4 DGP -- BIC selects Model 3/4 in 100% of 30 reps,
 split ~80/20; Model 2 DGP -- 100% Model 2, origination bias exactly 0;
 Model 1 DGP -- 100% Model 1, bias exactly 0; pure H0 -- 0% Model 4,

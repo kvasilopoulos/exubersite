@@ -9,7 +9,7 @@ the same convention elsewhere in this port). dating_knp() is pure numpy
 machine that wrote the port -- all numbers below are real local runs.
 
 R's own script (docs/dating-and-root-inference.md, "Improved
-retrospective dating"), run 2026-08-10, reports for context (not
+retrospective dating"), reports for context (not
 asserted bit-for-bit, different RNG): naive (omit=FALSE) mean|tau1-T1|
 =39.0 vs mean|tau1-T2|=1.0 (Theorem 1: tau1_hat tracks the COLLAPSE
 date, not origination); omission-corrected mean|tau1-T1|=13.0 (Theorem

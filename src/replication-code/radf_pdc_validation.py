@@ -12,7 +12,7 @@ same convention). R-derived reference numbers come from:
     cd exuber-project && Rscript docs/replication/dating-and-root-inference/radf_pdc_wls_homoskedastic_mae.R
     cd exuber-project && Rscript docs/replication/dating-and-root-inference/radf_pdc_wls_heteroskedastic_mae.R
 
-run 2026-09-16, R 4.6.1:
+R 4.6.1:
   - formula check: closed-form break_idx == brute-force break_idx, abs
     diff in rss = 1.28e-13
   - 3-regime low-noise limit: origination |err|=1, collapse |err|=1 (of 400/600)

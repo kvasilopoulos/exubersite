@@ -3,31 +3,25 @@ Whitehouse 2020 multi-bubble two-step wrapper around dating_hls()),
 cross-checking pyexuber's port against radf_hlw_validation.R in this same
 folder.
 
-Two kinds of checks here, run differently:
+Two kinds of checks run here.
 
-1. Window-construction/per-window-fitting logic
-   (_dating_hlw_from_episodes()) is pure numpy -- no C++ extension
-   needed -- so these sections (1, 2, 3) WERE run directly on the dev
-   machine that wrote the port, using hand-built Episode objects instead
-   of a real noisy datestamp() detection pass (isolates the logic this
-   port is actually responsible for from step-1 PSY detection noise,
-   which is exuber's/pyexuber's *existing*, already-tested datestamp()).
-2. The full end-to-end pipeline (radf() -> radf_wb_cv() -> datestamp() ->
-   per-window dating_hlw()) needs the C++ extension, which can't be
-   built on this dev machine (see pyexuber/CLAUDE.md) -- section 4 below
-   could not be run locally; it's wired into
-   pyexuber/tests/test_dating_validation.py so CI (which does build the
-   extension) executes and verifies it, with loose structural assertions
-   rather than a number this machine never actually produced.
+1. The window construction and per-window fitting
+   (_dating_hlw_from_episodes()) is pure numpy and needs no C++ extension.
+   Sections 1 to 3 use hand-built Episode objects in place of a noisy
+   datestamp() detection, which separates the logic under test from the
+   noise of the PSY step-1 detection.
+2. The full pipeline (radf() -> radf_wb_cv() -> datestamp() -> per-window
+   dating_hlw()) needs the C++ extension. Section 4 is run by
+   pyexuber/tests/test_dating_validation.py in CI, with loose structural
+   assertions.
 
 RNG note: numpy's Generator, not R's RNG (see rootstamp_validation.py's
 module docstring for the same convention).
 
 R's own script (docs/dating-and-root-inference.md, "Implementation (HLW
-route)"), run 2026-08-10, reports for context (not asserted bit-for-bit):
+route)"), reports for context (not asserted bit-for-bit):
 exactly 2 windows detected in 13/20 reps on a synthetic two-bubble DGP
-(the rest fragmented -- PSY step-1 detection noise, not a dating_hlw()
-bug); among clean 2-window reps, origination/collapse bias exactly 0 in
+(the rest were split by PSY step-1 detection noise); among clean 2-window reps, origination/collapse bias exactly 0 in
 every replication; single-bubble final window matched standalone
 dating_hls() in 100% of reps with a final window.
 
@@ -136,7 +130,7 @@ def check_two_window_accuracy() -> None:
 def check_end_to_end_h0_and_two_bubble() -> None:
     print("\n=== 4. Full end-to-end pipeline (needs the C++ extension) ===")
     print("(radf() -> radf_wb_cv() -> datestamp() -> per-window dating_hlw();")
-    print(" could not be run on this dev machine -- see module docstring)\n")
+    print(" needs the C++ extension -- see module docstring)\n")
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")

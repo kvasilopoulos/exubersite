@@ -1,8 +1,6 @@
-# Replication script for radf_tt()/radf_tt_cv() (STADF/GSTADF, Kurozumi,
-# Skrobotov & Tsarev 2024). Archived retroactively -- this item predates the
-# replication/ convention; see docs/volatility-robustness.md,
-# "Time-transformed test (STADF / GSTADF)", "Independent validation
-# (2026-08-09)" for the narrative this reproduces.
+# Replication script for radf_tt() and radf_tt_cv() (STADF/GSTADF, Kurozumi,
+# Skrobotov & Tsarev 2024). See docs/volatility-robustness.md,
+# "Time-transformed test (STADF / GSTADF)".
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)

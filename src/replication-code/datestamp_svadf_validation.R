@@ -1,9 +1,6 @@
-# Validation of datestamp(option = "svadf") -- Sarkar & Wells (2026,
-# preprint)'s SV-ADF asymmetric-threshold bubble dating. See docs/
-# enhancements/volatility-robustness.md, "SV-ADF", for the full writeup.
-# Originally shipped as its own radf_svadf() entry point (2026-08-11);
-# folded into datestamp() as an option (2026-08-18) -- see exuber/CLAUDE.md,
-# "Naming: not everything is radf_* anymore".
+# Validation of datestamp(option = "svadf"), the SV-ADF asymmetric-threshold
+# bubble dating of Sarkar & Wells (2026, preprint). See
+# docs/volatility-robustness.md, "SV-ADF".
 #
 # Run from the exuber-project/ root.
 

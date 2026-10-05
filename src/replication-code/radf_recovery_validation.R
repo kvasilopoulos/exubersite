@@ -56,14 +56,12 @@ cat("=== 3. Empirical false-detection rate under pure H0 (random walk) ===\n")
 cat("(200 fresh draws against the one stable cv from step 2)\n\n")
 set.seed(123)
 res_h0 <- t(sapply(1:200, function(i) detect_once(cumsum(rnorm(n)), cv)))
-cat(sprintf("False-detection rate: %.3f  (nominal level: %s; noisier than\n", mean(res_h0[, "detected"] == 1), lvl_lab))
-cat("comparable forward-test numbers elsewhere in this project -- flagged\n")
-cat("honestly as unresolved, see the taxonomy file for discussion)\n\n")
+cat(sprintf("False-detection rate: %.3f  (nominal level: %s; higher than\n", mean(res_h0[, "detected"] == 1), lvl_lab))
+cat("comparable forward-test numbers elsewhere in this project)\n\n")
 
 cat("=== 4. Detection accuracy on a synthetic collapse-then-recovery DGP ===\n")
-cat("(smooth, continuous mean-reverting collapse -- an earlier deterministic-\n")
-cat("decay version produced a spurious spike right at the regime boundary,\n")
-cat("found and fixed during this validation)\n\n")
+cat("(smooth, continuous mean-reverting collapse; an abrupt level jump would\n")
+cat("produce a spurious spike at the regime boundary)\n\n")
 run_detect <- function(seed, cv) {
   set.seed(seed)
   n1 <- 40; n2 <- 25; n3 <- 35

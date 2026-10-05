@@ -13,20 +13,6 @@ seed-11 series for the nonzero-lag case so the reference numbers aren't
 duplicated). The bootstrap-DGP part of radf_sb_cv() itself uses numpy's
 Generator, not R's RNG, so it's checked structurally, as in
 radf_wb_ps_validation.py.
-
-IMPORTANT DIVERGENCE FROM R, found while writing this port: exuber's
-R/radf_sb.R has an off-by-one bug in its bootstrap DGP for lag > 0 --
-`initmat[j, lag:1]` (meant to prepend `lag + 1` values ahead of the
-recursive-filter output) is only `lag` elements long for lag > 0, one
-short of what `stats::filter(..., init = initmat[j, ])`'s AR order
-needs. Confirmed directly in R (see the .R script's comments / this
-port's commit message): for lag = 0 the resulting bsadf_panel_cv has the
-expected `nr - minw` rows, but for lag > 0 it silently comes out `lag`
-rows short of `nr - minw - lag`. type = "fixed"'s default lag = 0 masks
-this in the existing R validation suite. This Python port does NOT
-reproduce the bug -- exuber._radf_sb uses the full `lag + 1`-element
-reversal the recursive filter actually needs. Check 3 below asserts the
-*correct* (bug-free) shape.
 """
 
 import numpy as np
@@ -103,19 +89,16 @@ def check_radf_sb_cv_fixed_vs_default() -> None:
 
 
 def check_radf_sb_cv_shapes_lag_gt_0() -> None:
-    """The R off-by-one bug (see module docstring) would make
-    bsadf_panel_cv `lag` rows short of `nr - minw - lag` for lag > 0.
-    This port doesn't reproduce it -- assert the correct shape."""
+    """For lag > 0, bsadf_panel_cv has `nr - minw - lag` rows."""
     minw = psy_minw(len(Y_NONZERO_LAG))
     lag = 2
     sb = radf_sb_cv(Y_NONZERO_LAG, minw=minw, lag=lag, nboot=30, seed=1)
     expected_pointer = len(Y_NONZERO_LAG) - minw - lag
     assert sb.bsadf_panel_cv.shape == (expected_pointer, 3), (
-        f"got {sb.bsadf_panel_cv.shape}, expected ({expected_pointer}, 3) -- "
-        "this is exactly the shape the R bug undercounts by `lag` rows"
+        f"got {sb.bsadf_panel_cv.shape}, expected ({expected_pointer}, 3)"
     )
     assert sb.lag == lag
-    print(f"radf_sb_cv(lag={lag}): bsadf_panel_cv shape is the full (nr-minw-lag, 3) -- bug not reproduced.")
+    print(f"radf_sb_cv(lag={lag}): bsadf_panel_cv shape is the full (nr-minw-lag, 3).")
 
 
 if __name__ == "__main__":

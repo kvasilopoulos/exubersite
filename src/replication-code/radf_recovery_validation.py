@@ -5,26 +5,20 @@ in this same folder.
 
 Environment note: unlike rootstamp()/dating_pdc() (pure numpy),
 radf_recovery() calls radf() itself, which needs pyexuber's compiled C++
-extension (exuber._core). That extension cannot be built on the
-Windows dev machine this port was written on (no MSVC/vcpkg -- see
-pyexuber/CLAUDE.md), so this script could not be run locally as part of
-writing the port. It was written directly from R's own
-radf_recovery_validation.R structure and dating.py's ported logic, and is
-wired into pyexuber/tests/test_dating_validation.py so CI (which does
-build the extension, on ubuntu/macos/windows) executes and verifies it.
-Assertions below are deliberately structural/loose (invariants, sane
-ranges) rather than exact-number matches to a run that was never
-performed on this machine -- avoiding a false "verified" claim.
+extension (exuber._core). The script is run by
+pyexuber/tests/test_dating_validation.py in CI, which builds the extension
+on ubuntu, macos and windows. Its assertions are structural and loose
+(invariants and sane ranges), not exact-number matches.
 
 RNG note: numpy's Generator, not R's RNG (see rootstamp_validation.py's
 module docstring for the same convention elsewhere in this port).
 
-R's own script, run 2026-08-10 (docs/dating-and-root-inference.md,
+R's own script (docs/dating-and-root-inference.md,
 "Reverse-regression recovery dating"), reports for context (not asserted
 here bit-for-bit): max abs CV diff ~0.11, mean abs CV diff ~0.04 at the
 95% level; H0 false-detection rate ~29% (n=100, minw=20); f_r mean
 |bias| ~a few observations (paper's own ~6-early finding); f_c's bias
-materially larger and not fully resolved.
+materially larger.
 
 Run standalone (needs the built extension):
 uv run --project pyexuber python

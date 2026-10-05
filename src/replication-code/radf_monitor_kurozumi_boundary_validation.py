@@ -18,7 +18,7 @@ badf/boundary sequence for a fixed series) come from two sources:
     out <- monitor(y, r_star=0.5, minw=15, boundary="kurozumi", sig_lvl=95);
     dput(out$T_star); dput(unname(out$boundary));
     dput(round(tail(as.numeric(out$stat), 5), 10))'`
-    run from the exuber-project/ root on 2026-09-16.
+    run from the exuber-project/ root.
 """
 
 import sys

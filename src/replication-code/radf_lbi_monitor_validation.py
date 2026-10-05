@@ -7,7 +7,6 @@ Run standalone: uv run --project pyexuber python
 docs/replication/monitoring/radf_lbi_monitor_validation.py
 
 Reference values: a direct R run from the exuber-project/ root,
-2026-09-16:
     Rscript -e '...; ml0 <- monitor_lbi(y, r_star=0.5, c_bar=0, sig_lvl=95);
     ml2 <- monitor_lbi(y, r_star=0.5, c_bar=2, sig_lvl=95);
     dput(ml0$T_star); dput(ml0$boundary);

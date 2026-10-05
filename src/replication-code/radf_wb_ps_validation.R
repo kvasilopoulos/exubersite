@@ -1,8 +1,7 @@
-# Replication script for radf_wb_ps_cv()/radf_wb_ps_distr() (Phillips &
-# Shi (2020) wild bootstrap variant, R/radf_wb.R) and the shared OLS
-# lag-selection/AR-fit subsystem it needs (adf_res()/lag_select(), also
-# R/radf_wb.R). No prior validation script existed for this function;
-# written from scratch alongside the pyexuber port (2026-09-16).
+# Replication script for radf_wb_ps_cv() and radf_wb_ps_distr() (the
+# Phillips & Shi (2020) wild bootstrap variant in R/radf_wb.R) and the shared
+# OLS lag-selection and AR-fit routines it needs (adf_res() and lag_select(),
+# also in R/radf_wb.R).
 Sys.setenv(NOT_CRAN = "true")
 options(exuber.parallel = FALSE, exuber.show_progress = FALSE)
 devtools::load_all("exuber", quiet = TRUE)
@@ -44,7 +43,7 @@ cat(
   isTRUE(all.equal(as.vector(wbt$bsadf_cv[1, , 1]), as.vector(wbt$gsadf_cv[1, ]))), "\n"
 )
 
-# Reference output (2026-09-16, R 4.6.1 / exuber dev, seed as above):
+# Reference output (R 4.6.1, seed as above):
 #
 # lag_select(y, 'aic', max_lag=5): 5
 # lag_select(y, 'bic', max_lag=5): 4

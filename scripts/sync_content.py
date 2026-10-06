@@ -50,6 +50,7 @@ PAGES = [
     ("multivariate", "Panel and cross-series tests -- common bubbles, co-bubbles, and bubble contagion."),
     ("alternative-paradigms", "Non-ADF-family approaches, principally the quantile-based global test and its recursive monitoring extension."),
     ("simulation-dgps", "Data-generating processes for the axes the original sim_*() functions do not cover."),
+    ("speed", "Computation time of radf() across software, and of the R and Python implementations of exuber on the same grid."),
     ("references", "Full bibliography behind the replication record, organised by methodological family."),
 ]
 PUBLISHED = {slug for slug, _ in PAGES}
@@ -78,6 +79,9 @@ def rewrite_one(m: re.Match) -> str:
         return lnk
     if path.startswith("papers/"):
         return text
+    if path.endswith(".png"):
+        # Figures are copied to public/speed/ by sync_figures().
+        return f"[{text}](/speed/{Path(path).name})"
     if path.endswith(".md"):
         slug = Path(path).stem
         if slug in PUBLISHED:
@@ -164,6 +168,22 @@ def sync_markdown() -> None:
         (out_dir / f"{slug}.md").write_text(frontmatter + body.lstrip("\n") + "\n", encoding="utf-8")
 
     print(f"md      : {len(PAGES)} pages -> src/content/replication/")
+
+
+# Figures shown on the speed page: (source, file name on the site).
+FIGURES = [
+    (EXUBER / "man" / "figures" / "benchmark-plot-1.png", "benchmark-plot-1.png"),
+    (ENH / "replication" / "speed" / "speed-r-vs-python.png", "speed-r-vs-python.png"),
+]
+
+
+def sync_figures() -> None:
+    out_dir = WEB / "public" / "speed"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for src, name in FIGURES:
+        assert src.exists(), src
+        (out_dir / name).write_bytes(src.read_bytes())
+    print(f"figures : {len(FIGURES)} -> public/speed/")
 
 
 # ============================================================================
@@ -781,6 +801,7 @@ def build_reference() -> None:
 
 
 def main() -> None:
+    sync_figures()
     sync_markdown()
     sync_replication_scripts()
     sync_replication_table()

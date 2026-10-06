@@ -402,6 +402,24 @@
     "lang": "python"
   },
   {
+    "family": "speed",
+    "name": "speed_plot",
+    "file": "speed_plot.R",
+    "lang": "r"
+  },
+  {
+    "family": "speed",
+    "name": "speed_py",
+    "file": "speed_py.py",
+    "lang": "python"
+  },
+  {
+    "family": "speed",
+    "name": "speed_r",
+    "file": "speed_r.R",
+    "lang": "r"
+  },
+  {
     "family": "core-workflow",
     "name": "tidy_validation",
     "file": "tidy_validation.R",

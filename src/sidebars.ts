@@ -37,7 +37,7 @@ export function referenceSection(): SidebarSection {
 }
 
 export function guideSection(): SidebarSection {
-  return { title: "Guide", items: GUIDE_PAGES };
+  return { title: "Introduction", items: GUIDE_PAGES };
 }
 
 // The method families beyond PSY: user guides built from the exuber vignettes.

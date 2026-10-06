@@ -131,7 +131,16 @@ The cost is one full statistic path for each replicate. A `QPWY` path takes abou
 | $t_3$ | detected | 0.505 | 0.535 | 0.530 | 0.375 |
 | $t_3$ | alarm before origination | 0.035 | 0.070 | 0.040 | 0.045 |
 
-The pattern is the one of Table V. With Gaussian innovations the OLS monitor is ahead of its quantile counterpart (0.475 against 0.460 here, 0.643 against 0.603 in the paper). With $t_3$ innovations `QPWY` at $\tau = 0.5$ is level with PWY (0.530 against 0.505). That gap is smaller than the Monte Carlo error of about 3.5 points, so it does not show an advantage. `QPWY` at $\tau = 0.8$ is clearly weaker, so the choice of quantile matters. The levels differ from Table V, because our boundary is flat and the paper's is recomputed at each date.
+The same comparison for `QPSY` and PSY is at $n = 60$ with 100 series and 49 bootstrap replicates for `QPSY` (99 for `QPWY`), because the `QPSY` bootstrap is slow.
+
+| Innovations | | PWY | PSY | `QPWY`, $\tau = 0.5$ | `QPSY`, $\tau = 0.5$ | `QPWY`, $\tau = 0.8$ | `QPSY`, $\tau = 0.8$ |
+|---|---|---|---|---|---|---|---|
+| Gaussian | detected | 0.30 | 0.36 | 0.29 | 0.38 | 0.23 | 0.29 |
+| Gaussian | alarm before origination | 0.08 | 0.05 | 0.04 | 0.02 | 0.05 | 0.04 |
+| $t_3$ | detected | 0.37 | 0.47 | 0.38 | 0.42 | 0.26 | 0.23 |
+| $t_3$ | alarm before origination | 0.03 | 0.02 | 0.01 | 0.03 | 0.06 | 0.03 |
+
+The results agree with Table V in some respects and not in others. With Gaussian innovations at $n = 100$ the OLS monitor is ahead of its quantile counterpart (0.475 against 0.460 for PWY and `QPWY`, 0.643 against 0.603 in the paper). With $t_3$ innovations `QPWY` at $\tau = 0.5$ is level with PWY at both sample sizes (0.530 against 0.505, and 0.38 against 0.37). Those gaps are smaller than the Monte Carlo error, which is about 3.5 points for 200 series and 5 points for 100, so they show no advantage. `QPWY` at $\tau = 0.8$ is clearly weaker, so the choice of quantile matters. The paper finds that `QPSY` beats PSY under non-Gaussian innovations. We do not see that: with $t_3$ innovations `QPSY` at $\tau = 0.5$ detects in 42% of the series and PSY in 47%, a gap of about one standard error, and at $\tau = 0.8$ `QPSY` is lower (0.23). We use fixed quantiles and the paper uses the data-selected $\tau^*$, and our boundary is flat while the paper's is recomputed at each date, so this is not a failed replication of Table V. It does mean that we cannot confirm the power advantage of the quantile monitors from our own runs.
 
 **Kernel.** The paper estimates $\hat f(b_\tau)$ with an Epanechnikov kernel, and `quantile_check_density()` uses a Gaussian kernel with the same bandwidth $h = 0.9\, T^{-1/5} \min\{\mathrm{sd}, \mathrm{IQR}/1.34\}$. We compared the two on QPWY at $n = 100$ (60 series). The Epanechnikov kernel raises the median $\hat f$ by 4 to 13% and the mean path maximum by 5% (Gaussian innovations) to 15% ($t_3$, $\tau = 0.9$), and the path maxima of the two kernels have a correlation of at least 0.97. The bootstrap boundary rises by the same proportion, so the size does not visibly change: with $B = 49$ it is 0.050 against 0.067 for $t_3$ at $\tau = 0.9$, and 0.017 against 0.050 for Gaussian innovations at $\tau = 0.5$, which are differences of one or two series out of 60. The asymptotic boundary does not depend on the kernel, so with the paper's kernel it would be somewhat more oversized than the table shows.
 

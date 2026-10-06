@@ -21,6 +21,12 @@ interface Props {
 const { title, description, eyebrow, headings = [], sidebar } = Astro.props;
 
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+// Guide pages read in sidebar order, so the previous and next links follow it.
+const flat = sidebar.flatMap((s) => s.items);
+const at = path.startsWith("/guide") ? flat.findIndex((i) => i.href === path) : -1;
+const prev = at > 0 ? flat[at - 1] : undefined;
+const next = at >= 0 ? flat[at + 1] : undefined;
 ---
 
 <Base title={`${title} | exuber`} description={description}>
@@ -68,6 +74,24 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
       <div class="mt-10">
         <slot />
       </div>
+      {
+        (prev || next) && (
+          <nav aria-label="Guide pages" class="mt-12 grid gap-4 border-t border-border pt-6 sm:grid-cols-2">
+            {prev ? (
+              <a href={prev.href} class="rounded-lg border border-border p-4 transition-colors hover:border-muted">
+                <span class="font-mono text-[11px] uppercase tracking-wide text-muted">← Previous</span>
+                <span class="mt-1 block text-ink">{prev.label}</span>
+              </a>
+            ) : <span />}
+            {next && (
+              <a href={next.href} class="rounded-lg border border-border p-4 text-right transition-colors hover:border-muted sm:col-start-2">
+                <span class="font-mono text-[11px] uppercase tracking-wide text-muted">Next →</span>
+                <span class="mt-1 block text-ink">{next.label}</span>
+              </a>
+            )}
+          </nav>
+        )
+      }
     </main>
 
     <Toc headings={headings} />

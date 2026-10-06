@@ -7,6 +7,7 @@ exuber and knitr installed (set R_LIBS if exuber lives in a private library).
 
     python scripts/sync_guide.py
 """
+import os
 import re
 import subprocess
 import sys
@@ -37,10 +38,10 @@ def knit(vignette: str, tmp: Path) -> str:
     md = tmp / f"{vignette}.md"
     script = (
         "library(knitr);"
-        f"opts_chunk$set(fig.path='{tmp}/figs/{vignette}-',dev='svg',fig.width=7,fig.height=3.6);"
-        f"knit('{VIGNETTES / (vignette + '.Rmd')}',output='{md}',quiet=TRUE)"
+        f"opts_chunk$set(fig.path='{tmp.as_posix()}/figs/{vignette}-',dev='svg',fig.width=7,fig.height=3.6);"
+        f"knit('{(VIGNETTES / (vignette + '.Rmd')).as_posix()}',output='{md.as_posix()}',quiet=TRUE)"
     )
-    subprocess.run(["Rscript", "-e", script], check=True, cwd=tmp)
+    subprocess.run([os.environ.get("RSCRIPT", "Rscript"), "-e", script], check=True, cwd=tmp)
     return md.read_text(encoding="utf-8")
 
 
@@ -53,7 +54,11 @@ def clean(text: str, vignette: str) -> tuple[str, str]:
     def link(mo):
         slug = SLUG_OF.get(mo.group(1))
         if slug:
-            return f"[the {PAGE_TITLE[slug].lower()} page](/guide/{slug})"
+            text = f"the {PAGE_TITLE[slug].lower()} page"
+            # Start a sentence with a capital: after a full stop, a newline or a bullet.
+            if re.search(r"(^|[.!?]\s+|\n\n|\n- )$", mo.string[: mo.start()]):
+                text = text[0].upper() + text[1:]
+            return f"[{text}](/guide/{slug})"
         return "[Getting started](/guide)" if mo.group(1) == "exuber" else mo.group(0)
     body = re.sub(r"`?vignette\(\"([\w-]+)\"\)`?", link, body)
     body = re.sub(r"!\[([^\]]*)\]\(.*?figs/([^)]+)\)", r"![\1](/guide-figs/\2)", body)

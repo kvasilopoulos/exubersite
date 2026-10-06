@@ -5,7 +5,7 @@ group: "Beyond PSY"
 order: 6
 family: "simulation-dgps"
 ---
-```r
+``` r
 library(exuber)
 library(ggplot2)
 ```
@@ -30,14 +30,14 @@ The bubble processes fall into two families. `sim_psy1()`, `sim_psy2()` and `sim
 
 PSY validate the GSADF test on a price built from Lucas-model fundamentals plus an Evans (1991) bubble. `sim_div()` produces the fundamental price from a random walk with drift in dividends, using by default the S&P 500 parameterization of West (1988). `sim_evans()` produces the bubble term, and a scaling factor `kappa` sets how much of the price the bubble accounts for:
 
-```r
+``` r
 n <- 200
 pf <- sim_div(n, seed = 1)          # fundamental price
 pb <- sim_evans(n, seed = 3)        # periodically collapsing bubble
 p <- pf + 20 * pb                   # kappa = 20
 ```
 
-```r
+``` r
 data.frame(index = seq_len(n), fundamental = pf, price = p) %>%
   tidyr::pivot_longer(-index) %>%
   ggplot(aes(index, value, color = name)) +
@@ -50,7 +50,7 @@ data.frame(index = seq_len(n), fundamental = pf, price = p) %>%
 
 `radf()` should find the episodes:
 
-```r
+``` r
 cv <- radf_mc_cv(n, seed = 1)
 datestamp(radf(p), cv)
 #> 
@@ -65,7 +65,7 @@ datestamp(radf(p), cv)
 
 Each series has an `autoplot()` method:
 
-```r
+``` r
 sim_psy2(100, seed = 1) %>%
   autoplot()
 ```
@@ -74,7 +74,7 @@ sim_psy2(100, seed = 1) %>%
 
 Several series can be collected in a `data.frame`, which is also what `radf()` takes, so the same object serves both purposes:
 
-```r
+``` r
 sims <- data.frame(
   psy1 = sim_psy1(100, seed = 1),
   psy2 = sim_psy2(100, seed = 2),
@@ -83,7 +83,7 @@ sims <- data.frame(
 )
 ```
 
-```r
+``` r
 sims %>%
   dplyr::mutate(dplyr::across(dplyr::everything(), as.numeric), index = dplyr::row_number()) %>%
   tidyr::pivot_longer(-index, names_to = "id") %>%
@@ -99,7 +99,7 @@ sims %>%
 
 By default the regime processes are driven by i.i.d. Gaussian shocks. Every bubble process also accepts a vector of innovations through `e`, and the innovation generators exist to supply it. They produce heavy-tailed or skewed marginals (`sim_innov()`), conditional heteroskedasticity (`sim_vol_garch()`), a one-off variance break (`sim_vol_break()`), stochastic volatility (`sim_vol_cir()` and `sim_vol_sv()`) or long memory (`sim_fi()`). The bubble dates stay where you put them and only the noise changes. This is how [the volatility-robustness tests page](/guide/volatility-robustness) compares the volatility-robust tests with plain `radf()` on an equal footing:
 
-```r
+``` r
 # Same bubble, same seed, volatility tripling half-way through the sample
 sim_psy1(n = 200, seed = 1, e = sim_vol_break(199, seed = 1)) %>%
   autoplot()
@@ -113,7 +113,7 @@ The innovation vector is one element shorter than `n` because the first observat
 
 `sim_common()` draws `n_series` series that share one latent bubble plus idiosyncratic noise, which is the design behind the panel test `radf_common()`. `sim_coexplosive()` draws a pair in which `y` is a linear function of a possibly lagged explosive `x`. This is the design behind `cobubble_test()` and `contagion_reg()` (see [the multivariate bubble tests page](/guide/multivariate)):
 
-```r
+``` r
 head(sim_common(n_series = 3, n = 100, seed = 1))
 #>   series_1 series_2 series_3
 #> 1 63.51506 156.4806 53.64832

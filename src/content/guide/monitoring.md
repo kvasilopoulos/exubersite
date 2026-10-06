@@ -5,7 +5,7 @@ group: "Beyond PSY"
 order: 3
 family: "monitoring"
 ---
-```r
+``` r
 library(exuber)
 ```
 
@@ -26,11 +26,11 @@ library(exuber)
 
 The series starts with a training window of pure random walk (`T* = 100`) and continues as a random walk until `t = 150`. From then until the end of the sample it follows an explosive regime (`rho = 1.04`). We generate it with `sim_psy1()`, placing the bubble after the training window and leaving out the collapse:
 
-```r
+``` r
 y <- sim_psy1(n = 200, te = 150, tf = 200, c = 0.04, alpha = 0, seed = 7)
 ```
 
-```r
+``` r
 monitor_lbi(y, r_star = 100)
 #> 
 #> ── monitor_lbi (T* = 100 / 200, c_bar = 0, b_alpha = 1.95) ─────────────────────
@@ -65,7 +65,7 @@ monitor(y, r_star = 0.5, boundary = "kurozumi")
 
 `monitor_lbi()` and `monitor_quantile()` each have a static, full-sample counterpart that asks the retrospective version of the same question. It runs on the whole series and does not wait for a first crossing:
 
-```r
+``` r
 lbi_test(y)
 #> 
 #> ── lbi_test (n = 200, sig_lvl = 95%) ───────────────────────────────────────────
@@ -80,7 +80,7 @@ quantile_test(y, tau = 0.5)
 #>   series1  0.5  20.25  0.5041   0.64      TRUE
 ```
 
-Every monitor alarms within about 15 observations of the true bubble start (150), and none alarms before it. Each function's own test suite checks the absence of alarms before `T*` (or the true start) under the null. The timing of the alarm differs by design. The ADF-family statistics in `monitor()` tend to detect bubbles in the middle of the sample fastest, as the literature finds (for example Kurozumi 2020, 2021). The CUSUM-type detectors (`monitor_cusum()` and `monitor_lbi()`) are typically slower, but they are computationally simpler and need no bootstrap.
+Every monitor alarms within about 15 observations of the true bubble start (150), and none alarms before it. The timing of the alarm differs by design. The ADF-family statistics in `monitor()` tend to detect bubbles in the middle of the sample fastest, as the literature finds (for example Kurozumi 2020, 2021). The CUSUM-type detectors (`monitor_cusum()` and `monitor_lbi()`) are typically slower, but they are computationally simpler and need no bootstrap.
 
 ## Which to reach for
 

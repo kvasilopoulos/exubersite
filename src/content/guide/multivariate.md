@@ -5,7 +5,7 @@ group: "Beyond PSY"
 order: 4
 family: "multivariate"
 ---
-```r
+``` r
 library(exuber)
 ```
 
@@ -22,7 +22,7 @@ Neither function returns the `radf_obj` class (see [the results, tidying and plo
 
 `sim_coexplosive()` implements the data generating process of Evripidou et al.: `y` is a linear function of an explosive `x` plus noise. The pair is co-explosive, so a correct test should not reject:
 
-```r
+``` r
 xy <- sim_coexplosive(n = 100, seed = 123)
 res <- cobubble_test(xy$y, xy$x, nboot = 199, seed = 1)
 res
@@ -35,7 +35,7 @@ res
 
 For contrast, `sim_data$psy1` and `sim_data$psy2` are simulated independently, so by construction they share no bubble process:
 
-```r
+``` r
 cobubble_test(sim_data$psy1, sim_data$psy2, nboot = 199, seed = 1)
 #> 
 #> ── cobubble_test (lag = -2, nboot = 199) ───────────────────────────────────────
@@ -50,7 +50,7 @@ Here `S` clearly exceeds its wild-bootstrap critical value, which is robust to h
 
 For the co-explosive pair, the AR(1) coefficient of `y` follows that of `x` almost one for one throughout the sample:
 
-```r
+``` r
 cr <- contagion_reg(xy$y, xy$x, d = 0)
 cr
 #> 
@@ -61,7 +61,7 @@ cr
 
 `cr$delta2` holds the whole estimated path over `cr$r_grid`, while `print()` shows only its range:
 
-```r
+``` r
 plot(cr$r_grid, cr$delta2, type = "l",
      xlab = "r (fraction of sample)", ylab = expression(delta[2](r)),
      main = "Estimated time-varying contagion coefficient")
@@ -71,7 +71,7 @@ plot(cr$r_grid, cr$delta2, type = "l",
 
 For contrast, the two independent `sim_data` series give a coefficient path that stays far below one:
 
-```r
+``` r
 cr_null <- contagion_reg(sim_data$psy1, sim_data$psy2, d = 0)
 range(cr_null$delta2)
 #> [1] 0.1628972 0.1823787

@@ -7,7 +7,7 @@ family: "dating-and-root-inference"
 ---
 ## Dating Methods: Alternatives to datestamp()
 
-```r
+``` r
 library(exuber)
 ```
 
@@ -22,19 +22,19 @@ library(exuber)
 | `dating_pdc()` | Pang, Du & Chong (2021); Kurozumi & Skrobotov (2023) | Assumes a fixed structure of three or four regimes and finds each breakpoint sequentially in closed form, starting with the collapse because it is stochastically dominant. There is no BIC step. |
 | `dating_hlw()` | Harvey, Leybourne & Whitehouse (2020) | A wrapper that first runs `radf()` and `datestamp()` to find how many episodes there are and roughly where they lie, and then applies HLS-style fitting separately within each detected window. |
 
-None of the four takes a `radf_cv` object, so they do not work with `summary()`, `tidy()` or `autoplot()`. Each prints its own dating table instead. [the results, tidying and plotting page](/guide/pipeline) describes the full pipeline.
+None of the four takes a `radf_cv` object, so they do not work with `summary()`, `tidy()` or `autoplot()`. Each prints its own dating table instead. [The results, tidying and plotting page](/guide/pipeline) describes the full pipeline.
 
 ### A single bubble, four estimates
 
 We use one series simulated with `sim_ps1()`, the single-bubble data generating process of Phillips & Shi (2018). It has a unit-root run-up, an explosive regime that starts at 40, a mildly integrated collapse regime that starts at 61, and a return to a unit root at 70. This is the regime structure that these estimators are built for.
 
-```r
+``` r
 y <- sim_ps1(n = 100, seed = 1)
 ```
 
 The true origination date is 40 and the true collapse date is 61. We run all four estimators:
 
-```r
+``` r
 dating_hls(y, trim = 0.05)
 #> 
 #> ── dating_hls (n = 100, trim = 0.05) ───────────────────────────────────────────
@@ -43,7 +43,7 @@ dating_hls(y, trim = 0.05)
 #>   series1      4           39        60        70
 ```
 
-```r
+``` r
 dating_knp(y, trim = 0.05)
 #> 
 #> ── dating_knp (n = 100, trim = 0.05, omit = TRUE, breaks = 2 ───────────────────
@@ -52,7 +52,7 @@ dating_knp(y, trim = 0.05)
 #>   series1       1           60        70  0.9178
 ```
 
-```r
+``` r
 dating_pdc(y, regimes = 3, trim = 0.05)
 #> 
 #> ── dating_pdc (n = 100, regimes = 3, type = ols) ───────────────────────────────
@@ -61,7 +61,7 @@ dating_pdc(y, regimes = 3, trim = 0.05)
 #>   series1           38        59
 ```
 
-```r
+``` r
 dating_hlw(y, trim = 0.1, nboot = 199, seed = 1)
 #> 
 #> ── dating_hlw (n = 100, trim = 0.1) ────────────────────────────────────────────
@@ -84,7 +84,7 @@ We run all four side by side to show that they are different estimators with dif
 
 ## Root Inference: How Fast Is the Bubble Growing
 
-```r
+``` r
 library(exuber)
 ```
 
@@ -98,13 +98,13 @@ The function fits a no-intercept AR(1), `y_t = rho * y_{t-1} + e_t`, over a give
 
 The series has a unit-root run-up followed by an explosive regime with `rho = 1.04`:
 
-```r
+``` r
 y <- sim_psy1(n = 100, te = 60, tf = 100, c = 0.04, alpha = 0, sigma = 1, seed = 2026)
 ```
 
 We first detect and date the episode in the usual way:
 
-```r
+``` r
 r <- radf(y, minw = 20)
 cv <- radf_mc_cv(length(y), minw = 20, nrep = 300, seed = 4)
 ds <- datestamp(r, cv = cv, min_duration = 3)
@@ -119,7 +119,7 @@ ds
 
 Then we estimate the root over the detected episode. The default method takes the sub-sample directly, which we slice with the `Start` and `End` of the episode:
 
-```r
+``` r
 ep <- ds[["series1"]]
 rootstamp(y[ep$Start[1]:ep$End[1]]) # normal-t interval (Guo, Sun & Wang 2019), true rho = 1.04
 #> 
@@ -145,7 +145,7 @@ The estimate of `rho` is close to the true value of 1.04. The output also report
 
 When a `datestamp()` result contains more than one episode, the `radf_obj` method runs the default method on each of them without a manual loop. Pass the original `radf()` result and the `datestamp()` result together:
 
-```r
+``` r
 rootstamp(r, ds)
 #> 
 #> ── rootstamp (sig_lvl = 95%, type = normal) ────────────────────────────────────
@@ -161,19 +161,19 @@ Root inference on a very short episode is close to meaningless, because there ar
 
 ## Experimental Methods: radf_recovery() and datestamp(option = 'svadf')
 
-```r
+``` r
 library(exuber)
 ```
 
 ### What "experimental" means here
 
-Most methods in exuber implement the procedure of a peer-reviewed paper and pass the package's standard validation. That validation consists of a formula-exact check against a brute-force reimplementation, a lookup against published tables, a Monte Carlo check of size, and a check of power against a true alternative. `radf_recovery()` and `datestamp(option = "svadf")` went through the same validation and both give useful results, but each has one disclosed gap that keeps it below the standard. For that reason they print \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}} and emit a caveat message when called. Treat their output as a guide to where episodes lie, and do not assume it is as well calibrated as the rest of the package.
+Most methods in exuber implement the procedure of a peer-reviewed paper and pass the package's standard validation. That validation consists of a formula-exact check against a brute-force reimplementation, a lookup against published tables, a Monte Carlo check of size, and a check of power against a true alternative. `radf_recovery()` and `datestamp(option = "svadf")` went through the same validation and both give useful results, but each has one disclosed gap that keeps it below the standard. For that reason they print an "Experimental" badge and emit a caveat message when called. Treat their output as a guide to where episodes lie, and do not assume it is as well calibrated as the rest of the package.
 
 ### `radf_recovery()`: dating a collapse and a recovery
 
 This function uses the reverse-regression idea of Phillips & Shi (2014). We reverse the series in time, run the BSADF recursion that `radf()` already computes, and map the crossing dates back to the original time axis. In the reversed series a collapse followed by a recovery turns the collapse into an explosive regime and the recovery into the end of that regime, so the forward machinery run backwards dates both.
 
-```r
+``` r
 # sim_ps1(): unit root -> explosive (40-60) -> collapse (61-70) -> recovery (71+)
 y <- sim_ps1(n = 100, seed = 2)
 res <- radf_recovery(y, minw = 15, nrep = 200, seed = 1)
@@ -191,9 +191,9 @@ The estimate `f_c` (crisis onset, 57) falls just before the true collapse start 
 
 ### `datestamp(option = "svadf")`: a preprint
 
-This option implements Sarkar & Wells (2026), an arXiv preprint that has not been peer reviewed. Every other paper implemented in the package has been, so the evidence behind this method is weaker. Its statistic is the `badf` sequence that `radf()` already computes, compared against two closed-form thresholds that depend only on the sample size and come from the applied methodology of the paper. No new estimation code was needed, so we added it as an option of `datestamp()` and not as a separate function, even though it is a preprint.
+This option implements Sarkar & Wells (2026), an arXiv preprint that has not been peer reviewed. Every other paper implemented in the package has been, so the evidence behind this method is weaker. Its statistic is the `badf` sequence that `radf()` already computes, compared against two closed-form thresholds that depend only on the sample size and come from the applied methodology of the paper. It is an option of `datestamp()` and not a separate function.
 
-```r
+``` r
 res <- radf(sim_data, lag = 0)
 datestamp(res, option = "svadf", min_duration = psy_ds(nrow(sim_data)))
 #> 
@@ -210,8 +210,8 @@ datestamp(res, option = "svadf", min_duration = psy_ds(nrow(sim_data)))
 #> 1    23   23  24        1 positive   FALSE
 ```
 
-`psy1` and `psy2` receive clear origination and collapse dates, while `evans`, `div` and `blan` never cross the threshold in this panel. We report this mixed result as it came out.
+`psy1` and `psy2` receive clear origination and collapse dates, while `evans`, `div` and `blan` never cross the threshold in this panel.
 
 ### Using them responsibly
 
-Both methods are worth using. The date ordering from `radf_recovery()` and the point statistic from `datestamp(option = "svadf")` are reliable. Neither should be the only basis for a claim about false-alarm rates or exact calibration, though. When that matters, prefer `radf()` and `datestamp()`, or one of the peer-reviewed alternatives in [the alternative paradigms page](/guide/alternatives) and [the dating and root inference page](/guide/dating). Treat these two methods as a second opinion until their caveats are resolved. The caveats are tracked in `docs/dating-and-root-inference.md` and `volatility-robustness.md`.
+Both methods are worth using. The date ordering from `radf_recovery()` and the point statistic from `datestamp(option = "svadf")` are reliable. Neither should be the only basis for a claim about false-alarm rates or exact calibration, though. When that matters, prefer `radf()` and `datestamp()`, or one of the peer-reviewed alternatives in [the alternative paradigms page](/guide/alternatives) and [the dating and root inference page](/guide/dating). Treat these two methods as a second opinion until their caveats are resolved. The caveats are listed in the replication notes for dating and volatility-robustness.

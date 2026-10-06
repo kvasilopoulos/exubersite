@@ -7,17 +7,17 @@ family: "volatility-robustness"
 ---
 ## Volatility-Robust Alternatives to radf()
 
-```r
+``` r
 library(exuber)
 ```
 
 ### The shared problem
 
-Plain `radf()` assumes a constant innovation variance. Real series rarely have one, and when volatility varies over time the standard critical values no longer control the size of the test. exuber offers several fixes, and each takes a structurally different approach. Four of the five covered below (`radf_sign()`, `radf_sign_dm()`, `radf_kp()` and `radf_sbz()`) keep the `radf_obj` class and support `summary()`, `datestamp()`, `tidy()` and `autoplot()` in the same way as plain `radf()`. [the results, tidying and plotting page](/guide/pipeline) shows how each plugs into the pipeline and how we validated it. `radf_sbz_union()` is the exception. It bundles the statistic of `radf_sbz()` and the classic `supDF` into one union-of-rejections call and has its own class, not `radf_obj`, so only its own `print()` and `autoplot()` apply. The time-deformation approach of `radf_tt()` has its own vignette, [the volatility-robustness tests page](/guide/volatility-robustness), and this one covers the rest.
+Plain `radf()` assumes a constant innovation variance. Real series rarely have one, and when volatility varies over time the standard critical values no longer control the size of the test. exuber offers several fixes, and each takes a structurally different approach. Four of the five covered below (`radf_sign()`, `radf_sign_dm()`, `radf_kp()` and `radf_sbz()`) keep the `radf_obj` class and support `summary()`, `datestamp()`, `tidy()` and `autoplot()` in the same way as plain `radf()`. [The results, tidying and plotting page](/guide/pipeline) shows how each plugs into the pipeline. `radf_sbz_union()` is the exception. It bundles the statistic of `radf_sbz()` and the classic `supDF` into one union-of-rejections call and has its own class, not `radf_obj`, so only its own `print()` and `autoplot()` apply. The time-deformation approach of `radf_tt()` is described in the second part of this page, and the first part covers the rest.
 
 All of these functions target non-stationary volatility, meaning a permanent shift or trend in the unconditional innovation variance. They do not target stationary GARCH-type conditional heteroskedasticity, whose variance profile is asymptotically flat and leaves plain `radf()` with the correct size. The running example is therefore the `sim_psy1()` bubble driven by `sim_vol_break()` innovations, whose standard deviation triples half-way through the sample. This is the case in which plain `radf()` over-rejects the most:
 
-```r
+``` r
 y <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))
 ```
 
@@ -30,9 +30,9 @@ y <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))
 
 ### Sign-based: `radf_sign()`
 
-`radf_sign()` has full pipeline support. `radf_sign_cv()` computes the time-varying `badf_cv` and `bsadf_cv` boundary and not only the scalar critical values that `summary()` needs (see [the results, tidying and plotting page](/guide/pipeline) for the validation):
+`radf_sign()` has full pipeline support. `radf_sign_cv()` computes the time-varying `badf_cv` and `bsadf_cv` boundary and not only the scalar critical values that `summary()` needs (see [the results, tidying and plotting page](/guide/pipeline)):
 
-```r
+``` r
 res <- radf_sign(y, minw = 20)
 cv <- radf_sign_cv(n = 200, minw = 20)
 summary(res, cv = cv)
@@ -61,7 +61,7 @@ datestamp(res, cv = cv)
 
 `radf_kp()` purges volatility and then calls `radf()` unmodified, so it has full pipeline support in the simplest possible way. It needs no new critical-value code, and `radf_mc_cv()` applies as it is:
 
-```r
+``` r
 res_kp <- radf_kp(y, minw = 20)
 cv_kp <- radf_mc_cv(n = attr(res_kp, "n"), minw = 20)
 summary(res_kp, cv = cv_kp)
@@ -79,9 +79,9 @@ summary(res_kp, cv = cv_kp)
 
 ### WLS + kernel volatility: `radf_sbz()`
 
-`radf_sbz()` is a statistic function of its own, separate from the union test. `radf_sbz_cv()` computes the time-varying `badf_cv` and `bsadf_cv` boundary in the same way as `radf_tt_cv()` and `radf_sign_cv()` (see [the results, tidying and plotting page](/guide/pipeline) for the validation), so it has full pipeline support:
+`radf_sbz()` is a statistic function of its own, separate from the union test. `radf_sbz_cv()` computes the time-varying `badf_cv` and `bsadf_cv` boundary in the same way as `radf_tt_cv()` and `radf_sign_cv()` (see [the results, tidying and plotting page](/guide/pipeline)), so it has full pipeline support:
 
-```r
+``` r
 res_sbz <- radf_sbz(y, minw = 20)
 cv_sbz <- radf_sbz_cv(y, minw = 20, nboot = 200, seed = 1)
 summary(res_sbz, cv = cv_sbz)
@@ -99,7 +99,7 @@ summary(res_sbz, cv = cv_sbz)
 
 The kernel-volatility weighting that makes `supBZ` robust to heteroskedasticity costs some power relative to the other tests. The default bubble of `sim_psy1()` is mild (30 periods at `rho = 1 + 200^-0.6`, then a collapse). It does not clear the 95% critical value of `supBZ` here, although every other test above rejects on the same series. A stronger bubble that does not collapse (`rho = 1.03` from `t = 120` to the end of the sample, on the same volatility break) does clear it:
 
-```r
+``` r
 y_strong <- sim_psy1(n = 200, te = 120, tf = 200, c = 0.03, alpha = 0, seed = 1,
                      e = sim_vol_break(199))
 res_sbz2 <- radf_sbz(y_strong, minw = 20)
@@ -131,7 +131,7 @@ This is the same trade-off that `radf_sbz_union()`, below, hedges against by com
 
 ### Union-of-rejections: `radf_sbz_union()`
 
-```r
+``` r
 radf_sbz_union(y, nboot = 200, seed = 1)
 #> 
 #> ── radf_sbz_union (minw = 27, nboot = 200) ─────────────────────────────────────
@@ -148,12 +148,12 @@ radf_sbz_union(y, nboot = 200, seed = 1)
 - If you want to stay closest to plain `radf()` with no new critical-value code, use `radf_kp()`.
 - If you want the efficiency gain from WLS together with full `datestamp()` and `autoplot()` support, use `radf_sbz()` with `radf_sbz_cv()`.
 - If you want to hedge between the classic and the WLS-weighted statistics on the same series and do not need `datestamp()` or `autoplot()`, use `radf_sbz_union()`. It is the only function in this group without pipeline support, because `U` bundles both statistics and their scalar joint critical value in one call and does not return a `radf_obj`.
-- If volatility is the main concern and you prefer a time-deformation approach without a bootstrap, use `radf_tt()` (see [the volatility-robustness tests page](/guide/volatility-robustness)).
+- If volatility is the main concern and you prefer a time-deformation approach without a bootstrap, use `radf_tt()` (see the time-transformed test section below).
 - If the volatility is unknown or complex and a bootstrap is acceptable, `radf_wb_cv()` remains the general-purpose choice.
 
 ## Time-Transformed Test (STADF/GSTADF)
 
-```r
+``` r
 library(exuber)
 ```
 
@@ -167,7 +167,7 @@ library(exuber)
 
 `radf_tt()` targets non-stationary volatility, meaning a permanent shift or trend in the unconditional innovation variance, which is the setting of the simulations in Kurozumi, Skrobotov & Tsarev. It does not target stationary conditional heteroskedasticity such as GARCH. In that case the variance profile is asymptotically flat, the time deformation is close to the identity, and plain `radf()` already has the correct size. `sim_vol_break()` generates innovations with a permanent volatility shift, and the `e` argument of `sim_psy1()` passes them into the PSY bubble process. Here the innovation standard deviation triples half-way through the sample:
 
-```r
+``` r
 y <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))
 res <- radf_tt(y)
 res
@@ -180,7 +180,7 @@ res
 
 `radf_tt_cv()` returns the matching pivotal asymptotic critical values. The null distribution does not depend on the volatility path, so one call with a large `n` approximates the whole family of cases. `radf_wb_cv()`, in contrast, runs a separate bootstrap for each dataset:
 
-```r
+``` r
 cv <- radf_tt_cv(n = 300, minw = 30, nrep = 1000, seed = 1)
 cv$gsadf_cv
 #>      90%      95%      99% 
@@ -195,13 +195,13 @@ cv$gsadf_cv
 2. It inverts the profile and uses the inverse to resample and time-deform the series.
 3. It computes a recursive sup-ADF statistic (GLS-demeaned, with no intercept) on the deformed series. This belongs to the same family of statistics as `radf()`, but it needs no fitted intercept, which matches the derivation in the paper.
 
-You can adjust `kernel` (`"uniform"`, the choice of the paper, or `"gaussian"`) and `h`, the bandwidth. The default for `h` is a fixed plug-in value and not the full cross-validation search of the paper. The package's enhancement notes explain why we weighed cost against benefit this way.
+You can adjust `kernel` (`"uniform"`, the choice of the paper, or `"gaussian"`) and `h`, the bandwidth. The default for `h` is a fixed plug-in value and not the full cross-validation search of the paper.
 
 ### Dating and plotting a detected bubble
 
 `radf_tt()` returns the same `radf_obj` class as `radf()`. `radf_tt_cv()` also computes the full time-varying boundary that dating and plotting need, and not only the summary-level critical values. The usual pipeline therefore works unchanged:
 
-```r
+``` r
 res <- radf_tt(y, minw = 20)
 cv <- radf_tt_cv(n = 200, minw = 20)
 
@@ -218,4 +218,4 @@ autoplot(res, cv = cv)
 
 ![plot of chunk radf-tt-datestamp](/guide-figs/radf-tt-radf-tt-datestamp-1.svg)
 
-[the results, tidying and plotting page](/guide/pipeline) explains which other exuber functions work with this pipeline and which do not.
+[The results, tidying and plotting page](/guide/pipeline) explains which other exuber functions work with this pipeline and which do not.

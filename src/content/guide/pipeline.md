@@ -7,13 +7,13 @@ family: ""
 ---
 ## Naming Conventions and the Analysis/Tidying/Plotting Pipeline
 
-```r
+``` r
 library(exuber)
 ```
 
-### Why this exists
+### What this page covers
 
-`exuber` started as a single test, `radf()`, the recursive ADF/SADF/GSADF/BSADF statistic of Phillips, Shi & Yu (2015). Through a long research programme it grew to roughly 25 functions that cover a dozen papers: alternative tests, dating procedures, monitoring schemes and root inference. Every one of them used to be named `radf_<something>()`. That was accurate for some and misleading for others, because a `radf_` prefix suggests a recursive ADF statistic and several of these functions are not one. This vignette documents the naming scheme that replaced the old one. It also explains which functions plug into the `summary()`, `datestamp()`, `tidy()` and `autoplot()` pipeline built for `radf()`, and which have differently shaped output of their own.
+The package covers more than the original test. Alongside `radf()`, the recursive ADF/SADF/GSADF/BSADF statistic of Phillips, Shi & Yu (2015), it has alternative tests, dating procedures, monitoring schemes and root inference, about 25 functions in all. This page explains how the function names group them. It also says which functions plug into the `summary()`, `datestamp()`, `tidy()` and `autoplot()` pipeline built for `radf()`, and which have differently shaped output of their own.
 
 ### The naming scheme
 
@@ -28,7 +28,7 @@ library(exuber)
 
 The prefixes are a convention and not a contract. They are easy to misremember and they sometimes pull against each other. `monitor()` is grouped with the other monitors under a name that deliberately does not advertise its ADF-family internals, so that nobody mistakes it for a `radf_*()` variant. For programmatic use, do not parse function names. Call `exuber_functions()`, which returns the same categorization as queryable data.
 
-```r
+``` r
 exuber_functions(family = "monitor")
 #> # A tibble: 4 × 3
 #>   name             family      description                                      
@@ -45,17 +45,17 @@ Two names look related but are not. The `dating_*()` functions above are standal
 
 ### What actually plugs into `summary()`/`datestamp()`/`tidy()`/`autoplot()`
 
-These four generics are built around one shape: a `radf_obj` (from `radf()`) paired with a `radf_cv` that carries a time-varying boundary (`badf_cv` and `bsadf_cv`, one critical value per recursion point) as well as the three scalar sup-statistic critical values (`adf_cv`, `sadf_cv` and `gsadf_cv`). Only functions whose result has the `radf_obj` class, and whose paired `_cv()` function computes that time-varying boundary, get the full pipeline. In practice there are three tiers.
+These four generics are built around one shape: a `radf_obj` (from `radf()`) paired with a `radf_cv` that carries a time-varying boundary (`badf_cv` and `bsadf_cv`, one critical value per recursion point) as well as the three scalar sup-statistic critical values (`adf_cv`, `sadf_cv` and `gsadf_cv`). Only functions whose result has the `radf_obj` class, and whose paired `_cv()` function computes that time-varying boundary, get the full pipeline. In practice there are two tiers.
 
 #### Full support: `radf_common()`, `radf_kp()`, `radf_tt()`, `radf_sign()`, `radf_sign_dm()`, `radf_sbz()`
 
 `radf_kp()` and `radf_common()` return the output of `radf()` itself, computed on a series purged of volatility or on a PCA factor respectively, so every generic works exactly as it does for plain `radf()`. The running example for this section is the series these tests were designed for: the `sim_psy1()` bubble with a permanent volatility break (`sim_vol_break()`, where the innovation standard deviation triples half-way through the sample). See [the volatility-robustness tests page](/guide/volatility-robustness).
 
-```r
+``` r
 y <- sim_psy1(n = 200, seed = 1, e = sim_vol_break(199))
 ```
 
-```r
+``` r
 res <- radf_kp(y, minw = 20)
 cv <- radf_mc_cv(n = attr(res, "n"), minw = 20)
 
@@ -94,13 +94,7 @@ The other three are different. They carry the `radf_obj` class but build their s
 
 The `_cv()` functions of all three return the time-varying boundaries `badf_cv` and `bsadf_cv` as well as the three scalar critical values, so `datestamp()` and `autoplot()` work on them. The `bsadf` that `gls_dfstat_grid()` returns is already the sup over all window starts at each point. This differs from `radf_mc_cv()`, which applies a `cummax()` across replicates because of the output shape of the base C++ engine. Here the boundary is the per-time-point quantile across replicates, the same construction `radf_mc_cv()` uses for its own `bsadf_cv`.
 
-Each function is checked in three ways.
-
-- The last row of `badf_cv` is bit-identical to `adf_cv`, because `adf` is the last point of `badf` in every replicate. This is an exact identity, and it holds whichever series feeds `gls_dfstat_grid()`.
-- The empirical false-alarm rate under `H0` is at or below the nominal 5% (`radf_tt` 3.3%, `radf_sign` 5.5%, `radf_sign_dm` 3.5%, with n = 100 and minw = 20).
-- The detection power on an identical synthetic bubble is in the same range as the 16% of the established `radf()` and `radf_mc_cv()` baseline, and it is neither suspiciously higher nor lower (`radf_tt` 18%, `radf_sign` 20%, `radf_sign_dm` 8%). The sign-based tests give up power in exchange for invariance to heteroskedasticity, which is a documented finding of the source paper.
-
-```r
+``` r
 res <- radf_tt(y, minw = 20)
 cv <- radf_tt_cv(n = 200, minw = 20)
 
@@ -133,7 +127,7 @@ autoplot(res, cv = cv)
 
 ![plot of chunk tt-full](/guide-figs/naming-and-analysis-tt-full-1.svg)
 
-```r
+``` r
 res <- radf_sign(y, minw = 20)
 cv <- radf_sign_cv(n = 200, minw = 20)
 
@@ -167,9 +161,9 @@ autoplot(res, cv = cv)
 
 ![plot of chunk sign-full](/guide-figs/naming-and-analysis-sign-full-1.svg)
 
-`radf_sbz()` is a fourth, separate case. It builds its statistic (`supBZ`) on `wls_dfstat_grid()`, a no-intercept recursive Dickey-Fuller grid weighted by WLS and kernel volatility, and not on `gls_dfstat_grid()`. The same fix applies for the same reason, since `wls_dfstat_grid()` already returns the full `badf` and `bsadf` path for each replicate. The wild bootstrap in `radf_sbz_cv()` is therefore built as the Monte Carlo simulation in `radf_tt_cv()` and `radf_sign_cv()` is, with a per-time-point quantile across replicates and no `cummax()` shortcut. We validated it in the same way. The last row of `badf_cv` is bit-identical to `adf_cv`, and the empirical false-alarm rate under `H0` is 5.0% at a nominal 5% (n = 100, minw = 20, 200 replications). The test also rejects on a sufficiently strong deterministic explosive path. Its kernel-volatility weighting costs enough power, however, that it does not reject the series above at nboot = 100 to 200, where the bubble is the milder default of `sim_psy1()`. The same trade between power and robustness is documented for the `supBZ` leg of `radf_sbz_union()` below, so it is not new to this split.
+`radf_sbz()` is a fourth, separate case. It builds its statistic (`supBZ`) on `wls_dfstat_grid()`, a no-intercept recursive Dickey-Fuller grid weighted by WLS and kernel volatility, and not on `gls_dfstat_grid()`. The same fix applies for the same reason, since `wls_dfstat_grid()` already returns the full `badf` and `bsadf` path for each replicate. The wild bootstrap in `radf_sbz_cv()` is therefore built as the Monte Carlo simulation in `radf_tt_cv()` and `radf_sign_cv()` is, with a per-time-point quantile across replicates and no `cummax()` shortcut. The test rejects on a sufficiently strong deterministic explosive path. Its kernel-volatility weighting costs enough power, however, that it does not reject the series above at nboot = 100 to 200, where the bubble is the milder default of `sim_psy1()`. The same trade between power and robustness applies to the `supBZ` leg of `radf_sbz_union()`, described on the volatility-robustness page.
 
-```r
+``` r
 res <- radf_sbz(y, minw = 20)
 cv <- radf_sbz_cv(y, minw = 20, nboot = 200, seed = 1)
 
@@ -193,7 +187,7 @@ tidy(res, cv = cv)
 
 `datestamp()` and `autoplot()` need at least one rejection to have anything to show, and they raise an error otherwise, as for any other `radf_obj` and `radf_cv` pair. The series above does not clear the `supBZ` threshold, so we repeat the volatility break with a stronger explosive regime that does not collapse (`rho = 1.03` from `t = 120` to the end of the sample):
 
-```r
+``` r
 y_strong <- sim_psy1(n = 200, te = 120, tf = 200, c = 0.03, alpha = 0, seed = 1,
                      e = sim_vol_break(199))
 
@@ -217,9 +211,9 @@ autoplot(res2, cv = cv2)
 
 The remaining 15 or so functions return their own class, with their own `print()` and `autoplot()` methods. They are `lbi_test()`, `ssu_test()`, `quantile_test()`, `cobubble_test()`, the `dating_*()` family, the `monitor()` and `monitor_*()` family (including `monitor()` itself, despite its ADF-family internals), `contagion_reg()`, `radf_recovery()`, `rootstamp()` and `radf_sbz_union()`. Their output does not fit the `radf_obj` shape: a dating table is not a per-series sup-statistic, and a monitoring alarm is not a critical value grid. Forcing them through `summary()`, `datestamp()` and `tidy()` would not close a documentation gap, so each is presented by its own methods, shown below.
 
-`rootstamp()` needs one remark. The [reference index](../reference/index.html) and the workflow list in the README place it under Analysis, right after `datestamp()`, because that is its position in the sequence of steps (detect, date, measure the growth rate). That is a position in the workflow and not an S3-support tier. It has its own class with its own `print()` and `autoplot()` methods, like everything else in this section. See [the dating and root inference page](/guide/dating).
+`rootstamp()` needs one remark. The function reference lists it under Analysis, right after `datestamp()`, because that is its position in the sequence of steps (detect, date, measure the growth rate). That is a position in the workflow and not an S3-support tier. It has its own class with its own `print()` and `autoplot()` methods, like everything else in this section. See [the dating and root inference page](/guide/dating).
 
-```r
+``` r
 dating_hls(sim_data$psy1, trim = 0.05)
 #> 
 #> ── dating_hls (n = 100, trim = 0.05) ───────────────────────────────────────────
@@ -247,7 +241,7 @@ autoplot(dating_hls(sim_data$psy1, trim = 0.05))
 
 ## Plotting with exuber
 
-```r
+``` r
 library(exuber)
 library(ggplot2)
 ```
@@ -267,13 +261,13 @@ Every result object in the package has an `autoplot()` method. The call is alway
 | `rootstamp()` | Estimated root and its confidence interval per episode |
 | `lbi_test()`, `quantile_test()`, `radf_sbz_union()` | Statistic against critical value for each series |
 
-The rest of this vignette covers the first three rows, which belong to the `radf()` workflow, and shows how to build your own plot from the tidied tables when the defaults do not fit. The other methods take no options beyond the object. They appear in their own vignettes ([the real-time monitoring for bubbles page](/guide/monitoring), [the dating and root inference page](/guide/dating) and [the dating and root inference page](/guide/dating)).
+The rest of this page covers the first three rows, which belong to the `radf()` workflow, and shows how to build your own plot from the tidied tables when the defaults do not fit. The other methods take no options beyond the object. They are described with their own methods: [the real-time monitoring for bubbles page](/guide/monitoring) for the monitors and [the dating and root inference page](/guide/dating) and [the dating and root inference page](/guide/dating) for dating and root inference.
 
 ### The `radf()` plot
 
 We simulate four series, one from each of the classic bubble data generating processes in the package (see [the simulating bubbles page](/guide/simulation)), and estimate them with one lag. The critical values depend on `(n, lag)`, so we simulate them once and pass them to every call, as in [Getting started](/guide):
 
-```r
+``` r
 sims <- data.frame(
   psy1 = sim_psy1(100, seed = 1),
   psy2 = sim_psy2(100, seed = 2),
@@ -284,7 +278,7 @@ est <- radf(sims, lag = 1)
 cv <- radf_mc_cv(100, lag = 1, seed = 1)
 ```
 
-```r
+``` r
 autoplot(est, cv)
 ```
 
@@ -292,14 +286,14 @@ autoplot(est, cv)
 
 Only series that reject the null at the 5% level are drawn. The arguments of `autoplot()` itself control what is plotted:
 
-```r
+``` r
 # Every series, whether or not it rejects
 autoplot(est, cv, nonrejected = TRUE)
 ```
 
 ![plot of chunk autoplot-options](/guide-figs/plotting-autoplot-options-1.svg)
 
-```r
+``` r
 
 # A subset, by name or position; the SADF sequence instead of the BSADF one
 autoplot(est, cv, select_series = c("psy1", "evans"), option = "sadf")
@@ -309,7 +303,7 @@ autoplot(est, cv, select_series = c("psy1", "evans"), option = "sadf")
 
 The shading of the explosive episodes is a `geom_rect()` layer. The `shade_opt` argument and the `shade()` helper control it, and `shade_opt = NULL` removes it:
 
-```r
+``` r
 autoplot(est, cv, select_series = "psy2",
          shade_opt = shade(fill = "pink", opacity = 0.3))
 ```
@@ -318,13 +312,13 @@ autoplot(est, cv, select_series = "psy2",
 
 `autoplot2()` draws the series itself instead of the statistic, with the same shading. This is often easier to read for a non-technical audience. The method for `datestamp()` objects reduces each series to its episodes:
 
-```r
+``` r
 autoplot2(est, cv, select_series = "psy2")
 ```
 
 ![plot of chunk autoplot2](/guide-figs/plotting-autoplot2-1.svg)
 
-```r
+``` r
 datestamp(est, cv) %>%
   autoplot()
 ```
@@ -335,7 +329,7 @@ datestamp(est, cv) %>%
 
 Colors, line types and themes are handled by ggplot2. `autoplot()` maps the statistic and the critical value to `color`, `size` and `linetype`, so the ggplot2 `scale_*_manual()` functions can override them. `scale_exuber_manual()` sets all three at once. `theme_exuber()` is the default theme of the package, and it is exported so that you can apply it to your own plots too:
 
-```r
+``` r
 autoplot(est, cv, select_series = "psy2") +
   scale_exuber_manual(color_values = c("grey40", "black"),
                       linetype_values = c(3, 1)) +
@@ -350,7 +344,7 @@ Arguments that `autoplot()` does not recognize are passed on to `ggplot2::facet_
 
 When the default layout does not suit you, skip `autoplot()` and start from the table it is built on. `augment_join()` joins the full statistic sequences of a `radf_obj` with the critical-value sequences of a `radf_cv`. It returns one row per observation, series, statistic and significance level, which ggplot2 can use as it is:
 
-```r
+``` r
 joined <- augment_join(est, cv)
 joined
 #> # A tibble: 1,920 × 8
@@ -369,7 +363,7 @@ joined
 #> # ℹ 1,910 more rows
 ```
 
-```r
+``` r
 joined %>%
   ggplot(aes(x = index)) +
   geom_line(aes(y = tstat)) +
@@ -380,13 +374,13 @@ joined %>%
 
 ![plot of chunk custom-facet](/guide-figs/plotting-custom-facet-1.svg)
 
-`tidy_join()` is the scalar counterpart, with one row per series and statistic, which is the table that `summary()` prints. Calling `tidy()` or `augment()` on either object alone returns the two halves before they are joined. [the results, tidying and plotting page](/guide/pipeline) describes the full pipeline.
+`tidy_join()` is the scalar counterpart, with one row per series and statistic, which is the table that `summary()` prints. Calling `tidy()` or `augment()` on either object alone returns the two halves before they are joined. The first part of this page describes the full pipeline.
 
 ### Distributions
 
 The `radf_*_distr()` functions are the counterparts of the critical-value functions. They return the whole simulated null distribution instead of its quantiles, and they have their own `autoplot()` method:
 
-```r
+``` r
 distr <- radf_mc_distr(n = 100, nrep = 1000, seed = 1)
 autoplot(distr)
 ```
@@ -395,7 +389,7 @@ autoplot(distr)
 
 As elsewhere, `tidy()` returns the underlying table, so an empirical CDF or any other summary takes only a few lines of ggplot2:
 
-```r
+``` r
 distr %>%
   tidy() %>%
   tidyr::pivot_longer(everything(), names_to = "statistic") %>%

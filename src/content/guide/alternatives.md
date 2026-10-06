@@ -5,7 +5,7 @@ group: "Beyond PSY"
 order: 5
 family: "alternative-paradigms"
 ---
-```r
+``` r
 library(exuber)
 ```
 
@@ -21,7 +21,7 @@ The GSADF statistic in `radf()` tests against one specific alternative, an explo
 
 ## A fixed root, which `lbi_test()` detects
 
-```r
+``` r
 y <- sim_psy1(n = 60, te = 1, tf = 60, c = 0.03, alpha = 0, seed = 1) # fixed rho = 1.03 throughout
 lbi_test(y)
 #> 
@@ -35,12 +35,12 @@ lbi_test(y)
 
 `ssu_test()` is designed for a root that varies stochastically over time. The `coef_noise` and `coef_a` arguments of `sim_psy1()` generate this alternative, with `rho_t = 1 + c/n + coef_a * u_t / sqrt(n)`, so the root is random and not fixed:
 
-```r
+``` r
 y <- sim_psy1(n = 150, te = 75, tf = 150, c = 3, alpha = 1, seed = 2001,
               coef_noise = rnorm(149), coef_a = 4)
 ```
 
-```r
+``` r
 ssu_test(y, sig_lvl = 95)
 #> 
 #> ── ssu_test (SSU, n = 150, minw = 23, sig_lvl = 95%, crit = 3.3) ───────────────
@@ -61,7 +61,7 @@ On this draw `ssu_test()` detects the bubble and `lbi_test()`, which is built fo
 
 `quantile_test()` picks a quantile `tau` (or takes one from you) and tests for explosiveness there instead of in the conditional mean. This pays off with heavy-tailed innovations, where the conditional-mean regression is least reliable, so the example below drives the PSY bubble with `t(3)` shocks:
 
-```r
+``` r
 y_t3 <- sim_psy1(n = 100, seed = 1, e = sim_innov(99, dist = "t", df = 3))
 quantile_test(y_t3, nrep = 100, seed = 1)
 #> 

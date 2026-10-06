@@ -1,7 +1,7 @@
 ---
 title: "References, full bibliography"
 blurb: "Full bibliography behind the replication record, organised by methodological family."
-order: 7
+order: 8
 ---
 This file lists every paper the project has touched, organized to match the
 family files (`volatility-robustness.md`, `dating-and-root-inference.md` and

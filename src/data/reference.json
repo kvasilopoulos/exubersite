@@ -14608,7 +14608,7 @@
         "monitor_quantile"
       ],
       "title": "QPWY/QPSY Recursive Quantile Monitoring (Wu, Shi & Wu 2025)",
-      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  sig_lvl = 95,\n  seed = NULL,\n  type = c(\"qpwy\", \"qpsy\")\n)",
+      "usage": "monitor_quantile(\n  data,\n  tau = 0.5,\n  minw = NULL,\n  nrep = 500L,\n  sig_lvl = 95,\n  seed = NULL,\n  type = c(\"qpwy\", \"qpsy\"),\n  boundary = c(\"asymptotic\", \"bootstrap\")\n)",
       "description": [
         [
           {
@@ -14795,7 +14795,99 @@
         [
           {
             "t": "text",
-            "v": "The function simulates the critical value in each call from the limiting null distribution "
+            "v": "The boundary is a single "
+          },
+          {
+            "t": "strong",
+            "c": [
+              {
+                "t": "text",
+                "v": "flat"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " value and not one value for each "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "r"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ". It is the quantile of the supremum of each null path, constructed like the "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "sadf_cv"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " of "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "link",
+                "topic": "radf_mc_cv",
+                "external": false,
+                "href": null,
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "radf_mc_cv"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": ", which controls the first-crossing false-alarm rate. "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "boundary"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " chooses how the null paths are generated."
+          }
+        ],
+        [
+          {
+            "t": "text",
+            "v": "With "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "boundary = \"asymptotic\""
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " (the default) the function simulates the limiting null distribution "
           },
           {
             "t": "code",
@@ -14808,7 +14900,7 @@
           },
           {
             "t": "text",
-            "v": ". Here "
+            "v": " in each call. Here "
           },
           {
             "t": "code",
@@ -14868,67 +14960,91 @@
           },
           {
             "t": "text",
-            "v": " is its counterpart driven by an independent Brownian motion. Both are simulated for every window, so no QR fits are needed. The boundary is a single "
-          },
-          {
-            "t": "strong",
-            "c": [
-              {
-                "t": "text",
-                "v": "flat"
-              }
-            ]
-          },
+            "v": " is its counterpart driven by an independent Brownian motion. Both are simulated for every window, so no QR fits are needed and the boundary is cheap."
+          }
+        ],
+        [
           {
             "t": "text",
-            "v": " value and not one value for each "
+            "v": "With "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "r"
+                "v": "boundary = \"bootstrap\""
               }
             ]
           },
           {
             "t": "text",
-            "v": ". It is the quantile of the supremum of each simulated path, constructed exactly like the "
+            "v": " the function applies Algorithm 1 of Wu, Shi & Wu (2025) to the whole path. It resamples the centred first differences of the series with replacement, cumulates them into a null random walk and recomputes the QPWY or QPSY path on it, "
           },
           {
             "t": "code",
             "c": [
               {
                 "t": "text",
-                "v": "sadf_cv"
+                "v": "nrep"
               }
             ]
           },
           {
             "t": "text",
-            "v": " of "
+            "v": " times. The boundary is the quantile of the "
           },
           {
             "t": "code",
             "c": [
               {
-                "t": "link",
-                "topic": "radf_mc_cv",
-                "external": false,
-                "href": null,
-                "c": [
-                  {
-                    "t": "text",
-                    "v": "radf_mc_cv"
-                  }
-                ]
+                "t": "text",
+                "v": "nrep"
               }
             ]
           },
           {
             "t": "text",
-            "v": ", which controls the first-crossing false-alarm rate."
+            "v": " path maxima. It follows the finite-sample distribution of the statistic in the data at hand, so it removes most of the size distortion of the asymptotic boundary described below. Each replicate costs a full statistic path, which is "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "O(T)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " QR fits for QPWY and "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "O(T^2)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " for QPSY. The paper also discards the first 100 draws of each resample. We omit this step because the statistic has an intercept, so it does not depend on the level of the series, and the draws are i.i.d., so the retained values already have the same distribution. Set "
+          },
+          {
+            "t": "code",
+            "c": [
+              {
+                "t": "text",
+                "v": "options(exuber.parallel = TRUE)"
+              }
+            ]
+          },
+          {
+            "t": "text",
+            "v": " to spread the replicates over workers."
           }
         ]
       ],
@@ -15177,7 +15293,33 @@
           "desc": [
             {
               "t": "text",
-              "v": "Number of Monte Carlo replications for the boundary."
+              "v": "Number of replications for the boundary: Monte Carlo draws of the\nlimit with "
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"asymptotic\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": ", bootstrap resamples with\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "boundary = \"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": "."
             }
           ]
         },
@@ -15268,6 +15410,37 @@
               "v": " (also the supremum\nover window starts)."
             }
           ]
+        },
+        {
+          "name": "boundary",
+          "desc": [
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"asymptotic\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (simulated limit, the default) or\n"
+            },
+            {
+              "t": "code",
+              "c": [
+                {
+                  "t": "text",
+                  "v": "\"bootstrap\""
+                }
+              ]
+            },
+            {
+              "t": "text",
+              "v": " (Algorithm 1 of Wu, Shi & Wu 2025)."
+            }
+          ]
         }
       ],
       "value": {
@@ -15328,7 +15501,7 @@
             },
             {
               "t": "text",
-              "v": ", and "
+              "v": " (reported for both boundaries, used only by the asymptotic one), and "
             },
             {
               "t": "code",
@@ -15373,7 +15546,7 @@
         ]
       },
       "format": null,
-      "examples": "# Heavy-tailed (t3) innovations, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_innov(199, dist = \"t\", df = 3))\nres <- monitor_quantile(y, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Monitoring an upper quantile is typically more powerful for right-tailed\n# bubbles, but see the Caveats section on extreme quantiles\nautoplot(monitor_quantile(y, tau = 0.8, nrep = 100, seed = 1))\n\n# QPSY: supremum over window starts too (O(n^2) QR fits, slower)\nmonitor_quantile(y[101:200], tau = 0.5, nrep = 100, seed = 1, type = \"qpsy\")",
+      "examples": "# Heavy-tailed (t3) innovations, explosive from t = 150 to the sample end\ny <- sim_psy1(n = 200, te = 150, tf = 200, seed = 7,\n  e = sim_innov(199, dist = \"t\", df = 3))\nres <- monitor_quantile(y, tau = 0.5, nrep = 100, seed = 1)\nprint(res)\nautoplot(res)\n\n# Monitoring an upper quantile is typically more powerful for right-tailed\n# bubbles, but see the Caveats section on extreme quantiles\nautoplot(monitor_quantile(y, tau = 0.8, nrep = 100, seed = 1))\n\n# QPSY: supremum over window starts too (O(n^2) QR fits, slower)\nmonitor_quantile(y[101:200], tau = 0.5, nrep = 100, seed = 1, type = \"qpsy\")\n\n# Bootstrap boundary (Algorithm 1 of Wu, Shi & Wu): one full statistic path per\n# replicate, so keep nrep small in a first run\nmonitor_quantile(y, tau = 0.8, nrep = 49, seed = 1, boundary = \"bootstrap\")",
       "references": [
         [
           {
@@ -15502,7 +15675,7 @@
             [
               {
                 "t": "text",
-                "v": "The boundary is the asymptotic one. Near the median it is well sized in finite samples, with a false-alarm rate of 3.5 to 4.0\\% at a nominal 5\\% (Gaussian and "
+                "v": "The asymptotic boundary is well sized near the median in finite samples, with a false-alarm rate of 3.5 to 4.0\\% at a nominal 5\\% (Gaussian and "
               },
               {
                 "t": "eqn",
@@ -15646,7 +15819,133 @@
               },
               {
                 "t": "text",
-                "v": "). Wu, Shi & Wu advise against extreme quantiles in small samples and use bootstrap critical values for monitoring. That bootstrap is not implemented here. For "
+                "v": "). Wu, Shi & Wu advise against extreme quantiles in small samples and use bootstrap critical values for monitoring, which is what "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "boundary = \"bootstrap\""
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " provides. With it the false-alarm rate was between 4.5 and 6.5\\% in all but one of the cases above ("
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "n = 100"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " for QPWY, "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "n = 60"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " for QPSY), including QPSY at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.8"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " and "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "0.9"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": ". The exception is QPSY with "
+              },
+              {
+                "t": "eqn",
+                "tex": "t_3",
+                "display": false
+              },
+              {
+                "t": "text",
+                "v": " innovations at "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau = 0.9"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": ", which stays at 10\\% when "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "nrep = 99"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": ". A larger "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "nrep"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " and a less extreme "
+              },
+              {
+                "t": "code",
+                "c": [
+                  {
+                    "t": "text",
+                    "v": "tau"
+                  }
+                ]
+              },
+              {
+                "t": "text",
+                "v": " help. For "
               },
               {
                 "t": "code",
@@ -15672,7 +15971,7 @@
               },
               {
                 "t": "text",
-                "v": " away from 0.5, the function emits a short pointer as a message (see "
+                "v": " away from 0.5 and the asymptotic boundary, the function emits a short pointer as a message (see "
               },
               {
                 "t": "code",
@@ -15706,7 +16005,7 @@
               },
               {
                 "t": "text",
-                "v": ". The numbers are in docs/alternative-paradigms.md."
+                "v": ". The numbers for both boundaries are in docs/alternative-paradigms.md."
               }
             ]
           ]

@@ -7,7 +7,7 @@ This file covers methods that address the same problem, detecting explosive or b
 
 | Method | Paper | Status |
 |---|---|---|
-| [Quantile-based detection](#quantile-based-detection) | Pavlidis (2025); Wu, Shi & Wu (2025) | the global test, `QPWY` and `QPSY` monitoring are done (`QPSY` carries a small-sample caveat away from the median); Pavlidis's `Un`/`QKS` is not implemented |
+| [Quantile-based detection](#quantile-based-detection) | Pavlidis (2025); Wu, Shi & Wu (2025) | the global test, `QPWY` and `QPSY` monitoring are done, with an asymptotic and a bootstrap boundary (the asymptotic one is oversized away from the median); Pavlidis's `Un`/`QKS` is not implemented |
 | [Noncausal / local explosive dynamics](#noncausal--local-explosive-dynamics) | Blasques, Koopman, Mingoli & Telg (2025) | evaluated, not implemented |
 | [Spectral fragility](#spectral-fragility-out-of-scope) | Bhandari (arXiv) | out of scope |
 | [Stochastic tree asset pricing](#stochastic-tree-asset-pricing-out-of-scope) | Gourieroux & Jasiak (2025) | out of scope (pricing, not testing) |
@@ -16,7 +16,7 @@ All papers are from the *JTSA* 46(5) special issue except Bhandari (arXiv). See 
 
 ## Quantile-based detection
 
-Status: the global test is `quantile_test()`, and the recursive monitoring extensions `QPWY` and `QPSY` are `monitor_quantile()`.
+Status: the global test is `quantile_test()`, and the recursive monitoring extensions `QPWY` and `QPSY` are `monitor_quantile()`, with the asymptotic boundary and the bootstrap boundary of the paper's Algorithm 1 (`boundary = "bootstrap"`).
 
 ### Sources
 
@@ -91,11 +91,49 @@ $\mathrm{QPSY}_r(\tau, r_0) = \sup_{r_1} t^{r_1, r}(\tau)$ (eq. 26) needs $O(T^2
 
 **Validation.** `qpsy_stat_path()` matches a `quantreg::rq()` brute force over every window exactly. The grid simulation matches a per-window brute force to $2 \times 10^{-15}$, and the `QPSY` suprema dominate those of `QPWY` on shared draws, as they must. At a nominal 5% ($n = 100$, 80 to 100 replications), Gaussian innovations give size 0.040 at $\tau = 0.5$ and 0.350 at $\tau = 0.9$. With $t_3$ innovations the size is 0.037 at $\tau = 0.5$, 0.212 at $\tau = 0.8$ and 0.440 at $\tau = 0.9$. For power ($n = 100$, explosive from $t = 71$, $\rho = 1.04$, Gaussian innovations, 60 replications), `QPWY` gives 0.400, `QPSY` 0.433 and SADF 0.483. The OLS test is ahead with Gaussian errors, as in Table V of the paper.
 
-**Caveat.** The asymptotic boundary is exact and well sized at the median, and does not hold in the small early windows (about 20 observations) away from the median. A double supremum over thousands of such windows amplifies the finite-sample error, which the single supremum of `QPWY` mostly avoids. The paper uses bootstrap critical values for monitoring (Algorithm 1, used for Table V) and advises against extreme quantiles. With `tau` away from 0.5, `type = "qpsy"` emits a caveat as a message and as `attr(x, "caveat")`, and `?monitor_quantile` gives the numbers. pyexuber has `monitor_quantile(type="qpsy")` with a `UserWarning` for the caveat.
+**Caveat.** The asymptotic boundary is exact and well sized at the median, and does not hold in the small early windows (about 20 observations) away from the median. A double supremum over thousands of such windows amplifies the finite-sample error, which the single supremum of `QPWY` mostly avoids. The paper uses bootstrap critical values for monitoring (Algorithm 1) and advises against extreme quantiles. With `tau` away from 0.5, `type = "qpsy"` and the asymptotic boundary emit a caveat as a message and as `attr(x, "caveat")`, and `?monitor_quantile` gives the numbers. The bootstrap boundary described next removes most of the distortion. pyexuber has `monitor_quantile(type="qpsy")` with a `UserWarning` for the caveat.
 
-The bootstrap of Algorithm 1 is not implemented. It resamples the centred $\Delta y$ and recomputes the whole statistic path for every replicate, so each replicate repeats the full $O(T^2)$ QR sweep. That takes about 9 minutes per series at $n = 100$ with 199 replicates.
+Tests are in `test-qpwy.R`. Replication script: [replication/alternative-paradigms/radf_qpwy_validation.R](#script-radf_qpwy_validation). The sizes are Monte Carlo estimates from 80 to 200 replications, good to about 2 or 3 points. The bootstrap boundary has its own script, [replication/alternative-paradigms/radf_qpwy_bootstrap_validation.R](#script-radf_qpwy_bootstrap_validation), and the kernel comparison is in [replication/alternative-paradigms/radf_qpwy_kernel_check.R](#script-radf_qpwy_kernel_check).
 
-Tests are in `test-qpwy.R`. Replication script: [replication/alternative-paradigms/radf_qpwy_validation.R](#script-radf_qpwy_validation). The sizes are Monte Carlo estimates from 80 to 200 replications, good to about 2 or 3 points.
+### Implementation: bootstrap boundary
+
+`monitor_quantile(..., boundary = "bootstrap")` applies Algorithm 1 of Wu, Shi & Wu (page 916) to the whole monitoring path. Each replicate resamples the centred first differences $\tilde u_t = \Delta y_t - \overline{\Delta y}$ with replacement, cumulates them into a null random walk and recomputes the `QPWY` or `QPSY` path on it. The boundary is the $1-\alpha$ quantile of the path maxima over `nrep` replicates. It is a single flat value, constructed like the asymptotic boundary, but it follows the finite-sample distribution of the statistic and not its limit. `delta` plays no role in it.
+
+The paper discards the first $b = 100$ draws of each resample. We leave this out. The statistic regresses on an intercept, so adding a constant to the series leaves every window statistic unchanged (the largest change in a `QPSY` path is $2 \times 10^{-14}$). With i.i.d. draws the last $T$ values of a $T + 100$ resample already have the law of a fresh draw of $T$.
+
+The paper also recomputes the bootstrap critical value at every monitoring date, using the data up to that date (its Section 4.2). Our boundary is one value for the whole path, calibrated to the first crossing. The two designs answer different questions, so detection rates are comparable with Table V in pattern and not in level.
+
+The cost is one full statistic path for each replicate. A `QPWY` path takes about 0.1 s at $n = 100$ and a `QPSY` path about 4 s, so 199 replicates take about 13 minutes per series for `QPSY`. With `options(exuber.parallel = TRUE)` the replicates run on workers. pyexuber ports the same option, but its IRLS solver is slower, so `QPSY` is practical only for short series or a small `nrep`.
+
+**Validation.** The bootstrap path maxima match a `quantreg::rq()` brute force on the same resample exactly (difference 0 for both types). For the size study we drew series under $H_0$ and compared three boundaries on the same series: the asymptotic one, the bootstrap one, and the exact finite-sample boundary, which is the 95% quantile of the path maximum under the true data generating process (1000 paths for `QPWY`, 500 for `QPSY`). The sizes are at a nominal 5%.
+
+| Type, $n$ | Innovations | $\tau$ | Size, asymptotic | Size, bootstrap | Size, exact | Boundary: asymptotic | bootstrap (sd) | exact |
+|---|---|---|---|---|---|---|---|---|
+| `QPWY`, 100 | Gaussian | 0.5 | 0.035 | 0.035 | 0.035 | 1.50 | 1.45 (0.11) | 1.46 |
+| `QPWY`, 100 | $t_3$ | 0.5 | 0.025 | 0.045 | 0.030 | 1.66 | 1.57 (0.13) | 1.64 |
+| `QPWY`, 100 | $t_3$ | 0.2 | 0.075 | 0.065 | 0.065 | 1.69 | 1.95 (0.23) | 1.84 |
+| `QPWY`, 100 | $t_3$ | 0.8 | 0.075 | 0.045 | 0.050 | 1.71 | 1.94 (0.23) | 1.96 |
+| `QPWY`, 100 | $t_3$ | 0.9 | 0.190 | 0.055 | 0.075 | 1.78 | 2.77 (0.56) | 2.50 |
+| `QPWY`, 100 | Gaussian | 0.9 | 0.120 | 0.055 | 0.065 | 1.80 | 2.17 (0.22) | 2.09 |
+| `QPSY`, 60 | Gaussian | 0.5 | 0.075 | 0.050 | 0.067 | 1.93 | 2.01 (0.21) | 2.03 |
+| `QPSY`, 60 | $t_3$ | 0.8 | 0.200 | 0.050 | 0.033 | 2.16 | 3.69 (1.22) | 3.40 |
+| `QPSY`, 60 | Gaussian | 0.9 | 0.275 | 0.050 | 0.042 | 2.27 | 3.82 (0.83) | 3.57 |
+| `QPSY`, 60 | $t_3$ | 0.9 | 0.467 | 0.100 | 0.058 | 2.27 | 6.06 (2.71) | 6.16 |
+
+`QPWY` uses 200 series and 199 bootstrap replicates, `QPSY` uses 120 series and 99 replicates, so the sizes are good to about 1.5 and 2 points. At the median all three boundaries agree. Away from the median the asymptotic boundary is too low, and the size reaches 0.19 for `QPWY` and 0.47 for `QPSY`. The mean bootstrap boundary is within 0.3 of the exact one in every row, and the bootstrap size is at most 0.065 in nine of the ten rows. The exception is `QPSY` with $t_3$ innovations at $\tau = 0.9$, where the bootstrap size is 0.100. The bootstrap boundary of a single series is noisy in that case (sd 2.71, against a mean of 6.06), because 99 replicates of a heavy-tailed double supremum over windows of 14 to 60 observations estimate its 95% quantile poorly. A few series receive a boundary well below the exact value and reject too often. In practice we advise at least 199 replicates, and with short samples and heavy tails we agree with the paper that extreme quantiles should be avoided.
+
+**Detection.** We compared detection rates on the design of Table V of the paper: an end-of-sample bubble that starts at $0.8\,T$ with root $1 + T^{-0.6}$, at $n = 100$ with 200 series. A detection is a first alarm after the true origination, and the PWY and PSY monitors use the flat `sadf_cv` and `gsadf_cv` of `radf_mc_cv()`. `QPWY` uses the bootstrap boundary with 199 replicates and fixed quantiles, and not the data-selected $\tau^*$ of the paper.
+
+| Innovations | | PWY | PSY | `QPWY`, $\tau = 0.5$ | `QPWY`, $\tau = 0.8$ |
+|---|---|---|---|---|---|
+| Gaussian | detected | 0.475 | 0.535 | 0.460 | 0.365 |
+| Gaussian | alarm before origination | 0.070 | 0.060 | 0.060 | 0.065 |
+| $t_3$ | detected | 0.505 | 0.535 | 0.530 | 0.375 |
+| $t_3$ | alarm before origination | 0.035 | 0.070 | 0.040 | 0.045 |
+
+The pattern is the one of Table V. With Gaussian innovations the OLS monitor is ahead of its quantile counterpart (0.475 against 0.460 here, 0.643 against 0.603 in the paper). With $t_3$ innovations `QPWY` at $\tau = 0.5$ is level with PWY (0.530 against 0.505). That gap is smaller than the Monte Carlo error of about 3.5 points, so it does not show an advantage. `QPWY` at $\tau = 0.8$ is clearly weaker, so the choice of quantile matters. The levels differ from Table V, because our boundary is flat and the paper's is recomputed at each date.
+
+**Kernel.** The paper estimates $\hat f(b_\tau)$ with an Epanechnikov kernel, and `quantile_check_density()` uses a Gaussian kernel with the same bandwidth $h = 0.9\, T^{-1/5} \min\{\mathrm{sd}, \mathrm{IQR}/1.34\}$. We compared the two on QPWY at $n = 100$ (60 series). The Epanechnikov kernel raises the median $\hat f$ by 4 to 13% and the mean path maximum by 5% (Gaussian innovations) to 15% ($t_3$, $\tau = 0.9$), and the path maxima of the two kernels have a correlation of at least 0.97. The bootstrap boundary rises by the same proportion, so the size does not visibly change: with $B = 49$ it is 0.050 against 0.067 for $t_3$ at $\tau = 0.9$, and 0.017 against 0.050 for Gaussian innovations at $\tau = 0.5$, which are differences of one or two series out of 60. The asymptotic boundary does not depend on the kernel, so with the paper's kernel it would be somewhat more oversized than the table shows.
 
 ### Pavlidis's quantile-autoregressive tests: not implemented
 

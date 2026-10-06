@@ -247,6 +247,18 @@
   },
   {
     "family": "alternative-paradigms",
+    "name": "radf_qpwy_bootstrap_validation",
+    "file": "radf_qpwy_bootstrap_validation.R",
+    "lang": "r"
+  },
+  {
+    "family": "alternative-paradigms",
+    "name": "radf_qpwy_kernel_check",
+    "file": "radf_qpwy_kernel_check.R",
+    "lang": "r"
+  },
+  {
+    "family": "alternative-paradigms",
     "name": "radf_qpwy_validation",
     "file": "radf_qpwy_validation.R",
     "lang": "r"

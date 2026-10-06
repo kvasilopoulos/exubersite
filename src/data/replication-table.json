@@ -204,7 +204,16 @@
     "check": "formula-exact vs. brute-force QR over every window + grid-simulation brute force + Monte Carlo size across quantiles and innovations + power vs. SADF",
     "kind": "caveat",
     "verdict": "caveat",
-    "detail": "the asymptotic boundary is well sized at the median (4%) but oversized away from it in small samples (35% to 44% at tau = 0.9, n = 100). The paper's bootstrap is not implemented."
+    "detail": "the asymptotic boundary is well sized at the median (4%) but oversized away from it in small samples (35% to 44% at tau = 0.9, n = 100). boundary = \"bootstrap\" removes most of it, see the next row."
+  },
+  {
+    "item": "Quantile monitoring, bootstrap boundary (Wu, Shi & Wu 2025, Algorithm 1)",
+    "family": "alternative-paradigms",
+    "fn": "monitor_quantile",
+    "check": "formula-exact vs. brute-force quantreg::rq() on the same resample + burn-in invariance + Monte Carlo size against the asymptotic and the exact finite-sample boundary (radf_qpwy_bootstrap_validation.R) + Epanechnikov-kernel check (radf_qpwy_kernel_check.R)",
+    "kind": "clean",
+    "verdict": "clean, with one limit",
+    "detail": "QPSY with t3 innovations at tau = 0.9 is still oversized (10% at n = 60, 99 replicates)"
   },
   {
     "item": "SSR/BIC dating, HLS route (Harvey, Leybourne & Sollis 2017)",

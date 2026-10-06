@@ -22,7 +22,7 @@ export const suite = [
     lang: "Python · pybind11",
     status: "early" as const,
     description: "Bindings to the same core, imported as exuber. The R functions are ported method by method (tests, bootstraps, dating, monitoring, multivariate methods and simulation) and cross-checked against R.",
-    install: "git clone …exuber/pyexuber && uv sync --dev",
+    install: "pip install pyexuber",
     href: "https://github.com/kvasilopoulos/pyexuber",
   },
 ];
